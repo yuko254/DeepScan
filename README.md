@@ -25,7 +25,7 @@ A modern, scalable backend for an Instagram‑like social media platform built w
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/DeepScan.git
+git clone https://github.com/yuko254/DeepScan.git
 cd DeepScan
 ```
 
