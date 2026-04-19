@@ -59,6 +59,7 @@ Using `prisma`:
 
 ```bash
 npx prisma migrate reset
+npx prisma db pull
 npx prisma generate
 npx prisma db seed
 ```
