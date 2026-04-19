@@ -1,0 +1,46 @@
+import { z } from 'zod';
+
+export const UpdateUserSchema = z.object({
+  username: 
+    z.string()
+    .min(3, 'Username must be at least 3 characters')
+    .max(50, 'Username must be at most 50 characters')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers and underscores')
+    .optional(),
+  email: z.email('Invalid email address').optional(),
+  bio: 
+    z.string()
+    .max(500, 'Bio can have at most 500 characters')
+    .optional(),
+  private:
+    z.boolean(),
+  avatar: 
+    z.url("invalid URL")
+    .optional(),
+  birth_location:
+    z.string()
+    .optional(),
+  current_location:
+    z.string()
+    .optional(),
+  first_name: 
+    z.string()
+    .max(50, "'first name must be at most 50 characters'")
+    .optional(),
+  last_name: 
+    z.string()
+    .max(50, "'last name must be at most 50 characters'")
+    .optional(),
+  phone_number: 
+    z.string()
+    .max(20, "'phone number must be at most 20 characters'")
+    .optional(),
+  birth_date: 
+    z.coerce.date("invalid date")
+    .optional(),
+});
+
+export const UserSearchSchema = z.object({
+  q: z.string().min(1),
+  limit: z.coerce.number().int().positive().max(100).default(20),
+});
