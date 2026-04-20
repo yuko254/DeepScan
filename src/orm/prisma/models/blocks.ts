@@ -166,16 +166,16 @@ export type blocksWhereInput = {
   blocker_id?: Prisma.UuidFilter<"blocks"> | string
   blocked_id?: Prisma.UuidFilter<"blocks"> | string
   created_at?: Prisma.DateTimeNullableFilter<"blocks"> | Date | string | null
-  users_blocks_blocked_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   users_blocks_blocker_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  users_blocks_blocked_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
 
 export type blocksOrderByWithRelationInput = {
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  users_blocks_blocked_id?: Prisma.usersOrderByWithRelationInput
   users_blocks_blocker_id?: Prisma.usersOrderByWithRelationInput
+  users_blocks_blocked_id?: Prisma.usersOrderByWithRelationInput
 }
 
 export type blocksWhereUniqueInput = Prisma.AtLeast<{
@@ -186,8 +186,8 @@ export type blocksWhereUniqueInput = Prisma.AtLeast<{
   blocker_id?: Prisma.UuidFilter<"blocks"> | string
   blocked_id?: Prisma.UuidFilter<"blocks"> | string
   created_at?: Prisma.DateTimeNullableFilter<"blocks"> | Date | string | null
-  users_blocks_blocked_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   users_blocks_blocker_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  users_blocks_blocked_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }, "blocker_id_blocked_id">
 
 export type blocksOrderByWithAggregationInput = {
@@ -210,8 +210,8 @@ export type blocksScalarWhereWithAggregatesInput = {
 
 export type blocksCreateInput = {
   created_at?: Date | string | null
-  users_blocks_blocked_id: Prisma.usersCreateNestedOneWithoutBlocks_blocked_idsInput
   users_blocks_blocker_id: Prisma.usersCreateNestedOneWithoutBlocks_blockers_idsInput
+  users_blocks_blocked_id: Prisma.usersCreateNestedOneWithoutBlocks_blocked_idsInput
 }
 
 export type blocksUncheckedCreateInput = {
@@ -222,8 +222,8 @@ export type blocksUncheckedCreateInput = {
 
 export type blocksUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users_blocks_blocked_id?: Prisma.usersUpdateOneRequiredWithoutBlocks_blocked_idsNestedInput
   users_blocks_blocker_id?: Prisma.usersUpdateOneRequiredWithoutBlocks_blockers_idsNestedInput
+  users_blocks_blocked_id?: Prisma.usersUpdateOneRequiredWithoutBlocks_blocked_idsNestedInput
 }
 
 export type blocksUncheckedUpdateInput = {
@@ -500,24 +500,24 @@ export type blocksSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectScalar = {
@@ -528,23 +528,23 @@ export type blocksSelectScalar = {
 
 export type blocksOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"blocker_id" | "blocked_id" | "created_at", ExtArgs["result"]["blocks"]>
 export type blocksInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type blocksIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type blocksIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $blocksPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "blocks"
   objects: {
-    users_blocks_blocked_id: Prisma.$usersPayload<ExtArgs>
     users_blocks_blocker_id: Prisma.$usersPayload<ExtArgs>
+    users_blocks_blocked_id: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     blocker_id: string
@@ -944,8 +944,8 @@ readonly fields: blocksFieldRefs;
  */
 export interface Prisma__blocksClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  users_blocks_blocked_id<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   users_blocks_blocker_id<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  users_blocks_blocked_id<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

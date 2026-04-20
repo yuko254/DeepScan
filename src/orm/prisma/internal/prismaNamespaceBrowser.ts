@@ -77,7 +77,8 @@ export const ModelName = {
   stories: 'stories',
   story_views: 'story_views',
   users: 'users',
-  refresh_tokens: 'refresh_tokens'
+  refresh_tokens: 'refresh_tokens',
+  password_resets: 'password_resets'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -385,6 +386,17 @@ export const Refresh_tokensScalarFieldEnum = {
 } as const
 
 export type Refresh_tokensScalarFieldEnum = (typeof Refresh_tokensScalarFieldEnum)[keyof typeof Refresh_tokensScalarFieldEnum]
+
+
+export const Password_resetsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  token: 'token',
+  expires_at: 'expires_at',
+  created_at: 'created_at'
+} as const
+
+export type Password_resetsScalarFieldEnum = (typeof Password_resetsScalarFieldEnum)[keyof typeof Password_resetsScalarFieldEnum]
 
 
 export const SortOrder = {

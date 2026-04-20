@@ -1,0 +1,31 @@
+// AUTO-GENERATED
+import * as DAOs from './index.js';
+
+export const blockDao = new DAOs.BlockDao();
+export const categoryDao = new DAOs.CategoryDao();
+export const chatParticipantDao = new DAOs.ChatParticipantDao();
+export const chatDao = new DAOs.ChatDao();
+export const commentLikeDao = new DAOs.CommentLikeDao();
+export const commentDao = new DAOs.CommentDao();
+export const deviceTokenDao = new DAOs.DeviceTokenDao();
+export const followDao = new DAOs.FollowDao();
+export const hashtagDao = new DAOs.HashtagDao();
+export const locationDao = new DAOs.LocationDao();
+export const mediaDao = new DAOs.MediaDao();
+export const mentionDao = new DAOs.MentionDao();
+export const messageDao = new DAOs.MessageDao();
+export const notificationDao = new DAOs.NotificationDao();
+export const passwordResetDao = new DAOs.PasswordResetDao();
+export const postBlockDao = new DAOs.PostBlockDao();
+export const postHashtagDao = new DAOs.PostHashtagDao();
+export const postLikeDao = new DAOs.PostLikeDao();
+export const postDao = new DAOs.PostDao();
+export const profileDao = new DAOs.ProfileDao();
+export const refreshTokenDao = new DAOs.RefreshTokenDao();
+export const reportDao = new DAOs.ReportDao();
+export const roleDao = new DAOs.RoleDao();
+export const savedPostDao = new DAOs.SavedPostDao();
+export const scanHistoryDao = new DAOs.ScanHistoryDao();
+export const storyViewDao = new DAOs.StoryViewDao();
+export const storyDao = new DAOs.StoryDao();
+export const userDao = new DAOs.UserDao();

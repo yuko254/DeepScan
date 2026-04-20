@@ -1,39 +1,37 @@
+import * as user from "../validations/user.validation.js"
+import * as token from "../validations/tokens.validation.js"
 import { z } from 'zod';
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
 export const RegisterSchema = z.object({
-  username: z
-    .string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(50, 'Username must be at most 50 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers and underscores'),
-  email: z.email('Invalid email address'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(60, 'Password must be at most 60 characters'),
+  username: user.usernameField,
+  email: user.emailField,
+  password: user.passwordField,
 });
 
 export const LoginSchema = z.object({
-  email: z.email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  email: user.emailField,
+  password: z.string().min(1, 'Password is required'), // weaker on purpose — no length hint on login
 });
 
-export const RefreshTokenSchema = z.object({
-  refresh_token: z.string().min(1, 'Refresh token is required'),
+export const ForgotPasswordSchema = z.object({
+  email: user.emailField,
 });
 
-export const LogoutSchema = z.object({
-  refresh_token: z.string().min(1, 'Refresh token is required'),
+export const ResetPasswordSchema = z.object({
+  token: token.TokenField,
+  new_password: user.passwordField,
 });
+
+export const RefreshTokenSchema = z.object({ refresh_token: token.TokenField });
 
 // ─── Inferred request types ───────────────────────────────────────────────────
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
-export type RefreshTokenInput = z.infer<typeof RefreshTokenSchema>;
-export type LogoutInput = z.infer<typeof LogoutSchema>;
+export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>;
+export type ResetPasswordInput = z.infer<typeof ResetPasswordSchema>;
 
 // ─── Response DTOs ────────────────────────────────────────────────────────────
 

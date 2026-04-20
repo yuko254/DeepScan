@@ -1,46 +1,35 @@
+import * as user from "../validations/user.validation.js"
 import { z } from 'zod';
 
-export const UpdateUserSchema = z.object({
-  username: 
-    z.string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(50, 'Username must be at most 50 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers and underscores')
-    .optional(),
-  email: z.email('Invalid email address').optional(),
-  bio: 
-    z.string()
-    .max(500, 'Bio can have at most 500 characters')
-    .optional(),
-  private:
-    z.boolean(),
-  avatar: 
-    z.url("invalid URL")
-    .optional(),
-  birth_location:
-    z.string()
-    .optional(),
-  current_location:
-    z.string()
-    .optional(),
-  first_name: 
-    z.string()
-    .max(50, "'first name must be at most 50 characters'")
-    .optional(),
-  last_name: 
-    z.string()
-    .max(50, "'last name must be at most 50 characters'")
-    .optional(),
-  phone_number: 
-    z.string()
-    .max(20, "'phone number must be at most 20 characters'")
-    .optional(),
-  birth_date: 
-    z.coerce.date("invalid date")
-    .optional(),
-});
+// ─── Request schemas ──────────────────────────────────────────────────────────
 
-export const UserSearchSchema = z.object({
+export const UpdateUserSchema = z.object({  
+  username: user.usernameField.optional(),
+  email: user.emailField.optional(),
+})
+
+export const DeleteUserSchema = z.object({  
+  username: user.usernameField,
+  email: user.emailField,
+})
+
+export const SearchUserSchema = z.object({
   q: z.string().min(1),
   limit: z.coerce.number().int().positive().max(100).default(20),
 });
+
+export const PasswordSchema = z.object({ oldPass: user.passwordField, newPass: user.passwordField });
+
+// ─── Inferred types ───────────────────────────────────────────────────
+
+export type UpdateUserInput = z.infer<typeof UpdateUserSchema>;
+export type SearchUserInput = z.infer<typeof SearchUserSchema>;
+export type PasswordInput = z.infer<typeof PasswordSchema>;
+
+// ─── Response DTOs ────────────────────────────────────────────────────────────
+export interface UserResponseDto {
+  user_id: string
+  username: string
+  email: string
+  role: string | null | undefined
+}

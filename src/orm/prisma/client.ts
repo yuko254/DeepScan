@@ -176,3 +176,8 @@ export type users = Prisma.usersModel
  * 
  */
 export type refresh_tokens = Prisma.refresh_tokensModel
+/**
+ * Model password_resets
+ * 
+ */
+export type password_resets = Prisma.password_resetsModel

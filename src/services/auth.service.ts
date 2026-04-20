@@ -1,26 +1,27 @@
 import bcrypt from 'bcrypt';
-import { UserDao, RefreshTokenDao, RoleDao } from '../dao/DAO.js';
+import { UserDao, RefreshTokenDao, RoleDao, PasswordResetDao } from '../dao/index.js';
 import { generateTokens, verifyRefreshToken } from '../utils/jwt.utils.js';
-import { ConflictError, NotFoundError, UnauthorizedError } from '../types/errors.types.js';
-import type { RegisterInput, LoginInput, AuthResponseDto, TokensDto } from '../dtos/auth.dto.js';
+import { sendPasswordResetEmail } from '../utils/email.util.js';
+import type { RegisterInput, LoginInput, ResetPasswordInput, AuthResponseDto, TokensDto } from '../dtos/auth.dto.js';
+import * as AppError from '../types/appErrors.types.js';
 
 const SALT_ROUNDS = 12;
-
 export class AuthService {
   constructor(
     private userDao: UserDao,
     private refreshTokenDao: RefreshTokenDao,
     private roleDao: RoleDao,
+    private passwordResetDao: PasswordResetDao,
   ) {}
 
   async register(input: RegisterInput): Promise<AuthResponseDto> {
     // Check username taken
-    const existingUsername = await this.userDao.findByUsername(input.username);
-    if (existingUsername) throw new ConflictError('Username already taken');
+    const existingUsername = await this.userDao.find({ username: input.username });
+    if (existingUsername) throw new AppError.ConflictError('Username already taken');
 
     // Check email taken
-    const existingEmail = await this.userDao.findByEmail(input.email);
-    if (existingEmail) throw new ConflictError('Email already registered');
+    const existingEmail = await this.userDao.find({ email: input.email });
+    if (existingEmail) throw new AppError.ConflictError('Email already registered');
 
     // Hash password
     const hashed = await bcrypt.hash(input.password, SALT_ROUNDS);
@@ -32,7 +33,7 @@ export class AuthService {
       password: hashed,
     });
 
-    const role = await this.roleDao.findById({ role_id: user.role_id! });
+    const role = await this.roleDao.find({ role_id: user.role_id! });
     const userDto = {
       user_id: user.user_id,
       username: user.username,
@@ -55,14 +56,14 @@ export class AuthService {
 
   async login(input: LoginInput): Promise<AuthResponseDto> {
     // Find user
-    const user = await this.userDao.findByEmail(input.email);
-    if (!user) throw new UnauthorizedError('Invalid email or password');
+    const user = await this.userDao.find({ email: input.email });
+    if (!user) throw new AppError.UnauthorizedError('Invalid email or password');
 
     // Check password
     const valid = await bcrypt.compare(input.password, user.password);
-    if (!valid) throw new UnauthorizedError('Invalid email or password');
+    if (!valid) throw new AppError.UnauthorizedError('Invalid email or password');
 
-    const role = await this.roleDao.findById({ role_id: user.role_id! });
+    const role = await this.roleDao.find({ role_id: user.role_id! });
     const userDto = {
       user_id: user.user_id,
       username: user.username,
@@ -79,7 +80,7 @@ export class AuthService {
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-    return { user: userDto, tokens };
+    return { user: userDto, tokens: tokens };
   }
 
   async refresh(refresh_token: string): Promise<TokensDto> {
@@ -88,12 +89,12 @@ export class AuthService {
     try {
       payload = verifyRefreshToken(refresh_token);
     } catch {
-      throw new UnauthorizedError('Invalid or expired refresh token');
+      throw new AppError.UnauthorizedError('Invalid or expired refresh token');
     }
 
     // Ensure user still exists
-    const user = await this.userDao.findById({ user_id: payload.user_id });
-    if (!user) throw new NotFoundError('User no longer exists');
+    const user = await this.userDao.find({ user_id: payload.user_id });
+    if (!user) throw new AppError.NotFoundError('User no longer exists');
 
     // Find the stored (hashed) token
     const storedTokens = await this.refreshTokenDao.findByToken(refresh_token);
@@ -101,19 +102,19 @@ export class AuthService {
       // Token not found in DB - possible theft attempt!
       // For enhanced security, revoked all tokens for this user here.
       await this.refreshTokenDao.deleteAllForUser(user.user_id);
-      throw new UnauthorizedError('Refresh token has been revoked or is invalid');
+      throw new AppError.UnauthorizedError('Refresh token has been revoked or is invalid');
     }
 
     // Verify the raw token matches the stored hash
     const isValid = await bcrypt.compare(refresh_token, storedTokens.token);
     if (!isValid) {
-      throw new UnauthorizedError('Refresh token is invalid');
+      throw new AppError.UnauthorizedError('Refresh token is invalid');
     }
 
     // Token is valid, so we can revoke it (token rotation)
     await this.refreshTokenDao.deleteByToken(storedTokens.token);
 
-    const role = await this.roleDao.findById({ role_id: user.role_id! });
+    const role = await this.roleDao.find({ role_id: user.role_id! });
     const userDto = {
       user_id: user.user_id,
       username: user.username,
@@ -136,5 +137,33 @@ export class AuthService {
   async logout(refresh_token: string): Promise<void> {
     // Find and delete the specific token
     await this.refreshTokenDao.deleteByToken(refresh_token);
+  }
+
+  async forgotPassword(email: string): Promise<void> {
+    const user = await this.userDao.find({ email });
+
+    // always return success even if email not found — prevents user enumeration
+    if (!user) return;
+
+    const token = Math.floor(100000 + Math.random() * 900000).toString();
+    await this.passwordResetDao.createNew(user.user_id, token);
+    await sendPasswordResetEmail(user.email, token);
+  }
+
+  async resetPassword(input: ResetPasswordInput): Promise<void> {
+    const record = await this.passwordResetDao.findByToken(input.token);
+
+    if (!record) throw new AppError.UnauthorizedError('Invalid or expired reset token');
+    if (record.expires_at < new Date()) {
+      await this.passwordResetDao.deleteByToken(input.token);
+      throw new AppError.UnauthorizedError('Reset token has expired');
+    }
+
+    const hashed = await bcrypt.hash(input.new_password, SALT_ROUNDS);
+    await this.userDao.update({ user_id: record.user_id }, { password: hashed });
+
+    // invalidate token + revoke all sessions
+    await this.passwordResetDao.deleteByToken(input.token);
+    await this.refreshTokenDao.deleteAllForUser(record.user_id);
   }
 }

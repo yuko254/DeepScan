@@ -410,7 +410,8 @@ export const ModelName = {
   stories: 'stories',
   story_views: 'story_views',
   users: 'users',
-  refresh_tokens: 'refresh_tokens'
+  refresh_tokens: 'refresh_tokens',
+  password_resets: 'password_resets'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -426,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "blocks" | "categories" | "chat_participants" | "chats" | "comment_likes" | "comments" | "device_tokens" | "follows" | "hashtags" | "locations" | "media" | "mentions" | "messages" | "notifications" | "post_blocks" | "post_hashtags" | "post_likes" | "posts" | "profiles" | "reports" | "roles" | "saved_posts" | "scan_history" | "stories" | "story_views" | "users" | "refresh_tokens"
+    modelProps: "blocks" | "categories" | "chat_participants" | "chats" | "comment_likes" | "comments" | "device_tokens" | "follows" | "hashtags" | "locations" | "media" | "mentions" | "messages" | "notifications" | "post_blocks" | "post_hashtags" | "post_likes" | "posts" | "profiles" | "reports" | "roles" | "saved_posts" | "scan_history" | "stories" | "story_views" | "users" | "refresh_tokens" | "password_resets"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2428,6 +2429,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    password_resets: {
+      payload: Prisma.$password_resetsPayload<ExtArgs>
+      fields: Prisma.password_resetsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.password_resetsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.password_resetsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>
+        }
+        findFirst: {
+          args: Prisma.password_resetsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.password_resetsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>
+        }
+        findMany: {
+          args: Prisma.password_resetsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>[]
+        }
+        create: {
+          args: Prisma.password_resetsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>
+        }
+        createMany: {
+          args: Prisma.password_resetsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.password_resetsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>[]
+        }
+        delete: {
+          args: Prisma.password_resetsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>
+        }
+        update: {
+          args: Prisma.password_resetsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>
+        }
+        deleteMany: {
+          args: Prisma.password_resetsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.password_resetsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.password_resetsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>[]
+        }
+        upsert: {
+          args: Prisma.password_resetsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_resetsPayload>
+        }
+        aggregate: {
+          args: Prisma.Password_resetsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePassword_resets>
+        }
+        groupBy: {
+          args: Prisma.password_resetsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Password_resetsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.password_resetsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Password_resetsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2758,6 +2833,17 @@ export const Refresh_tokensScalarFieldEnum = {
 export type Refresh_tokensScalarFieldEnum = (typeof Refresh_tokensScalarFieldEnum)[keyof typeof Refresh_tokensScalarFieldEnum]
 
 
+export const Password_resetsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  token: 'token',
+  expires_at: 'expires_at',
+  created_at: 'created_at'
+} as const
+
+export type Password_resetsScalarFieldEnum = (typeof Password_resetsScalarFieldEnum)[keyof typeof Password_resetsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3030,6 +3116,7 @@ export type GlobalOmitConfig = {
   story_views?: Prisma.story_viewsOmit
   users?: Prisma.usersOmit
   refresh_tokens?: Prisma.refresh_tokensOmit
+  password_resets?: Prisma.password_resetsOmit
 }
 
 /* Types for Logging */

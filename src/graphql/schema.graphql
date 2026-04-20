@@ -1,0 +1,527 @@
+scalar DateTime
+scalar Json
+
+type blocks {
+  blocker_id: String!
+  blocked_id: String!
+  created_at: DateTime
+  users_blocks_blocked_id: users!
+  users_blocks_blocker_id: users!
+}
+
+type categories {
+  category_id: String!
+  category_name: String!
+  posts: [posts]!
+}
+
+type chat_participants {
+  user_id: String!
+  chat_id: String!
+  joined_at: DateTime
+  chats: chats!
+  users: users!
+}
+
+type chats {
+  chat_id: String!
+  title: String
+  is_group_chat: Boolean
+  created_at: DateTime
+  chat_participants: [chat_participants]!
+  messages: [messages]!
+}
+
+type comment_likes {
+  user_id: String!
+  comment_id: String!
+  created_at: DateTime
+  comments: comments!
+  users: users!
+}
+
+type comments {
+  comment_id: String!
+  content: String!
+  user_id: String
+  post_id: String!
+  parent_id: String
+  created_at: DateTime
+  updated_at: DateTime
+  comment_likes: [comment_likes]!
+  comments: comments
+  other_comments: [comments]!
+  posts: posts!
+  users: users
+  mentions: [mentions]!
+}
+
+type device_tokens {
+  token_id: String!
+  user_id: String!
+  token: String!
+  device_type: String!
+  app_version: String
+  last_used: DateTime
+  created_at: DateTime
+  users: users!
+}
+
+type follows {
+  follower_id: String!
+  following_id: String!
+  created_at: DateTime
+  users_follows_follower_id: users!
+  users_follows_following_id: users!
+}
+
+type hashtags {
+  hashtag_id: String!
+  name: String!
+  post_count: Int
+  created_at: DateTime
+  post_hashtags: [post_hashtags]!
+}
+
+type locations {
+  location_id: String!
+  name: String!
+  lat: Float
+  lng: Float
+  place_id: String
+  posts: [posts]!
+  profiles_profiles_birth_locationTolocations: [profiles]!
+  profiles_profiles_current_locationTolocations: [profiles]!
+}
+
+type media {
+  media_id: String!
+  storage_path: String!
+  media_type: String
+  post_id: String
+  story_id: String
+  scan_id: String
+  posts: posts
+  scan_history: scan_history
+  stories: stories
+  post_blocks: [post_blocks]!
+}
+
+type mentions {
+  mention_id: String!
+  mentioned_user_id: String!
+  post_id: String
+  comment_id: String
+  created_at: DateTime
+  comments: comments
+  users: users!
+  posts: posts
+}
+
+type messages {
+  message_id: String!
+  chat_id: String!
+  sender_id: String
+  text_content: String
+  sent_at: DateTime
+  chats: chats!
+  users: users
+}
+
+type notifications {
+  notification_id: String!
+  user_id: String!
+  target_id: String!
+  type: String
+  message: String
+  delivered_at: DateTime
+  read_at: DateTime
+  users: users!
+}
+
+type post_blocks {
+  block_id: String!
+  post_id: String!
+  type: String!
+  position: Int!
+  content: Json!
+  media_id: String
+  created_at: DateTime
+  media: media
+  posts: posts!
+}
+
+type post_hashtags {
+  post_id: String!
+  hashtag_id: String!
+  created_at: DateTime
+  hashtags: hashtags!
+  posts: posts!
+}
+
+type post_likes {
+  user_id: String!
+  post_id: String!
+  created_at: DateTime
+  posts: posts!
+  users: users!
+}
+
+type posts {
+  post_id: String!
+  user_id: String!
+  category_id: String
+  location_id: String
+  text_content: String
+  created_at: DateTime
+  updated_at: DateTime
+  comments: [comments]!
+  media: [media]!
+  mentions: [mentions]!
+  post_blocks: [post_blocks]!
+  post_hashtags: [post_hashtags]!
+  post_likes: [post_likes]!
+  categories: categories
+  locations: locations
+  users: users!
+  saved_posts: [saved_posts]!
+}
+
+type profiles {
+  profile_id: String!
+  user_id: String!
+  is_private: Boolean
+  bio: String
+  avatar: String
+  birth_location: String
+  current_location: String
+  first_name: String
+  last_name: String
+  phone_number: String
+  birth_date: DateTime
+  created_at: DateTime
+  locations_profiles_birth_locationTolocations: locations
+  locations_profiles_current_locationTolocations: locations
+  users: users!
+}
+
+type reports {
+  report_id: String!
+  reporter_id: String
+  reported_item_id: String!
+  item_type: String!
+  reason: String
+  status: String
+  created_at: DateTime
+  users: users
+}
+
+type roles {
+  role_id: String!
+  role_name: String!
+  users: [users]!
+}
+
+type saved_posts {
+  saved_id: String!
+  user_id: String!
+  post_id: String
+  saved_at: DateTime
+  posts: posts
+  users: users!
+}
+
+type scan_history {
+  scan_id: String!
+  user_id: String!
+  timestamp: DateTime
+  metadata: String
+  media: [media]!
+  users: users!
+}
+
+type stories {
+  story_id: String!
+  user_id: String!
+  expires_at: DateTime
+  media: [media]!
+  users: users!
+  story_views: [story_views]!
+}
+
+type story_views {
+  story_id: String!
+  viewer_id: String!
+  viewed_at: DateTime
+  stories: stories!
+  users: users!
+}
+
+type users {
+  user_id: String!
+  role_id: String
+  username: String!
+  email: String!
+  password: String!
+  blocks_blocked_ids: [blocks]!
+  blocks_blockers_ids: [blocks]!
+  chat_participants: [chat_participants]!
+  comment_likes: [comment_likes]!
+  comments: [comments]!
+  device_tokens: [device_tokens]!
+  follows_followers_ids: [follows]!
+  follows_followings_ids: [follows]!
+  mentions: [mentions]!
+  messages: [messages]!
+  notifications: [notifications]!
+  post_likes: [post_likes]!
+  posts: [posts]!
+  profiles: profiles
+  reports: [reports]!
+  saved_posts: [saved_posts]!
+  scan_history: [scan_history]!
+  stories: [stories]!
+  story_views: [story_views]!
+  roles: roles
+}
+
+# ─── Pagination ───────────────────────────────────────────────────────────────
+
+type PageInfo {
+  hasNextPage: Boolean!
+  cursor: String
+}
+
+# ─── Lightweight count-only types ─────────────────────────────────────────────
+
+type FollowCounts {
+  followers: Int!
+  following: Int!
+}
+
+# ─── Query ────────────────────────────────────────────────────────────────────
+
+type Query {
+
+  # Users
+  user(user_id: String!): users
+  userByUsername(username: String!): users
+  userByEmail(email: String!): users
+  userWithProfile(user_id: String!): users
+  userWithPosts(user_id: String!): users
+  userWithFollowers(user_id: String!): users
+  userWithFollowing(user_id: String!): users
+
+  # Profiles
+  profile(user_id: String!): profiles
+  profileWithLocations(user_id: String!): profiles
+
+  # Posts
+  post(post_id: String!): posts
+  postWithMedia(post_id: String!): posts
+  postWithDetails(post_id: String!): posts
+  postsByUser(user_id: String!): [posts!]!
+  postsByCategory(category_id: String!): [posts!]!
+  postLikeCount(post_id: String!): Int!
+
+  # Comments
+  commentsByPost(post_id: String!): [comments!]!
+  commentReplies(parent_id: String!): [comments!]!
+  commentsByUser(user_id: String!): [comments!]!
+  commentWithLikes(comment_id: String!): comments
+  commentLikeCount(comment_id: String!): Int!
+
+  # Follows
+  followers(user_id: String!): [follows!]!
+  following(user_id: String!): [follows!]!
+  followerCount(user_id: String!): Int!
+  followingCount(user_id: String!): Int!
+  isFollowing(follower_id: String!, following_id: String!): Boolean!
+  followCounts(user_id: String!): FollowCounts!
+
+  # Blocks
+  blockedUsers(blocker_id: String!): [blocks!]!
+  blockedByUsers(blocked_id: String!): [blocks!]!
+  isBlocked(blocker_id: String!, blocked_id: String!): Boolean!
+
+  # Saved posts
+  savedPostsByUser(user_id: String!): [saved_posts!]!
+  isSaved(user_id: String!, post_id: String!): Boolean!
+
+  # Chats
+  chatsByUser(user_id: String!): [chats!]!
+  chatWithParticipants(chat_id: String!): chats
+  chatParticipants(chat_id: String!): [chat_participants!]!
+  isParticipant(chat_id: String!, user_id: String!): Boolean!
+
+  # Messages
+  messagesByChat(chat_id: String!, take: Int, cursor: String): [messages!]!
+
+  # Stories
+  activeStoriesByUser(user_id: String!): [stories!]!
+  activeFeed(user_ids: [String!]!): [stories!]!
+  storyWithViews(story_id: String!): stories
+  storyViewers(story_id: String!): [story_views!]!
+  hasViewedStory(story_id: String!, viewer_id: String!): Boolean!
+
+  # Notifications
+  notificationsByUser(user_id: String!): [notifications!]!
+  unreadNotifications(user_id: String!): [notifications!]!
+  unreadNotificationCount(user_id: String!): Int!
+
+  # Hashtags
+  hashtagByName(name: String!): hashtags
+  searchHashtags(query: String!): [hashtags!]!
+  trendingHashtags(take: Int): [hashtags!]!
+
+  # Mentions
+  mentionsByUser(mentioned_user_id: String!): [mentions!]!
+  mentionsByPost(post_id: String!): [mentions!]!
+  mentionsByComment(comment_id: String!): [mentions!]!
+
+  # Categories
+  category(category_id: String!): categories
+  categoryByName(category_name: String!): categories
+  allCategories: [categories!]!
+
+  # Locations
+  location(location_id: String!): locations
+  searchLocations(query: String!): [locations!]!
+
+  # Roles
+  role(role_id: String!): roles
+  roleByName(role_name: String!): roles
+  allRoles: [roles!]!
+
+  # Media
+  mediaByPost(post_id: String!): [media!]!
+  mediaByStory(story_id: String!): [media!]!
+  mediaByScan(scan_id: String!): [media!]!
+
+  # Post blocks
+  postBlocks(post_id: String!): [post_blocks!]!
+  postBlocksByType(post_id: String!, type: String!): [post_blocks!]!
+
+  # Post hashtags
+  hashtagsByPost(post_id: String!): [post_hashtags!]!
+  postsByHashtag(hashtag_id: String!): [post_hashtags!]!
+
+  # Device tokens
+  deviceTokensByUser(user_id: String!): [device_tokens!]!
+
+  # Scan history
+  scanHistoryByUser(user_id: String!): [scan_history!]!
+  scanWithMedia(scan_id: String!): scan_history
+
+  # Reports
+  reportsByReporter(reporter_id: String!): [reports!]!
+  reportsByItem(reported_item_id: String!, item_type: String!): [reports!]!
+  reportsByStatus(status: String!): [reports!]!
+}
+
+# ─── Mutation ─────────────────────────────────────────────────────────────────
+
+type Mutation {
+
+  # Users
+  createUser(username: String!, email: String!, password: String!, role_id: String): users!
+  updateUser(user_id: String!, username: String, email: String, password: String, role_id: String): users!
+  deleteUser(user_id: String!): users!
+
+  # Profiles
+  createProfile(user_id: String!, bio: String, avatar: String, first_name: String, last_name: String, phone_number: String, birth_date: DateTime, is_private: Boolean, birth_location: String, current_location: String): profiles!
+  updateProfile(user_id: String!, bio: String, avatar: String, first_name: String, last_name: String, phone_number: String, birth_date: DateTime, is_private: Boolean, birth_location: String, current_location: String): profiles!
+
+  # Follows
+  followUser(follower_id: String!, following_id: String!): follows!
+  unfollowUser(follower_id: String!, following_id: String!): follows!
+
+  # Blocks
+  blockUser(blocker_id: String!, blocked_id: String!): blocks!
+  unblockUser(blocker_id: String!, blocked_id: String!): blocks!
+
+  # Posts
+  createPost(user_id: String!, text_content: String, category_id: String, location_id: String): posts!
+  updatePost(post_id: String!, text_content: String, category_id: String, location_id: String): posts!
+  deletePost(post_id: String!): posts!
+
+  # Post likes
+  likePost(user_id: String!, post_id: String!): post_likes!
+  unlikePost(user_id: String!, post_id: String!): post_likes!
+
+  # Saved posts
+  savePost(user_id: String!, post_id: String!): saved_posts!
+  unsavePost(user_id: String!, post_id: String!): Boolean!
+
+  # Comments
+  createComment(user_id: String!, post_id: String!, content: String!, parent_id: String): comments!
+  updateComment(comment_id: String!, content: String!): comments!
+  deleteComment(comment_id: String!): comments!
+
+  # Comment likes
+  likeComment(user_id: String!, comment_id: String!): comment_likes!
+  unlikeComment(user_id: String!, comment_id: String!): comment_likes!
+
+  # Chats
+  createDirectChat(user_id_a: String!, user_id_b: String!): chats!
+  createGroupChat(title: String!, user_ids: [String!]!): chats!
+  addChatParticipant(chat_id: String!, user_id: String!): chat_participants!
+  removeChatParticipant(chat_id: String!, user_id: String!): chat_participants!
+
+  # Messages
+  sendMessage(chat_id: String!, sender_id: String!, text_content: String!): messages!
+
+  # Stories
+  createStory(user_id: String!, expires_at: DateTime): stories!
+  deleteStory(story_id: String!): stories!
+  viewStory(story_id: String!, viewer_id: String!): story_views!
+
+  # Notifications
+  markNotificationAsRead(notification_id: String!): notifications!
+  markAllNotificationsAsRead(user_id: String!): Boolean!
+
+  # Hashtags
+  createOrIncrementHashtag(name: String!): hashtags!
+
+  # Post hashtags
+  attachHashtagToPost(post_id: String!, hashtag_id: String!): post_hashtags!
+  detachHashtagFromPost(post_id: String!, hashtag_id: String!): post_hashtags!
+  syncPostHashtags(post_id: String!, hashtag_ids: [String!]!): Boolean!
+
+  # Post blocks
+  createPostBlock(post_id: String!, type: String!, position: Int!, content: Json!, media_id: String): post_blocks!
+  updatePostBlock(block_id: String!, position: Int, content: Json): post_blocks!
+  deletePostBlock(block_id: String!): post_blocks!
+  reorderPostBlock(block_id: String!, new_position: Int!): post_blocks!
+
+  # Categories
+  createCategory(category_name: String!): categories!
+  deleteCategory(category_id: String!): categories!
+
+  # Locations
+  createLocation(name: String!, lat: Float, lng: Float, place_id: String): locations!
+
+  # Roles
+  createRole(role_name: String!): roles!
+  assignRole(user_id: String!, role_id: String!): Boolean!
+
+  # Device tokens
+  upsertDeviceToken(user_id: String!, token: String!, device_type: String!, app_version: String): device_tokens!
+  removeDeviceToken(user_id: String!, token: String!): Boolean!
+  removeAllDeviceTokens(user_id: String!): Boolean!
+
+  # Media
+  createMedia(storage_path: String!, media_type: String, post_id: String, story_id: String, scan_id: String): media!
+  deleteMedia(media_id: String!): media!
+
+  # Scan history
+  createScanHistory(user_id: String!, metadata: String): scan_history!
+
+  # Reports
+  createReport(reporter_id: String!, reported_item_id: String!, item_type: String!, reason: String): reports!
+  updateReportStatus(report_id: String!, status: String!): reports!
+
+  # Mentions
+  createMention(mentioned_user_id: String!, post_id: String, comment_id: String): mentions!
+  deleteMention(mention_id: String!): mentions!
+}

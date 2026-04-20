@@ -1,6 +1,9 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
+    "paths": {
+      "@prisma/client": ["./src/orm/prisma/client.js"]
+    },
     // File Layout
     // "rootDir": "./src",
     "outDir": "./dist",
@@ -41,6 +44,5 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
   },
-  "include": ["src/**/*.ts", "prisma/**/*.ts", "prisma.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

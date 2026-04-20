@@ -4,10 +4,11 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx --tsconfig tsconfig.json watch src/server.ts",
     "start": "tsx src/server.ts",
-    "build": "tsc",
+    "build": "npm run generate:dao && tsc && tsc-alias",
     "start:prod": "node dist/server.js",
+    "generate:dao": "tsx scripts/generate-dao-index.ts",
     "codegen": "graphql-codegen --config codegen.config.ts"
   },
   "keywords": [],
@@ -20,23 +21,33 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
+    "@sendgrid/mail": "^8.1.6",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.2",
+    "graphql": "^16.13.2",
+    "graphql-scalars": "^1.25.0",
+    "graphql-yoga": "^5.21.0",
     "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^8.0.5",
     "uuid": "^13.0.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^6.3.1",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.6.0",
+    "@types/nodemailer": "^8.0.0",
+    "googleapis": "^171.4.0",
     "prisma": "^7.7.0",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   }

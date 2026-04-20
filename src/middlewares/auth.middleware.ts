@@ -1,7 +1,9 @@
 // src/middlewares/auth.middleware.ts
 import type { Request, Response, NextFunction } from 'express';
-import { verifyAccessToken, type JwtPayload } from '../utils/jwt.utils.js';
-import { UnauthorizedError, ForbiddenError } from '../types/errors.types.js';
+import { verifyAccessToken } from '../utils/jwt.utils.js';
+import type { JwtPayload } from '../dtos/jwt.dto.js';
+import { UnauthorizedError, ForbiddenError } from '../types/appErrors.types.js';
+import { userDao } from '../dao/instances.js';
 
 declare global {
   namespace Express {
@@ -11,18 +13,29 @@ declare global {
   }
 }
 
-export function authenticate(req: Request, res: Response, next: NextFunction): void {
+export async function authenticate(req: Request, res: Response, next: NextFunction) {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader?.startsWith('Bearer ')) {
       throw new UnauthorizedError('Missing or invalid Authorization header');
     }
+
     const token = authHeader.slice(7);
     req.user = verifyAccessToken(token);
+    
     next();
   } catch (err) {
     next(err);
   }
+}
+
+export async function authenticateStrict(req: Request, res: Response, next: NextFunction) {
+  // JWT check first
+  authenticate(req, res, async () => {
+    const user = await userDao.find({ user_id: req.user!.user_id });
+    if (!user) return next(new UnauthorizedError('User no longer exists'));
+    next();
+  });
 }
 
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
@@ -32,7 +45,6 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
   next();
 }
 
-// Role guard factory
 export async function requireRole(...allowedRoles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {

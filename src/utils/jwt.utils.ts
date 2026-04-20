@@ -1,16 +1,11 @@
 import jwt from 'jsonwebtoken';
 import type { AuthUserDto, TokensDto } from '../dtos/auth.dto.js';
+import type { JwtPayload } from '../dtos/jwt.dto.js';
 
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET!;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 const ACCESS_EXPIRES_IN = process.env.JWT_ACCESS_EXPIRES_IN ?? '15m';
 const REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN ?? '7d';
-
-export interface JwtPayload {
-  user_id: string;
-  username: string;
-  role_name: string | null;
-}
 
 export function signAccessToken(payload: JwtPayload): string {
   return jwt.sign(payload, ACCESS_SECRET, { expiresIn: ACCESS_EXPIRES_IN } as jwt.SignOptions);

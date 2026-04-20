@@ -1,14 +1,14 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { AuthService } from '../services/auth.service.js';
-import { RegisterSchema, LoginSchema, RefreshTokenSchema, LogoutSchema } from '../dtos/auth.dto.js';
-import { UserDao, RefreshTokenDao, RoleDao } from '../dao/DAO.js';
+import { RegisterSchema, LoginSchema, RefreshTokenSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../dtos/auth.dto.js';
+import { userDao, refreshTokenDao, roleDao, passwordResetDao } from '../dao/instances.js';
 import { authLimiter, loginLimiter } from '../middlewares/rateLimit.middleware.js';
 
 const router = Router();
 
 router.use(authLimiter);
 
-const authService = new AuthService(new UserDao(), new RefreshTokenDao(), new RoleDao());
+const authService = new AuthService(userDao, refreshTokenDao, roleDao, passwordResetDao);
 
 /**
  * POST /auth/register
@@ -58,9 +58,38 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
  */
 router.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { refresh_token } = LogoutSchema.parse(req.body);
+    const { refresh_token } = RefreshTokenSchema.parse(req.body);
     await authService.logout(refresh_token);
     res.status(200).json({ message: 'Logged out successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /auth/forgot-password
+ * Body: { email }
+ */
+router.post('/forgot-password', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = ForgotPasswordSchema.parse(req.body);
+    await authService.forgotPassword(email);
+    // always 200 regardless of whether email exists
+    res.status(200).json({ message: 'If that email exists, a reset link has been sent' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /auth/reset-password
+ * Body: { token, new_password }
+ */
+router.post('/reset-password', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const input = ResetPasswordSchema.parse(req.body);
+    await authService.resetPassword(input);
+    res.status(200).json({ message: 'Password reset successfully' });
   } catch (err) {
     next(err);
   }

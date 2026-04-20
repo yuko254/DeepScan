@@ -237,6 +237,7 @@ export type usersWhereInput = {
   story_views?: Prisma.Story_viewsListRelationFilter
   roles?: Prisma.XOR<Prisma.RolesNullableScalarRelationFilter, Prisma.rolesWhereInput> | null
   refreshTokens?: Prisma.Refresh_tokensListRelationFilter
+  passwordResets?: Prisma.Password_resetsListRelationFilter
 }
 
 export type usersOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type usersOrderByWithRelationInput = {
   story_views?: Prisma.story_viewsOrderByRelationAggregateInput
   roles?: Prisma.rolesOrderByWithRelationInput
   refreshTokens?: Prisma.refresh_tokensOrderByRelationAggregateInput
+  passwordResets?: Prisma.password_resetsOrderByRelationAggregateInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -298,6 +300,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   story_views?: Prisma.Story_viewsListRelationFilter
   roles?: Prisma.XOR<Prisma.RolesNullableScalarRelationFilter, Prisma.rolesWhereInput> | null
   refreshTokens?: Prisma.Refresh_tokensListRelationFilter
+  passwordResets?: Prisma.Password_resetsListRelationFilter
 }, "user_id" | "username" | "email">
 
 export type usersOrderByWithAggregationInput = {
@@ -350,6 +353,7 @@ export type usersCreateInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateInput = {
@@ -378,6 +382,7 @@ export type usersUncheckedCreateInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersUpdateInput = {
@@ -406,6 +411,7 @@ export type usersUpdateInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -434,6 +440,7 @@ export type usersUncheckedUpdateInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateManyInput = {
@@ -511,24 +518,16 @@ export type usersSumOrderByAggregateInput = {
   role_id?: Prisma.SortOrder
 }
 
-export type usersCreateNestedOneWithoutBlocks_blocked_idsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blocked_idsInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
 export type usersCreateNestedOneWithoutBlocks_blockers_idsInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blockers_idsInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blockers_idsInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutBlocks_blocked_idsNestedInput = {
+export type usersCreateNestedOneWithoutBlocks_blocked_idsInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blocked_idsInput
-  upsert?: Prisma.usersUpsertWithoutBlocks_blocked_idsInput
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBlocks_blocked_idsInput, Prisma.usersUpdateWithoutBlocks_blocked_idsInput>, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
 }
 
 export type usersUpdateOneRequiredWithoutBlocks_blockers_idsNestedInput = {
@@ -537,6 +536,14 @@ export type usersUpdateOneRequiredWithoutBlocks_blockers_idsNestedInput = {
   upsert?: Prisma.usersUpsertWithoutBlocks_blockers_idsInput
   connect?: Prisma.usersWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBlocks_blockers_idsInput, Prisma.usersUpdateWithoutBlocks_blockers_idsInput>, Prisma.usersUncheckedUpdateWithoutBlocks_blockers_idsInput>
+}
+
+export type usersUpdateOneRequiredWithoutBlocks_blocked_idsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blocked_idsInput
+  upsert?: Prisma.usersUpsertWithoutBlocks_blocked_idsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBlocks_blocked_idsInput, Prisma.usersUpdateWithoutBlocks_blocked_idsInput>, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
 }
 
 export type usersCreateNestedOneWithoutChat_participantsInput = {
@@ -839,63 +846,18 @@ export type usersUpdateOneRequiredWithoutRefreshTokensNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutRefreshTokensInput, Prisma.usersUpdateWithoutRefreshTokensInput>, Prisma.usersUncheckedUpdateWithoutRefreshTokensInput>
 }
 
-export type usersCreateWithoutBlocks_blocked_idsInput = {
-  user_id?: string
-  username: string
-  email: string
-  password: string
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+export type usersCreateNestedOneWithoutPasswordResetsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPasswordResetsInput
+  connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUncheckedCreateWithoutBlocks_blocked_idsInput = {
-  user_id?: string
-  role_id?: bigint | number | null
-  username: string
-  email: string
-  password: string
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type usersCreateOrConnectWithoutBlocks_blocked_idsInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
+export type usersUpdateOneRequiredWithoutPasswordResetsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPasswordResetsInput
+  upsert?: Prisma.usersUpsertWithoutPasswordResetsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPasswordResetsInput, Prisma.usersUpdateWithoutPasswordResetsInput>, Prisma.usersUncheckedUpdateWithoutPasswordResetsInput>
 }
 
 export type usersCreateWithoutBlocks_blockers_idsInput = {
@@ -923,6 +885,7 @@ export type usersCreateWithoutBlocks_blockers_idsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutBlocks_blockers_idsInput = {
@@ -950,6 +913,7 @@ export type usersUncheckedCreateWithoutBlocks_blockers_idsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutBlocks_blockers_idsInput = {
@@ -957,69 +921,65 @@ export type usersCreateOrConnectWithoutBlocks_blockers_idsInput = {
   create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blockers_idsInput>
 }
 
-export type usersUpsertWithoutBlocks_blocked_idsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
+export type usersCreateWithoutBlocks_blocked_idsInput = {
+  user_id?: string
+  username: string
+  email: string
+  password: string
+  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
+  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
+  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
+  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
+  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+}
+
+export type usersUncheckedCreateWithoutBlocks_blocked_idsInput = {
+  user_id?: string
+  role_id?: bigint | number | null
+  username: string
+  email: string
+  password: string
+  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
+  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
+  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+}
+
+export type usersCreateOrConnectWithoutBlocks_blocked_idsInput = {
+  where: Prisma.usersWhereUniqueInput
   create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutBlocks_blocked_idsInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
-}
-
-export type usersUpdateWithoutBlocks_blocked_idsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-}
-
-export type usersUncheckedUpdateWithoutBlocks_blocked_idsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersUpsertWithoutBlocks_blockers_idsInput = {
@@ -1058,6 +1018,7 @@ export type usersUpdateWithoutBlocks_blockers_idsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutBlocks_blockers_idsInput = {
@@ -1085,6 +1046,74 @@ export type usersUncheckedUpdateWithoutBlocks_blockers_idsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+}
+
+export type usersUpsertWithoutBlocks_blocked_idsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutBlocks_blocked_idsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
+}
+
+export type usersUpdateWithoutBlocks_blocked_idsInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
+  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
+  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
+  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
+  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutBlocks_blocked_idsInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
+  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutChat_participantsInput = {
@@ -1112,6 +1141,7 @@ export type usersCreateWithoutChat_participantsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutChat_participantsInput = {
@@ -1139,6 +1169,7 @@ export type usersUncheckedCreateWithoutChat_participantsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutChat_participantsInput = {
@@ -1182,6 +1213,7 @@ export type usersUpdateWithoutChat_participantsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutChat_participantsInput = {
@@ -1209,6 +1241,7 @@ export type usersUncheckedUpdateWithoutChat_participantsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutComment_likesInput = {
@@ -1236,6 +1269,7 @@ export type usersCreateWithoutComment_likesInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutComment_likesInput = {
@@ -1263,6 +1297,7 @@ export type usersUncheckedCreateWithoutComment_likesInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutComment_likesInput = {
@@ -1306,6 +1341,7 @@ export type usersUpdateWithoutComment_likesInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutComment_likesInput = {
@@ -1333,6 +1369,7 @@ export type usersUncheckedUpdateWithoutComment_likesInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutCommentsInput = {
@@ -1360,6 +1397,7 @@ export type usersCreateWithoutCommentsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutCommentsInput = {
@@ -1387,6 +1425,7 @@ export type usersUncheckedCreateWithoutCommentsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutCommentsInput = {
@@ -1430,6 +1469,7 @@ export type usersUpdateWithoutCommentsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutCommentsInput = {
@@ -1457,6 +1497,7 @@ export type usersUncheckedUpdateWithoutCommentsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutDevice_tokensInput = {
@@ -1484,6 +1525,7 @@ export type usersCreateWithoutDevice_tokensInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutDevice_tokensInput = {
@@ -1511,6 +1553,7 @@ export type usersUncheckedCreateWithoutDevice_tokensInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutDevice_tokensInput = {
@@ -1554,6 +1597,7 @@ export type usersUpdateWithoutDevice_tokensInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutDevice_tokensInput = {
@@ -1581,6 +1625,7 @@ export type usersUncheckedUpdateWithoutDevice_tokensInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutFollows_followers_idsInput = {
@@ -1608,6 +1653,7 @@ export type usersCreateWithoutFollows_followers_idsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutFollows_followers_idsInput = {
@@ -1635,6 +1681,7 @@ export type usersUncheckedCreateWithoutFollows_followers_idsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutFollows_followers_idsInput = {
@@ -1667,6 +1714,7 @@ export type usersCreateWithoutFollows_followings_idsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutFollows_followings_idsInput = {
@@ -1694,6 +1742,7 @@ export type usersUncheckedCreateWithoutFollows_followings_idsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutFollows_followings_idsInput = {
@@ -1737,6 +1786,7 @@ export type usersUpdateWithoutFollows_followers_idsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutFollows_followers_idsInput = {
@@ -1764,6 +1814,7 @@ export type usersUncheckedUpdateWithoutFollows_followers_idsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUpsertWithoutFollows_followings_idsInput = {
@@ -1802,6 +1853,7 @@ export type usersUpdateWithoutFollows_followings_idsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutFollows_followings_idsInput = {
@@ -1829,6 +1881,7 @@ export type usersUncheckedUpdateWithoutFollows_followings_idsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutMentionsInput = {
@@ -1856,6 +1909,7 @@ export type usersCreateWithoutMentionsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutMentionsInput = {
@@ -1883,6 +1937,7 @@ export type usersUncheckedCreateWithoutMentionsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutMentionsInput = {
@@ -1926,6 +1981,7 @@ export type usersUpdateWithoutMentionsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutMentionsInput = {
@@ -1953,6 +2009,7 @@ export type usersUncheckedUpdateWithoutMentionsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutMessagesInput = {
@@ -1980,6 +2037,7 @@ export type usersCreateWithoutMessagesInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutMessagesInput = {
@@ -2007,6 +2065,7 @@ export type usersUncheckedCreateWithoutMessagesInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutMessagesInput = {
@@ -2050,6 +2109,7 @@ export type usersUpdateWithoutMessagesInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutMessagesInput = {
@@ -2077,6 +2137,7 @@ export type usersUncheckedUpdateWithoutMessagesInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutNotificationsInput = {
@@ -2104,6 +2165,7 @@ export type usersCreateWithoutNotificationsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutNotificationsInput = {
@@ -2131,6 +2193,7 @@ export type usersUncheckedCreateWithoutNotificationsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutNotificationsInput = {
@@ -2174,6 +2237,7 @@ export type usersUpdateWithoutNotificationsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutNotificationsInput = {
@@ -2201,6 +2265,7 @@ export type usersUncheckedUpdateWithoutNotificationsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutPost_likesInput = {
@@ -2228,6 +2293,7 @@ export type usersCreateWithoutPost_likesInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutPost_likesInput = {
@@ -2255,6 +2321,7 @@ export type usersUncheckedCreateWithoutPost_likesInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutPost_likesInput = {
@@ -2298,6 +2365,7 @@ export type usersUpdateWithoutPost_likesInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutPost_likesInput = {
@@ -2325,6 +2393,7 @@ export type usersUncheckedUpdateWithoutPost_likesInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutPostsInput = {
@@ -2352,6 +2421,7 @@ export type usersCreateWithoutPostsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutPostsInput = {
@@ -2379,6 +2449,7 @@ export type usersUncheckedCreateWithoutPostsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutPostsInput = {
@@ -2422,6 +2493,7 @@ export type usersUpdateWithoutPostsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutPostsInput = {
@@ -2449,6 +2521,7 @@ export type usersUncheckedUpdateWithoutPostsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutProfilesInput = {
@@ -2476,6 +2549,7 @@ export type usersCreateWithoutProfilesInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutProfilesInput = {
@@ -2503,6 +2577,7 @@ export type usersUncheckedCreateWithoutProfilesInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutProfilesInput = {
@@ -2546,6 +2621,7 @@ export type usersUpdateWithoutProfilesInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutProfilesInput = {
@@ -2573,6 +2649,7 @@ export type usersUncheckedUpdateWithoutProfilesInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutReportsInput = {
@@ -2600,6 +2677,7 @@ export type usersCreateWithoutReportsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutReportsInput = {
@@ -2627,6 +2705,7 @@ export type usersUncheckedCreateWithoutReportsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutReportsInput = {
@@ -2670,6 +2749,7 @@ export type usersUpdateWithoutReportsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutReportsInput = {
@@ -2697,6 +2777,7 @@ export type usersUncheckedUpdateWithoutReportsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutRolesInput = {
@@ -2724,6 +2805,7 @@ export type usersCreateWithoutRolesInput = {
   stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutRolesInput = {
@@ -2751,6 +2833,7 @@ export type usersUncheckedCreateWithoutRolesInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutRolesInput = {
@@ -2815,6 +2898,7 @@ export type usersCreateWithoutSaved_postsInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutSaved_postsInput = {
@@ -2842,6 +2926,7 @@ export type usersUncheckedCreateWithoutSaved_postsInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutSaved_postsInput = {
@@ -2885,6 +2970,7 @@ export type usersUpdateWithoutSaved_postsInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutSaved_postsInput = {
@@ -2912,6 +2998,7 @@ export type usersUncheckedUpdateWithoutSaved_postsInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutScan_historyInput = {
@@ -2939,6 +3026,7 @@ export type usersCreateWithoutScan_historyInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutScan_historyInput = {
@@ -2966,6 +3054,7 @@ export type usersUncheckedCreateWithoutScan_historyInput = {
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutScan_historyInput = {
@@ -3009,6 +3098,7 @@ export type usersUpdateWithoutScan_historyInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutScan_historyInput = {
@@ -3036,6 +3126,7 @@ export type usersUncheckedUpdateWithoutScan_historyInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutStoriesInput = {
@@ -3063,6 +3154,7 @@ export type usersCreateWithoutStoriesInput = {
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutStoriesInput = {
@@ -3090,6 +3182,7 @@ export type usersUncheckedCreateWithoutStoriesInput = {
   scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutStoriesInput = {
@@ -3133,6 +3226,7 @@ export type usersUpdateWithoutStoriesInput = {
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutStoriesInput = {
@@ -3160,6 +3254,7 @@ export type usersUncheckedUpdateWithoutStoriesInput = {
   scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutStory_viewsInput = {
@@ -3187,6 +3282,7 @@ export type usersCreateWithoutStory_viewsInput = {
   stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutStory_viewsInput = {
@@ -3214,6 +3310,7 @@ export type usersUncheckedCreateWithoutStory_viewsInput = {
   scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutStory_viewsInput = {
@@ -3257,6 +3354,7 @@ export type usersUpdateWithoutStory_viewsInput = {
   stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutStory_viewsInput = {
@@ -3284,6 +3382,7 @@ export type usersUncheckedUpdateWithoutStory_viewsInput = {
   scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutRefreshTokensInput = {
@@ -3311,6 +3410,7 @@ export type usersCreateWithoutRefreshTokensInput = {
   stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
   roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
+  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutRefreshTokensInput = {
@@ -3338,6 +3438,7 @@ export type usersUncheckedCreateWithoutRefreshTokensInput = {
   scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
   stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
+  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutRefreshTokensInput = {
@@ -3381,6 +3482,7 @@ export type usersUpdateWithoutRefreshTokensInput = {
   stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutRefreshTokensInput = {
@@ -3408,6 +3510,135 @@ export type usersUncheckedUpdateWithoutRefreshTokensInput = {
   scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+}
+
+export type usersCreateWithoutPasswordResetsInput = {
+  user_id?: string
+  username: string
+  email: string
+  password: string
+  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
+  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
+  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
+  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
+  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
+  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
+}
+
+export type usersUncheckedCreateWithoutPasswordResetsInput = {
+  user_id?: string
+  role_id?: bigint | number | null
+  username: string
+  email: string
+  password: string
+  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
+  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
+  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
+  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type usersCreateOrConnectWithoutPasswordResetsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
+}
+
+export type usersUpsertWithoutPasswordResetsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPasswordResetsInput, Prisma.usersUncheckedUpdateWithoutPasswordResetsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPasswordResetsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPasswordResetsInput, Prisma.usersUncheckedUpdateWithoutPasswordResetsInput>
+}
+
+export type usersUpdateWithoutPasswordResetsInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
+  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
+  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
+  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
+  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
+  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPasswordResetsInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
+  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
+  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateManyRolesInput = {
@@ -3442,6 +3673,7 @@ export type usersUpdateWithoutRolesInput = {
   stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutRolesInput = {
@@ -3469,6 +3701,7 @@ export type usersUncheckedUpdateWithoutRolesInput = {
   stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
   refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateManyWithoutRolesInput = {
@@ -3503,6 +3736,7 @@ export type UsersCountOutputType = {
   stories: number
   story_views: number
   refreshTokens: number
+  passwordResets: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3525,6 +3759,7 @@ export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   stories?: boolean | UsersCountOutputTypeCountStoriesArgs
   story_views?: boolean | UsersCountOutputTypeCountStory_viewsArgs
   refreshTokens?: boolean | UsersCountOutputTypeCountRefreshTokensArgs
+  passwordResets?: boolean | UsersCountOutputTypeCountPasswordResetsArgs
 }
 
 /**
@@ -3670,6 +3905,13 @@ export type UsersCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.T
   where?: Prisma.refresh_tokensWhereInput
 }
 
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountPasswordResetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.password_resetsWhereInput
+}
+
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   user_id?: boolean
@@ -3698,6 +3940,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   story_views?: boolean | Prisma.users$story_viewsArgs<ExtArgs>
   roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.users$refreshTokensArgs<ExtArgs>
+  passwordResets?: boolean | Prisma.users$passwordResetsArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -3750,6 +3993,7 @@ export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   story_views?: boolean | Prisma.users$story_viewsArgs<ExtArgs>
   roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.users$refreshTokensArgs<ExtArgs>
+  passwordResets?: boolean | Prisma.users$passwordResetsArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3783,6 +4027,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     story_views: Prisma.$story_viewsPayload<ExtArgs>[]
     roles: Prisma.$rolesPayload<ExtArgs> | null
     refreshTokens: Prisma.$refresh_tokensPayload<ExtArgs>[]
+    passwordResets: Prisma.$password_resetsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_id: string
@@ -4205,6 +4450,7 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
   story_views<T extends Prisma.users$story_viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$story_viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$story_viewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   roles<T extends Prisma.users$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$rolesArgs<ExtArgs>>): Prisma.Prisma__rolesClient<runtime.Types.Result.GetResult<Prisma.$rolesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   refreshTokens<T extends Prisma.users$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$refresh_tokensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passwordResets<T extends Prisma.users$passwordResetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$passwordResetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$password_resetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5131,6 +5377,30 @@ export type users$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.Refresh_tokensScalarFieldEnum | Prisma.Refresh_tokensScalarFieldEnum[]
+}
+
+/**
+ * users.passwordResets
+ */
+export type users$passwordResetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the password_resets
+   */
+  select?: Prisma.password_resetsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the password_resets
+   */
+  omit?: Prisma.password_resetsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.password_resetsInclude<ExtArgs> | null
+  where?: Prisma.password_resetsWhereInput
+  orderBy?: Prisma.password_resetsOrderByWithRelationInput | Prisma.password_resetsOrderByWithRelationInput[]
+  cursor?: Prisma.password_resetsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Password_resetsScalarFieldEnum | Prisma.Password_resetsScalarFieldEnum[]
 }
 
 /**
