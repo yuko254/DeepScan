@@ -1,58 +1,96 @@
+import { Prisma, prisma } from "../config/prisma.js";
 import bcrypt from "bcrypt"
-import { RoleDao, UserDao } from '../dao/index.js';
-import type { PasswordInput, UpdateUserInput, UserResponseDto } from '../dtos/user.dto.js';
-import { Prisma } from "@prisma/client";
+import { userRepo } from '../Repository/instances.js';
+import { deepClean } from "../dtos/common.dto.js";
+import * as user from "../dtos/users.dto.js"
 import * as AppError from '../types/appErrors.types.js';
+import * as env from "../config/env.js"
 
-
-const SALT_ROUNDS = 12;
-
+const SALT_ROUNDS = env.SALT_ROUNDS;
 export class UserService {
-  constructor(
-    private userDao: UserDao,
-    private roleDao: RoleDao
-  ) {}
+  constructor() { }
 
-  async account(userID: string): Promise<UserResponseDto> {
-    const user = await this.userDao.findWithRole(userID);
-
-    const userDto = {
-      user_id: user!.user_id,
-      username: user!.username,
-      email: user!.email,
-      role: user!.roles?.role_name,
-    };
-
-    return userDto
+  async getAccount(userID: string): Promise<user.UserAccountDto> {
+    const user = await userRepo.findWithRole(userID);
+    if (!user) throw new AppError.NotFoundError('User not found');
+    return user;
   }
 
-  async updateAccount(user_id: string, input: UpdateUserInput): Promise<UserResponseDto> {
-    const data = Object.fromEntries(
-    Object.entries(input).filter(([_, v]) => v !== undefined)) as Prisma.usersUpdateInput;
+  async AdminCreateAccount(input: user.AdminCreateUserAccountBody, tx?: Prisma.TransactionClient): Promise<user.UserAccountDto> {
+    const { password, ...rest } = deepClean(input);
+    const hashed = await bcrypt.hash(password, SALT_ROUNDS);
 
-    const result = await this.userDao.update({ user_id }, data);
-    const role = await this.roleDao.findById(result.role_id!);
-    return {
-      user_id: result.user_id,
-      username: result.username,
-      email: result.email,
-      role: role?.role_name
-    }
+    return await userRepo.withTx(tx).create({
+      data: { ...rest, password: hashed },
+      omit: { password: true, created_at: true, role_id: true },
+      include: { role: true }
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError)
+        if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');
+      throw e;
+    });
   }
 
-  async deleteAccount(user_id: string) {
-    await this.userDao.delete({ user_id: user_id });
+  async AdminDeleteAccount(userID: string, tx?: Prisma.TransactionClient) {
+    await userRepo.withTx(tx).delete({ where: { user_id: userID } })
+      .catch((e) => {
+        if (e instanceof Prisma.PrismaClientKnownRequestError)
+          if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
+        throw e;
+      })
   }
 
-  async resetPass(input: PasswordInput, userID: string) {
-    // get user password
-    const user = await this.userDao.findById(userID);
+  async updateAccount(userID: string, input: user.UpdateUserAccountBody | user.AdminUpdateUserAccountBody, tx?: Prisma.TransactionClient): Promise<user.UserAccountDto> {
+    const user = deepClean(input)
+
+    return await userRepo.withTx(tx).update({
+      where: { user_id: userID }, data: user,
+      omit: { password: true, created_at: true, role_id: true },
+      include: { role: true }
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError)
+        if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
+      throw e;
+    });
+  }
+
+  async deleteAccount(input: { email: string; password: string }, tx?: Prisma.TransactionClient) {
+    // 1. Find the user by email
+    const user = await userRepo.withTx(tx).findUnique({
+      where: { email: input.email },
+    });
+    if (!user) throw new AppError.NotFoundError('User not found');
+
+    // 2. Check the password
+    const valid = await bcrypt.compare(input.password, user.password);
+    if (!valid) throw new AppError.ValidationError('Wrong password');
+
+    // 3. Delete the user
+    await userRepo.withTx(tx).delete({ where: { user_id: user.user_id } })
+      .catch((e) => {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
+        }
+        throw e;
+      });
+  }
+
+  async resetPass(userID: string, input: user.ChangePasswordBody) {
+    const user = await userRepo.findById(userID);
+    if (!user) throw new AppError.NotFoundError('User not found');
 
     // Check password
-    const valid = await bcrypt.compare(input.oldPass, user!.password);
+    const valid = await bcrypt.compare(input.oldPass, user.password);
     if (!valid) throw new AppError.ValidationError('Wrong password');
 
     const hashed = await bcrypt.hash(input.newPass, SALT_ROUNDS);
-    await this.userDao.update({ user_id: userID }, { password: hashed });
+    try {
+      await userRepo.update({ where: { user_id: userID }, data: { password: hashed } });
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2025') {
+        throw new AppError.NotFoundError('User not found');
+      }
+      throw err;
+    }
   }
 }

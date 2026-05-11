@@ -60,6 +60,8 @@ export const ModelName = {
   device_tokens: 'device_tokens',
   follows: 'follows',
   hashtags: 'hashtags',
+  countries: 'countries',
+  cities: 'cities',
   locations: 'locations',
   media: 'media',
   mentions: 'mentions',
@@ -76,9 +78,7 @@ export const ModelName = {
   scan_history: 'scan_history',
   stories: 'stories',
   story_views: 'story_views',
-  users: 'users',
-  refresh_tokens: 'refresh_tokens',
-  password_resets: 'password_resets'
+  users: 'users'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -108,13 +108,14 @@ export type BlocksScalarFieldEnum = (typeof BlocksScalarFieldEnum)[keyof typeof 
 
 export const CategoriesScalarFieldEnum = {
   category_id: 'category_id',
-  category_name: 'category_name'
+  name: 'name'
 } as const
 
 export type CategoriesScalarFieldEnum = (typeof CategoriesScalarFieldEnum)[keyof typeof CategoriesScalarFieldEnum]
 
 
 export const Chat_participantsScalarFieldEnum = {
+  id: 'id',
   user_id: 'user_id',
   chat_id: 'chat_id',
   joined_at: 'joined_at'
@@ -134,6 +135,7 @@ export type ChatsScalarFieldEnum = (typeof ChatsScalarFieldEnum)[keyof typeof Ch
 
 
 export const Comment_likesScalarFieldEnum = {
+  id: 'id',
   user_id: 'user_id',
   comment_id: 'comment_id',
   created_at: 'created_at'
@@ -149,7 +151,9 @@ export const CommentsScalarFieldEnum = {
   post_id: 'post_id',
   parent_id: 'parent_id',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  likes_count: 'likes_count',
+  is_deleted: 'is_deleted'
 } as const
 
 export type CommentsScalarFieldEnum = (typeof CommentsScalarFieldEnum)[keyof typeof CommentsScalarFieldEnum]
@@ -187,9 +191,27 @@ export const HashtagsScalarFieldEnum = {
 export type HashtagsScalarFieldEnum = (typeof HashtagsScalarFieldEnum)[keyof typeof HashtagsScalarFieldEnum]
 
 
+export const CountriesScalarFieldEnum = {
+  country_id: 'country_id',
+  name: 'name'
+} as const
+
+export type CountriesScalarFieldEnum = (typeof CountriesScalarFieldEnum)[keyof typeof CountriesScalarFieldEnum]
+
+
+export const CitiesScalarFieldEnum = {
+  city_id: 'city_id',
+  name: 'name',
+  country_id: 'country_id'
+} as const
+
+export type CitiesScalarFieldEnum = (typeof CitiesScalarFieldEnum)[keyof typeof CitiesScalarFieldEnum]
+
+
 export const LocationsScalarFieldEnum = {
   location_id: 'location_id',
-  name: 'name',
+  city_id: 'city_id',
+  country_id: 'country_id',
   lat: 'lat',
   lng: 'lng',
   place_id: 'place_id'
@@ -268,6 +290,7 @@ export type Post_hashtagsScalarFieldEnum = (typeof Post_hashtagsScalarFieldEnum)
 
 
 export const Post_likesScalarFieldEnum = {
+  id: 'id',
   user_id: 'user_id',
   post_id: 'post_id',
   created_at: 'created_at'
@@ -295,8 +318,8 @@ export const ProfilesScalarFieldEnum = {
   is_private: 'is_private',
   bio: 'bio',
   avatar: 'avatar',
-  birth_location: 'birth_location',
-  current_location: 'current_location',
+  birth_location_id: 'birth_location_id',
+  current_location_id: 'current_location_id',
   first_name: 'first_name',
   last_name: 'last_name',
   phone_number: 'phone_number',
@@ -358,8 +381,9 @@ export type StoriesScalarFieldEnum = (typeof StoriesScalarFieldEnum)[keyof typeo
 
 
 export const Story_viewsScalarFieldEnum = {
-  story_id: 'story_id',
+  id: 'id',
   viewer_id: 'viewer_id',
+  story_id: 'story_id',
   viewed_at: 'viewed_at'
 } as const
 
@@ -371,32 +395,11 @@ export const UsersScalarFieldEnum = {
   role_id: 'role_id',
   username: 'username',
   email: 'email',
-  password: 'password'
+  password: 'password',
+  created_at: 'created_at'
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
-
-
-export const Refresh_tokensScalarFieldEnum = {
-  token_id: 'token_id',
-  user_id: 'user_id',
-  token: 'token',
-  expires_at: 'expires_at',
-  created_at: 'created_at'
-} as const
-
-export type Refresh_tokensScalarFieldEnum = (typeof Refresh_tokensScalarFieldEnum)[keyof typeof Refresh_tokensScalarFieldEnum]
-
-
-export const Password_resetsScalarFieldEnum = {
-  id: 'id',
-  user_id: 'user_id',
-  token: 'token',
-  expires_at: 'expires_at',
-  created_at: 'created_at'
-} as const
-
-export type Password_resetsScalarFieldEnum = (typeof Password_resetsScalarFieldEnum)[keyof typeof Password_resetsScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -27,18 +27,23 @@ export type AggregateLocations = {
 }
 
 export type LocationsAvgAggregateOutputType = {
+  city_id: number | null
+  country_id: number | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
 }
 
 export type LocationsSumAggregateOutputType = {
+  city_id: bigint | null
+  country_id: bigint | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
 }
 
 export type LocationsMinAggregateOutputType = {
   location_id: string | null
-  name: string | null
+  city_id: bigint | null
+  country_id: bigint | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
   place_id: string | null
@@ -46,7 +51,8 @@ export type LocationsMinAggregateOutputType = {
 
 export type LocationsMaxAggregateOutputType = {
   location_id: string | null
-  name: string | null
+  city_id: bigint | null
+  country_id: bigint | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
   place_id: string | null
@@ -54,7 +60,8 @@ export type LocationsMaxAggregateOutputType = {
 
 export type LocationsCountAggregateOutputType = {
   location_id: number
-  name: number
+  city_id: number
+  country_id: number
   lat: number
   lng: number
   place_id: number
@@ -63,18 +70,23 @@ export type LocationsCountAggregateOutputType = {
 
 
 export type LocationsAvgAggregateInputType = {
+  city_id?: true
+  country_id?: true
   lat?: true
   lng?: true
 }
 
 export type LocationsSumAggregateInputType = {
+  city_id?: true
+  country_id?: true
   lat?: true
   lng?: true
 }
 
 export type LocationsMinAggregateInputType = {
   location_id?: true
-  name?: true
+  city_id?: true
+  country_id?: true
   lat?: true
   lng?: true
   place_id?: true
@@ -82,7 +94,8 @@ export type LocationsMinAggregateInputType = {
 
 export type LocationsMaxAggregateInputType = {
   location_id?: true
-  name?: true
+  city_id?: true
+  country_id?: true
   lat?: true
   lng?: true
   place_id?: true
@@ -90,7 +103,8 @@ export type LocationsMaxAggregateInputType = {
 
 export type LocationsCountAggregateInputType = {
   location_id?: true
-  name?: true
+  city_id?: true
+  country_id?: true
   lat?: true
   lng?: true
   place_id?: true
@@ -185,7 +199,8 @@ export type locationsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type LocationsGroupByOutputType = {
   location_id: string
-  name: string
+  city_id: bigint | null
+  country_id: bigint
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
   place_id: string | null
@@ -216,24 +231,30 @@ export type locationsWhereInput = {
   OR?: Prisma.locationsWhereInput[]
   NOT?: Prisma.locationsWhereInput | Prisma.locationsWhereInput[]
   location_id?: Prisma.UuidFilter<"locations"> | string
-  name?: Prisma.StringFilter<"locations"> | string
+  city_id?: Prisma.BigIntNullableFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.BigIntFilter<"locations"> | bigint | number
   lat?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.StringNullableFilter<"locations"> | string | null
+  city?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
+  country?: Prisma.XOR<Prisma.CountriesScalarRelationFilter, Prisma.countriesWhereInput>
   posts?: Prisma.PostsListRelationFilter
-  profiles_profiles_birth_locationTolocations?: Prisma.ProfilesListRelationFilter
-  profiles_profiles_current_locationTolocations?: Prisma.ProfilesListRelationFilter
+  birth_profiles?: Prisma.ProfilesListRelationFilter
+  current_profiles?: Prisma.ProfilesListRelationFilter
 }
 
 export type locationsOrderByWithRelationInput = {
   location_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  city_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  country_id?: Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   place_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.citiesOrderByWithRelationInput
+  country?: Prisma.countriesOrderByWithRelationInput
   posts?: Prisma.postsOrderByRelationAggregateInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesOrderByRelationAggregateInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesOrderByRelationAggregateInput
+  birth_profiles?: Prisma.profilesOrderByRelationAggregateInput
+  current_profiles?: Prisma.profilesOrderByRelationAggregateInput
 }
 
 export type locationsWhereUniqueInput = Prisma.AtLeast<{
@@ -241,18 +262,22 @@ export type locationsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.locationsWhereInput | Prisma.locationsWhereInput[]
   OR?: Prisma.locationsWhereInput[]
   NOT?: Prisma.locationsWhereInput | Prisma.locationsWhereInput[]
-  name?: Prisma.StringFilter<"locations"> | string
+  city_id?: Prisma.BigIntNullableFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.BigIntFilter<"locations"> | bigint | number
   lat?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.StringNullableFilter<"locations"> | string | null
+  city?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
+  country?: Prisma.XOR<Prisma.CountriesScalarRelationFilter, Prisma.countriesWhereInput>
   posts?: Prisma.PostsListRelationFilter
-  profiles_profiles_birth_locationTolocations?: Prisma.ProfilesListRelationFilter
-  profiles_profiles_current_locationTolocations?: Prisma.ProfilesListRelationFilter
+  birth_profiles?: Prisma.ProfilesListRelationFilter
+  current_profiles?: Prisma.ProfilesListRelationFilter
 }, "location_id">
 
 export type locationsOrderByWithAggregationInput = {
   location_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  city_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  country_id?: Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   place_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -268,7 +293,8 @@ export type locationsScalarWhereWithAggregatesInput = {
   OR?: Prisma.locationsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.locationsScalarWhereWithAggregatesInput | Prisma.locationsScalarWhereWithAggregatesInput[]
   location_id?: Prisma.UuidWithAggregatesFilter<"locations"> | string
-  name?: Prisma.StringWithAggregatesFilter<"locations"> | string
+  city_id?: Prisma.BigIntNullableWithAggregatesFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.BigIntWithAggregatesFilter<"locations"> | bigint | number
   lat?: Prisma.DecimalNullableWithAggregatesFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.DecimalNullableWithAggregatesFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.StringNullableWithAggregatesFilter<"locations"> | string | null
@@ -276,51 +302,56 @@ export type locationsScalarWhereWithAggregatesInput = {
 
 export type locationsCreateInput = {
   location_id?: string
-  name: string
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  posts?: Prisma.postsCreateNestedManyWithoutLocationsInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesCreateNestedManyWithoutLocations_profiles_birth_locationTolocationsInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesCreateNestedManyWithoutLocations_profiles_current_locationTolocationsInput
+  city?: Prisma.citiesCreateNestedOneWithoutLocationsInput
+  country: Prisma.countriesCreateNestedOneWithoutLocationsInput
+  posts?: Prisma.postsCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesCreateNestedManyWithoutCurrent_location_detailsInput
 }
 
 export type locationsUncheckedCreateInput = {
   location_id?: string
-  name: string
+  city_id?: bigint | number | null
+  country_id: bigint | number
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationsInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUncheckedCreateNestedManyWithoutLocations_profiles_birth_locationTolocationsInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUncheckedCreateNestedManyWithoutLocations_profiles_current_locationTolocationsInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutCurrent_location_detailsInput
 }
 
 export type locationsUpdateInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUpdateManyWithoutLocationsNestedInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUpdateManyWithoutLocations_profiles_birth_locationTolocationsNestedInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUpdateManyWithoutLocations_profiles_current_locationTolocationsNestedInput
+  city?: Prisma.citiesUpdateOneWithoutLocationsNestedInput
+  country?: Prisma.countriesUpdateOneRequiredWithoutLocationsNestedInput
+  posts?: Prisma.postsUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUpdateManyWithoutCurrent_location_detailsNestedInput
 }
 
 export type locationsUncheckedUpdateInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationsNestedInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUncheckedUpdateManyWithoutLocations_profiles_birth_locationTolocationsNestedInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUncheckedUpdateManyWithoutLocations_profiles_current_locationTolocationsNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUncheckedUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUncheckedUpdateManyWithoutCurrent_location_detailsNestedInput
 }
 
 export type locationsCreateManyInput = {
   location_id?: string
-  name: string
+  city_id?: bigint | number | null
+  country_id: bigint | number
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -328,7 +359,6 @@ export type locationsCreateManyInput = {
 
 export type locationsUpdateManyMutationInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -336,28 +366,43 @@ export type locationsUpdateManyMutationInput = {
 
 export type locationsUncheckedUpdateManyInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type LocationsListRelationFilter = {
+  every?: Prisma.locationsWhereInput
+  some?: Prisma.locationsWhereInput
+  none?: Prisma.locationsWhereInput
+}
+
+export type locationsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type locationsCountOrderByAggregateInput = {
   location_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  city_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   place_id?: Prisma.SortOrder
 }
 
 export type locationsAvgOrderByAggregateInput = {
+  city_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
 }
 
 export type locationsMaxOrderByAggregateInput = {
   location_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  city_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   place_id?: Prisma.SortOrder
@@ -365,13 +410,16 @@ export type locationsMaxOrderByAggregateInput = {
 
 export type locationsMinOrderByAggregateInput = {
   location_id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
+  city_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   place_id?: Prisma.SortOrder
 }
 
 export type locationsSumOrderByAggregateInput = {
+  city_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
 }
@@ -379,6 +427,90 @@ export type locationsSumOrderByAggregateInput = {
 export type LocationsNullableScalarRelationFilter = {
   is?: Prisma.locationsWhereInput | null
   isNot?: Prisma.locationsWhereInput | null
+}
+
+export type locationsCreateNestedManyWithoutCountryInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCountryInput, Prisma.locationsUncheckedCreateWithoutCountryInput> | Prisma.locationsCreateWithoutCountryInput[] | Prisma.locationsUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCountryInput | Prisma.locationsCreateOrConnectWithoutCountryInput[]
+  createMany?: Prisma.locationsCreateManyCountryInputEnvelope
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+}
+
+export type locationsUncheckedCreateNestedManyWithoutCountryInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCountryInput, Prisma.locationsUncheckedCreateWithoutCountryInput> | Prisma.locationsCreateWithoutCountryInput[] | Prisma.locationsUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCountryInput | Prisma.locationsCreateOrConnectWithoutCountryInput[]
+  createMany?: Prisma.locationsCreateManyCountryInputEnvelope
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+}
+
+export type locationsUpdateManyWithoutCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCountryInput, Prisma.locationsUncheckedCreateWithoutCountryInput> | Prisma.locationsCreateWithoutCountryInput[] | Prisma.locationsUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCountryInput | Prisma.locationsCreateOrConnectWithoutCountryInput[]
+  upsert?: Prisma.locationsUpsertWithWhereUniqueWithoutCountryInput | Prisma.locationsUpsertWithWhereUniqueWithoutCountryInput[]
+  createMany?: Prisma.locationsCreateManyCountryInputEnvelope
+  set?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  disconnect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  delete?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  update?: Prisma.locationsUpdateWithWhereUniqueWithoutCountryInput | Prisma.locationsUpdateWithWhereUniqueWithoutCountryInput[]
+  updateMany?: Prisma.locationsUpdateManyWithWhereWithoutCountryInput | Prisma.locationsUpdateManyWithWhereWithoutCountryInput[]
+  deleteMany?: Prisma.locationsScalarWhereInput | Prisma.locationsScalarWhereInput[]
+}
+
+export type locationsUncheckedUpdateManyWithoutCountryNestedInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCountryInput, Prisma.locationsUncheckedCreateWithoutCountryInput> | Prisma.locationsCreateWithoutCountryInput[] | Prisma.locationsUncheckedCreateWithoutCountryInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCountryInput | Prisma.locationsCreateOrConnectWithoutCountryInput[]
+  upsert?: Prisma.locationsUpsertWithWhereUniqueWithoutCountryInput | Prisma.locationsUpsertWithWhereUniqueWithoutCountryInput[]
+  createMany?: Prisma.locationsCreateManyCountryInputEnvelope
+  set?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  disconnect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  delete?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  update?: Prisma.locationsUpdateWithWhereUniqueWithoutCountryInput | Prisma.locationsUpdateWithWhereUniqueWithoutCountryInput[]
+  updateMany?: Prisma.locationsUpdateManyWithWhereWithoutCountryInput | Prisma.locationsUpdateManyWithWhereWithoutCountryInput[]
+  deleteMany?: Prisma.locationsScalarWhereInput | Prisma.locationsScalarWhereInput[]
+}
+
+export type locationsCreateNestedManyWithoutCityInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCityInput, Prisma.locationsUncheckedCreateWithoutCityInput> | Prisma.locationsCreateWithoutCityInput[] | Prisma.locationsUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCityInput | Prisma.locationsCreateOrConnectWithoutCityInput[]
+  createMany?: Prisma.locationsCreateManyCityInputEnvelope
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+}
+
+export type locationsUncheckedCreateNestedManyWithoutCityInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCityInput, Prisma.locationsUncheckedCreateWithoutCityInput> | Prisma.locationsCreateWithoutCityInput[] | Prisma.locationsUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCityInput | Prisma.locationsCreateOrConnectWithoutCityInput[]
+  createMany?: Prisma.locationsCreateManyCityInputEnvelope
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+}
+
+export type locationsUpdateManyWithoutCityNestedInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCityInput, Prisma.locationsUncheckedCreateWithoutCityInput> | Prisma.locationsCreateWithoutCityInput[] | Prisma.locationsUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCityInput | Prisma.locationsCreateOrConnectWithoutCityInput[]
+  upsert?: Prisma.locationsUpsertWithWhereUniqueWithoutCityInput | Prisma.locationsUpsertWithWhereUniqueWithoutCityInput[]
+  createMany?: Prisma.locationsCreateManyCityInputEnvelope
+  set?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  disconnect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  delete?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  update?: Prisma.locationsUpdateWithWhereUniqueWithoutCityInput | Prisma.locationsUpdateWithWhereUniqueWithoutCityInput[]
+  updateMany?: Prisma.locationsUpdateManyWithWhereWithoutCityInput | Prisma.locationsUpdateManyWithWhereWithoutCityInput[]
+  deleteMany?: Prisma.locationsScalarWhereInput | Prisma.locationsScalarWhereInput[]
+}
+
+export type locationsUncheckedUpdateManyWithoutCityNestedInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCityInput, Prisma.locationsUncheckedCreateWithoutCityInput> | Prisma.locationsCreateWithoutCityInput[] | Prisma.locationsUncheckedCreateWithoutCityInput[]
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCityInput | Prisma.locationsCreateOrConnectWithoutCityInput[]
+  upsert?: Prisma.locationsUpsertWithWhereUniqueWithoutCityInput | Prisma.locationsUpsertWithWhereUniqueWithoutCityInput[]
+  createMany?: Prisma.locationsCreateManyCityInputEnvelope
+  set?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  disconnect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  delete?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  connect?: Prisma.locationsWhereUniqueInput | Prisma.locationsWhereUniqueInput[]
+  update?: Prisma.locationsUpdateWithWhereUniqueWithoutCityInput | Prisma.locationsUpdateWithWhereUniqueWithoutCityInput[]
+  updateMany?: Prisma.locationsUpdateManyWithWhereWithoutCityInput | Prisma.locationsUpdateManyWithWhereWithoutCityInput[]
+  deleteMany?: Prisma.locationsScalarWhereInput | Prisma.locationsScalarWhereInput[]
 }
 
 export type NullableDecimalFieldUpdateOperationsInput = {
@@ -405,56 +537,166 @@ export type locationsUpdateOneWithoutPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.locationsUpdateToOneWithWhereWithoutPostsInput, Prisma.locationsUpdateWithoutPostsInput>, Prisma.locationsUncheckedUpdateWithoutPostsInput>
 }
 
-export type locationsCreateNestedOneWithoutProfiles_profiles_birth_locationTolocationsInput = {
-  create?: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_birth_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_birth_locationTolocationsInput>
-  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutProfiles_profiles_birth_locationTolocationsInput
+export type locationsCreateNestedOneWithoutBirth_profilesInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutBirth_profilesInput, Prisma.locationsUncheckedCreateWithoutBirth_profilesInput>
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutBirth_profilesInput
   connect?: Prisma.locationsWhereUniqueInput
 }
 
-export type locationsCreateNestedOneWithoutProfiles_profiles_current_locationTolocationsInput = {
-  create?: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_current_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_current_locationTolocationsInput>
-  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutProfiles_profiles_current_locationTolocationsInput
+export type locationsCreateNestedOneWithoutCurrent_profilesInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCurrent_profilesInput, Prisma.locationsUncheckedCreateWithoutCurrent_profilesInput>
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCurrent_profilesInput
   connect?: Prisma.locationsWhereUniqueInput
 }
 
-export type locationsUpdateOneWithoutProfiles_profiles_birth_locationTolocationsNestedInput = {
-  create?: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_birth_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_birth_locationTolocationsInput>
-  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutProfiles_profiles_birth_locationTolocationsInput
-  upsert?: Prisma.locationsUpsertWithoutProfiles_profiles_birth_locationTolocationsInput
+export type locationsUpdateOneWithoutBirth_profilesNestedInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutBirth_profilesInput, Prisma.locationsUncheckedCreateWithoutBirth_profilesInput>
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutBirth_profilesInput
+  upsert?: Prisma.locationsUpsertWithoutBirth_profilesInput
   disconnect?: Prisma.locationsWhereInput | boolean
   delete?: Prisma.locationsWhereInput | boolean
   connect?: Prisma.locationsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.locationsUpdateToOneWithWhereWithoutProfiles_profiles_birth_locationTolocationsInput, Prisma.locationsUpdateWithoutProfiles_profiles_birth_locationTolocationsInput>, Prisma.locationsUncheckedUpdateWithoutProfiles_profiles_birth_locationTolocationsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.locationsUpdateToOneWithWhereWithoutBirth_profilesInput, Prisma.locationsUpdateWithoutBirth_profilesInput>, Prisma.locationsUncheckedUpdateWithoutBirth_profilesInput>
 }
 
-export type locationsUpdateOneWithoutProfiles_profiles_current_locationTolocationsNestedInput = {
-  create?: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_current_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_current_locationTolocationsInput>
-  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutProfiles_profiles_current_locationTolocationsInput
-  upsert?: Prisma.locationsUpsertWithoutProfiles_profiles_current_locationTolocationsInput
+export type locationsUpdateOneWithoutCurrent_profilesNestedInput = {
+  create?: Prisma.XOR<Prisma.locationsCreateWithoutCurrent_profilesInput, Prisma.locationsUncheckedCreateWithoutCurrent_profilesInput>
+  connectOrCreate?: Prisma.locationsCreateOrConnectWithoutCurrent_profilesInput
+  upsert?: Prisma.locationsUpsertWithoutCurrent_profilesInput
   disconnect?: Prisma.locationsWhereInput | boolean
   delete?: Prisma.locationsWhereInput | boolean
   connect?: Prisma.locationsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.locationsUpdateToOneWithWhereWithoutProfiles_profiles_current_locationTolocationsInput, Prisma.locationsUpdateWithoutProfiles_profiles_current_locationTolocationsInput>, Prisma.locationsUncheckedUpdateWithoutProfiles_profiles_current_locationTolocationsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.locationsUpdateToOneWithWhereWithoutCurrent_profilesInput, Prisma.locationsUpdateWithoutCurrent_profilesInput>, Prisma.locationsUncheckedUpdateWithoutCurrent_profilesInput>
+}
+
+export type locationsCreateWithoutCountryInput = {
+  location_id?: string
+  lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: string | null
+  city?: Prisma.citiesCreateNestedOneWithoutLocationsInput
+  posts?: Prisma.postsCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesCreateNestedManyWithoutCurrent_location_detailsInput
+}
+
+export type locationsUncheckedCreateWithoutCountryInput = {
+  location_id?: string
+  city_id?: bigint | number | null
+  lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: string | null
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutCurrent_location_detailsInput
+}
+
+export type locationsCreateOrConnectWithoutCountryInput = {
+  where: Prisma.locationsWhereUniqueInput
+  create: Prisma.XOR<Prisma.locationsCreateWithoutCountryInput, Prisma.locationsUncheckedCreateWithoutCountryInput>
+}
+
+export type locationsCreateManyCountryInputEnvelope = {
+  data: Prisma.locationsCreateManyCountryInput | Prisma.locationsCreateManyCountryInput[]
+  skipDuplicates?: boolean
+}
+
+export type locationsUpsertWithWhereUniqueWithoutCountryInput = {
+  where: Prisma.locationsWhereUniqueInput
+  update: Prisma.XOR<Prisma.locationsUpdateWithoutCountryInput, Prisma.locationsUncheckedUpdateWithoutCountryInput>
+  create: Prisma.XOR<Prisma.locationsCreateWithoutCountryInput, Prisma.locationsUncheckedCreateWithoutCountryInput>
+}
+
+export type locationsUpdateWithWhereUniqueWithoutCountryInput = {
+  where: Prisma.locationsWhereUniqueInput
+  data: Prisma.XOR<Prisma.locationsUpdateWithoutCountryInput, Prisma.locationsUncheckedUpdateWithoutCountryInput>
+}
+
+export type locationsUpdateManyWithWhereWithoutCountryInput = {
+  where: Prisma.locationsScalarWhereInput
+  data: Prisma.XOR<Prisma.locationsUpdateManyMutationInput, Prisma.locationsUncheckedUpdateManyWithoutCountryInput>
+}
+
+export type locationsScalarWhereInput = {
+  AND?: Prisma.locationsScalarWhereInput | Prisma.locationsScalarWhereInput[]
+  OR?: Prisma.locationsScalarWhereInput[]
+  NOT?: Prisma.locationsScalarWhereInput | Prisma.locationsScalarWhereInput[]
+  location_id?: Prisma.UuidFilter<"locations"> | string
+  city_id?: Prisma.BigIntNullableFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.BigIntFilter<"locations"> | bigint | number
+  lat?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: Prisma.StringNullableFilter<"locations"> | string | null
+}
+
+export type locationsCreateWithoutCityInput = {
+  location_id?: string
+  lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: string | null
+  country: Prisma.countriesCreateNestedOneWithoutLocationsInput
+  posts?: Prisma.postsCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesCreateNestedManyWithoutCurrent_location_detailsInput
+}
+
+export type locationsUncheckedCreateWithoutCityInput = {
+  location_id?: string
+  country_id: bigint | number
+  lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: string | null
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutCurrent_location_detailsInput
+}
+
+export type locationsCreateOrConnectWithoutCityInput = {
+  where: Prisma.locationsWhereUniqueInput
+  create: Prisma.XOR<Prisma.locationsCreateWithoutCityInput, Prisma.locationsUncheckedCreateWithoutCityInput>
+}
+
+export type locationsCreateManyCityInputEnvelope = {
+  data: Prisma.locationsCreateManyCityInput | Prisma.locationsCreateManyCityInput[]
+  skipDuplicates?: boolean
+}
+
+export type locationsUpsertWithWhereUniqueWithoutCityInput = {
+  where: Prisma.locationsWhereUniqueInput
+  update: Prisma.XOR<Prisma.locationsUpdateWithoutCityInput, Prisma.locationsUncheckedUpdateWithoutCityInput>
+  create: Prisma.XOR<Prisma.locationsCreateWithoutCityInput, Prisma.locationsUncheckedCreateWithoutCityInput>
+}
+
+export type locationsUpdateWithWhereUniqueWithoutCityInput = {
+  where: Prisma.locationsWhereUniqueInput
+  data: Prisma.XOR<Prisma.locationsUpdateWithoutCityInput, Prisma.locationsUncheckedUpdateWithoutCityInput>
+}
+
+export type locationsUpdateManyWithWhereWithoutCityInput = {
+  where: Prisma.locationsScalarWhereInput
+  data: Prisma.XOR<Prisma.locationsUpdateManyMutationInput, Prisma.locationsUncheckedUpdateManyWithoutCityInput>
 }
 
 export type locationsCreateWithoutPostsInput = {
   location_id?: string
-  name: string
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesCreateNestedManyWithoutLocations_profiles_birth_locationTolocationsInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesCreateNestedManyWithoutLocations_profiles_current_locationTolocationsInput
+  city?: Prisma.citiesCreateNestedOneWithoutLocationsInput
+  country: Prisma.countriesCreateNestedOneWithoutLocationsInput
+  birth_profiles?: Prisma.profilesCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesCreateNestedManyWithoutCurrent_location_detailsInput
 }
 
 export type locationsUncheckedCreateWithoutPostsInput = {
   location_id?: string
-  name: string
+  city_id?: bigint | number | null
+  country_id: bigint | number
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUncheckedCreateNestedManyWithoutLocations_profiles_birth_locationTolocationsInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUncheckedCreateNestedManyWithoutLocations_profiles_current_locationTolocationsInput
+  birth_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBirth_location_detailsInput
+  current_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutCurrent_location_detailsInput
 }
 
 export type locationsCreateOrConnectWithoutPostsInput = {
@@ -475,134 +717,220 @@ export type locationsUpdateToOneWithWhereWithoutPostsInput = {
 
 export type locationsUpdateWithoutPostsInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUpdateManyWithoutLocations_profiles_birth_locationTolocationsNestedInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUpdateManyWithoutLocations_profiles_current_locationTolocationsNestedInput
+  city?: Prisma.citiesUpdateOneWithoutLocationsNestedInput
+  country?: Prisma.countriesUpdateOneRequiredWithoutLocationsNestedInput
+  birth_profiles?: Prisma.profilesUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUpdateManyWithoutCurrent_location_detailsNestedInput
 }
 
 export type locationsUncheckedUpdateWithoutPostsInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUncheckedUpdateManyWithoutLocations_profiles_birth_locationTolocationsNestedInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUncheckedUpdateManyWithoutLocations_profiles_current_locationTolocationsNestedInput
+  birth_profiles?: Prisma.profilesUncheckedUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUncheckedUpdateManyWithoutCurrent_location_detailsNestedInput
 }
 
-export type locationsCreateWithoutProfiles_profiles_birth_locationTolocationsInput = {
+export type locationsCreateWithoutBirth_profilesInput = {
   location_id?: string
-  name: string
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  posts?: Prisma.postsCreateNestedManyWithoutLocationsInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesCreateNestedManyWithoutLocations_profiles_current_locationTolocationsInput
+  city?: Prisma.citiesCreateNestedOneWithoutLocationsInput
+  country: Prisma.countriesCreateNestedOneWithoutLocationsInput
+  posts?: Prisma.postsCreateNestedManyWithoutLocationInput
+  current_profiles?: Prisma.profilesCreateNestedManyWithoutCurrent_location_detailsInput
 }
 
-export type locationsUncheckedCreateWithoutProfiles_profiles_birth_locationTolocationsInput = {
+export type locationsUncheckedCreateWithoutBirth_profilesInput = {
   location_id?: string
-  name: string
+  city_id?: bigint | number | null
+  country_id: bigint | number
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationsInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUncheckedCreateNestedManyWithoutLocations_profiles_current_locationTolocationsInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationInput
+  current_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutCurrent_location_detailsInput
 }
 
-export type locationsCreateOrConnectWithoutProfiles_profiles_birth_locationTolocationsInput = {
+export type locationsCreateOrConnectWithoutBirth_profilesInput = {
   where: Prisma.locationsWhereUniqueInput
-  create: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_birth_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_birth_locationTolocationsInput>
+  create: Prisma.XOR<Prisma.locationsCreateWithoutBirth_profilesInput, Prisma.locationsUncheckedCreateWithoutBirth_profilesInput>
 }
 
-export type locationsCreateWithoutProfiles_profiles_current_locationTolocationsInput = {
+export type locationsCreateWithoutCurrent_profilesInput = {
   location_id?: string
-  name: string
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  posts?: Prisma.postsCreateNestedManyWithoutLocationsInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesCreateNestedManyWithoutLocations_profiles_birth_locationTolocationsInput
+  city?: Prisma.citiesCreateNestedOneWithoutLocationsInput
+  country: Prisma.countriesCreateNestedOneWithoutLocationsInput
+  posts?: Prisma.postsCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesCreateNestedManyWithoutBirth_location_detailsInput
 }
 
-export type locationsUncheckedCreateWithoutProfiles_profiles_current_locationTolocationsInput = {
+export type locationsUncheckedCreateWithoutCurrent_profilesInput = {
   location_id?: string
-  name: string
+  city_id?: bigint | number | null
+  country_id: bigint | number
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationsInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUncheckedCreateNestedManyWithoutLocations_profiles_birth_locationTolocationsInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutLocationInput
+  birth_profiles?: Prisma.profilesUncheckedCreateNestedManyWithoutBirth_location_detailsInput
 }
 
-export type locationsCreateOrConnectWithoutProfiles_profiles_current_locationTolocationsInput = {
+export type locationsCreateOrConnectWithoutCurrent_profilesInput = {
   where: Prisma.locationsWhereUniqueInput
-  create: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_current_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_current_locationTolocationsInput>
+  create: Prisma.XOR<Prisma.locationsCreateWithoutCurrent_profilesInput, Prisma.locationsUncheckedCreateWithoutCurrent_profilesInput>
 }
 
-export type locationsUpsertWithoutProfiles_profiles_birth_locationTolocationsInput = {
-  update: Prisma.XOR<Prisma.locationsUpdateWithoutProfiles_profiles_birth_locationTolocationsInput, Prisma.locationsUncheckedUpdateWithoutProfiles_profiles_birth_locationTolocationsInput>
-  create: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_birth_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_birth_locationTolocationsInput>
+export type locationsUpsertWithoutBirth_profilesInput = {
+  update: Prisma.XOR<Prisma.locationsUpdateWithoutBirth_profilesInput, Prisma.locationsUncheckedUpdateWithoutBirth_profilesInput>
+  create: Prisma.XOR<Prisma.locationsCreateWithoutBirth_profilesInput, Prisma.locationsUncheckedCreateWithoutBirth_profilesInput>
   where?: Prisma.locationsWhereInput
 }
 
-export type locationsUpdateToOneWithWhereWithoutProfiles_profiles_birth_locationTolocationsInput = {
+export type locationsUpdateToOneWithWhereWithoutBirth_profilesInput = {
   where?: Prisma.locationsWhereInput
-  data: Prisma.XOR<Prisma.locationsUpdateWithoutProfiles_profiles_birth_locationTolocationsInput, Prisma.locationsUncheckedUpdateWithoutProfiles_profiles_birth_locationTolocationsInput>
+  data: Prisma.XOR<Prisma.locationsUpdateWithoutBirth_profilesInput, Prisma.locationsUncheckedUpdateWithoutBirth_profilesInput>
 }
 
-export type locationsUpdateWithoutProfiles_profiles_birth_locationTolocationsInput = {
+export type locationsUpdateWithoutBirth_profilesInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUpdateManyWithoutLocationsNestedInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUpdateManyWithoutLocations_profiles_current_locationTolocationsNestedInput
+  city?: Prisma.citiesUpdateOneWithoutLocationsNestedInput
+  country?: Prisma.countriesUpdateOneRequiredWithoutLocationsNestedInput
+  posts?: Prisma.postsUpdateManyWithoutLocationNestedInput
+  current_profiles?: Prisma.profilesUpdateManyWithoutCurrent_location_detailsNestedInput
 }
 
-export type locationsUncheckedUpdateWithoutProfiles_profiles_birth_locationTolocationsInput = {
+export type locationsUncheckedUpdateWithoutBirth_profilesInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationsNestedInput
-  profiles_profiles_current_locationTolocations?: Prisma.profilesUncheckedUpdateManyWithoutLocations_profiles_current_locationTolocationsNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationNestedInput
+  current_profiles?: Prisma.profilesUncheckedUpdateManyWithoutCurrent_location_detailsNestedInput
 }
 
-export type locationsUpsertWithoutProfiles_profiles_current_locationTolocationsInput = {
-  update: Prisma.XOR<Prisma.locationsUpdateWithoutProfiles_profiles_current_locationTolocationsInput, Prisma.locationsUncheckedUpdateWithoutProfiles_profiles_current_locationTolocationsInput>
-  create: Prisma.XOR<Prisma.locationsCreateWithoutProfiles_profiles_current_locationTolocationsInput, Prisma.locationsUncheckedCreateWithoutProfiles_profiles_current_locationTolocationsInput>
+export type locationsUpsertWithoutCurrent_profilesInput = {
+  update: Prisma.XOR<Prisma.locationsUpdateWithoutCurrent_profilesInput, Prisma.locationsUncheckedUpdateWithoutCurrent_profilesInput>
+  create: Prisma.XOR<Prisma.locationsCreateWithoutCurrent_profilesInput, Prisma.locationsUncheckedCreateWithoutCurrent_profilesInput>
   where?: Prisma.locationsWhereInput
 }
 
-export type locationsUpdateToOneWithWhereWithoutProfiles_profiles_current_locationTolocationsInput = {
+export type locationsUpdateToOneWithWhereWithoutCurrent_profilesInput = {
   where?: Prisma.locationsWhereInput
-  data: Prisma.XOR<Prisma.locationsUpdateWithoutProfiles_profiles_current_locationTolocationsInput, Prisma.locationsUncheckedUpdateWithoutProfiles_profiles_current_locationTolocationsInput>
+  data: Prisma.XOR<Prisma.locationsUpdateWithoutCurrent_profilesInput, Prisma.locationsUncheckedUpdateWithoutCurrent_profilesInput>
 }
 
-export type locationsUpdateWithoutProfiles_profiles_current_locationTolocationsInput = {
+export type locationsUpdateWithoutCurrent_profilesInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUpdateManyWithoutLocationsNestedInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUpdateManyWithoutLocations_profiles_birth_locationTolocationsNestedInput
+  city?: Prisma.citiesUpdateOneWithoutLocationsNestedInput
+  country?: Prisma.countriesUpdateOneRequiredWithoutLocationsNestedInput
+  posts?: Prisma.postsUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUpdateManyWithoutBirth_location_detailsNestedInput
 }
 
-export type locationsUncheckedUpdateWithoutProfiles_profiles_current_locationTolocationsInput = {
+export type locationsUncheckedUpdateWithoutCurrent_profilesInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationsNestedInput
-  profiles_profiles_birth_locationTolocations?: Prisma.profilesUncheckedUpdateManyWithoutLocations_profiles_birth_locationTolocationsNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUncheckedUpdateManyWithoutBirth_location_detailsNestedInput
+}
+
+export type locationsCreateManyCountryInput = {
+  location_id?: string
+  city_id?: bigint | number | null
+  lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: string | null
+}
+
+export type locationsUpdateWithoutCountryInput = {
+  location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.citiesUpdateOneWithoutLocationsNestedInput
+  posts?: Prisma.postsUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUpdateManyWithoutCurrent_location_detailsNestedInput
+}
+
+export type locationsUncheckedUpdateWithoutCountryInput = {
+  location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUncheckedUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUncheckedUpdateManyWithoutCurrent_location_detailsNestedInput
+}
+
+export type locationsUncheckedUpdateManyWithoutCountryInput = {
+  location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type locationsCreateManyCityInput = {
+  location_id?: string
+  country_id: bigint | number
+  lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: string | null
+}
+
+export type locationsUpdateWithoutCityInput = {
+  location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.countriesUpdateOneRequiredWithoutLocationsNestedInput
+  posts?: Prisma.postsUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUpdateManyWithoutCurrent_location_detailsNestedInput
+}
+
+export type locationsUncheckedUpdateWithoutCityInput = {
+  location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posts?: Prisma.postsUncheckedUpdateManyWithoutLocationNestedInput
+  birth_profiles?: Prisma.profilesUncheckedUpdateManyWithoutBirth_location_detailsNestedInput
+  current_profiles?: Prisma.profilesUncheckedUpdateManyWithoutCurrent_location_detailsNestedInput
+}
+
+export type locationsUncheckedUpdateManyWithoutCityInput = {
+  location_id?: Prisma.StringFieldUpdateOperationsInput | string
+  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -612,14 +940,14 @@ export type locationsUncheckedUpdateWithoutProfiles_profiles_current_locationTol
 
 export type LocationsCountOutputType = {
   posts: number
-  profiles_profiles_birth_locationTolocations: number
-  profiles_profiles_current_locationTolocations: number
+  birth_profiles: number
+  current_profiles: number
 }
 
 export type LocationsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | LocationsCountOutputTypeCountPostsArgs
-  profiles_profiles_birth_locationTolocations?: boolean | LocationsCountOutputTypeCountProfiles_profiles_birth_locationTolocationsArgs
-  profiles_profiles_current_locationTolocations?: boolean | LocationsCountOutputTypeCountProfiles_profiles_current_locationTolocationsArgs
+  birth_profiles?: boolean | LocationsCountOutputTypeCountBirth_profilesArgs
+  current_profiles?: boolean | LocationsCountOutputTypeCountCurrent_profilesArgs
 }
 
 /**
@@ -642,74 +970,95 @@ export type LocationsCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types
 /**
  * LocationsCountOutputType without action
  */
-export type LocationsCountOutputTypeCountProfiles_profiles_birth_locationTolocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type LocationsCountOutputTypeCountBirth_profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.profilesWhereInput
 }
 
 /**
  * LocationsCountOutputType without action
  */
-export type LocationsCountOutputTypeCountProfiles_profiles_current_locationTolocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type LocationsCountOutputTypeCountCurrent_profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.profilesWhereInput
 }
 
 
 export type locationsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   location_id?: boolean
-  name?: boolean
+  city_id?: boolean
+  country_id?: boolean
   lat?: boolean
   lng?: boolean
   place_id?: boolean
+  city?: boolean | Prisma.locations$cityArgs<ExtArgs>
+  country?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
   posts?: boolean | Prisma.locations$postsArgs<ExtArgs>
-  profiles_profiles_birth_locationTolocations?: boolean | Prisma.locations$profiles_profiles_birth_locationTolocationsArgs<ExtArgs>
-  profiles_profiles_current_locationTolocations?: boolean | Prisma.locations$profiles_profiles_current_locationTolocationsArgs<ExtArgs>
+  birth_profiles?: boolean | Prisma.locations$birth_profilesArgs<ExtArgs>
+  current_profiles?: boolean | Prisma.locations$current_profilesArgs<ExtArgs>
   _count?: boolean | Prisma.LocationsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["locations"]>
 
 export type locationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   location_id?: boolean
-  name?: boolean
+  city_id?: boolean
+  country_id?: boolean
   lat?: boolean
   lng?: boolean
   place_id?: boolean
+  city?: boolean | Prisma.locations$cityArgs<ExtArgs>
+  country?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["locations"]>
 
 export type locationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   location_id?: boolean
-  name?: boolean
+  city_id?: boolean
+  country_id?: boolean
   lat?: boolean
   lng?: boolean
   place_id?: boolean
+  city?: boolean | Prisma.locations$cityArgs<ExtArgs>
+  country?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["locations"]>
 
 export type locationsSelectScalar = {
   location_id?: boolean
-  name?: boolean
+  city_id?: boolean
+  country_id?: boolean
   lat?: boolean
   lng?: boolean
   place_id?: boolean
 }
 
-export type locationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"location_id" | "name" | "lat" | "lng" | "place_id", ExtArgs["result"]["locations"]>
+export type locationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"location_id" | "city_id" | "country_id" | "lat" | "lng" | "place_id", ExtArgs["result"]["locations"]>
 export type locationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  city?: boolean | Prisma.locations$cityArgs<ExtArgs>
+  country?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
   posts?: boolean | Prisma.locations$postsArgs<ExtArgs>
-  profiles_profiles_birth_locationTolocations?: boolean | Prisma.locations$profiles_profiles_birth_locationTolocationsArgs<ExtArgs>
-  profiles_profiles_current_locationTolocations?: boolean | Prisma.locations$profiles_profiles_current_locationTolocationsArgs<ExtArgs>
+  birth_profiles?: boolean | Prisma.locations$birth_profilesArgs<ExtArgs>
+  current_profiles?: boolean | Prisma.locations$current_profilesArgs<ExtArgs>
   _count?: boolean | Prisma.LocationsCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type locationsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type locationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type locationsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  city?: boolean | Prisma.locations$cityArgs<ExtArgs>
+  country?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
+}
+export type locationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  city?: boolean | Prisma.locations$cityArgs<ExtArgs>
+  country?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
+}
 
 export type $locationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "locations"
   objects: {
+    city: Prisma.$citiesPayload<ExtArgs> | null
+    country: Prisma.$countriesPayload<ExtArgs>
     posts: Prisma.$postsPayload<ExtArgs>[]
-    profiles_profiles_birth_locationTolocations: Prisma.$profilesPayload<ExtArgs>[]
-    profiles_profiles_current_locationTolocations: Prisma.$profilesPayload<ExtArgs>[]
+    birth_profiles: Prisma.$profilesPayload<ExtArgs>[]
+    current_profiles: Prisma.$profilesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     location_id: string
-    name: string
+    city_id: bigint | null
+    country_id: bigint
     lat: runtime.Decimal | null
     lng: runtime.Decimal | null
     place_id: string | null
@@ -1107,9 +1456,11 @@ readonly fields: locationsFieldRefs;
  */
 export interface Prisma__locationsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  city<T extends Prisma.locations$cityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.locations$cityArgs<ExtArgs>>): Prisma.Prisma__citiesClient<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  country<T extends Prisma.countriesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countriesDefaultArgs<ExtArgs>>): Prisma.Prisma__countriesClient<runtime.Types.Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   posts<T extends Prisma.locations$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.locations$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  profiles_profiles_birth_locationTolocations<T extends Prisma.locations$profiles_profiles_birth_locationTolocationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.locations$profiles_profiles_birth_locationTolocationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  profiles_profiles_current_locationTolocations<T extends Prisma.locations$profiles_profiles_current_locationTolocationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.locations$profiles_profiles_current_locationTolocationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  birth_profiles<T extends Prisma.locations$birth_profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.locations$birth_profilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  current_profiles<T extends Prisma.locations$current_profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.locations$current_profilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1140,7 +1491,8 @@ export interface Prisma__locationsClient<T, Null = never, ExtArgs extends runtim
  */
 export interface locationsFieldRefs {
   readonly location_id: Prisma.FieldRef<"locations", 'String'>
-  readonly name: Prisma.FieldRef<"locations", 'String'>
+  readonly city_id: Prisma.FieldRef<"locations", 'BigInt'>
+  readonly country_id: Prisma.FieldRef<"locations", 'BigInt'>
   readonly lat: Prisma.FieldRef<"locations", 'Decimal'>
   readonly lng: Prisma.FieldRef<"locations", 'Decimal'>
   readonly place_id: Prisma.FieldRef<"locations", 'String'>
@@ -1398,6 +1750,10 @@ export type locationsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    */
   data: Prisma.locationsCreateManyInput | Prisma.locationsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.locationsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1468,6 +1824,10 @@ export type locationsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many locations to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.locationsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1537,6 +1897,25 @@ export type locationsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * locations.city
+ */
+export type locations$cityArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the cities
+   */
+  select?: Prisma.citiesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the cities
+   */
+  omit?: Prisma.citiesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.citiesInclude<ExtArgs> | null
+  where?: Prisma.citiesWhereInput
+}
+
+/**
  * locations.posts
  */
 export type locations$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1561,9 +1940,9 @@ export type locations$postsArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * locations.profiles_profiles_birth_locationTolocations
+ * locations.birth_profiles
  */
-export type locations$profiles_profiles_birth_locationTolocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type locations$birth_profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the profiles
    */
@@ -1585,9 +1964,9 @@ export type locations$profiles_profiles_birth_locationTolocationsArgs<ExtArgs ex
 }
 
 /**
- * locations.profiles_profiles_current_locationTolocations
+ * locations.current_profiles
  */
-export type locations$profiles_profiles_current_locationTolocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type locations$current_profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the profiles
    */

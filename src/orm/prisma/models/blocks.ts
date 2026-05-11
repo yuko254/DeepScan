@@ -138,7 +138,7 @@ export type blocksGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type BlocksGroupByOutputType = {
   blocker_id: string
   blocked_id: string
-  created_at: Date | null
+  created_at: Date
   _count: BlocksCountAggregateOutputType | null
   _min: BlocksMinAggregateOutputType | null
   _max: BlocksMaxAggregateOutputType | null
@@ -165,17 +165,17 @@ export type blocksWhereInput = {
   NOT?: Prisma.blocksWhereInput | Prisma.blocksWhereInput[]
   blocker_id?: Prisma.UuidFilter<"blocks"> | string
   blocked_id?: Prisma.UuidFilter<"blocks"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"blocks"> | Date | string | null
-  users_blocks_blocker_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-  users_blocks_blocked_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  created_at?: Prisma.DateTimeFilter<"blocks"> | Date | string
+  blocker?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  blocked?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
 
 export type blocksOrderByWithRelationInput = {
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  users_blocks_blocker_id?: Prisma.usersOrderByWithRelationInput
-  users_blocks_blocked_id?: Prisma.usersOrderByWithRelationInput
+  created_at?: Prisma.SortOrder
+  blocker?: Prisma.usersOrderByWithRelationInput
+  blocked?: Prisma.usersOrderByWithRelationInput
 }
 
 export type blocksWhereUniqueInput = Prisma.AtLeast<{
@@ -185,15 +185,15 @@ export type blocksWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.blocksWhereInput | Prisma.blocksWhereInput[]
   blocker_id?: Prisma.UuidFilter<"blocks"> | string
   blocked_id?: Prisma.UuidFilter<"blocks"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"blocks"> | Date | string | null
-  users_blocks_blocker_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-  users_blocks_blocked_id?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  created_at?: Prisma.DateTimeFilter<"blocks"> | Date | string
+  blocker?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  blocked?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }, "blocker_id_blocked_id">
 
 export type blocksOrderByWithAggregationInput = {
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.blocksCountOrderByAggregateInput
   _max?: Prisma.blocksMaxOrderByAggregateInput
   _min?: Prisma.blocksMinOrderByAggregateInput
@@ -205,47 +205,47 @@ export type blocksScalarWhereWithAggregatesInput = {
   NOT?: Prisma.blocksScalarWhereWithAggregatesInput | Prisma.blocksScalarWhereWithAggregatesInput[]
   blocker_id?: Prisma.UuidWithAggregatesFilter<"blocks"> | string
   blocked_id?: Prisma.UuidWithAggregatesFilter<"blocks"> | string
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"blocks"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"blocks"> | Date | string
 }
 
 export type blocksCreateInput = {
-  created_at?: Date | string | null
-  users_blocks_blocker_id: Prisma.usersCreateNestedOneWithoutBlocks_blockers_idsInput
-  users_blocks_blocked_id: Prisma.usersCreateNestedOneWithoutBlocks_blocked_idsInput
+  created_at?: Date | string
+  blocker: Prisma.usersCreateNestedOneWithoutBlocked_usersInput
+  blocked: Prisma.usersCreateNestedOneWithoutBlocked_bysInput
 }
 
 export type blocksUncheckedCreateInput = {
   blocker_id: string
   blocked_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type blocksUpdateInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users_blocks_blocker_id?: Prisma.usersUpdateOneRequiredWithoutBlocks_blockers_idsNestedInput
-  users_blocks_blocked_id?: Prisma.usersUpdateOneRequiredWithoutBlocks_blocked_idsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocker?: Prisma.usersUpdateOneRequiredWithoutBlocked_usersNestedInput
+  blocked?: Prisma.usersUpdateOneRequiredWithoutBlocked_bysNestedInput
 }
 
 export type blocksUncheckedUpdateInput = {
   blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksCreateManyInput = {
   blocker_id: string
   blocked_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type blocksUpdateManyMutationInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksUncheckedUpdateManyInput = {
   blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksBlocker_idBlocked_idCompoundUniqueInput = {
@@ -281,152 +281,152 @@ export type blocksOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocked_idInputEnvelope
+export type blocksCreateNestedManyWithoutBlockerInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockerInput, Prisma.blocksUncheckedCreateWithoutBlockerInput> | Prisma.blocksCreateWithoutBlockerInput[] | Prisma.blocksUncheckedCreateWithoutBlockerInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockerInput | Prisma.blocksCreateOrConnectWithoutBlockerInput[]
+  createMany?: Prisma.blocksCreateManyBlockerInputEnvelope
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
 }
 
-export type blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocker_idInputEnvelope
+export type blocksCreateNestedManyWithoutBlockedInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockedInput, Prisma.blocksUncheckedCreateWithoutBlockedInput> | Prisma.blocksCreateWithoutBlockedInput[] | Prisma.blocksUncheckedCreateWithoutBlockedInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockedInput | Prisma.blocksCreateOrConnectWithoutBlockedInput[]
+  createMany?: Prisma.blocksCreateManyBlockedInputEnvelope
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
 }
 
-export type blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocked_idInputEnvelope
+export type blocksUncheckedCreateNestedManyWithoutBlockerInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockerInput, Prisma.blocksUncheckedCreateWithoutBlockerInput> | Prisma.blocksCreateWithoutBlockerInput[] | Prisma.blocksUncheckedCreateWithoutBlockerInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockerInput | Prisma.blocksCreateOrConnectWithoutBlockerInput[]
+  createMany?: Prisma.blocksCreateManyBlockerInputEnvelope
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
 }
 
-export type blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocker_idInputEnvelope
+export type blocksUncheckedCreateNestedManyWithoutBlockedInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockedInput, Prisma.blocksUncheckedCreateWithoutBlockedInput> | Prisma.blocksCreateWithoutBlockedInput[] | Prisma.blocksUncheckedCreateWithoutBlockedInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockedInput | Prisma.blocksCreateOrConnectWithoutBlockedInput[]
+  createMany?: Prisma.blocksCreateManyBlockedInputEnvelope
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
 }
 
-export type blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput[]
-  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocked_idInput | Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocked_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocked_idInputEnvelope
+export type blocksUpdateManyWithoutBlockerNestedInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockerInput, Prisma.blocksUncheckedCreateWithoutBlockerInput> | Prisma.blocksCreateWithoutBlockerInput[] | Prisma.blocksUncheckedCreateWithoutBlockerInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockerInput | Prisma.blocksCreateOrConnectWithoutBlockerInput[]
+  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutBlockerInput | Prisma.blocksUpsertWithWhereUniqueWithoutBlockerInput[]
+  createMany?: Prisma.blocksCreateManyBlockerInputEnvelope
   set?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   disconnect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   delete?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
-  update?: Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocked_idInput | Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocked_idInput[]
-  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocked_idInput | Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocked_idInput[]
+  update?: Prisma.blocksUpdateWithWhereUniqueWithoutBlockerInput | Prisma.blocksUpdateWithWhereUniqueWithoutBlockerInput[]
+  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutBlockerInput | Prisma.blocksUpdateManyWithWhereWithoutBlockerInput[]
   deleteMany?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
 }
 
-export type blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput[]
-  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocker_idInput | Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocker_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocker_idInputEnvelope
+export type blocksUpdateManyWithoutBlockedNestedInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockedInput, Prisma.blocksUncheckedCreateWithoutBlockedInput> | Prisma.blocksCreateWithoutBlockedInput[] | Prisma.blocksUncheckedCreateWithoutBlockedInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockedInput | Prisma.blocksCreateOrConnectWithoutBlockedInput[]
+  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutBlockedInput | Prisma.blocksUpsertWithWhereUniqueWithoutBlockedInput[]
+  createMany?: Prisma.blocksCreateManyBlockedInputEnvelope
   set?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   disconnect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   delete?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
-  update?: Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocker_idInput | Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocker_idInput[]
-  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocker_idInput | Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocker_idInput[]
+  update?: Prisma.blocksUpdateWithWhereUniqueWithoutBlockedInput | Prisma.blocksUpdateWithWhereUniqueWithoutBlockedInput[]
+  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutBlockedInput | Prisma.blocksUpdateManyWithWhereWithoutBlockedInput[]
   deleteMany?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
 }
 
-export type blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput[]
-  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocked_idInput | Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocked_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocked_idInputEnvelope
+export type blocksUncheckedUpdateManyWithoutBlockerNestedInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockerInput, Prisma.blocksUncheckedCreateWithoutBlockerInput> | Prisma.blocksCreateWithoutBlockerInput[] | Prisma.blocksUncheckedCreateWithoutBlockerInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockerInput | Prisma.blocksCreateOrConnectWithoutBlockerInput[]
+  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutBlockerInput | Prisma.blocksUpsertWithWhereUniqueWithoutBlockerInput[]
+  createMany?: Prisma.blocksCreateManyBlockerInputEnvelope
   set?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   disconnect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   delete?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
-  update?: Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocked_idInput | Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocked_idInput[]
-  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocked_idInput | Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocked_idInput[]
+  update?: Prisma.blocksUpdateWithWhereUniqueWithoutBlockerInput | Prisma.blocksUpdateWithWhereUniqueWithoutBlockerInput[]
+  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutBlockerInput | Prisma.blocksUpdateManyWithWhereWithoutBlockerInput[]
   deleteMany?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
 }
 
-export type blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput = {
-  create?: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput> | Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput[] | Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput[]
-  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput | Prisma.blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput[]
-  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocker_idInput | Prisma.blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocker_idInput[]
-  createMany?: Prisma.blocksCreateManyUsers_blocks_blocker_idInputEnvelope
+export type blocksUncheckedUpdateManyWithoutBlockedNestedInput = {
+  create?: Prisma.XOR<Prisma.blocksCreateWithoutBlockedInput, Prisma.blocksUncheckedCreateWithoutBlockedInput> | Prisma.blocksCreateWithoutBlockedInput[] | Prisma.blocksUncheckedCreateWithoutBlockedInput[]
+  connectOrCreate?: Prisma.blocksCreateOrConnectWithoutBlockedInput | Prisma.blocksCreateOrConnectWithoutBlockedInput[]
+  upsert?: Prisma.blocksUpsertWithWhereUniqueWithoutBlockedInput | Prisma.blocksUpsertWithWhereUniqueWithoutBlockedInput[]
+  createMany?: Prisma.blocksCreateManyBlockedInputEnvelope
   set?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   disconnect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   delete?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
   connect?: Prisma.blocksWhereUniqueInput | Prisma.blocksWhereUniqueInput[]
-  update?: Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocker_idInput | Prisma.blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocker_idInput[]
-  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocker_idInput | Prisma.blocksUpdateManyWithWhereWithoutUsers_blocks_blocker_idInput[]
+  update?: Prisma.blocksUpdateWithWhereUniqueWithoutBlockedInput | Prisma.blocksUpdateWithWhereUniqueWithoutBlockedInput[]
+  updateMany?: Prisma.blocksUpdateManyWithWhereWithoutBlockedInput | Prisma.blocksUpdateManyWithWhereWithoutBlockedInput[]
   deleteMany?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
 }
 
-export type blocksCreateWithoutUsers_blocks_blocked_idInput = {
-  created_at?: Date | string | null
-  users_blocks_blocker_id: Prisma.usersCreateNestedOneWithoutBlocks_blockers_idsInput
+export type blocksCreateWithoutBlockerInput = {
+  created_at?: Date | string
+  blocked: Prisma.usersCreateNestedOneWithoutBlocked_bysInput
 }
 
-export type blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput = {
-  blocker_id: string
-  created_at?: Date | string | null
-}
-
-export type blocksCreateOrConnectWithoutUsers_blocks_blocked_idInput = {
-  where: Prisma.blocksWhereUniqueInput
-  create: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput>
-}
-
-export type blocksCreateManyUsers_blocks_blocked_idInputEnvelope = {
-  data: Prisma.blocksCreateManyUsers_blocks_blocked_idInput | Prisma.blocksCreateManyUsers_blocks_blocked_idInput[]
-  skipDuplicates?: boolean
-}
-
-export type blocksCreateWithoutUsers_blocks_blocker_idInput = {
-  created_at?: Date | string | null
-  users_blocks_blocked_id: Prisma.usersCreateNestedOneWithoutBlocks_blocked_idsInput
-}
-
-export type blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput = {
+export type blocksUncheckedCreateWithoutBlockerInput = {
   blocked_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type blocksCreateOrConnectWithoutUsers_blocks_blocker_idInput = {
+export type blocksCreateOrConnectWithoutBlockerInput = {
   where: Prisma.blocksWhereUniqueInput
-  create: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput>
+  create: Prisma.XOR<Prisma.blocksCreateWithoutBlockerInput, Prisma.blocksUncheckedCreateWithoutBlockerInput>
 }
 
-export type blocksCreateManyUsers_blocks_blocker_idInputEnvelope = {
-  data: Prisma.blocksCreateManyUsers_blocks_blocker_idInput | Prisma.blocksCreateManyUsers_blocks_blocker_idInput[]
+export type blocksCreateManyBlockerInputEnvelope = {
+  data: Prisma.blocksCreateManyBlockerInput | Prisma.blocksCreateManyBlockerInput[]
   skipDuplicates?: boolean
 }
 
-export type blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocked_idInput = {
-  where: Prisma.blocksWhereUniqueInput
-  update: Prisma.XOR<Prisma.blocksUpdateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedUpdateWithoutUsers_blocks_blocked_idInput>
-  create: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocked_idInput>
+export type blocksCreateWithoutBlockedInput = {
+  created_at?: Date | string
+  blocker: Prisma.usersCreateNestedOneWithoutBlocked_usersInput
 }
 
-export type blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocked_idInput = {
-  where: Prisma.blocksWhereUniqueInput
-  data: Prisma.XOR<Prisma.blocksUpdateWithoutUsers_blocks_blocked_idInput, Prisma.blocksUncheckedUpdateWithoutUsers_blocks_blocked_idInput>
+export type blocksUncheckedCreateWithoutBlockedInput = {
+  blocker_id: string
+  created_at?: Date | string
 }
 
-export type blocksUpdateManyWithWhereWithoutUsers_blocks_blocked_idInput = {
+export type blocksCreateOrConnectWithoutBlockedInput = {
+  where: Prisma.blocksWhereUniqueInput
+  create: Prisma.XOR<Prisma.blocksCreateWithoutBlockedInput, Prisma.blocksUncheckedCreateWithoutBlockedInput>
+}
+
+export type blocksCreateManyBlockedInputEnvelope = {
+  data: Prisma.blocksCreateManyBlockedInput | Prisma.blocksCreateManyBlockedInput[]
+  skipDuplicates?: boolean
+}
+
+export type blocksUpsertWithWhereUniqueWithoutBlockerInput = {
+  where: Prisma.blocksWhereUniqueInput
+  update: Prisma.XOR<Prisma.blocksUpdateWithoutBlockerInput, Prisma.blocksUncheckedUpdateWithoutBlockerInput>
+  create: Prisma.XOR<Prisma.blocksCreateWithoutBlockerInput, Prisma.blocksUncheckedCreateWithoutBlockerInput>
+}
+
+export type blocksUpdateWithWhereUniqueWithoutBlockerInput = {
+  where: Prisma.blocksWhereUniqueInput
+  data: Prisma.XOR<Prisma.blocksUpdateWithoutBlockerInput, Prisma.blocksUncheckedUpdateWithoutBlockerInput>
+}
+
+export type blocksUpdateManyWithWhereWithoutBlockerInput = {
   where: Prisma.blocksScalarWhereInput
-  data: Prisma.XOR<Prisma.blocksUpdateManyMutationInput, Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idInput>
+  data: Prisma.XOR<Prisma.blocksUpdateManyMutationInput, Prisma.blocksUncheckedUpdateManyWithoutBlockerInput>
 }
 
 export type blocksScalarWhereInput = {
@@ -435,63 +435,63 @@ export type blocksScalarWhereInput = {
   NOT?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
   blocker_id?: Prisma.UuidFilter<"blocks"> | string
   blocked_id?: Prisma.UuidFilter<"blocks"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"blocks"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"blocks"> | Date | string
 }
 
-export type blocksUpsertWithWhereUniqueWithoutUsers_blocks_blocker_idInput = {
+export type blocksUpsertWithWhereUniqueWithoutBlockedInput = {
   where: Prisma.blocksWhereUniqueInput
-  update: Prisma.XOR<Prisma.blocksUpdateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedUpdateWithoutUsers_blocks_blocker_idInput>
-  create: Prisma.XOR<Prisma.blocksCreateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedCreateWithoutUsers_blocks_blocker_idInput>
+  update: Prisma.XOR<Prisma.blocksUpdateWithoutBlockedInput, Prisma.blocksUncheckedUpdateWithoutBlockedInput>
+  create: Prisma.XOR<Prisma.blocksCreateWithoutBlockedInput, Prisma.blocksUncheckedCreateWithoutBlockedInput>
 }
 
-export type blocksUpdateWithWhereUniqueWithoutUsers_blocks_blocker_idInput = {
+export type blocksUpdateWithWhereUniqueWithoutBlockedInput = {
   where: Prisma.blocksWhereUniqueInput
-  data: Prisma.XOR<Prisma.blocksUpdateWithoutUsers_blocks_blocker_idInput, Prisma.blocksUncheckedUpdateWithoutUsers_blocks_blocker_idInput>
+  data: Prisma.XOR<Prisma.blocksUpdateWithoutBlockedInput, Prisma.blocksUncheckedUpdateWithoutBlockedInput>
 }
 
-export type blocksUpdateManyWithWhereWithoutUsers_blocks_blocker_idInput = {
+export type blocksUpdateManyWithWhereWithoutBlockedInput = {
   where: Prisma.blocksScalarWhereInput
-  data: Prisma.XOR<Prisma.blocksUpdateManyMutationInput, Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idInput>
+  data: Prisma.XOR<Prisma.blocksUpdateManyMutationInput, Prisma.blocksUncheckedUpdateManyWithoutBlockedInput>
 }
 
-export type blocksCreateManyUsers_blocks_blocked_idInput = {
-  blocker_id: string
-  created_at?: Date | string | null
-}
-
-export type blocksCreateManyUsers_blocks_blocker_idInput = {
+export type blocksCreateManyBlockerInput = {
   blocked_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type blocksUpdateWithoutUsers_blocks_blocked_idInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users_blocks_blocker_id?: Prisma.usersUpdateOneRequiredWithoutBlocks_blockers_idsNestedInput
+export type blocksCreateManyBlockedInput = {
+  blocker_id: string
+  created_at?: Date | string
 }
 
-export type blocksUncheckedUpdateWithoutUsers_blocks_blocked_idInput = {
-  blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+export type blocksUpdateWithoutBlockerInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked?: Prisma.usersUpdateOneRequiredWithoutBlocked_bysNestedInput
 }
 
-export type blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idInput = {
-  blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type blocksUpdateWithoutUsers_blocks_blocker_idInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users_blocks_blocked_id?: Prisma.usersUpdateOneRequiredWithoutBlocks_blocked_idsNestedInput
-}
-
-export type blocksUncheckedUpdateWithoutUsers_blocks_blocker_idInput = {
+export type blocksUncheckedUpdateWithoutBlockerInput = {
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idInput = {
+export type blocksUncheckedUpdateManyWithoutBlockerInput = {
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type blocksUpdateWithoutBlockedInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocker?: Prisma.usersUpdateOneRequiredWithoutBlocked_usersNestedInput
+}
+
+export type blocksUncheckedUpdateWithoutBlockedInput = {
+  blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type blocksUncheckedUpdateManyWithoutBlockedInput = {
+  blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -500,24 +500,24 @@ export type blocksSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
-  users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocker?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocked?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
-  users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocker?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocked?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
-  users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocker?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocked?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectScalar = {
@@ -528,28 +528,28 @@ export type blocksSelectScalar = {
 
 export type blocksOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"blocker_id" | "blocked_id" | "created_at", ExtArgs["result"]["blocks"]>
 export type blocksInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocker?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocked?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type blocksIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocker?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocked?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type blocksIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users_blocks_blocker_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  users_blocks_blocked_id?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocker?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  blocked?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $blocksPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "blocks"
   objects: {
-    users_blocks_blocker_id: Prisma.$usersPayload<ExtArgs>
-    users_blocks_blocked_id: Prisma.$usersPayload<ExtArgs>
+    blocker: Prisma.$usersPayload<ExtArgs>
+    blocked: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     blocker_id: string
     blocked_id: string
-    created_at: Date | null
+    created_at: Date
   }, ExtArgs["result"]["blocks"]>
   composites: {}
 }
@@ -944,8 +944,8 @@ readonly fields: blocksFieldRefs;
  */
 export interface Prisma__blocksClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  users_blocks_blocker_id<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  users_blocks_blocked_id<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  blocker<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  blocked<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

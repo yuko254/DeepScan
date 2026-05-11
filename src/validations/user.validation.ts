@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+export const roleField = z
+  .string()
+  .min(3, 'Role must be at least 3 characters')
+  .max(30, 'Role must be at most 30 characters')
+  .regex(/^[a-zA-Z0-9_]+$/, 'Role can only contain letters, numbers and underscores');
+
 export const usernameField = z
   .string()
   .min(3, 'Username must be at least 3 characters')

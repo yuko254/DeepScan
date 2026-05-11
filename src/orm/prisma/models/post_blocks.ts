@@ -31,14 +31,14 @@ export type Post_blocksAvgAggregateOutputType = {
 }
 
 export type Post_blocksSumAggregateOutputType = {
-  position: number | null
+  position: bigint | null
 }
 
 export type Post_blocksMinAggregateOutputType = {
   block_id: string | null
   post_id: string | null
   type: string | null
-  position: number | null
+  position: bigint | null
   media_id: string | null
   created_at: Date | null
 }
@@ -47,7 +47,7 @@ export type Post_blocksMaxAggregateOutputType = {
   block_id: string | null
   post_id: string | null
   type: string | null
-  position: number | null
+  position: bigint | null
   media_id: string | null
   created_at: Date | null
 }
@@ -191,10 +191,10 @@ export type Post_blocksGroupByOutputType = {
   block_id: string
   post_id: string
   type: string
-  position: number
+  position: bigint
   content: runtime.JsonValue
   media_id: string | null
-  created_at: Date | null
+  created_at: Date
   _count: Post_blocksCountAggregateOutputType | null
   _avg: Post_blocksAvgAggregateOutputType | null
   _sum: Post_blocksSumAggregateOutputType | null
@@ -224,12 +224,12 @@ export type post_blocksWhereInput = {
   block_id?: Prisma.UuidFilter<"post_blocks"> | string
   post_id?: Prisma.UuidFilter<"post_blocks"> | string
   type?: Prisma.StringFilter<"post_blocks"> | string
-  position?: Prisma.IntFilter<"post_blocks"> | number
+  position?: Prisma.BigIntFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonFilter<"post_blocks">
   media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"post_blocks"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"post_blocks"> | Date | string
   media?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.mediaWhereInput> | null
-  posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
+  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }
 
 export type post_blocksOrderByWithRelationInput = {
@@ -239,9 +239,9 @@ export type post_blocksOrderByWithRelationInput = {
   position?: Prisma.SortOrder
   content?: Prisma.SortOrder
   media_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   media?: Prisma.mediaOrderByWithRelationInput
-  posts?: Prisma.postsOrderByWithRelationInput
+  post?: Prisma.postsOrderByWithRelationInput
 }
 
 export type post_blocksWhereUniqueInput = Prisma.AtLeast<{
@@ -252,12 +252,12 @@ export type post_blocksWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.post_blocksWhereInput | Prisma.post_blocksWhereInput[]
   post_id?: Prisma.UuidFilter<"post_blocks"> | string
   type?: Prisma.StringFilter<"post_blocks"> | string
-  position?: Prisma.IntFilter<"post_blocks"> | number
+  position?: Prisma.BigIntFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonFilter<"post_blocks">
   media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"post_blocks"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"post_blocks"> | Date | string
   media?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.mediaWhereInput> | null
-  posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
+  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }, "block_id" | "post_id_position">
 
 export type post_blocksOrderByWithAggregationInput = {
@@ -267,7 +267,7 @@ export type post_blocksOrderByWithAggregationInput = {
   position?: Prisma.SortOrder
   content?: Prisma.SortOrder
   media_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.post_blocksCountOrderByAggregateInput
   _avg?: Prisma.post_blocksAvgOrderByAggregateInput
   _max?: Prisma.post_blocksMaxOrderByAggregateInput
@@ -282,78 +282,78 @@ export type post_blocksScalarWhereWithAggregatesInput = {
   block_id?: Prisma.UuidWithAggregatesFilter<"post_blocks"> | string
   post_id?: Prisma.UuidWithAggregatesFilter<"post_blocks"> | string
   type?: Prisma.StringWithAggregatesFilter<"post_blocks"> | string
-  position?: Prisma.IntWithAggregatesFilter<"post_blocks"> | number
+  position?: Prisma.BigIntWithAggregatesFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonWithAggregatesFilter<"post_blocks">
   media_id?: Prisma.UuidNullableWithAggregatesFilter<"post_blocks"> | string | null
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"post_blocks"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"post_blocks"> | Date | string
 }
 
 export type post_blocksCreateInput = {
   block_id?: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Date | string | null
+  created_at?: Date | string
   media?: Prisma.mediaCreateNestedOneWithoutPost_blocksInput
-  posts: Prisma.postsCreateNestedOneWithoutPost_blocksInput
+  post: Prisma.postsCreateNestedOneWithoutPost_blocksInput
 }
 
 export type post_blocksUncheckedCreateInput = {
   block_id?: string
   post_id: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type post_blocksUpdateInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   media?: Prisma.mediaUpdateOneWithoutPost_blocksNestedInput
-  posts?: Prisma.postsUpdateOneRequiredWithoutPost_blocksNestedInput
+  post?: Prisma.postsUpdateOneRequiredWithoutPost_blocksNestedInput
 }
 
 export type post_blocksUncheckedUpdateInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type post_blocksCreateManyInput = {
   block_id?: string
   post_id: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type post_blocksUpdateManyMutationInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type post_blocksUncheckedUpdateManyInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type Post_blocksListRelationFilter = {
@@ -368,7 +368,7 @@ export type post_blocksOrderByRelationAggregateInput = {
 
 export type post_blocksPost_idPositionCompoundUniqueInput = {
   post_id: string
-  position: number
+  position: bigint | number
 }
 
 export type post_blocksCountOrderByAggregateInput = {
@@ -449,72 +449,64 @@ export type post_blocksUncheckedUpdateManyWithoutMediaNestedInput = {
   deleteMany?: Prisma.post_blocksScalarWhereInput | Prisma.post_blocksScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type post_blocksCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostsInput, Prisma.post_blocksUncheckedCreateWithoutPostsInput> | Prisma.post_blocksCreateWithoutPostsInput[] | Prisma.post_blocksUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostsInput | Prisma.post_blocksCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.post_blocksCreateManyPostsInputEnvelope
+export type post_blocksCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostInput, Prisma.post_blocksUncheckedCreateWithoutPostInput> | Prisma.post_blocksCreateWithoutPostInput[] | Prisma.post_blocksUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostInput | Prisma.post_blocksCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.post_blocksCreateManyPostInputEnvelope
   connect?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
 }
 
-export type post_blocksUncheckedCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostsInput, Prisma.post_blocksUncheckedCreateWithoutPostsInput> | Prisma.post_blocksCreateWithoutPostsInput[] | Prisma.post_blocksUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostsInput | Prisma.post_blocksCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.post_blocksCreateManyPostsInputEnvelope
+export type post_blocksUncheckedCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostInput, Prisma.post_blocksUncheckedCreateWithoutPostInput> | Prisma.post_blocksCreateWithoutPostInput[] | Prisma.post_blocksUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostInput | Prisma.post_blocksCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.post_blocksCreateManyPostInputEnvelope
   connect?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
 }
 
-export type post_blocksUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostsInput, Prisma.post_blocksUncheckedCreateWithoutPostsInput> | Prisma.post_blocksCreateWithoutPostsInput[] | Prisma.post_blocksUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostsInput | Prisma.post_blocksCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.post_blocksUpsertWithWhereUniqueWithoutPostsInput | Prisma.post_blocksUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.post_blocksCreateManyPostsInputEnvelope
+export type post_blocksUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostInput, Prisma.post_blocksUncheckedCreateWithoutPostInput> | Prisma.post_blocksCreateWithoutPostInput[] | Prisma.post_blocksUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostInput | Prisma.post_blocksCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.post_blocksUpsertWithWhereUniqueWithoutPostInput | Prisma.post_blocksUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.post_blocksCreateManyPostInputEnvelope
   set?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
   disconnect?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
   delete?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
   connect?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
-  update?: Prisma.post_blocksUpdateWithWhereUniqueWithoutPostsInput | Prisma.post_blocksUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.post_blocksUpdateManyWithWhereWithoutPostsInput | Prisma.post_blocksUpdateManyWithWhereWithoutPostsInput[]
+  update?: Prisma.post_blocksUpdateWithWhereUniqueWithoutPostInput | Prisma.post_blocksUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.post_blocksUpdateManyWithWhereWithoutPostInput | Prisma.post_blocksUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: Prisma.post_blocksScalarWhereInput | Prisma.post_blocksScalarWhereInput[]
 }
 
-export type post_blocksUncheckedUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostsInput, Prisma.post_blocksUncheckedCreateWithoutPostsInput> | Prisma.post_blocksCreateWithoutPostsInput[] | Prisma.post_blocksUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostsInput | Prisma.post_blocksCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.post_blocksUpsertWithWhereUniqueWithoutPostsInput | Prisma.post_blocksUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.post_blocksCreateManyPostsInputEnvelope
+export type post_blocksUncheckedUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostInput, Prisma.post_blocksUncheckedCreateWithoutPostInput> | Prisma.post_blocksCreateWithoutPostInput[] | Prisma.post_blocksUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostInput | Prisma.post_blocksCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.post_blocksUpsertWithWhereUniqueWithoutPostInput | Prisma.post_blocksUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.post_blocksCreateManyPostInputEnvelope
   set?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
   disconnect?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
   delete?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
   connect?: Prisma.post_blocksWhereUniqueInput | Prisma.post_blocksWhereUniqueInput[]
-  update?: Prisma.post_blocksUpdateWithWhereUniqueWithoutPostsInput | Prisma.post_blocksUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.post_blocksUpdateManyWithWhereWithoutPostsInput | Prisma.post_blocksUpdateManyWithWhereWithoutPostsInput[]
+  update?: Prisma.post_blocksUpdateWithWhereUniqueWithoutPostInput | Prisma.post_blocksUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.post_blocksUpdateManyWithWhereWithoutPostInput | Prisma.post_blocksUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: Prisma.post_blocksScalarWhereInput | Prisma.post_blocksScalarWhereInput[]
 }
 
 export type post_blocksCreateWithoutMediaInput = {
   block_id?: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Date | string | null
-  posts: Prisma.postsCreateNestedOneWithoutPost_blocksInput
+  created_at?: Date | string
+  post: Prisma.postsCreateNestedOneWithoutPost_blocksInput
 }
 
 export type post_blocksUncheckedCreateWithoutMediaInput = {
   block_id?: string
   post_id: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type post_blocksCreateOrConnectWithoutMediaInput = {
@@ -550,126 +542,126 @@ export type post_blocksScalarWhereInput = {
   block_id?: Prisma.UuidFilter<"post_blocks"> | string
   post_id?: Prisma.UuidFilter<"post_blocks"> | string
   type?: Prisma.StringFilter<"post_blocks"> | string
-  position?: Prisma.IntFilter<"post_blocks"> | number
+  position?: Prisma.BigIntFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonFilter<"post_blocks">
   media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"post_blocks"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"post_blocks"> | Date | string
 }
 
-export type post_blocksCreateWithoutPostsInput = {
+export type post_blocksCreateWithoutPostInput = {
   block_id?: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Date | string | null
+  created_at?: Date | string
   media?: Prisma.mediaCreateNestedOneWithoutPost_blocksInput
 }
 
-export type post_blocksUncheckedCreateWithoutPostsInput = {
+export type post_blocksUncheckedCreateWithoutPostInput = {
   block_id?: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type post_blocksCreateOrConnectWithoutPostsInput = {
+export type post_blocksCreateOrConnectWithoutPostInput = {
   where: Prisma.post_blocksWhereUniqueInput
-  create: Prisma.XOR<Prisma.post_blocksCreateWithoutPostsInput, Prisma.post_blocksUncheckedCreateWithoutPostsInput>
+  create: Prisma.XOR<Prisma.post_blocksCreateWithoutPostInput, Prisma.post_blocksUncheckedCreateWithoutPostInput>
 }
 
-export type post_blocksCreateManyPostsInputEnvelope = {
-  data: Prisma.post_blocksCreateManyPostsInput | Prisma.post_blocksCreateManyPostsInput[]
+export type post_blocksCreateManyPostInputEnvelope = {
+  data: Prisma.post_blocksCreateManyPostInput | Prisma.post_blocksCreateManyPostInput[]
   skipDuplicates?: boolean
 }
 
-export type post_blocksUpsertWithWhereUniqueWithoutPostsInput = {
+export type post_blocksUpsertWithWhereUniqueWithoutPostInput = {
   where: Prisma.post_blocksWhereUniqueInput
-  update: Prisma.XOR<Prisma.post_blocksUpdateWithoutPostsInput, Prisma.post_blocksUncheckedUpdateWithoutPostsInput>
-  create: Prisma.XOR<Prisma.post_blocksCreateWithoutPostsInput, Prisma.post_blocksUncheckedCreateWithoutPostsInput>
+  update: Prisma.XOR<Prisma.post_blocksUpdateWithoutPostInput, Prisma.post_blocksUncheckedUpdateWithoutPostInput>
+  create: Prisma.XOR<Prisma.post_blocksCreateWithoutPostInput, Prisma.post_blocksUncheckedCreateWithoutPostInput>
 }
 
-export type post_blocksUpdateWithWhereUniqueWithoutPostsInput = {
+export type post_blocksUpdateWithWhereUniqueWithoutPostInput = {
   where: Prisma.post_blocksWhereUniqueInput
-  data: Prisma.XOR<Prisma.post_blocksUpdateWithoutPostsInput, Prisma.post_blocksUncheckedUpdateWithoutPostsInput>
+  data: Prisma.XOR<Prisma.post_blocksUpdateWithoutPostInput, Prisma.post_blocksUncheckedUpdateWithoutPostInput>
 }
 
-export type post_blocksUpdateManyWithWhereWithoutPostsInput = {
+export type post_blocksUpdateManyWithWhereWithoutPostInput = {
   where: Prisma.post_blocksScalarWhereInput
-  data: Prisma.XOR<Prisma.post_blocksUpdateManyMutationInput, Prisma.post_blocksUncheckedUpdateManyWithoutPostsInput>
+  data: Prisma.XOR<Prisma.post_blocksUpdateManyMutationInput, Prisma.post_blocksUncheckedUpdateManyWithoutPostInput>
 }
 
 export type post_blocksCreateManyMediaInput = {
   block_id?: string
   post_id: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type post_blocksUpdateWithoutMediaInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  posts?: Prisma.postsUpdateOneRequiredWithoutPost_blocksNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.postsUpdateOneRequiredWithoutPost_blocksNestedInput
 }
 
 export type post_blocksUncheckedUpdateWithoutMediaInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type post_blocksUncheckedUpdateManyWithoutMediaInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type post_blocksCreateManyPostsInput = {
+export type post_blocksCreateManyPostInput = {
   block_id?: string
   type: string
-  position: number
+  position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type post_blocksUpdateWithoutPostsInput = {
+export type post_blocksUpdateWithoutPostInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   media?: Prisma.mediaUpdateOneWithoutPost_blocksNestedInput
 }
 
-export type post_blocksUncheckedUpdateWithoutPostsInput = {
+export type post_blocksUncheckedUpdateWithoutPostInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type post_blocksUncheckedUpdateManyWithoutPostsInput = {
+export type post_blocksUncheckedUpdateManyWithoutPostInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  position?: Prisma.IntFieldUpdateOperationsInput | number
+  position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -683,7 +675,7 @@ export type post_blocksSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   media_id?: boolean
   created_at?: boolean
   media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_blocks"]>
 
 export type post_blocksSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -695,7 +687,7 @@ export type post_blocksSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   media_id?: boolean
   created_at?: boolean
   media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_blocks"]>
 
 export type post_blocksSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -707,7 +699,7 @@ export type post_blocksSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   media_id?: boolean
   created_at?: boolean
   media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_blocks"]>
 
 export type post_blocksSelectScalar = {
@@ -723,31 +715,31 @@ export type post_blocksSelectScalar = {
 export type post_blocksOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"block_id" | "post_id" | "type" | "position" | "content" | "media_id" | "created_at", ExtArgs["result"]["post_blocks"]>
 export type post_blocksInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_blocksIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_blocksIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 
 export type $post_blocksPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "post_blocks"
   objects: {
     media: Prisma.$mediaPayload<ExtArgs> | null
-    posts: Prisma.$postsPayload<ExtArgs>
+    post: Prisma.$postsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     block_id: string
     post_id: string
     type: string
-    position: number
+    position: bigint
     content: runtime.JsonValue
     media_id: string | null
-    created_at: Date | null
+    created_at: Date
   }, ExtArgs["result"]["post_blocks"]>
   composites: {}
 }
@@ -1143,7 +1135,7 @@ readonly fields: post_blocksFieldRefs;
 export interface Prisma__post_blocksClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   media<T extends Prisma.post_blocks$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.post_blocks$mediaArgs<ExtArgs>>): Prisma.Prisma__mediaClient<runtime.Types.Result.GetResult<Prisma.$mediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  posts<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  post<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1176,7 +1168,7 @@ export interface post_blocksFieldRefs {
   readonly block_id: Prisma.FieldRef<"post_blocks", 'String'>
   readonly post_id: Prisma.FieldRef<"post_blocks", 'String'>
   readonly type: Prisma.FieldRef<"post_blocks", 'String'>
-  readonly position: Prisma.FieldRef<"post_blocks", 'Int'>
+  readonly position: Prisma.FieldRef<"post_blocks", 'BigInt'>
   readonly content: Prisma.FieldRef<"post_blocks", 'Json'>
   readonly media_id: Prisma.FieldRef<"post_blocks", 'String'>
   readonly created_at: Prisma.FieldRef<"post_blocks", 'DateTime'>

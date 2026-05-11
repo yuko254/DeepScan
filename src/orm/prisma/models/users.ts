@@ -40,6 +40,7 @@ export type UsersMinAggregateOutputType = {
   username: string | null
   email: string | null
   password: string | null
+  created_at: Date | null
 }
 
 export type UsersMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type UsersMaxAggregateOutputType = {
   username: string | null
   email: string | null
   password: string | null
+  created_at: Date | null
 }
 
 export type UsersCountAggregateOutputType = {
@@ -56,6 +58,7 @@ export type UsersCountAggregateOutputType = {
   username: number
   email: number
   password: number
+  created_at: number
   _all: number
 }
 
@@ -74,6 +77,7 @@ export type UsersMinAggregateInputType = {
   username?: true
   email?: true
   password?: true
+  created_at?: true
 }
 
 export type UsersMaxAggregateInputType = {
@@ -82,6 +86,7 @@ export type UsersMaxAggregateInputType = {
   username?: true
   email?: true
   password?: true
+  created_at?: true
 }
 
 export type UsersCountAggregateInputType = {
@@ -90,6 +95,7 @@ export type UsersCountAggregateInputType = {
   username?: true
   email?: true
   password?: true
+  created_at?: true
   _all?: true
 }
 
@@ -185,6 +191,7 @@ export type UsersGroupByOutputType = {
   username: string
   email: string
   password: string
+  created_at: Date
   _count: UsersCountAggregateOutputType | null
   _avg: UsersAvgAggregateOutputType | null
   _sum: UsersSumAggregateOutputType | null
@@ -216,28 +223,27 @@ export type usersWhereInput = {
   username?: Prisma.StringFilter<"users"> | string
   email?: Prisma.StringFilter<"users"> | string
   password?: Prisma.StringFilter<"users"> | string
-  blocks_blocked_ids?: Prisma.BlocksListRelationFilter
-  blocks_blockers_ids?: Prisma.BlocksListRelationFilter
+  created_at?: Prisma.DateTimeFilter<"users"> | Date | string
+  blocked_users?: Prisma.BlocksListRelationFilter
+  blocked_bys?: Prisma.BlocksListRelationFilter
   chat_participants?: Prisma.Chat_participantsListRelationFilter
   comment_likes?: Prisma.Comment_likesListRelationFilter
   comments?: Prisma.CommentsListRelationFilter
   device_tokens?: Prisma.Device_tokensListRelationFilter
-  follows_followers_ids?: Prisma.FollowsListRelationFilter
-  follows_followings_ids?: Prisma.FollowsListRelationFilter
+  following?: Prisma.FollowsListRelationFilter
+  followers?: Prisma.FollowsListRelationFilter
   mentions?: Prisma.MentionsListRelationFilter
   messages?: Prisma.MessagesListRelationFilter
   notifications?: Prisma.NotificationsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   posts?: Prisma.PostsListRelationFilter
-  profiles?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
+  profile?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
   reports?: Prisma.ReportsListRelationFilter
   saved_posts?: Prisma.Saved_postsListRelationFilter
   scan_history?: Prisma.Scan_historyListRelationFilter
   stories?: Prisma.StoriesListRelationFilter
   story_views?: Prisma.Story_viewsListRelationFilter
-  roles?: Prisma.XOR<Prisma.RolesNullableScalarRelationFilter, Prisma.rolesWhereInput> | null
-  refreshTokens?: Prisma.Refresh_tokensListRelationFilter
-  passwordResets?: Prisma.Password_resetsListRelationFilter
+  role?: Prisma.XOR<Prisma.RolesNullableScalarRelationFilter, Prisma.rolesWhereInput> | null
 }
 
 export type usersOrderByWithRelationInput = {
@@ -246,28 +252,27 @@ export type usersOrderByWithRelationInput = {
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  blocks_blocked_ids?: Prisma.blocksOrderByRelationAggregateInput
-  blocks_blockers_ids?: Prisma.blocksOrderByRelationAggregateInput
+  created_at?: Prisma.SortOrder
+  blocked_users?: Prisma.blocksOrderByRelationAggregateInput
+  blocked_bys?: Prisma.blocksOrderByRelationAggregateInput
   chat_participants?: Prisma.chat_participantsOrderByRelationAggregateInput
   comment_likes?: Prisma.comment_likesOrderByRelationAggregateInput
   comments?: Prisma.commentsOrderByRelationAggregateInput
   device_tokens?: Prisma.device_tokensOrderByRelationAggregateInput
-  follows_followers_ids?: Prisma.followsOrderByRelationAggregateInput
-  follows_followings_ids?: Prisma.followsOrderByRelationAggregateInput
+  following?: Prisma.followsOrderByRelationAggregateInput
+  followers?: Prisma.followsOrderByRelationAggregateInput
   mentions?: Prisma.mentionsOrderByRelationAggregateInput
   messages?: Prisma.messagesOrderByRelationAggregateInput
   notifications?: Prisma.notificationsOrderByRelationAggregateInput
   post_likes?: Prisma.post_likesOrderByRelationAggregateInput
   posts?: Prisma.postsOrderByRelationAggregateInput
-  profiles?: Prisma.profilesOrderByWithRelationInput
+  profile?: Prisma.profilesOrderByWithRelationInput
   reports?: Prisma.reportsOrderByRelationAggregateInput
   saved_posts?: Prisma.saved_postsOrderByRelationAggregateInput
   scan_history?: Prisma.scan_historyOrderByRelationAggregateInput
   stories?: Prisma.storiesOrderByRelationAggregateInput
   story_views?: Prisma.story_viewsOrderByRelationAggregateInput
-  roles?: Prisma.rolesOrderByWithRelationInput
-  refreshTokens?: Prisma.refresh_tokensOrderByRelationAggregateInput
-  passwordResets?: Prisma.password_resetsOrderByRelationAggregateInput
+  role?: Prisma.rolesOrderByWithRelationInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -279,28 +284,27 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   role_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   password?: Prisma.StringFilter<"users"> | string
-  blocks_blocked_ids?: Prisma.BlocksListRelationFilter
-  blocks_blockers_ids?: Prisma.BlocksListRelationFilter
+  created_at?: Prisma.DateTimeFilter<"users"> | Date | string
+  blocked_users?: Prisma.BlocksListRelationFilter
+  blocked_bys?: Prisma.BlocksListRelationFilter
   chat_participants?: Prisma.Chat_participantsListRelationFilter
   comment_likes?: Prisma.Comment_likesListRelationFilter
   comments?: Prisma.CommentsListRelationFilter
   device_tokens?: Prisma.Device_tokensListRelationFilter
-  follows_followers_ids?: Prisma.FollowsListRelationFilter
-  follows_followings_ids?: Prisma.FollowsListRelationFilter
+  following?: Prisma.FollowsListRelationFilter
+  followers?: Prisma.FollowsListRelationFilter
   mentions?: Prisma.MentionsListRelationFilter
   messages?: Prisma.MessagesListRelationFilter
   notifications?: Prisma.NotificationsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   posts?: Prisma.PostsListRelationFilter
-  profiles?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
+  profile?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
   reports?: Prisma.ReportsListRelationFilter
   saved_posts?: Prisma.Saved_postsListRelationFilter
   scan_history?: Prisma.Scan_historyListRelationFilter
   stories?: Prisma.StoriesListRelationFilter
   story_views?: Prisma.Story_viewsListRelationFilter
-  roles?: Prisma.XOR<Prisma.RolesNullableScalarRelationFilter, Prisma.rolesWhereInput> | null
-  refreshTokens?: Prisma.Refresh_tokensListRelationFilter
-  passwordResets?: Prisma.Password_resetsListRelationFilter
+  role?: Prisma.XOR<Prisma.RolesNullableScalarRelationFilter, Prisma.rolesWhereInput> | null
 }, "user_id" | "username" | "email">
 
 export type usersOrderByWithAggregationInput = {
@@ -309,6 +313,7 @@ export type usersOrderByWithAggregationInput = {
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.usersCountOrderByAggregateInput
   _avg?: Prisma.usersAvgOrderByAggregateInput
   _max?: Prisma.usersMaxOrderByAggregateInput
@@ -325,6 +330,7 @@ export type usersScalarWhereWithAggregatesInput = {
   username?: Prisma.StringWithAggregatesFilter<"users"> | string
   email?: Prisma.StringWithAggregatesFilter<"users"> | string
   password?: Prisma.StringWithAggregatesFilter<"users"> | string
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"users"> | Date | string
 }
 
 export type usersCreateInput = {
@@ -332,28 +338,27 @@ export type usersCreateInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateInput = {
@@ -362,27 +367,26 @@ export type usersUncheckedCreateInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersUpdateInput = {
@@ -390,28 +394,27 @@ export type usersUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -420,27 +423,26 @@ export type usersUncheckedUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateManyInput = {
@@ -449,6 +451,7 @@ export type usersCreateManyInput = {
   username: string
   email: string
   password: string
+  created_at?: Date | string
 }
 
 export type usersUpdateManyMutationInput = {
@@ -456,6 +459,7 @@ export type usersUpdateManyMutationInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type usersUncheckedUpdateManyInput = {
@@ -464,6 +468,7 @@ export type usersUncheckedUpdateManyInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UsersScalarRelationFilter = {
@@ -492,6 +497,7 @@ export type usersCountOrderByAggregateInput = {
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
 }
 
 export type usersAvgOrderByAggregateInput = {
@@ -504,6 +510,7 @@ export type usersMaxOrderByAggregateInput = {
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
 }
 
 export type usersMinOrderByAggregateInput = {
@@ -512,38 +519,39 @@ export type usersMinOrderByAggregateInput = {
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
 }
 
 export type usersSumOrderByAggregateInput = {
   role_id?: Prisma.SortOrder
 }
 
-export type usersCreateNestedOneWithoutBlocks_blockers_idsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blockers_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blockers_idsInput
+export type usersCreateNestedOneWithoutBlocked_usersInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocked_usersInput, Prisma.usersUncheckedCreateWithoutBlocked_usersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocked_usersInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersCreateNestedOneWithoutBlocks_blocked_idsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blocked_idsInput
+export type usersCreateNestedOneWithoutBlocked_bysInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocked_bysInput, Prisma.usersUncheckedCreateWithoutBlocked_bysInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocked_bysInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutBlocks_blockers_idsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blockers_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blockers_idsInput
-  upsert?: Prisma.usersUpsertWithoutBlocks_blockers_idsInput
+export type usersUpdateOneRequiredWithoutBlocked_usersNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocked_usersInput, Prisma.usersUncheckedCreateWithoutBlocked_usersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocked_usersInput
+  upsert?: Prisma.usersUpsertWithoutBlocked_usersInput
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBlocks_blockers_idsInput, Prisma.usersUpdateWithoutBlocks_blockers_idsInput>, Prisma.usersUncheckedUpdateWithoutBlocks_blockers_idsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBlocked_usersInput, Prisma.usersUpdateWithoutBlocked_usersInput>, Prisma.usersUncheckedUpdateWithoutBlocked_usersInput>
 }
 
-export type usersUpdateOneRequiredWithoutBlocks_blocked_idsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocks_blocked_idsInput
-  upsert?: Prisma.usersUpsertWithoutBlocks_blocked_idsInput
+export type usersUpdateOneRequiredWithoutBlocked_bysNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutBlocked_bysInput, Prisma.usersUncheckedCreateWithoutBlocked_bysInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutBlocked_bysInput
+  upsert?: Prisma.usersUpsertWithoutBlocked_bysInput
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBlocks_blocked_idsInput, Prisma.usersUpdateWithoutBlocks_blocked_idsInput>, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBlocked_bysInput, Prisma.usersUpdateWithoutBlocked_bysInput>, Prisma.usersUncheckedUpdateWithoutBlocked_bysInput>
 }
 
 export type usersCreateNestedOneWithoutChat_participantsInput = {
@@ -552,10 +560,12 @@ export type usersCreateNestedOneWithoutChat_participantsInput = {
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutChat_participantsNestedInput = {
+export type usersUpdateOneWithoutChat_participantsNestedInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutChat_participantsInput, Prisma.usersUncheckedCreateWithoutChat_participantsInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutChat_participantsInput
   upsert?: Prisma.usersUpsertWithoutChat_participantsInput
+  disconnect?: Prisma.usersWhereInput | boolean
+  delete?: Prisma.usersWhereInput | boolean
   connect?: Prisma.usersWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutChat_participantsInput, Prisma.usersUpdateWithoutChat_participantsInput>, Prisma.usersUncheckedUpdateWithoutChat_participantsInput>
 }
@@ -566,10 +576,12 @@ export type usersCreateNestedOneWithoutComment_likesInput = {
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutComment_likesNestedInput = {
+export type usersUpdateOneWithoutComment_likesNestedInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutComment_likesInput, Prisma.usersUncheckedCreateWithoutComment_likesInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutComment_likesInput
   upsert?: Prisma.usersUpsertWithoutComment_likesInput
+  disconnect?: Prisma.usersWhereInput | boolean
+  delete?: Prisma.usersWhereInput | boolean
   connect?: Prisma.usersWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutComment_likesInput, Prisma.usersUpdateWithoutComment_likesInput>, Prisma.usersUncheckedUpdateWithoutComment_likesInput>
 }
@@ -604,32 +616,32 @@ export type usersUpdateOneRequiredWithoutDevice_tokensNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutDevice_tokensInput, Prisma.usersUpdateWithoutDevice_tokensInput>, Prisma.usersUncheckedUpdateWithoutDevice_tokensInput>
 }
 
-export type usersCreateNestedOneWithoutFollows_followers_idsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollows_followers_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followers_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollows_followers_idsInput
+export type usersCreateNestedOneWithoutFollowingInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowingInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersCreateNestedOneWithoutFollows_followings_idsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollows_followings_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followings_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollows_followings_idsInput
+export type usersCreateNestedOneWithoutFollowersInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowersInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutFollows_followers_idsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollows_followers_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followers_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollows_followers_idsInput
-  upsert?: Prisma.usersUpsertWithoutFollows_followers_idsInput
+export type usersUpdateOneRequiredWithoutFollowingNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowingInput
+  upsert?: Prisma.usersUpsertWithoutFollowingInput
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFollows_followers_idsInput, Prisma.usersUpdateWithoutFollows_followers_idsInput>, Prisma.usersUncheckedUpdateWithoutFollows_followers_idsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFollowingInput, Prisma.usersUpdateWithoutFollowingInput>, Prisma.usersUncheckedUpdateWithoutFollowingInput>
 }
 
-export type usersUpdateOneRequiredWithoutFollows_followings_idsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollows_followings_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followings_idsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollows_followings_idsInput
-  upsert?: Prisma.usersUpsertWithoutFollows_followings_idsInput
+export type usersUpdateOneRequiredWithoutFollowersNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowersInput
+  upsert?: Prisma.usersUpsertWithoutFollowersInput
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFollows_followings_idsInput, Prisma.usersUpdateWithoutFollows_followings_idsInput>, Prisma.usersUncheckedUpdateWithoutFollows_followings_idsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFollowersInput, Prisma.usersUpdateWithoutFollowersInput>, Prisma.usersUncheckedUpdateWithoutFollowersInput>
 }
 
 export type usersCreateNestedOneWithoutMentionsInput = {
@@ -682,10 +694,12 @@ export type usersCreateNestedOneWithoutPost_likesInput = {
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutPost_likesNestedInput = {
+export type usersUpdateOneWithoutPost_likesNestedInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutPost_likesInput, Prisma.usersUncheckedCreateWithoutPost_likesInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_likesInput
   upsert?: Prisma.usersUpsertWithoutPost_likesInput
+  disconnect?: Prisma.usersWhereInput | boolean
+  delete?: Prisma.usersWhereInput | boolean
   connect?: Prisma.usersWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPost_likesInput, Prisma.usersUpdateWithoutPost_likesInput>, Prisma.usersUncheckedUpdateWithoutPost_likesInput>
 }
@@ -704,18 +718,18 @@ export type usersUpdateOneRequiredWithoutPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPostsInput, Prisma.usersUpdateWithoutPostsInput>, Prisma.usersUncheckedUpdateWithoutPostsInput>
 }
 
-export type usersCreateNestedOneWithoutProfilesInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfilesInput
+export type usersCreateNestedOneWithoutProfileInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfileInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutProfilesNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfilesInput
-  upsert?: Prisma.usersUpsertWithoutProfilesInput
+export type usersUpdateOneRequiredWithoutProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfileInput
+  upsert?: Prisma.usersUpsertWithoutProfileInput
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutProfilesInput, Prisma.usersUpdateWithoutProfilesInput>, Prisma.usersUncheckedUpdateWithoutProfilesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutProfileInput, Prisma.usersUpdateWithoutProfileInput>, Prisma.usersUncheckedUpdateWithoutProfileInput>
 }
 
 export type usersCreateNestedOneWithoutReportsInput = {
@@ -734,45 +748,45 @@ export type usersUpdateOneWithoutReportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutReportsInput, Prisma.usersUpdateWithoutReportsInput>, Prisma.usersUncheckedUpdateWithoutReportsInput>
 }
 
-export type usersCreateNestedManyWithoutRolesInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutRolesInput, Prisma.usersUncheckedCreateWithoutRolesInput> | Prisma.usersCreateWithoutRolesInput[] | Prisma.usersUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRolesInput | Prisma.usersCreateOrConnectWithoutRolesInput[]
-  createMany?: Prisma.usersCreateManyRolesInputEnvelope
+export type usersCreateNestedManyWithoutRoleInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutRoleInput, Prisma.usersUncheckedCreateWithoutRoleInput> | Prisma.usersCreateWithoutRoleInput[] | Prisma.usersUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRoleInput | Prisma.usersCreateOrConnectWithoutRoleInput[]
+  createMany?: Prisma.usersCreateManyRoleInputEnvelope
   connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
 }
 
-export type usersUncheckedCreateNestedManyWithoutRolesInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutRolesInput, Prisma.usersUncheckedCreateWithoutRolesInput> | Prisma.usersCreateWithoutRolesInput[] | Prisma.usersUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRolesInput | Prisma.usersCreateOrConnectWithoutRolesInput[]
-  createMany?: Prisma.usersCreateManyRolesInputEnvelope
+export type usersUncheckedCreateNestedManyWithoutRoleInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutRoleInput, Prisma.usersUncheckedCreateWithoutRoleInput> | Prisma.usersCreateWithoutRoleInput[] | Prisma.usersUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRoleInput | Prisma.usersCreateOrConnectWithoutRoleInput[]
+  createMany?: Prisma.usersCreateManyRoleInputEnvelope
   connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
 }
 
-export type usersUpdateManyWithoutRolesNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutRolesInput, Prisma.usersUncheckedCreateWithoutRolesInput> | Prisma.usersCreateWithoutRolesInput[] | Prisma.usersUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRolesInput | Prisma.usersCreateOrConnectWithoutRolesInput[]
-  upsert?: Prisma.usersUpsertWithWhereUniqueWithoutRolesInput | Prisma.usersUpsertWithWhereUniqueWithoutRolesInput[]
-  createMany?: Prisma.usersCreateManyRolesInputEnvelope
+export type usersUpdateManyWithoutRoleNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutRoleInput, Prisma.usersUncheckedCreateWithoutRoleInput> | Prisma.usersCreateWithoutRoleInput[] | Prisma.usersUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRoleInput | Prisma.usersCreateOrConnectWithoutRoleInput[]
+  upsert?: Prisma.usersUpsertWithWhereUniqueWithoutRoleInput | Prisma.usersUpsertWithWhereUniqueWithoutRoleInput[]
+  createMany?: Prisma.usersCreateManyRoleInputEnvelope
   set?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
   disconnect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
   delete?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
   connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
-  update?: Prisma.usersUpdateWithWhereUniqueWithoutRolesInput | Prisma.usersUpdateWithWhereUniqueWithoutRolesInput[]
-  updateMany?: Prisma.usersUpdateManyWithWhereWithoutRolesInput | Prisma.usersUpdateManyWithWhereWithoutRolesInput[]
+  update?: Prisma.usersUpdateWithWhereUniqueWithoutRoleInput | Prisma.usersUpdateWithWhereUniqueWithoutRoleInput[]
+  updateMany?: Prisma.usersUpdateManyWithWhereWithoutRoleInput | Prisma.usersUpdateManyWithWhereWithoutRoleInput[]
   deleteMany?: Prisma.usersScalarWhereInput | Prisma.usersScalarWhereInput[]
 }
 
-export type usersUncheckedUpdateManyWithoutRolesNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutRolesInput, Prisma.usersUncheckedCreateWithoutRolesInput> | Prisma.usersCreateWithoutRolesInput[] | Prisma.usersUncheckedCreateWithoutRolesInput[]
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRolesInput | Prisma.usersCreateOrConnectWithoutRolesInput[]
-  upsert?: Prisma.usersUpsertWithWhereUniqueWithoutRolesInput | Prisma.usersUpsertWithWhereUniqueWithoutRolesInput[]
-  createMany?: Prisma.usersCreateManyRolesInputEnvelope
+export type usersUncheckedUpdateManyWithoutRoleNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutRoleInput, Prisma.usersUncheckedCreateWithoutRoleInput> | Prisma.usersCreateWithoutRoleInput[] | Prisma.usersUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRoleInput | Prisma.usersCreateOrConnectWithoutRoleInput[]
+  upsert?: Prisma.usersUpsertWithWhereUniqueWithoutRoleInput | Prisma.usersUpsertWithWhereUniqueWithoutRoleInput[]
+  createMany?: Prisma.usersCreateManyRoleInputEnvelope
   set?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
   disconnect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
   delete?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
   connect?: Prisma.usersWhereUniqueInput | Prisma.usersWhereUniqueInput[]
-  update?: Prisma.usersUpdateWithWhereUniqueWithoutRolesInput | Prisma.usersUpdateWithWhereUniqueWithoutRolesInput[]
-  updateMany?: Prisma.usersUpdateManyWithWhereWithoutRolesInput | Prisma.usersUpdateManyWithWhereWithoutRolesInput[]
+  update?: Prisma.usersUpdateWithWhereUniqueWithoutRoleInput | Prisma.usersUpdateWithWhereUniqueWithoutRoleInput[]
+  updateMany?: Prisma.usersUpdateManyWithWhereWithoutRoleInput | Prisma.usersUpdateManyWithWhereWithoutRoleInput[]
   deleteMany?: Prisma.usersScalarWhereInput | Prisma.usersScalarWhereInput[]
 }
 
@@ -824,296 +838,262 @@ export type usersCreateNestedOneWithoutStory_viewsInput = {
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutStory_viewsNestedInput = {
+export type usersUpdateOneWithoutStory_viewsNestedInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutStory_viewsInput, Prisma.usersUncheckedCreateWithoutStory_viewsInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutStory_viewsInput
   upsert?: Prisma.usersUpsertWithoutStory_viewsInput
+  disconnect?: Prisma.usersWhereInput | boolean
+  delete?: Prisma.usersWhereInput | boolean
   connect?: Prisma.usersWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutStory_viewsInput, Prisma.usersUpdateWithoutStory_viewsInput>, Prisma.usersUncheckedUpdateWithoutStory_viewsInput>
 }
 
-export type usersCreateNestedOneWithoutRefreshTokensInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutRefreshTokensInput, Prisma.usersUncheckedCreateWithoutRefreshTokensInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRefreshTokensInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneRequiredWithoutRefreshTokensNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutRefreshTokensInput, Prisma.usersUncheckedCreateWithoutRefreshTokensInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutRefreshTokensInput
-  upsert?: Prisma.usersUpsertWithoutRefreshTokensInput
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutRefreshTokensInput, Prisma.usersUpdateWithoutRefreshTokensInput>, Prisma.usersUncheckedUpdateWithoutRefreshTokensInput>
-}
-
-export type usersCreateNestedOneWithoutPasswordResetsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPasswordResetsInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneRequiredWithoutPasswordResetsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPasswordResetsInput
-  upsert?: Prisma.usersUpsertWithoutPasswordResetsInput
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPasswordResetsInput, Prisma.usersUpdateWithoutPasswordResetsInput>, Prisma.usersUncheckedUpdateWithoutPasswordResetsInput>
-}
-
-export type usersCreateWithoutBlocks_blockers_idsInput = {
+export type usersCreateWithoutBlocked_usersInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
-export type usersUncheckedCreateWithoutBlocks_blockers_idsInput = {
+export type usersUncheckedCreateWithoutBlocked_usersInput = {
   user_id?: string
   role_id?: bigint | number | null
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type usersCreateOrConnectWithoutBlocks_blockers_idsInput = {
+export type usersCreateOrConnectWithoutBlocked_usersInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blockers_idsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutBlocked_usersInput, Prisma.usersUncheckedCreateWithoutBlocked_usersInput>
 }
 
-export type usersCreateWithoutBlocks_blocked_idsInput = {
+export type usersCreateWithoutBlocked_bysInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
-export type usersUncheckedCreateWithoutBlocks_blocked_idsInput = {
+export type usersUncheckedCreateWithoutBlocked_bysInput = {
   user_id?: string
   role_id?: bigint | number | null
   username: string
   email: string
   password: string
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type usersCreateOrConnectWithoutBlocks_blocked_idsInput = {
+export type usersCreateOrConnectWithoutBlocked_bysInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutBlocked_bysInput, Prisma.usersUncheckedCreateWithoutBlocked_bysInput>
 }
 
-export type usersUpsertWithoutBlocks_blockers_idsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blockers_idsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blockers_idsInput>
+export type usersUpsertWithoutBlocked_usersInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutBlocked_usersInput, Prisma.usersUncheckedUpdateWithoutBlocked_usersInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutBlocked_usersInput, Prisma.usersUncheckedCreateWithoutBlocked_usersInput>
   where?: Prisma.usersWhereInput
 }
 
-export type usersUpdateToOneWithWhereWithoutBlocks_blockers_idsInput = {
+export type usersUpdateToOneWithWhereWithoutBlocked_usersInput = {
   where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blockers_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blockers_idsInput>
+  data: Prisma.XOR<Prisma.usersUpdateWithoutBlocked_usersInput, Prisma.usersUncheckedUpdateWithoutBlocked_usersInput>
 }
 
-export type usersUpdateWithoutBlocks_blockers_idsInput = {
+export type usersUpdateWithoutBlocked_usersInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
-export type usersUncheckedUpdateWithoutBlocks_blockers_idsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
-}
-
-export type usersUpsertWithoutBlocks_blocked_idsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedCreateWithoutBlocks_blocked_idsInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutBlocks_blocked_idsInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutBlocks_blocked_idsInput, Prisma.usersUncheckedUpdateWithoutBlocks_blocked_idsInput>
-}
-
-export type usersUpdateWithoutBlocks_blocked_idsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
-}
-
-export type usersUncheckedUpdateWithoutBlocks_blocked_idsInput = {
+export type usersUncheckedUpdateWithoutBlocked_usersInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type usersUpsertWithoutBlocked_bysInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutBlocked_bysInput, Prisma.usersUncheckedUpdateWithoutBlocked_bysInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutBlocked_bysInput, Prisma.usersUncheckedCreateWithoutBlocked_bysInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutBlocked_bysInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutBlocked_bysInput, Prisma.usersUncheckedUpdateWithoutBlocked_bysInput>
+}
+
+export type usersUpdateWithoutBlocked_bysInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutBlocked_bysInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutChat_participantsInput = {
@@ -1121,27 +1101,26 @@ export type usersCreateWithoutChat_participantsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutChat_participantsInput = {
@@ -1150,26 +1129,25 @@ export type usersUncheckedCreateWithoutChat_participantsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutChat_participantsInput = {
@@ -1193,27 +1171,26 @@ export type usersUpdateWithoutChat_participantsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutChat_participantsInput = {
@@ -1222,26 +1199,25 @@ export type usersUncheckedUpdateWithoutChat_participantsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutComment_likesInput = {
@@ -1249,27 +1225,26 @@ export type usersCreateWithoutComment_likesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutComment_likesInput = {
@@ -1278,26 +1253,25 @@ export type usersUncheckedCreateWithoutComment_likesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutComment_likesInput = {
@@ -1321,27 +1295,26 @@ export type usersUpdateWithoutComment_likesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutComment_likesInput = {
@@ -1350,26 +1323,25 @@ export type usersUncheckedUpdateWithoutComment_likesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutCommentsInput = {
@@ -1377,27 +1349,26 @@ export type usersCreateWithoutCommentsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutCommentsInput = {
@@ -1406,26 +1377,25 @@ export type usersUncheckedCreateWithoutCommentsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutCommentsInput = {
@@ -1449,27 +1419,26 @@ export type usersUpdateWithoutCommentsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutCommentsInput = {
@@ -1478,26 +1447,25 @@ export type usersUncheckedUpdateWithoutCommentsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutDevice_tokensInput = {
@@ -1505,27 +1473,26 @@ export type usersCreateWithoutDevice_tokensInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutDevice_tokensInput = {
@@ -1534,26 +1501,25 @@ export type usersUncheckedCreateWithoutDevice_tokensInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutDevice_tokensInput = {
@@ -1577,27 +1543,26 @@ export type usersUpdateWithoutDevice_tokensInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutDevice_tokensInput = {
@@ -1606,282 +1571,273 @@ export type usersUncheckedUpdateWithoutDevice_tokensInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type usersCreateWithoutFollows_followers_idsInput = {
+export type usersCreateWithoutFollowingInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
-export type usersUncheckedCreateWithoutFollows_followers_idsInput = {
+export type usersUncheckedCreateWithoutFollowingInput = {
   user_id?: string
   role_id?: bigint | number | null
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type usersCreateOrConnectWithoutFollows_followers_idsInput = {
+export type usersCreateOrConnectWithoutFollowingInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollows_followers_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followers_idsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
 }
 
-export type usersCreateWithoutFollows_followings_idsInput = {
+export type usersCreateWithoutFollowersInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
-export type usersUncheckedCreateWithoutFollows_followings_idsInput = {
+export type usersUncheckedCreateWithoutFollowersInput = {
   user_id?: string
   role_id?: bigint | number | null
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type usersCreateOrConnectWithoutFollows_followings_idsInput = {
+export type usersCreateOrConnectWithoutFollowersInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollows_followings_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followings_idsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
 }
 
-export type usersUpsertWithoutFollows_followers_idsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutFollows_followers_idsInput, Prisma.usersUncheckedUpdateWithoutFollows_followers_idsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollows_followers_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followers_idsInput>
+export type usersUpsertWithoutFollowingInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutFollowingInput, Prisma.usersUncheckedUpdateWithoutFollowingInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
   where?: Prisma.usersWhereInput
 }
 
-export type usersUpdateToOneWithWhereWithoutFollows_followers_idsInput = {
+export type usersUpdateToOneWithWhereWithoutFollowingInput = {
   where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutFollows_followers_idsInput, Prisma.usersUncheckedUpdateWithoutFollows_followers_idsInput>
+  data: Prisma.XOR<Prisma.usersUpdateWithoutFollowingInput, Prisma.usersUncheckedUpdateWithoutFollowingInput>
 }
 
-export type usersUpdateWithoutFollows_followers_idsInput = {
+export type usersUpdateWithoutFollowingInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
-export type usersUncheckedUpdateWithoutFollows_followers_idsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
-}
-
-export type usersUpsertWithoutFollows_followings_idsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutFollows_followings_idsInput, Prisma.usersUncheckedUpdateWithoutFollows_followings_idsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollows_followings_idsInput, Prisma.usersUncheckedCreateWithoutFollows_followings_idsInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutFollows_followings_idsInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutFollows_followings_idsInput, Prisma.usersUncheckedUpdateWithoutFollows_followings_idsInput>
-}
-
-export type usersUpdateWithoutFollows_followings_idsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
-}
-
-export type usersUncheckedUpdateWithoutFollows_followings_idsInput = {
+export type usersUncheckedUpdateWithoutFollowingInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type usersUpsertWithoutFollowersInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutFollowersInput, Prisma.usersUncheckedUpdateWithoutFollowersInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutFollowersInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutFollowersInput, Prisma.usersUncheckedUpdateWithoutFollowersInput>
+}
+
+export type usersUpdateWithoutFollowersInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutFollowersInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutMentionsInput = {
@@ -1889,27 +1845,26 @@ export type usersCreateWithoutMentionsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutMentionsInput = {
@@ -1918,26 +1873,25 @@ export type usersUncheckedCreateWithoutMentionsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutMentionsInput = {
@@ -1961,27 +1915,26 @@ export type usersUpdateWithoutMentionsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutMentionsInput = {
@@ -1990,26 +1943,25 @@ export type usersUncheckedUpdateWithoutMentionsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutMessagesInput = {
@@ -2017,27 +1969,26 @@ export type usersCreateWithoutMessagesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutMessagesInput = {
@@ -2046,26 +1997,25 @@ export type usersUncheckedCreateWithoutMessagesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutMessagesInput = {
@@ -2089,27 +2039,26 @@ export type usersUpdateWithoutMessagesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutMessagesInput = {
@@ -2118,26 +2067,25 @@ export type usersUncheckedUpdateWithoutMessagesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutNotificationsInput = {
@@ -2145,27 +2093,26 @@ export type usersCreateWithoutNotificationsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutNotificationsInput = {
@@ -2174,26 +2121,25 @@ export type usersUncheckedCreateWithoutNotificationsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutNotificationsInput = {
@@ -2217,27 +2163,26 @@ export type usersUpdateWithoutNotificationsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutNotificationsInput = {
@@ -2246,26 +2191,25 @@ export type usersUncheckedUpdateWithoutNotificationsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutPost_likesInput = {
@@ -2273,27 +2217,26 @@ export type usersCreateWithoutPost_likesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutPost_likesInput = {
@@ -2302,26 +2245,25 @@ export type usersUncheckedCreateWithoutPost_likesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutPost_likesInput = {
@@ -2345,27 +2287,26 @@ export type usersUpdateWithoutPost_likesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutPost_likesInput = {
@@ -2374,26 +2315,25 @@ export type usersUncheckedUpdateWithoutPost_likesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutPostsInput = {
@@ -2401,27 +2341,26 @@ export type usersCreateWithoutPostsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutPostsInput = {
@@ -2430,26 +2369,25 @@ export type usersUncheckedCreateWithoutPostsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutPostsInput = {
@@ -2473,27 +2411,26 @@ export type usersUpdateWithoutPostsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutPostsInput = {
@@ -2502,154 +2439,149 @@ export type usersUncheckedUpdateWithoutPostsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type usersCreateWithoutProfilesInput = {
+export type usersCreateWithoutProfileInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
-export type usersUncheckedCreateWithoutProfilesInput = {
+export type usersUncheckedCreateWithoutProfileInput = {
   user_id?: string
   role_id?: bigint | number | null
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type usersCreateOrConnectWithoutProfilesInput = {
+export type usersCreateOrConnectWithoutProfileInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
 }
 
-export type usersUpsertWithoutProfilesInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutProfilesInput, Prisma.usersUncheckedUpdateWithoutProfilesInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
+export type usersUpsertWithoutProfileInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutProfileInput, Prisma.usersUncheckedUpdateWithoutProfileInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
   where?: Prisma.usersWhereInput
 }
 
-export type usersUpdateToOneWithWhereWithoutProfilesInput = {
+export type usersUpdateToOneWithWhereWithoutProfileInput = {
   where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutProfilesInput, Prisma.usersUncheckedUpdateWithoutProfilesInput>
+  data: Prisma.XOR<Prisma.usersUpdateWithoutProfileInput, Prisma.usersUncheckedUpdateWithoutProfileInput>
 }
 
-export type usersUpdateWithoutProfilesInput = {
+export type usersUpdateWithoutProfileInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
-export type usersUncheckedUpdateWithoutProfilesInput = {
+export type usersUncheckedUpdateWithoutProfileInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutReportsInput = {
@@ -2657,27 +2589,26 @@ export type usersCreateWithoutReportsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutReportsInput = {
@@ -2686,26 +2617,25 @@ export type usersUncheckedCreateWithoutReportsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutReportsInput = {
@@ -2729,27 +2659,26 @@ export type usersUpdateWithoutReportsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutReportsInput = {
@@ -2758,108 +2687,105 @@ export type usersUncheckedUpdateWithoutReportsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type usersCreateWithoutRolesInput = {
+export type usersCreateWithoutRoleInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
 }
 
-export type usersUncheckedCreateWithoutRolesInput = {
+export type usersUncheckedCreateWithoutRoleInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type usersCreateOrConnectWithoutRolesInput = {
+export type usersCreateOrConnectWithoutRoleInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutRolesInput, Prisma.usersUncheckedCreateWithoutRolesInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutRoleInput, Prisma.usersUncheckedCreateWithoutRoleInput>
 }
 
-export type usersCreateManyRolesInputEnvelope = {
-  data: Prisma.usersCreateManyRolesInput | Prisma.usersCreateManyRolesInput[]
+export type usersCreateManyRoleInputEnvelope = {
+  data: Prisma.usersCreateManyRoleInput | Prisma.usersCreateManyRoleInput[]
   skipDuplicates?: boolean
 }
 
-export type usersUpsertWithWhereUniqueWithoutRolesInput = {
+export type usersUpsertWithWhereUniqueWithoutRoleInput = {
   where: Prisma.usersWhereUniqueInput
-  update: Prisma.XOR<Prisma.usersUpdateWithoutRolesInput, Prisma.usersUncheckedUpdateWithoutRolesInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutRolesInput, Prisma.usersUncheckedCreateWithoutRolesInput>
+  update: Prisma.XOR<Prisma.usersUpdateWithoutRoleInput, Prisma.usersUncheckedUpdateWithoutRoleInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutRoleInput, Prisma.usersUncheckedCreateWithoutRoleInput>
 }
 
-export type usersUpdateWithWhereUniqueWithoutRolesInput = {
+export type usersUpdateWithWhereUniqueWithoutRoleInput = {
   where: Prisma.usersWhereUniqueInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutRolesInput, Prisma.usersUncheckedUpdateWithoutRolesInput>
+  data: Prisma.XOR<Prisma.usersUpdateWithoutRoleInput, Prisma.usersUncheckedUpdateWithoutRoleInput>
 }
 
-export type usersUpdateManyWithWhereWithoutRolesInput = {
+export type usersUpdateManyWithWhereWithoutRoleInput = {
   where: Prisma.usersScalarWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateManyMutationInput, Prisma.usersUncheckedUpdateManyWithoutRolesInput>
+  data: Prisma.XOR<Prisma.usersUpdateManyMutationInput, Prisma.usersUncheckedUpdateManyWithoutRoleInput>
 }
 
 export type usersScalarWhereInput = {
@@ -2871,6 +2797,7 @@ export type usersScalarWhereInput = {
   username?: Prisma.StringFilter<"users"> | string
   email?: Prisma.StringFilter<"users"> | string
   password?: Prisma.StringFilter<"users"> | string
+  created_at?: Prisma.DateTimeFilter<"users"> | Date | string
 }
 
 export type usersCreateWithoutSaved_postsInput = {
@@ -2878,27 +2805,26 @@ export type usersCreateWithoutSaved_postsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutSaved_postsInput = {
@@ -2907,26 +2833,25 @@ export type usersUncheckedCreateWithoutSaved_postsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutSaved_postsInput = {
@@ -2950,27 +2875,26 @@ export type usersUpdateWithoutSaved_postsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutSaved_postsInput = {
@@ -2979,26 +2903,25 @@ export type usersUncheckedUpdateWithoutSaved_postsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutScan_historyInput = {
@@ -3006,27 +2929,26 @@ export type usersCreateWithoutScan_historyInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutScan_historyInput = {
@@ -3035,26 +2957,25 @@ export type usersUncheckedCreateWithoutScan_historyInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutScan_historyInput = {
@@ -3078,27 +2999,26 @@ export type usersUpdateWithoutScan_historyInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutScan_historyInput = {
@@ -3107,26 +3027,25 @@ export type usersUncheckedUpdateWithoutScan_historyInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutStoriesInput = {
@@ -3134,27 +3053,26 @@ export type usersCreateWithoutStoriesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutStoriesInput = {
@@ -3163,26 +3081,25 @@ export type usersUncheckedCreateWithoutStoriesInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutStoriesInput = {
@@ -3206,27 +3123,26 @@ export type usersUpdateWithoutStoriesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutStoriesInput = {
@@ -3235,26 +3151,25 @@ export type usersUncheckedUpdateWithoutStoriesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutStory_viewsInput = {
@@ -3262,27 +3177,26 @@ export type usersCreateWithoutStory_viewsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesCreateNestedManyWithoutUserInput
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutStory_viewsInput = {
@@ -3291,26 +3205,25 @@ export type usersUncheckedCreateWithoutStory_viewsInput = {
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUserInput
+  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type usersCreateOrConnectWithoutStory_viewsInput = {
@@ -3334,27 +3247,26 @@ export type usersUpdateWithoutStory_viewsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutStory_viewsInput = {
@@ -3363,352 +3275,95 @@ export type usersUncheckedUpdateWithoutStory_viewsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type usersCreateWithoutRefreshTokensInput = {
+export type usersCreateManyRoleInput = {
   user_id?: string
   username: string
   email: string
   password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  passwordResets?: Prisma.password_resetsCreateNestedManyWithoutUsersInput
+  created_at?: Date | string
 }
 
-export type usersUncheckedCreateWithoutRefreshTokensInput = {
-  user_id?: string
-  role_id?: bigint | number | null
-  username: string
-  email: string
-  password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  passwordResets?: Prisma.password_resetsUncheckedCreateNestedManyWithoutUsersInput
-}
-
-export type usersCreateOrConnectWithoutRefreshTokensInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutRefreshTokensInput, Prisma.usersUncheckedCreateWithoutRefreshTokensInput>
-}
-
-export type usersUpsertWithoutRefreshTokensInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutRefreshTokensInput, Prisma.usersUncheckedUpdateWithoutRefreshTokensInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutRefreshTokensInput, Prisma.usersUncheckedCreateWithoutRefreshTokensInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutRefreshTokensInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutRefreshTokensInput, Prisma.usersUncheckedUpdateWithoutRefreshTokensInput>
-}
-
-export type usersUpdateWithoutRefreshTokensInput = {
+export type usersUpdateWithoutRoleInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
 }
 
-export type usersUncheckedUpdateWithoutRefreshTokensInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
-}
-
-export type usersCreateWithoutPasswordResetsInput = {
-  user_id?: string
-  username: string
-  email: string
-  password: string
-  blocks_blocked_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUsersInput
-  roles?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensCreateNestedManyWithoutUserInput
-}
-
-export type usersUncheckedCreateWithoutPasswordResetsInput = {
-  user_id?: string
-  role_id?: bigint | number | null
-  username: string
-  email: string
-  password: string
-  blocks_blocked_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocked_idInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedCreateNestedManyWithoutUsers_blocks_blocker_idInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUsersInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUsersInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUsersInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUsersInput
-  follows_followers_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_follower_idInput
-  follows_followings_ids?: Prisma.followsUncheckedCreateNestedManyWithoutUsers_follows_following_idInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUsersInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUsersInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutUsersInput
-  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUsersInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUsersInput
-  scan_history?: Prisma.scan_historyUncheckedCreateNestedManyWithoutUsersInput
-  stories?: Prisma.storiesUncheckedCreateNestedManyWithoutUsersInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUsersInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type usersCreateOrConnectWithoutPasswordResetsInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
-}
-
-export type usersUpsertWithoutPasswordResetsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutPasswordResetsInput, Prisma.usersUncheckedUpdateWithoutPasswordResetsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutPasswordResetsInput, Prisma.usersUncheckedCreateWithoutPasswordResetsInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutPasswordResetsInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutPasswordResetsInput, Prisma.usersUncheckedUpdateWithoutPasswordResetsInput>
-}
-
-export type usersUpdateWithoutPasswordResetsInput = {
+export type usersUncheckedUpdateWithoutRoleInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  roles?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUserNestedInput
+  stories?: Prisma.storiesUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type usersUncheckedUpdateWithoutPasswordResetsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type usersCreateManyRolesInput = {
-  user_id?: string
-  username: string
-  email: string
-  password: string
-}
-
-export type usersUpdateWithoutRolesInput = {
+export type usersUncheckedUpdateManyWithoutRoleInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUpdateManyWithoutUsersNestedInput
-}
-
-export type usersUncheckedUpdateWithoutRolesInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  blocks_blocked_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocked_idNestedInput
-  blocks_blockers_ids?: Prisma.blocksUncheckedUpdateManyWithoutUsers_blocks_blocker_idNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUsersNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUsersNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUsersNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUsersNestedInput
-  follows_followers_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_follower_idNestedInput
-  follows_followings_ids?: Prisma.followsUncheckedUpdateManyWithoutUsers_follows_following_idNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUsersNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUsersNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutUsersNestedInput
-  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUsersNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUsersNestedInput
-  scan_history?: Prisma.scan_historyUncheckedUpdateManyWithoutUsersNestedInput
-  stories?: Prisma.storiesUncheckedUpdateManyWithoutUsersNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  refreshTokens?: Prisma.refresh_tokensUncheckedUpdateManyWithoutUserNestedInput
-  passwordResets?: Prisma.password_resetsUncheckedUpdateManyWithoutUsersNestedInput
-}
-
-export type usersUncheckedUpdateManyWithoutRolesInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -3717,14 +3372,14 @@ export type usersUncheckedUpdateManyWithoutRolesInput = {
  */
 
 export type UsersCountOutputType = {
-  blocks_blocked_ids: number
-  blocks_blockers_ids: number
+  blocked_users: number
+  blocked_bys: number
   chat_participants: number
   comment_likes: number
   comments: number
   device_tokens: number
-  follows_followers_ids: number
-  follows_followings_ids: number
+  following: number
+  followers: number
   mentions: number
   messages: number
   notifications: number
@@ -3735,19 +3390,17 @@ export type UsersCountOutputType = {
   scan_history: number
   stories: number
   story_views: number
-  refreshTokens: number
-  passwordResets: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  blocks_blocked_ids?: boolean | UsersCountOutputTypeCountBlocks_blocked_idsArgs
-  blocks_blockers_ids?: boolean | UsersCountOutputTypeCountBlocks_blockers_idsArgs
+  blocked_users?: boolean | UsersCountOutputTypeCountBlocked_usersArgs
+  blocked_bys?: boolean | UsersCountOutputTypeCountBlocked_bysArgs
   chat_participants?: boolean | UsersCountOutputTypeCountChat_participantsArgs
   comment_likes?: boolean | UsersCountOutputTypeCountComment_likesArgs
   comments?: boolean | UsersCountOutputTypeCountCommentsArgs
   device_tokens?: boolean | UsersCountOutputTypeCountDevice_tokensArgs
-  follows_followers_ids?: boolean | UsersCountOutputTypeCountFollows_followers_idsArgs
-  follows_followings_ids?: boolean | UsersCountOutputTypeCountFollows_followings_idsArgs
+  following?: boolean | UsersCountOutputTypeCountFollowingArgs
+  followers?: boolean | UsersCountOutputTypeCountFollowersArgs
   mentions?: boolean | UsersCountOutputTypeCountMentionsArgs
   messages?: boolean | UsersCountOutputTypeCountMessagesArgs
   notifications?: boolean | UsersCountOutputTypeCountNotificationsArgs
@@ -3758,8 +3411,6 @@ export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   scan_history?: boolean | UsersCountOutputTypeCountScan_historyArgs
   stories?: boolean | UsersCountOutputTypeCountStoriesArgs
   story_views?: boolean | UsersCountOutputTypeCountStory_viewsArgs
-  refreshTokens?: boolean | UsersCountOutputTypeCountRefreshTokensArgs
-  passwordResets?: boolean | UsersCountOutputTypeCountPasswordResetsArgs
 }
 
 /**
@@ -3775,14 +3426,14 @@ export type UsersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountBlocks_blocked_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountBlocked_usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.blocksWhereInput
 }
 
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountBlocks_blockers_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountBlocked_bysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.blocksWhereInput
 }
 
@@ -3817,14 +3468,14 @@ export type UsersCountOutputTypeCountDevice_tokensArgs<ExtArgs extends runtime.T
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountFollows_followers_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountFollowingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.followsWhereInput
 }
 
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountFollows_followings_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountFollowersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.followsWhereInput
 }
 
@@ -3898,20 +3549,6 @@ export type UsersCountOutputTypeCountStory_viewsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.story_viewsWhereInput
 }
 
-/**
- * UsersCountOutputType without action
- */
-export type UsersCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.refresh_tokensWhereInput
-}
-
-/**
- * UsersCountOutputType without action
- */
-export type UsersCountOutputTypeCountPasswordResetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.password_resetsWhereInput
-}
-
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   user_id?: boolean
@@ -3919,28 +3556,27 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   username?: boolean
   email?: boolean
   password?: boolean
-  blocks_blocked_ids?: boolean | Prisma.users$blocks_blocked_idsArgs<ExtArgs>
-  blocks_blockers_ids?: boolean | Prisma.users$blocks_blockers_idsArgs<ExtArgs>
+  created_at?: boolean
+  blocked_users?: boolean | Prisma.users$blocked_usersArgs<ExtArgs>
+  blocked_bys?: boolean | Prisma.users$blocked_bysArgs<ExtArgs>
   chat_participants?: boolean | Prisma.users$chat_participantsArgs<ExtArgs>
   comment_likes?: boolean | Prisma.users$comment_likesArgs<ExtArgs>
   comments?: boolean | Prisma.users$commentsArgs<ExtArgs>
   device_tokens?: boolean | Prisma.users$device_tokensArgs<ExtArgs>
-  follows_followers_ids?: boolean | Prisma.users$follows_followers_idsArgs<ExtArgs>
-  follows_followings_ids?: boolean | Prisma.users$follows_followings_idsArgs<ExtArgs>
+  following?: boolean | Prisma.users$followingArgs<ExtArgs>
+  followers?: boolean | Prisma.users$followersArgs<ExtArgs>
   mentions?: boolean | Prisma.users$mentionsArgs<ExtArgs>
   messages?: boolean | Prisma.users$messagesArgs<ExtArgs>
   notifications?: boolean | Prisma.users$notificationsArgs<ExtArgs>
   post_likes?: boolean | Prisma.users$post_likesArgs<ExtArgs>
   posts?: boolean | Prisma.users$postsArgs<ExtArgs>
-  profiles?: boolean | Prisma.users$profilesArgs<ExtArgs>
+  profile?: boolean | Prisma.users$profileArgs<ExtArgs>
   reports?: boolean | Prisma.users$reportsArgs<ExtArgs>
   saved_posts?: boolean | Prisma.users$saved_postsArgs<ExtArgs>
   scan_history?: boolean | Prisma.users$scan_historyArgs<ExtArgs>
   stories?: boolean | Prisma.users$storiesArgs<ExtArgs>
   story_views?: boolean | Prisma.users$story_viewsArgs<ExtArgs>
-  roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
-  refreshTokens?: boolean | Prisma.users$refreshTokensArgs<ExtArgs>
-  passwordResets?: boolean | Prisma.users$passwordResetsArgs<ExtArgs>
+  role?: boolean | Prisma.users$roleArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -3950,7 +3586,8 @@ export type usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   username?: boolean
   email?: boolean
   password?: boolean
-  roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
+  created_at?: boolean
+  role?: boolean | Prisma.users$roleArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
 export type usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3959,7 +3596,8 @@ export type usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   username?: boolean
   email?: boolean
   password?: boolean
-  roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
+  created_at?: boolean
+  role?: boolean | Prisma.users$roleArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
 export type usersSelectScalar = {
@@ -3968,66 +3606,63 @@ export type usersSelectScalar = {
   username?: boolean
   email?: boolean
   password?: boolean
+  created_at?: boolean
 }
 
-export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "role_id" | "username" | "email" | "password", ExtArgs["result"]["users"]>
+export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "role_id" | "username" | "email" | "password" | "created_at", ExtArgs["result"]["users"]>
 export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  blocks_blocked_ids?: boolean | Prisma.users$blocks_blocked_idsArgs<ExtArgs>
-  blocks_blockers_ids?: boolean | Prisma.users$blocks_blockers_idsArgs<ExtArgs>
+  blocked_users?: boolean | Prisma.users$blocked_usersArgs<ExtArgs>
+  blocked_bys?: boolean | Prisma.users$blocked_bysArgs<ExtArgs>
   chat_participants?: boolean | Prisma.users$chat_participantsArgs<ExtArgs>
   comment_likes?: boolean | Prisma.users$comment_likesArgs<ExtArgs>
   comments?: boolean | Prisma.users$commentsArgs<ExtArgs>
   device_tokens?: boolean | Prisma.users$device_tokensArgs<ExtArgs>
-  follows_followers_ids?: boolean | Prisma.users$follows_followers_idsArgs<ExtArgs>
-  follows_followings_ids?: boolean | Prisma.users$follows_followings_idsArgs<ExtArgs>
+  following?: boolean | Prisma.users$followingArgs<ExtArgs>
+  followers?: boolean | Prisma.users$followersArgs<ExtArgs>
   mentions?: boolean | Prisma.users$mentionsArgs<ExtArgs>
   messages?: boolean | Prisma.users$messagesArgs<ExtArgs>
   notifications?: boolean | Prisma.users$notificationsArgs<ExtArgs>
   post_likes?: boolean | Prisma.users$post_likesArgs<ExtArgs>
   posts?: boolean | Prisma.users$postsArgs<ExtArgs>
-  profiles?: boolean | Prisma.users$profilesArgs<ExtArgs>
+  profile?: boolean | Prisma.users$profileArgs<ExtArgs>
   reports?: boolean | Prisma.users$reportsArgs<ExtArgs>
   saved_posts?: boolean | Prisma.users$saved_postsArgs<ExtArgs>
   scan_history?: boolean | Prisma.users$scan_historyArgs<ExtArgs>
   stories?: boolean | Prisma.users$storiesArgs<ExtArgs>
   story_views?: boolean | Prisma.users$story_viewsArgs<ExtArgs>
-  roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
-  refreshTokens?: boolean | Prisma.users$refreshTokensArgs<ExtArgs>
-  passwordResets?: boolean | Prisma.users$passwordResetsArgs<ExtArgs>
+  role?: boolean | Prisma.users$roleArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
+  role?: boolean | Prisma.users$roleArgs<ExtArgs>
 }
 export type usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | Prisma.users$rolesArgs<ExtArgs>
+  role?: boolean | Prisma.users$roleArgs<ExtArgs>
 }
 
 export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "users"
   objects: {
-    blocks_blocked_ids: Prisma.$blocksPayload<ExtArgs>[]
-    blocks_blockers_ids: Prisma.$blocksPayload<ExtArgs>[]
+    blocked_users: Prisma.$blocksPayload<ExtArgs>[]
+    blocked_bys: Prisma.$blocksPayload<ExtArgs>[]
     chat_participants: Prisma.$chat_participantsPayload<ExtArgs>[]
     comment_likes: Prisma.$comment_likesPayload<ExtArgs>[]
     comments: Prisma.$commentsPayload<ExtArgs>[]
     device_tokens: Prisma.$device_tokensPayload<ExtArgs>[]
-    follows_followers_ids: Prisma.$followsPayload<ExtArgs>[]
-    follows_followings_ids: Prisma.$followsPayload<ExtArgs>[]
+    following: Prisma.$followsPayload<ExtArgs>[]
+    followers: Prisma.$followsPayload<ExtArgs>[]
     mentions: Prisma.$mentionsPayload<ExtArgs>[]
     messages: Prisma.$messagesPayload<ExtArgs>[]
     notifications: Prisma.$notificationsPayload<ExtArgs>[]
     post_likes: Prisma.$post_likesPayload<ExtArgs>[]
     posts: Prisma.$postsPayload<ExtArgs>[]
-    profiles: Prisma.$profilesPayload<ExtArgs> | null
+    profile: Prisma.$profilesPayload<ExtArgs> | null
     reports: Prisma.$reportsPayload<ExtArgs>[]
     saved_posts: Prisma.$saved_postsPayload<ExtArgs>[]
     scan_history: Prisma.$scan_historyPayload<ExtArgs>[]
     stories: Prisma.$storiesPayload<ExtArgs>[]
     story_views: Prisma.$story_viewsPayload<ExtArgs>[]
-    roles: Prisma.$rolesPayload<ExtArgs> | null
-    refreshTokens: Prisma.$refresh_tokensPayload<ExtArgs>[]
-    passwordResets: Prisma.$password_resetsPayload<ExtArgs>[]
+    role: Prisma.$rolesPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_id: string
@@ -4035,6 +3670,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     username: string
     email: string
     password: string
+    created_at: Date
   }, ExtArgs["result"]["users"]>
   composites: {}
 }
@@ -4429,28 +4065,26 @@ readonly fields: usersFieldRefs;
  */
 export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  blocks_blocked_ids<T extends Prisma.users$blocks_blocked_idsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$blocks_blocked_idsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  blocks_blockers_ids<T extends Prisma.users$blocks_blockers_idsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$blocks_blockers_idsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blocked_users<T extends Prisma.users$blocked_usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$blocked_usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blocked_bys<T extends Prisma.users$blocked_bysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$blocked_bysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chat_participants<T extends Prisma.users$chat_participantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$chat_participantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$chat_participantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comment_likes<T extends Prisma.users$comment_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$comment_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$comment_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.users$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   device_tokens<T extends Prisma.users$device_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$device_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$device_tokensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  follows_followers_ids<T extends Prisma.users$follows_followers_idsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$follows_followers_idsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  follows_followings_ids<T extends Prisma.users$follows_followings_idsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$follows_followings_idsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  following<T extends Prisma.users$followingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$followingArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  followers<T extends Prisma.users$followersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$followersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   mentions<T extends Prisma.users$mentionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$mentionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mentionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messages<T extends Prisma.users$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.users$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_likes<T extends Prisma.users$post_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   posts<T extends Prisma.users$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  profiles<T extends Prisma.users$profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$profilesArgs<ExtArgs>>): Prisma.Prisma__profilesClient<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  profile<T extends Prisma.users$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$profileArgs<ExtArgs>>): Prisma.Prisma__profilesClient<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reports<T extends Prisma.users$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reportsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   saved_posts<T extends Prisma.users$saved_postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$saved_postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$saved_postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   scan_history<T extends Prisma.users$scan_historyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$scan_historyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$scan_historyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stories<T extends Prisma.users$storiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$storiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$storiesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   story_views<T extends Prisma.users$story_viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$story_viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$story_viewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  roles<T extends Prisma.users$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$rolesArgs<ExtArgs>>): Prisma.Prisma__rolesClient<runtime.Types.Result.GetResult<Prisma.$rolesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  refreshTokens<T extends Prisma.users$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$refresh_tokensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  passwordResets<T extends Prisma.users$passwordResetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$passwordResetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$password_resetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  role<T extends Prisma.users$roleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$roleArgs<ExtArgs>>): Prisma.Prisma__rolesClient<runtime.Types.Result.GetResult<Prisma.$rolesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4485,6 +4119,7 @@ export interface usersFieldRefs {
   readonly username: Prisma.FieldRef<"users", 'String'>
   readonly email: Prisma.FieldRef<"users", 'String'>
   readonly password: Prisma.FieldRef<"users", 'String'>
+  readonly created_at: Prisma.FieldRef<"users", 'DateTime'>
 }
     
 
@@ -4886,9 +4521,9 @@ export type usersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * users.blocks_blocked_ids
+ * users.blocked_users
  */
-export type users$blocks_blocked_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$blocked_usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the blocks
    */
@@ -4910,9 +4545,9 @@ export type users$blocks_blocked_idsArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * users.blocks_blockers_ids
+ * users.blocked_bys
  */
-export type users$blocks_blockers_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$blocked_bysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the blocks
    */
@@ -5030,9 +4665,9 @@ export type users$device_tokensArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * users.follows_followers_ids
+ * users.following
  */
-export type users$follows_followers_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$followingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the follows
    */
@@ -5054,9 +4689,9 @@ export type users$follows_followers_idsArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * users.follows_followings_ids
+ * users.followers
  */
-export type users$follows_followings_idsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$followersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the follows
    */
@@ -5198,9 +4833,9 @@ export type users$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 /**
- * users.profiles
+ * users.profile
  */
-export type users$profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the profiles
    */
@@ -5337,9 +4972,9 @@ export type users$story_viewsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * users.roles
+ * users.role
  */
-export type users$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$roleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the roles
    */
@@ -5353,54 +4988,6 @@ export type users$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   include?: Prisma.rolesInclude<ExtArgs> | null
   where?: Prisma.rolesWhereInput
-}
-
-/**
- * users.refreshTokens
- */
-export type users$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the refresh_tokens
-   */
-  select?: Prisma.refresh_tokensSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the refresh_tokens
-   */
-  omit?: Prisma.refresh_tokensOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.refresh_tokensInclude<ExtArgs> | null
-  where?: Prisma.refresh_tokensWhereInput
-  orderBy?: Prisma.refresh_tokensOrderByWithRelationInput | Prisma.refresh_tokensOrderByWithRelationInput[]
-  cursor?: Prisma.refresh_tokensWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Refresh_tokensScalarFieldEnum | Prisma.Refresh_tokensScalarFieldEnum[]
-}
-
-/**
- * users.passwordResets
- */
-export type users$passwordResetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the password_resets
-   */
-  select?: Prisma.password_resetsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the password_resets
-   */
-  omit?: Prisma.password_resetsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.password_resetsInclude<ExtArgs> | null
-  where?: Prisma.password_resetsWhereInput
-  orderBy?: Prisma.password_resetsOrderByWithRelationInput | Prisma.password_resetsOrderByWithRelationInput[]
-  cursor?: Prisma.password_resetsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Password_resetsScalarFieldEnum | Prisma.Password_resetsScalarFieldEnum[]
 }
 
 /**

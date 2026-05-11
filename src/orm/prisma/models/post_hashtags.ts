@@ -138,7 +138,7 @@ export type post_hashtagsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type Post_hashtagsGroupByOutputType = {
   post_id: string
   hashtag_id: string
-  created_at: Date | null
+  created_at: Date
   _count: Post_hashtagsCountAggregateOutputType | null
   _min: Post_hashtagsMinAggregateOutputType | null
   _max: Post_hashtagsMaxAggregateOutputType | null
@@ -165,17 +165,17 @@ export type post_hashtagsWhereInput = {
   NOT?: Prisma.post_hashtagsWhereInput | Prisma.post_hashtagsWhereInput[]
   post_id?: Prisma.UuidFilter<"post_hashtags"> | string
   hashtag_id?: Prisma.UuidFilter<"post_hashtags"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"post_hashtags"> | Date | string | null
-  hashtags?: Prisma.XOR<Prisma.HashtagsScalarRelationFilter, Prisma.hashtagsWhereInput>
-  posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
+  created_at?: Prisma.DateTimeFilter<"post_hashtags"> | Date | string
+  hashtag?: Prisma.XOR<Prisma.HashtagsScalarRelationFilter, Prisma.hashtagsWhereInput>
+  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }
 
 export type post_hashtagsOrderByWithRelationInput = {
   post_id?: Prisma.SortOrder
   hashtag_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  hashtags?: Prisma.hashtagsOrderByWithRelationInput
-  posts?: Prisma.postsOrderByWithRelationInput
+  created_at?: Prisma.SortOrder
+  hashtag?: Prisma.hashtagsOrderByWithRelationInput
+  post?: Prisma.postsOrderByWithRelationInput
 }
 
 export type post_hashtagsWhereUniqueInput = Prisma.AtLeast<{
@@ -185,15 +185,15 @@ export type post_hashtagsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.post_hashtagsWhereInput | Prisma.post_hashtagsWhereInput[]
   post_id?: Prisma.UuidFilter<"post_hashtags"> | string
   hashtag_id?: Prisma.UuidFilter<"post_hashtags"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"post_hashtags"> | Date | string | null
-  hashtags?: Prisma.XOR<Prisma.HashtagsScalarRelationFilter, Prisma.hashtagsWhereInput>
-  posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
+  created_at?: Prisma.DateTimeFilter<"post_hashtags"> | Date | string
+  hashtag?: Prisma.XOR<Prisma.HashtagsScalarRelationFilter, Prisma.hashtagsWhereInput>
+  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }, "post_id_hashtag_id">
 
 export type post_hashtagsOrderByWithAggregationInput = {
   post_id?: Prisma.SortOrder
   hashtag_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.post_hashtagsCountOrderByAggregateInput
   _max?: Prisma.post_hashtagsMaxOrderByAggregateInput
   _min?: Prisma.post_hashtagsMinOrderByAggregateInput
@@ -205,47 +205,47 @@ export type post_hashtagsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.post_hashtagsScalarWhereWithAggregatesInput | Prisma.post_hashtagsScalarWhereWithAggregatesInput[]
   post_id?: Prisma.UuidWithAggregatesFilter<"post_hashtags"> | string
   hashtag_id?: Prisma.UuidWithAggregatesFilter<"post_hashtags"> | string
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"post_hashtags"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"post_hashtags"> | Date | string
 }
 
 export type post_hashtagsCreateInput = {
-  created_at?: Date | string | null
-  hashtags: Prisma.hashtagsCreateNestedOneWithoutPost_hashtagsInput
-  posts: Prisma.postsCreateNestedOneWithoutPost_hashtagsInput
+  created_at?: Date | string
+  hashtag: Prisma.hashtagsCreateNestedOneWithoutPost_hashtagsInput
+  post: Prisma.postsCreateNestedOneWithoutPost_hashtagsInput
 }
 
 export type post_hashtagsUncheckedCreateInput = {
   post_id: string
   hashtag_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type post_hashtagsUpdateInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  hashtags?: Prisma.hashtagsUpdateOneRequiredWithoutPost_hashtagsNestedInput
-  posts?: Prisma.postsUpdateOneRequiredWithoutPost_hashtagsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashtag?: Prisma.hashtagsUpdateOneRequiredWithoutPost_hashtagsNestedInput
+  post?: Prisma.postsUpdateOneRequiredWithoutPost_hashtagsNestedInput
 }
 
 export type post_hashtagsUncheckedUpdateInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type post_hashtagsCreateManyInput = {
   post_id: string
   hashtag_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type post_hashtagsUpdateManyMutationInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type post_hashtagsUncheckedUpdateManyInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type Post_hashtagsListRelationFilter = {
@@ -281,124 +281,124 @@ export type post_hashtagsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
-export type post_hashtagsCreateNestedManyWithoutHashtagsInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput> | Prisma.post_hashtagsCreateWithoutHashtagsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyHashtagsInputEnvelope
+export type post_hashtagsCreateNestedManyWithoutHashtagInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput> | Prisma.post_hashtagsCreateWithoutHashtagInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput[]
+  createMany?: Prisma.post_hashtagsCreateManyHashtagInputEnvelope
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
 }
 
-export type post_hashtagsUncheckedCreateNestedManyWithoutHashtagsInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput> | Prisma.post_hashtagsCreateWithoutHashtagsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyHashtagsInputEnvelope
+export type post_hashtagsUncheckedCreateNestedManyWithoutHashtagInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput> | Prisma.post_hashtagsCreateWithoutHashtagInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput[]
+  createMany?: Prisma.post_hashtagsCreateManyHashtagInputEnvelope
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
 }
 
-export type post_hashtagsUpdateManyWithoutHashtagsNestedInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput> | Prisma.post_hashtagsCreateWithoutHashtagsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput[]
-  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagsInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyHashtagsInputEnvelope
+export type post_hashtagsUpdateManyWithoutHashtagNestedInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput> | Prisma.post_hashtagsCreateWithoutHashtagInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput[]
+  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagInput[]
+  createMany?: Prisma.post_hashtagsCreateManyHashtagInputEnvelope
   set?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   disconnect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   delete?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
-  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagsInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagsInput[]
-  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagsInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagsInput[]
+  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagInput[]
+  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagInput[]
   deleteMany?: Prisma.post_hashtagsScalarWhereInput | Prisma.post_hashtagsScalarWhereInput[]
 }
 
-export type post_hashtagsUncheckedUpdateManyWithoutHashtagsNestedInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput> | Prisma.post_hashtagsCreateWithoutHashtagsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagsInput[]
-  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagsInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyHashtagsInputEnvelope
+export type post_hashtagsUncheckedUpdateManyWithoutHashtagNestedInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput> | Prisma.post_hashtagsCreateWithoutHashtagInput[] | Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput | Prisma.post_hashtagsCreateOrConnectWithoutHashtagInput[]
+  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutHashtagInput[]
+  createMany?: Prisma.post_hashtagsCreateManyHashtagInputEnvelope
   set?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   disconnect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   delete?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
-  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagsInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagsInput[]
-  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagsInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagsInput[]
+  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutHashtagInput[]
+  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutHashtagInput[]
   deleteMany?: Prisma.post_hashtagsScalarWhereInput | Prisma.post_hashtagsScalarWhereInput[]
 }
 
-export type post_hashtagsCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostsInput, Prisma.post_hashtagsUncheckedCreateWithoutPostsInput> | Prisma.post_hashtagsCreateWithoutPostsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostsInput | Prisma.post_hashtagsCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyPostsInputEnvelope
+export type post_hashtagsCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostInput, Prisma.post_hashtagsUncheckedCreateWithoutPostInput> | Prisma.post_hashtagsCreateWithoutPostInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostInput | Prisma.post_hashtagsCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.post_hashtagsCreateManyPostInputEnvelope
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
 }
 
-export type post_hashtagsUncheckedCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostsInput, Prisma.post_hashtagsUncheckedCreateWithoutPostsInput> | Prisma.post_hashtagsCreateWithoutPostsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostsInput | Prisma.post_hashtagsCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyPostsInputEnvelope
+export type post_hashtagsUncheckedCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostInput, Prisma.post_hashtagsUncheckedCreateWithoutPostInput> | Prisma.post_hashtagsCreateWithoutPostInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostInput | Prisma.post_hashtagsCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.post_hashtagsCreateManyPostInputEnvelope
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
 }
 
-export type post_hashtagsUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostsInput, Prisma.post_hashtagsUncheckedCreateWithoutPostsInput> | Prisma.post_hashtagsCreateWithoutPostsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostsInput | Prisma.post_hashtagsCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostsInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyPostsInputEnvelope
+export type post_hashtagsUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostInput, Prisma.post_hashtagsUncheckedCreateWithoutPostInput> | Prisma.post_hashtagsCreateWithoutPostInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostInput | Prisma.post_hashtagsCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.post_hashtagsCreateManyPostInputEnvelope
   set?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   disconnect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   delete?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
-  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostsInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutPostsInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutPostsInput[]
+  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutPostInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: Prisma.post_hashtagsScalarWhereInput | Prisma.post_hashtagsScalarWhereInput[]
 }
 
-export type post_hashtagsUncheckedUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostsInput, Prisma.post_hashtagsUncheckedCreateWithoutPostsInput> | Prisma.post_hashtagsCreateWithoutPostsInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostsInput | Prisma.post_hashtagsCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostsInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.post_hashtagsCreateManyPostsInputEnvelope
+export type post_hashtagsUncheckedUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostInput, Prisma.post_hashtagsUncheckedCreateWithoutPostInput> | Prisma.post_hashtagsCreateWithoutPostInput[] | Prisma.post_hashtagsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_hashtagsCreateOrConnectWithoutPostInput | Prisma.post_hashtagsCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostInput | Prisma.post_hashtagsUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.post_hashtagsCreateManyPostInputEnvelope
   set?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   disconnect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   delete?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
   connect?: Prisma.post_hashtagsWhereUniqueInput | Prisma.post_hashtagsWhereUniqueInput[]
-  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostsInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutPostsInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutPostsInput[]
+  update?: Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostInput | Prisma.post_hashtagsUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.post_hashtagsUpdateManyWithWhereWithoutPostInput | Prisma.post_hashtagsUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: Prisma.post_hashtagsScalarWhereInput | Prisma.post_hashtagsScalarWhereInput[]
 }
 
-export type post_hashtagsCreateWithoutHashtagsInput = {
-  created_at?: Date | string | null
-  posts: Prisma.postsCreateNestedOneWithoutPost_hashtagsInput
+export type post_hashtagsCreateWithoutHashtagInput = {
+  created_at?: Date | string
+  post: Prisma.postsCreateNestedOneWithoutPost_hashtagsInput
 }
 
-export type post_hashtagsUncheckedCreateWithoutHashtagsInput = {
+export type post_hashtagsUncheckedCreateWithoutHashtagInput = {
   post_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type post_hashtagsCreateOrConnectWithoutHashtagsInput = {
+export type post_hashtagsCreateOrConnectWithoutHashtagInput = {
   where: Prisma.post_hashtagsWhereUniqueInput
-  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput>
+  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput>
 }
 
-export type post_hashtagsCreateManyHashtagsInputEnvelope = {
-  data: Prisma.post_hashtagsCreateManyHashtagsInput | Prisma.post_hashtagsCreateManyHashtagsInput[]
+export type post_hashtagsCreateManyHashtagInputEnvelope = {
+  data: Prisma.post_hashtagsCreateManyHashtagInput | Prisma.post_hashtagsCreateManyHashtagInput[]
   skipDuplicates?: boolean
 }
 
-export type post_hashtagsUpsertWithWhereUniqueWithoutHashtagsInput = {
+export type post_hashtagsUpsertWithWhereUniqueWithoutHashtagInput = {
   where: Prisma.post_hashtagsWhereUniqueInput
-  update: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedUpdateWithoutHashtagsInput>
-  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagsInput>
+  update: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutHashtagInput, Prisma.post_hashtagsUncheckedUpdateWithoutHashtagInput>
+  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutHashtagInput, Prisma.post_hashtagsUncheckedCreateWithoutHashtagInput>
 }
 
-export type post_hashtagsUpdateWithWhereUniqueWithoutHashtagsInput = {
+export type post_hashtagsUpdateWithWhereUniqueWithoutHashtagInput = {
   where: Prisma.post_hashtagsWhereUniqueInput
-  data: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutHashtagsInput, Prisma.post_hashtagsUncheckedUpdateWithoutHashtagsInput>
+  data: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutHashtagInput, Prisma.post_hashtagsUncheckedUpdateWithoutHashtagInput>
 }
 
-export type post_hashtagsUpdateManyWithWhereWithoutHashtagsInput = {
+export type post_hashtagsUpdateManyWithWhereWithoutHashtagInput = {
   where: Prisma.post_hashtagsScalarWhereInput
-  data: Prisma.XOR<Prisma.post_hashtagsUpdateManyMutationInput, Prisma.post_hashtagsUncheckedUpdateManyWithoutHashtagsInput>
+  data: Prisma.XOR<Prisma.post_hashtagsUpdateManyMutationInput, Prisma.post_hashtagsUncheckedUpdateManyWithoutHashtagInput>
 }
 
 export type post_hashtagsScalarWhereInput = {
@@ -407,83 +407,83 @@ export type post_hashtagsScalarWhereInput = {
   NOT?: Prisma.post_hashtagsScalarWhereInput | Prisma.post_hashtagsScalarWhereInput[]
   post_id?: Prisma.UuidFilter<"post_hashtags"> | string
   hashtag_id?: Prisma.UuidFilter<"post_hashtags"> | string
-  created_at?: Prisma.DateTimeNullableFilter<"post_hashtags"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"post_hashtags"> | Date | string
 }
 
-export type post_hashtagsCreateWithoutPostsInput = {
-  created_at?: Date | string | null
-  hashtags: Prisma.hashtagsCreateNestedOneWithoutPost_hashtagsInput
+export type post_hashtagsCreateWithoutPostInput = {
+  created_at?: Date | string
+  hashtag: Prisma.hashtagsCreateNestedOneWithoutPost_hashtagsInput
 }
 
-export type post_hashtagsUncheckedCreateWithoutPostsInput = {
+export type post_hashtagsUncheckedCreateWithoutPostInput = {
   hashtag_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type post_hashtagsCreateOrConnectWithoutPostsInput = {
+export type post_hashtagsCreateOrConnectWithoutPostInput = {
   where: Prisma.post_hashtagsWhereUniqueInput
-  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostsInput, Prisma.post_hashtagsUncheckedCreateWithoutPostsInput>
+  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostInput, Prisma.post_hashtagsUncheckedCreateWithoutPostInput>
 }
 
-export type post_hashtagsCreateManyPostsInputEnvelope = {
-  data: Prisma.post_hashtagsCreateManyPostsInput | Prisma.post_hashtagsCreateManyPostsInput[]
+export type post_hashtagsCreateManyPostInputEnvelope = {
+  data: Prisma.post_hashtagsCreateManyPostInput | Prisma.post_hashtagsCreateManyPostInput[]
   skipDuplicates?: boolean
 }
 
-export type post_hashtagsUpsertWithWhereUniqueWithoutPostsInput = {
+export type post_hashtagsUpsertWithWhereUniqueWithoutPostInput = {
   where: Prisma.post_hashtagsWhereUniqueInput
-  update: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutPostsInput, Prisma.post_hashtagsUncheckedUpdateWithoutPostsInput>
-  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostsInput, Prisma.post_hashtagsUncheckedCreateWithoutPostsInput>
+  update: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutPostInput, Prisma.post_hashtagsUncheckedUpdateWithoutPostInput>
+  create: Prisma.XOR<Prisma.post_hashtagsCreateWithoutPostInput, Prisma.post_hashtagsUncheckedCreateWithoutPostInput>
 }
 
-export type post_hashtagsUpdateWithWhereUniqueWithoutPostsInput = {
+export type post_hashtagsUpdateWithWhereUniqueWithoutPostInput = {
   where: Prisma.post_hashtagsWhereUniqueInput
-  data: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutPostsInput, Prisma.post_hashtagsUncheckedUpdateWithoutPostsInput>
+  data: Prisma.XOR<Prisma.post_hashtagsUpdateWithoutPostInput, Prisma.post_hashtagsUncheckedUpdateWithoutPostInput>
 }
 
-export type post_hashtagsUpdateManyWithWhereWithoutPostsInput = {
+export type post_hashtagsUpdateManyWithWhereWithoutPostInput = {
   where: Prisma.post_hashtagsScalarWhereInput
-  data: Prisma.XOR<Prisma.post_hashtagsUpdateManyMutationInput, Prisma.post_hashtagsUncheckedUpdateManyWithoutPostsInput>
+  data: Prisma.XOR<Prisma.post_hashtagsUpdateManyMutationInput, Prisma.post_hashtagsUncheckedUpdateManyWithoutPostInput>
 }
 
-export type post_hashtagsCreateManyHashtagsInput = {
+export type post_hashtagsCreateManyHashtagInput = {
   post_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type post_hashtagsUpdateWithoutHashtagsInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  posts?: Prisma.postsUpdateOneRequiredWithoutPost_hashtagsNestedInput
+export type post_hashtagsUpdateWithoutHashtagInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.postsUpdateOneRequiredWithoutPost_hashtagsNestedInput
 }
 
-export type post_hashtagsUncheckedUpdateWithoutHashtagsInput = {
+export type post_hashtagsUncheckedUpdateWithoutHashtagInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type post_hashtagsUncheckedUpdateManyWithoutHashtagsInput = {
+export type post_hashtagsUncheckedUpdateManyWithoutHashtagInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type post_hashtagsCreateManyPostsInput = {
+export type post_hashtagsCreateManyPostInput = {
   hashtag_id: string
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type post_hashtagsUpdateWithoutPostsInput = {
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  hashtags?: Prisma.hashtagsUpdateOneRequiredWithoutPost_hashtagsNestedInput
+export type post_hashtagsUpdateWithoutPostInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hashtag?: Prisma.hashtagsUpdateOneRequiredWithoutPost_hashtagsNestedInput
 }
 
-export type post_hashtagsUncheckedUpdateWithoutPostsInput = {
+export type post_hashtagsUncheckedUpdateWithoutPostInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type post_hashtagsUncheckedUpdateManyWithoutPostsInput = {
+export type post_hashtagsUncheckedUpdateManyWithoutPostInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -492,24 +492,24 @@ export type post_hashtagsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   post_id?: boolean
   hashtag_id?: boolean
   created_at?: boolean
-  hashtags?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  hashtag?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_hashtags"]>
 
 export type post_hashtagsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   post_id?: boolean
   hashtag_id?: boolean
   created_at?: boolean
-  hashtags?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  hashtag?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_hashtags"]>
 
 export type post_hashtagsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   post_id?: boolean
   hashtag_id?: boolean
   created_at?: boolean
-  hashtags?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  hashtag?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_hashtags"]>
 
 export type post_hashtagsSelectScalar = {
@@ -520,28 +520,28 @@ export type post_hashtagsSelectScalar = {
 
 export type post_hashtagsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"post_id" | "hashtag_id" | "created_at", ExtArgs["result"]["post_hashtags"]>
 export type post_hashtagsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  hashtags?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  hashtag?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_hashtagsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  hashtags?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  hashtag?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_hashtagsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  hashtags?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  hashtag?: boolean | Prisma.hashtagsDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 
 export type $post_hashtagsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "post_hashtags"
   objects: {
-    hashtags: Prisma.$hashtagsPayload<ExtArgs>
-    posts: Prisma.$postsPayload<ExtArgs>
+    hashtag: Prisma.$hashtagsPayload<ExtArgs>
+    post: Prisma.$postsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     post_id: string
     hashtag_id: string
-    created_at: Date | null
+    created_at: Date
   }, ExtArgs["result"]["post_hashtags"]>
   composites: {}
 }
@@ -936,8 +936,8 @@ readonly fields: post_hashtagsFieldRefs;
  */
 export interface Prisma__post_hashtagsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  hashtags<T extends Prisma.hashtagsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.hashtagsDefaultArgs<ExtArgs>>): Prisma.Prisma__hashtagsClient<runtime.Types.Result.GetResult<Prisma.$hashtagsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  posts<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  hashtag<T extends Prisma.hashtagsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.hashtagsDefaultArgs<ExtArgs>>): Prisma.Prisma__hashtagsClient<runtime.Types.Result.GetResult<Prisma.$hashtagsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  post<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

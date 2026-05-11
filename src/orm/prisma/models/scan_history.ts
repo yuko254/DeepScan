@@ -144,7 +144,7 @@ export type scan_historyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type Scan_historyGroupByOutputType = {
   scan_id: string
   user_id: string
-  timestamp: Date | null
+  timestamp: Date
   metadata: string | null
   _count: Scan_historyCountAggregateOutputType | null
   _min: Scan_historyMinAggregateOutputType | null
@@ -172,19 +172,19 @@ export type scan_historyWhereInput = {
   NOT?: Prisma.scan_historyWhereInput | Prisma.scan_historyWhereInput[]
   scan_id?: Prisma.UuidFilter<"scan_history"> | string
   user_id?: Prisma.UuidFilter<"scan_history"> | string
-  timestamp?: Prisma.DateTimeNullableFilter<"scan_history"> | Date | string | null
+  timestamp?: Prisma.DateTimeFilter<"scan_history"> | Date | string
   metadata?: Prisma.StringNullableFilter<"scan_history"> | string | null
   media?: Prisma.MediaListRelationFilter
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
 
 export type scan_historyOrderByWithRelationInput = {
   scan_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
-  timestamp?: Prisma.SortOrderInput | Prisma.SortOrder
+  timestamp?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   media?: Prisma.mediaOrderByRelationAggregateInput
-  users?: Prisma.usersOrderByWithRelationInput
+  user?: Prisma.usersOrderByWithRelationInput
 }
 
 export type scan_historyWhereUniqueInput = Prisma.AtLeast<{
@@ -193,16 +193,16 @@ export type scan_historyWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.scan_historyWhereInput[]
   NOT?: Prisma.scan_historyWhereInput | Prisma.scan_historyWhereInput[]
   user_id?: Prisma.UuidFilter<"scan_history"> | string
-  timestamp?: Prisma.DateTimeNullableFilter<"scan_history"> | Date | string | null
+  timestamp?: Prisma.DateTimeFilter<"scan_history"> | Date | string
   metadata?: Prisma.StringNullableFilter<"scan_history"> | string | null
   media?: Prisma.MediaListRelationFilter
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }, "scan_id">
 
 export type scan_historyOrderByWithAggregationInput = {
   scan_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
-  timestamp?: Prisma.SortOrderInput | Prisma.SortOrder
+  timestamp?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.scan_historyCountOrderByAggregateInput
   _max?: Prisma.scan_historyMaxOrderByAggregateInput
@@ -215,38 +215,38 @@ export type scan_historyScalarWhereWithAggregatesInput = {
   NOT?: Prisma.scan_historyScalarWhereWithAggregatesInput | Prisma.scan_historyScalarWhereWithAggregatesInput[]
   scan_id?: Prisma.UuidWithAggregatesFilter<"scan_history"> | string
   user_id?: Prisma.UuidWithAggregatesFilter<"scan_history"> | string
-  timestamp?: Prisma.DateTimeNullableWithAggregatesFilter<"scan_history"> | Date | string | null
+  timestamp?: Prisma.DateTimeWithAggregatesFilter<"scan_history"> | Date | string
   metadata?: Prisma.StringNullableWithAggregatesFilter<"scan_history"> | string | null
 }
 
 export type scan_historyCreateInput = {
   scan_id?: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
   media?: Prisma.mediaCreateNestedManyWithoutScan_historyInput
-  users: Prisma.usersCreateNestedOneWithoutScan_historyInput
+  user: Prisma.usersCreateNestedOneWithoutScan_historyInput
 }
 
 export type scan_historyUncheckedCreateInput = {
   scan_id?: string
   user_id: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
   media?: Prisma.mediaUncheckedCreateNestedManyWithoutScan_historyInput
 }
 
 export type scan_historyUpdateInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   media?: Prisma.mediaUpdateManyWithoutScan_historyNestedInput
-  users?: Prisma.usersUpdateOneRequiredWithoutScan_historyNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutScan_historyNestedInput
 }
 
 export type scan_historyUncheckedUpdateInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   media?: Prisma.mediaUncheckedUpdateManyWithoutScan_historyNestedInput
 }
@@ -254,20 +254,20 @@ export type scan_historyUncheckedUpdateInput = {
 export type scan_historyCreateManyInput = {
   scan_id?: string
   user_id: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
 }
 
 export type scan_historyUpdateManyMutationInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type scan_historyUncheckedUpdateManyInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -323,59 +323,59 @@ export type scan_historyUpdateOneWithoutMediaNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.scan_historyUpdateToOneWithWhereWithoutMediaInput, Prisma.scan_historyUpdateWithoutMediaInput>, Prisma.scan_historyUncheckedUpdateWithoutMediaInput>
 }
 
-export type scan_historyCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUsersInput, Prisma.scan_historyUncheckedCreateWithoutUsersInput> | Prisma.scan_historyCreateWithoutUsersInput[] | Prisma.scan_historyUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUsersInput | Prisma.scan_historyCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.scan_historyCreateManyUsersInputEnvelope
+export type scan_historyCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUserInput, Prisma.scan_historyUncheckedCreateWithoutUserInput> | Prisma.scan_historyCreateWithoutUserInput[] | Prisma.scan_historyUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUserInput | Prisma.scan_historyCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.scan_historyCreateManyUserInputEnvelope
   connect?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
 }
 
-export type scan_historyUncheckedCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUsersInput, Prisma.scan_historyUncheckedCreateWithoutUsersInput> | Prisma.scan_historyCreateWithoutUsersInput[] | Prisma.scan_historyUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUsersInput | Prisma.scan_historyCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.scan_historyCreateManyUsersInputEnvelope
+export type scan_historyUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUserInput, Prisma.scan_historyUncheckedCreateWithoutUserInput> | Prisma.scan_historyCreateWithoutUserInput[] | Prisma.scan_historyUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUserInput | Prisma.scan_historyCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.scan_historyCreateManyUserInputEnvelope
   connect?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
 }
 
-export type scan_historyUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUsersInput, Prisma.scan_historyUncheckedCreateWithoutUsersInput> | Prisma.scan_historyCreateWithoutUsersInput[] | Prisma.scan_historyUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUsersInput | Prisma.scan_historyCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.scan_historyUpsertWithWhereUniqueWithoutUsersInput | Prisma.scan_historyUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.scan_historyCreateManyUsersInputEnvelope
+export type scan_historyUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUserInput, Prisma.scan_historyUncheckedCreateWithoutUserInput> | Prisma.scan_historyCreateWithoutUserInput[] | Prisma.scan_historyUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUserInput | Prisma.scan_historyCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.scan_historyUpsertWithWhereUniqueWithoutUserInput | Prisma.scan_historyUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.scan_historyCreateManyUserInputEnvelope
   set?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
   disconnect?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
   delete?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
   connect?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
-  update?: Prisma.scan_historyUpdateWithWhereUniqueWithoutUsersInput | Prisma.scan_historyUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.scan_historyUpdateManyWithWhereWithoutUsersInput | Prisma.scan_historyUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.scan_historyUpdateWithWhereUniqueWithoutUserInput | Prisma.scan_historyUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.scan_historyUpdateManyWithWhereWithoutUserInput | Prisma.scan_historyUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.scan_historyScalarWhereInput | Prisma.scan_historyScalarWhereInput[]
 }
 
-export type scan_historyUncheckedUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUsersInput, Prisma.scan_historyUncheckedCreateWithoutUsersInput> | Prisma.scan_historyCreateWithoutUsersInput[] | Prisma.scan_historyUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUsersInput | Prisma.scan_historyCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.scan_historyUpsertWithWhereUniqueWithoutUsersInput | Prisma.scan_historyUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.scan_historyCreateManyUsersInputEnvelope
+export type scan_historyUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.scan_historyCreateWithoutUserInput, Prisma.scan_historyUncheckedCreateWithoutUserInput> | Prisma.scan_historyCreateWithoutUserInput[] | Prisma.scan_historyUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.scan_historyCreateOrConnectWithoutUserInput | Prisma.scan_historyCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.scan_historyUpsertWithWhereUniqueWithoutUserInput | Prisma.scan_historyUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.scan_historyCreateManyUserInputEnvelope
   set?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
   disconnect?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
   delete?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
   connect?: Prisma.scan_historyWhereUniqueInput | Prisma.scan_historyWhereUniqueInput[]
-  update?: Prisma.scan_historyUpdateWithWhereUniqueWithoutUsersInput | Prisma.scan_historyUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.scan_historyUpdateManyWithWhereWithoutUsersInput | Prisma.scan_historyUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.scan_historyUpdateWithWhereUniqueWithoutUserInput | Prisma.scan_historyUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.scan_historyUpdateManyWithWhereWithoutUserInput | Prisma.scan_historyUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.scan_historyScalarWhereInput | Prisma.scan_historyScalarWhereInput[]
 }
 
 export type scan_historyCreateWithoutMediaInput = {
   scan_id?: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
-  users: Prisma.usersCreateNestedOneWithoutScan_historyInput
+  user: Prisma.usersCreateNestedOneWithoutScan_historyInput
 }
 
 export type scan_historyUncheckedCreateWithoutMediaInput = {
   scan_id?: string
   user_id: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
 }
 
@@ -397,56 +397,56 @@ export type scan_historyUpdateToOneWithWhereWithoutMediaInput = {
 
 export type scan_historyUpdateWithoutMediaInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  users?: Prisma.usersUpdateOneRequiredWithoutScan_historyNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutScan_historyNestedInput
 }
 
 export type scan_historyUncheckedUpdateWithoutMediaInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type scan_historyCreateWithoutUsersInput = {
+export type scan_historyCreateWithoutUserInput = {
   scan_id?: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
   media?: Prisma.mediaCreateNestedManyWithoutScan_historyInput
 }
 
-export type scan_historyUncheckedCreateWithoutUsersInput = {
+export type scan_historyUncheckedCreateWithoutUserInput = {
   scan_id?: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
   media?: Prisma.mediaUncheckedCreateNestedManyWithoutScan_historyInput
 }
 
-export type scan_historyCreateOrConnectWithoutUsersInput = {
+export type scan_historyCreateOrConnectWithoutUserInput = {
   where: Prisma.scan_historyWhereUniqueInput
-  create: Prisma.XOR<Prisma.scan_historyCreateWithoutUsersInput, Prisma.scan_historyUncheckedCreateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.scan_historyCreateWithoutUserInput, Prisma.scan_historyUncheckedCreateWithoutUserInput>
 }
 
-export type scan_historyCreateManyUsersInputEnvelope = {
-  data: Prisma.scan_historyCreateManyUsersInput | Prisma.scan_historyCreateManyUsersInput[]
+export type scan_historyCreateManyUserInputEnvelope = {
+  data: Prisma.scan_historyCreateManyUserInput | Prisma.scan_historyCreateManyUserInput[]
   skipDuplicates?: boolean
 }
 
-export type scan_historyUpsertWithWhereUniqueWithoutUsersInput = {
+export type scan_historyUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.scan_historyWhereUniqueInput
-  update: Prisma.XOR<Prisma.scan_historyUpdateWithoutUsersInput, Prisma.scan_historyUncheckedUpdateWithoutUsersInput>
-  create: Prisma.XOR<Prisma.scan_historyCreateWithoutUsersInput, Prisma.scan_historyUncheckedCreateWithoutUsersInput>
+  update: Prisma.XOR<Prisma.scan_historyUpdateWithoutUserInput, Prisma.scan_historyUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.scan_historyCreateWithoutUserInput, Prisma.scan_historyUncheckedCreateWithoutUserInput>
 }
 
-export type scan_historyUpdateWithWhereUniqueWithoutUsersInput = {
+export type scan_historyUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.scan_historyWhereUniqueInput
-  data: Prisma.XOR<Prisma.scan_historyUpdateWithoutUsersInput, Prisma.scan_historyUncheckedUpdateWithoutUsersInput>
+  data: Prisma.XOR<Prisma.scan_historyUpdateWithoutUserInput, Prisma.scan_historyUncheckedUpdateWithoutUserInput>
 }
 
-export type scan_historyUpdateManyWithWhereWithoutUsersInput = {
+export type scan_historyUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.scan_historyScalarWhereInput
-  data: Prisma.XOR<Prisma.scan_historyUpdateManyMutationInput, Prisma.scan_historyUncheckedUpdateManyWithoutUsersInput>
+  data: Prisma.XOR<Prisma.scan_historyUpdateManyMutationInput, Prisma.scan_historyUncheckedUpdateManyWithoutUserInput>
 }
 
 export type scan_historyScalarWhereInput = {
@@ -455,33 +455,33 @@ export type scan_historyScalarWhereInput = {
   NOT?: Prisma.scan_historyScalarWhereInput | Prisma.scan_historyScalarWhereInput[]
   scan_id?: Prisma.UuidFilter<"scan_history"> | string
   user_id?: Prisma.UuidFilter<"scan_history"> | string
-  timestamp?: Prisma.DateTimeNullableFilter<"scan_history"> | Date | string | null
+  timestamp?: Prisma.DateTimeFilter<"scan_history"> | Date | string
   metadata?: Prisma.StringNullableFilter<"scan_history"> | string | null
 }
 
-export type scan_historyCreateManyUsersInput = {
+export type scan_historyCreateManyUserInput = {
   scan_id?: string
-  timestamp?: Date | string | null
+  timestamp?: Date | string
   metadata?: string | null
 }
 
-export type scan_historyUpdateWithoutUsersInput = {
+export type scan_historyUpdateWithoutUserInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   media?: Prisma.mediaUpdateManyWithoutScan_historyNestedInput
 }
 
-export type scan_historyUncheckedUpdateWithoutUsersInput = {
+export type scan_historyUncheckedUpdateWithoutUserInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   media?: Prisma.mediaUncheckedUpdateManyWithoutScan_historyNestedInput
 }
 
-export type scan_historyUncheckedUpdateManyWithoutUsersInput = {
+export type scan_historyUncheckedUpdateManyWithoutUserInput = {
   scan_id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metadata?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -522,7 +522,7 @@ export type scan_historySelect<ExtArgs extends runtime.Types.Extensions.Internal
   timestamp?: boolean
   metadata?: boolean
   media?: boolean | Prisma.scan_history$mediaArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Scan_historyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["scan_history"]>
 
@@ -531,7 +531,7 @@ export type scan_historySelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   user_id?: boolean
   timestamp?: boolean
   metadata?: boolean
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["scan_history"]>
 
 export type scan_historySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -539,7 +539,7 @@ export type scan_historySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   user_id?: boolean
   timestamp?: boolean
   metadata?: boolean
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["scan_history"]>
 
 export type scan_historySelectScalar = {
@@ -552,26 +552,26 @@ export type scan_historySelectScalar = {
 export type scan_historyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"scan_id" | "user_id" | "timestamp" | "metadata", ExtArgs["result"]["scan_history"]>
 export type scan_historyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   media?: boolean | Prisma.scan_history$mediaArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Scan_historyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type scan_historyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type scan_historyIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $scan_historyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "scan_history"
   objects: {
     media: Prisma.$mediaPayload<ExtArgs>[]
-    users: Prisma.$usersPayload<ExtArgs>
+    user: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     scan_id: string
     user_id: string
-    timestamp: Date | null
+    timestamp: Date
     metadata: string | null
   }, ExtArgs["result"]["scan_history"]>
   composites: {}
@@ -968,7 +968,7 @@ readonly fields: scan_historyFieldRefs;
 export interface Prisma__scan_historyClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   media<T extends Prisma.scan_history$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.scan_history$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  users<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

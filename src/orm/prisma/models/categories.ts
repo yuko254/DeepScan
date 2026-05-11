@@ -36,17 +36,17 @@ export type CategoriesSumAggregateOutputType = {
 
 export type CategoriesMinAggregateOutputType = {
   category_id: bigint | null
-  category_name: string | null
+  name: string | null
 }
 
 export type CategoriesMaxAggregateOutputType = {
   category_id: bigint | null
-  category_name: string | null
+  name: string | null
 }
 
 export type CategoriesCountAggregateOutputType = {
   category_id: number
-  category_name: number
+  name: number
   _all: number
 }
 
@@ -61,17 +61,17 @@ export type CategoriesSumAggregateInputType = {
 
 export type CategoriesMinAggregateInputType = {
   category_id?: true
-  category_name?: true
+  name?: true
 }
 
 export type CategoriesMaxAggregateInputType = {
   category_id?: true
-  category_name?: true
+  name?: true
 }
 
 export type CategoriesCountAggregateInputType = {
   category_id?: true
-  category_name?: true
+  name?: true
   _all?: true
 }
 
@@ -163,7 +163,7 @@ export type categoriesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type CategoriesGroupByOutputType = {
   category_id: bigint
-  category_name: string
+  name: string
   _count: CategoriesCountAggregateOutputType | null
   _avg: CategoriesAvgAggregateOutputType | null
   _sum: CategoriesSumAggregateOutputType | null
@@ -191,28 +191,28 @@ export type categoriesWhereInput = {
   OR?: Prisma.categoriesWhereInput[]
   NOT?: Prisma.categoriesWhereInput | Prisma.categoriesWhereInput[]
   category_id?: Prisma.BigIntFilter<"categories"> | bigint | number
-  category_name?: Prisma.StringFilter<"categories"> | string
+  name?: Prisma.StringFilter<"categories"> | string
   posts?: Prisma.PostsListRelationFilter
 }
 
 export type categoriesOrderByWithRelationInput = {
   category_id?: Prisma.SortOrder
-  category_name?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   posts?: Prisma.postsOrderByRelationAggregateInput
 }
 
 export type categoriesWhereUniqueInput = Prisma.AtLeast<{
   category_id?: bigint | number
-  category_name?: string
+  name?: string
   AND?: Prisma.categoriesWhereInput | Prisma.categoriesWhereInput[]
   OR?: Prisma.categoriesWhereInput[]
   NOT?: Prisma.categoriesWhereInput | Prisma.categoriesWhereInput[]
   posts?: Prisma.PostsListRelationFilter
-}, "category_id" | "category_name">
+}, "category_id" | "name">
 
 export type categoriesOrderByWithAggregationInput = {
   category_id?: Prisma.SortOrder
-  category_name?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   _count?: Prisma.categoriesCountOrderByAggregateInput
   _avg?: Prisma.categoriesAvgOrderByAggregateInput
   _max?: Prisma.categoriesMaxOrderByAggregateInput
@@ -225,51 +225,51 @@ export type categoriesScalarWhereWithAggregatesInput = {
   OR?: Prisma.categoriesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.categoriesScalarWhereWithAggregatesInput | Prisma.categoriesScalarWhereWithAggregatesInput[]
   category_id?: Prisma.BigIntWithAggregatesFilter<"categories"> | bigint | number
-  category_name?: Prisma.StringWithAggregatesFilter<"categories"> | string
+  name?: Prisma.StringWithAggregatesFilter<"categories"> | string
 }
 
 export type categoriesCreateInput = {
   category_id?: bigint | number
-  category_name: string
-  posts?: Prisma.postsCreateNestedManyWithoutCategoriesInput
+  name: string
+  posts?: Prisma.postsCreateNestedManyWithoutCategoryInput
 }
 
 export type categoriesUncheckedCreateInput = {
   category_id?: bigint | number
-  category_name: string
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCategoriesInput
+  name: string
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type categoriesUpdateInput = {
   category_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  category_name?: Prisma.StringFieldUpdateOperationsInput | string
-  posts?: Prisma.postsUpdateManyWithoutCategoriesNestedInput
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  posts?: Prisma.postsUpdateManyWithoutCategoryNestedInput
 }
 
 export type categoriesUncheckedUpdateInput = {
   category_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  category_name?: Prisma.StringFieldUpdateOperationsInput | string
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCategoriesNestedInput
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  posts?: Prisma.postsUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type categoriesCreateManyInput = {
   category_id?: bigint | number
-  category_name: string
+  name: string
 }
 
 export type categoriesUpdateManyMutationInput = {
   category_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  category_name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type categoriesUncheckedUpdateManyInput = {
   category_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  category_name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type categoriesCountOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
-  category_name?: Prisma.SortOrder
+  name?: Prisma.SortOrder
 }
 
 export type categoriesAvgOrderByAggregateInput = {
@@ -278,12 +278,12 @@ export type categoriesAvgOrderByAggregateInput = {
 
 export type categoriesMaxOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
-  category_name?: Prisma.SortOrder
+  name?: Prisma.SortOrder
 }
 
 export type categoriesMinOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
-  category_name?: Prisma.SortOrder
+  name?: Prisma.SortOrder
 }
 
 export type categoriesSumOrderByAggregateInput = {
@@ -321,12 +321,12 @@ export type categoriesUpdateOneWithoutPostsNestedInput = {
 
 export type categoriesCreateWithoutPostsInput = {
   category_id?: bigint | number
-  category_name: string
+  name: string
 }
 
 export type categoriesUncheckedCreateWithoutPostsInput = {
   category_id?: bigint | number
-  category_name: string
+  name: string
 }
 
 export type categoriesCreateOrConnectWithoutPostsInput = {
@@ -347,12 +347,12 @@ export type categoriesUpdateToOneWithWhereWithoutPostsInput = {
 
 export type categoriesUpdateWithoutPostsInput = {
   category_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  category_name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type categoriesUncheckedUpdateWithoutPostsInput = {
   category_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  category_name?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -388,27 +388,27 @@ export type CategoriesCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Type
 
 export type categoriesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   category_id?: boolean
-  category_name?: boolean
+  name?: boolean
   posts?: boolean | Prisma.categories$postsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoriesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   category_id?: boolean
-  category_name?: boolean
+  name?: boolean
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   category_id?: boolean
-  category_name?: boolean
+  name?: boolean
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectScalar = {
   category_id?: boolean
-  category_name?: boolean
+  name?: boolean
 }
 
-export type categoriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"category_id" | "category_name", ExtArgs["result"]["categories"]>
+export type categoriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"category_id" | "name", ExtArgs["result"]["categories"]>
 export type categoriesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.categories$postsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoriesCountOutputTypeDefaultArgs<ExtArgs>
@@ -423,7 +423,7 @@ export type $categoriesPayload<ExtArgs extends runtime.Types.Extensions.Internal
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     category_id: bigint
-    category_name: string
+    name: string
   }, ExtArgs["result"]["categories"]>
   composites: {}
 }
@@ -849,7 +849,7 @@ export interface Prisma__categoriesClient<T, Null = never, ExtArgs extends runti
  */
 export interface categoriesFieldRefs {
   readonly category_id: Prisma.FieldRef<"categories", 'BigInt'>
-  readonly category_name: Prisma.FieldRef<"categories", 'String'>
+  readonly name: Prisma.FieldRef<"categories", 'String'>
 }
     
 

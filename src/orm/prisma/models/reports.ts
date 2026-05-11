@@ -166,7 +166,7 @@ export type ReportsGroupByOutputType = {
   item_type: string
   reason: string | null
   status: string | null
-  created_at: Date | null
+  created_at: Date
   _count: ReportsCountAggregateOutputType | null
   _min: ReportsMinAggregateOutputType | null
   _max: ReportsMaxAggregateOutputType | null
@@ -197,8 +197,8 @@ export type reportsWhereInput = {
   item_type?: Prisma.StringFilter<"reports"> | string
   reason?: Prisma.StringNullableFilter<"reports"> | string | null
   status?: Prisma.StringNullableFilter<"reports"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"reports"> | Date | string | null
-  users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  created_at?: Prisma.DateTimeFilter<"reports"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
 }
 
 export type reportsOrderByWithRelationInput = {
@@ -208,12 +208,13 @@ export type reportsOrderByWithRelationInput = {
   item_type?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  users?: Prisma.usersOrderByWithRelationInput
+  created_at?: Prisma.SortOrder
+  user?: Prisma.usersOrderByWithRelationInput
 }
 
 export type reportsWhereUniqueInput = Prisma.AtLeast<{
   report_id?: string
+  reporter_id_reported_item_id?: Prisma.reportsReporter_idReported_item_idCompoundUniqueInput
   AND?: Prisma.reportsWhereInput | Prisma.reportsWhereInput[]
   OR?: Prisma.reportsWhereInput[]
   NOT?: Prisma.reportsWhereInput | Prisma.reportsWhereInput[]
@@ -222,9 +223,9 @@ export type reportsWhereUniqueInput = Prisma.AtLeast<{
   item_type?: Prisma.StringFilter<"reports"> | string
   reason?: Prisma.StringNullableFilter<"reports"> | string | null
   status?: Prisma.StringNullableFilter<"reports"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"reports"> | Date | string | null
-  users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
-}, "report_id">
+  created_at?: Prisma.DateTimeFilter<"reports"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+}, "report_id" | "reporter_id_reported_item_id">
 
 export type reportsOrderByWithAggregationInput = {
   report_id?: Prisma.SortOrder
@@ -233,7 +234,7 @@ export type reportsOrderByWithAggregationInput = {
   item_type?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.reportsCountOrderByAggregateInput
   _max?: Prisma.reportsMaxOrderByAggregateInput
   _min?: Prisma.reportsMinOrderByAggregateInput
@@ -249,7 +250,7 @@ export type reportsScalarWhereWithAggregatesInput = {
   item_type?: Prisma.StringWithAggregatesFilter<"reports"> | string
   reason?: Prisma.StringNullableWithAggregatesFilter<"reports"> | string | null
   status?: Prisma.StringNullableWithAggregatesFilter<"reports"> | string | null
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"reports"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"reports"> | Date | string
 }
 
 export type reportsCreateInput = {
@@ -258,8 +259,8 @@ export type reportsCreateInput = {
   item_type: string
   reason?: string | null
   status?: string | null
-  created_at?: Date | string | null
-  users?: Prisma.usersCreateNestedOneWithoutReportsInput
+  created_at?: Date | string
+  user?: Prisma.usersCreateNestedOneWithoutReportsInput
 }
 
 export type reportsUncheckedCreateInput = {
@@ -269,7 +270,7 @@ export type reportsUncheckedCreateInput = {
   item_type: string
   reason?: string | null
   status?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type reportsUpdateInput = {
@@ -278,8 +279,8 @@ export type reportsUpdateInput = {
   item_type?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users?: Prisma.usersUpdateOneWithoutReportsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneWithoutReportsNestedInput
 }
 
 export type reportsUncheckedUpdateInput = {
@@ -289,7 +290,7 @@ export type reportsUncheckedUpdateInput = {
   item_type?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type reportsCreateManyInput = {
@@ -299,7 +300,7 @@ export type reportsCreateManyInput = {
   item_type: string
   reason?: string | null
   status?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type reportsUpdateManyMutationInput = {
@@ -308,7 +309,7 @@ export type reportsUpdateManyMutationInput = {
   item_type?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type reportsUncheckedUpdateManyInput = {
@@ -318,7 +319,12 @@ export type reportsUncheckedUpdateManyInput = {
   item_type?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type reportsReporter_idReported_item_idCompoundUniqueInput = {
+  reporter_id: string
+  reported_item_id: string
 }
 
 export type reportsCountOrderByAggregateInput = {
@@ -361,90 +367,90 @@ export type reportsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type reportsCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutUsersInput, Prisma.reportsUncheckedCreateWithoutUsersInput> | Prisma.reportsCreateWithoutUsersInput[] | Prisma.reportsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUsersInput | Prisma.reportsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.reportsCreateManyUsersInputEnvelope
+export type reportsCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutUserInput, Prisma.reportsUncheckedCreateWithoutUserInput> | Prisma.reportsCreateWithoutUserInput[] | Prisma.reportsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUserInput | Prisma.reportsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.reportsCreateManyUserInputEnvelope
   connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
 }
 
-export type reportsUncheckedCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutUsersInput, Prisma.reportsUncheckedCreateWithoutUsersInput> | Prisma.reportsCreateWithoutUsersInput[] | Prisma.reportsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUsersInput | Prisma.reportsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.reportsCreateManyUsersInputEnvelope
+export type reportsUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutUserInput, Prisma.reportsUncheckedCreateWithoutUserInput> | Prisma.reportsCreateWithoutUserInput[] | Prisma.reportsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUserInput | Prisma.reportsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.reportsCreateManyUserInputEnvelope
   connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
 }
 
-export type reportsUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutUsersInput, Prisma.reportsUncheckedCreateWithoutUsersInput> | Prisma.reportsCreateWithoutUsersInput[] | Prisma.reportsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUsersInput | Prisma.reportsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutUsersInput | Prisma.reportsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.reportsCreateManyUsersInputEnvelope
+export type reportsUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutUserInput, Prisma.reportsUncheckedCreateWithoutUserInput> | Prisma.reportsCreateWithoutUserInput[] | Prisma.reportsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUserInput | Prisma.reportsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutUserInput | Prisma.reportsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.reportsCreateManyUserInputEnvelope
   set?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
   disconnect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
   delete?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
   connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  update?: Prisma.reportsUpdateWithWhereUniqueWithoutUsersInput | Prisma.reportsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutUsersInput | Prisma.reportsUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.reportsUpdateWithWhereUniqueWithoutUserInput | Prisma.reportsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutUserInput | Prisma.reportsUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
 }
 
-export type reportsUncheckedUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutUsersInput, Prisma.reportsUncheckedCreateWithoutUsersInput> | Prisma.reportsCreateWithoutUsersInput[] | Prisma.reportsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUsersInput | Prisma.reportsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutUsersInput | Prisma.reportsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.reportsCreateManyUsersInputEnvelope
+export type reportsUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutUserInput, Prisma.reportsUncheckedCreateWithoutUserInput> | Prisma.reportsCreateWithoutUserInput[] | Prisma.reportsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutUserInput | Prisma.reportsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutUserInput | Prisma.reportsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.reportsCreateManyUserInputEnvelope
   set?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
   disconnect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
   delete?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
   connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  update?: Prisma.reportsUpdateWithWhereUniqueWithoutUsersInput | Prisma.reportsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutUsersInput | Prisma.reportsUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.reportsUpdateWithWhereUniqueWithoutUserInput | Prisma.reportsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutUserInput | Prisma.reportsUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
 }
 
-export type reportsCreateWithoutUsersInput = {
+export type reportsCreateWithoutUserInput = {
   report_id?: string
   reported_item_id: string
   item_type: string
   reason?: string | null
   status?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type reportsUncheckedCreateWithoutUsersInput = {
+export type reportsUncheckedCreateWithoutUserInput = {
   report_id?: string
   reported_item_id: string
   item_type: string
   reason?: string | null
   status?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type reportsCreateOrConnectWithoutUsersInput = {
+export type reportsCreateOrConnectWithoutUserInput = {
   where: Prisma.reportsWhereUniqueInput
-  create: Prisma.XOR<Prisma.reportsCreateWithoutUsersInput, Prisma.reportsUncheckedCreateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.reportsCreateWithoutUserInput, Prisma.reportsUncheckedCreateWithoutUserInput>
 }
 
-export type reportsCreateManyUsersInputEnvelope = {
-  data: Prisma.reportsCreateManyUsersInput | Prisma.reportsCreateManyUsersInput[]
+export type reportsCreateManyUserInputEnvelope = {
+  data: Prisma.reportsCreateManyUserInput | Prisma.reportsCreateManyUserInput[]
   skipDuplicates?: boolean
 }
 
-export type reportsUpsertWithWhereUniqueWithoutUsersInput = {
+export type reportsUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.reportsWhereUniqueInput
-  update: Prisma.XOR<Prisma.reportsUpdateWithoutUsersInput, Prisma.reportsUncheckedUpdateWithoutUsersInput>
-  create: Prisma.XOR<Prisma.reportsCreateWithoutUsersInput, Prisma.reportsUncheckedCreateWithoutUsersInput>
+  update: Prisma.XOR<Prisma.reportsUpdateWithoutUserInput, Prisma.reportsUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.reportsCreateWithoutUserInput, Prisma.reportsUncheckedCreateWithoutUserInput>
 }
 
-export type reportsUpdateWithWhereUniqueWithoutUsersInput = {
+export type reportsUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.reportsWhereUniqueInput
-  data: Prisma.XOR<Prisma.reportsUpdateWithoutUsersInput, Prisma.reportsUncheckedUpdateWithoutUsersInput>
+  data: Prisma.XOR<Prisma.reportsUpdateWithoutUserInput, Prisma.reportsUncheckedUpdateWithoutUserInput>
 }
 
-export type reportsUpdateManyWithWhereWithoutUsersInput = {
+export type reportsUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.reportsScalarWhereInput
-  data: Prisma.XOR<Prisma.reportsUpdateManyMutationInput, Prisma.reportsUncheckedUpdateManyWithoutUsersInput>
+  data: Prisma.XOR<Prisma.reportsUpdateManyMutationInput, Prisma.reportsUncheckedUpdateManyWithoutUserInput>
 }
 
 export type reportsScalarWhereInput = {
@@ -457,43 +463,43 @@ export type reportsScalarWhereInput = {
   item_type?: Prisma.StringFilter<"reports"> | string
   reason?: Prisma.StringNullableFilter<"reports"> | string | null
   status?: Prisma.StringNullableFilter<"reports"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"reports"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"reports"> | Date | string
 }
 
-export type reportsCreateManyUsersInput = {
+export type reportsCreateManyUserInput = {
   report_id?: string
   reported_item_id: string
   item_type: string
   reason?: string | null
   status?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type reportsUpdateWithoutUsersInput = {
+export type reportsUpdateWithoutUserInput = {
   report_id?: Prisma.StringFieldUpdateOperationsInput | string
   reported_item_id?: Prisma.StringFieldUpdateOperationsInput | string
   item_type?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type reportsUncheckedUpdateWithoutUsersInput = {
+export type reportsUncheckedUpdateWithoutUserInput = {
   report_id?: Prisma.StringFieldUpdateOperationsInput | string
   reported_item_id?: Prisma.StringFieldUpdateOperationsInput | string
   item_type?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type reportsUncheckedUpdateManyWithoutUsersInput = {
+export type reportsUncheckedUpdateManyWithoutUserInput = {
   report_id?: Prisma.StringFieldUpdateOperationsInput | string
   reported_item_id?: Prisma.StringFieldUpdateOperationsInput | string
   item_type?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -506,7 +512,7 @@ export type reportsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   reason?: boolean
   status?: boolean
   created_at?: boolean
-  users?: boolean | Prisma.reports$usersArgs<ExtArgs>
+  user?: boolean | Prisma.reports$userArgs<ExtArgs>
 }, ExtArgs["result"]["reports"]>
 
 export type reportsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -517,7 +523,7 @@ export type reportsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   reason?: boolean
   status?: boolean
   created_at?: boolean
-  users?: boolean | Prisma.reports$usersArgs<ExtArgs>
+  user?: boolean | Prisma.reports$userArgs<ExtArgs>
 }, ExtArgs["result"]["reports"]>
 
 export type reportsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -528,7 +534,7 @@ export type reportsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   reason?: boolean
   status?: boolean
   created_at?: boolean
-  users?: boolean | Prisma.reports$usersArgs<ExtArgs>
+  user?: boolean | Prisma.reports$userArgs<ExtArgs>
 }, ExtArgs["result"]["reports"]>
 
 export type reportsSelectScalar = {
@@ -543,19 +549,19 @@ export type reportsSelectScalar = {
 
 export type reportsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"report_id" | "reporter_id" | "reported_item_id" | "item_type" | "reason" | "status" | "created_at", ExtArgs["result"]["reports"]>
 export type reportsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.reports$usersArgs<ExtArgs>
+  user?: boolean | Prisma.reports$userArgs<ExtArgs>
 }
 export type reportsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.reports$usersArgs<ExtArgs>
+  user?: boolean | Prisma.reports$userArgs<ExtArgs>
 }
 export type reportsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.reports$usersArgs<ExtArgs>
+  user?: boolean | Prisma.reports$userArgs<ExtArgs>
 }
 
 export type $reportsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "reports"
   objects: {
-    users: Prisma.$usersPayload<ExtArgs> | null
+    user: Prisma.$usersPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     report_id: string
@@ -564,7 +570,7 @@ export type $reportsPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     item_type: string
     reason: string | null
     status: string | null
-    created_at: Date | null
+    created_at: Date
   }, ExtArgs["result"]["reports"]>
   composites: {}
 }
@@ -959,7 +965,7 @@ readonly fields: reportsFieldRefs;
  */
 export interface Prisma__reportsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  users<T extends Prisma.reports$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.reports$usersArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.reports$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.reports$userArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1397,9 +1403,9 @@ export type reportsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * reports.users
+ * reports.user
  */
-export type reports$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type reports$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the users
    */

@@ -6,8 +6,8 @@ async function seed() {
     await prisma.roles.createMany({
         data: [
             { role_name: "admin" },
-            { role_name: "user" },
             { role_name: "moderator" },
+            { role_name: "user" },
         ]
     })
 
@@ -18,28 +18,28 @@ async function seed() {
     // Categories
     await prisma.categories.createMany({
         data: [
-            { category_name: "Coins & Currency" },
-            { category_name: "Gemstones & Minerals" },
-            { category_name: "Jewelry & Accessories" },
-            { category_name: "Artifacts & Relics" },
-            { category_name: "Gold & Precious Metals" },
-            { category_name: "Silver & Base Metals" },
-            { category_name: "Underwater Finds" },
-            { category_name: "Land Detecting" },
-            { category_name: "Cache & Hoard" },
-            { category_name: "Tools & Equipment" },
-            { category_name: "Maps & Research" },
-            { category_name: "Identification Help" },
-            { category_name: "Questions & Help" },
-            { category_name: "Show & Tell" },
-            { category_name: "Tips & Techniques" },
-            { category_name: "Legal & Permissions" },
-            { category_name: "Locations & Sites" },
-            { category_name: "Restoration & Cleaning" },
-            { category_name: "Valuation & Appraisal" },
-            { category_name: "Beginner's Corner" },
-            { category_name: "News & Events" },
-            { category_name: "Trade & Sell" },
+            { name: "Coins & Currency" },
+            { name: "Gemstones & Minerals" },
+            { name: "Jewelry & Accessories" },
+            { name: "Artifacts & Relics" },
+            { name: "Gold & Precious Metals" },
+            { name: "Silver & Base Metals" },
+            { name: "Underwater Finds" },
+            { name: "Land Detecting" },
+            { name: "Cache & Hoard" },
+            { name: "Tools & Equipment" },
+            { name: "Maps & Research" },
+            { name: "Identification Help" },
+            { name: "Questions & Help" },
+            { name: "Show & Tell" },
+            { name: "Tips & Techniques" },
+            { name: "Legal & Permissions" },
+            { name: "Locations & Sites" },
+            { name: "Restoration & Cleaning" },
+            { name: "Valuation & Appraisal" },
+            { name: "Beginner's Corner" },
+            { name: "News & Events" },
+            { name: "Trade & Sell" },
         ]
     })
 
@@ -88,11 +88,11 @@ async function seed() {
     })
 
     const categories = await prisma.categories.findMany()
-    const catGems    = categories.find(c => c.category_name === "Gemstones & Minerals")!
-    const catCoins   = categories.find(c => c.category_name === "Coins & Currency")!
-    const catUnder   = categories.find(c => c.category_name === "Underwater Finds")!
-    const catQA      = categories.find(c => c.category_name === "Questions & Help")!
-    const catShow    = categories.find(c => c.category_name === "Show & Tell")!
+    const catGems    = categories.find(c => c.name === "Gemstones & Minerals")!
+    const catCoins   = categories.find(c => c.name === "Coins & Currency")!
+    const catUnder   = categories.find(c => c.name === "Underwater Finds")!
+    const catQA      = categories.find(c => c.name === "Questions & Help")!
+    const catShow    = categories.find(c => c.name === "Show & Tell")!
 
     // Posts
     const post1 = await prisma.posts.create({
@@ -275,6 +275,81 @@ async function seed() {
             { chat_id: chat.chat_id, sender_id: dive.user_id, text_content: "Can't make it, going diving. Good luck though!" },
         ]
     })
+
+    // Countries & Cities
+    const countryNames = [
+        'United States',
+        'Russia',
+        'France',
+        'Egypt',
+        'Italy',
+        'United Kingdom',
+        'Germany',
+        'Japan',
+        'Australia',
+        'Canada',
+        'Brazil',
+        'India',
+    ];
+    await prisma.countries.createMany({
+        data: countryNames.map(name => ({ name })),
+    });
+    // Retrieve created countries to get their real IDs
+    const countries = await prisma.countries.findMany();
+    const countryMap = new Map(countries.map(c => [c.name, c.country_id]));
+    interface CityInput {
+        name: string;
+        countryName: string;
+    }
+    const citiesData: CityInput[] = [
+        // USA
+        { name: 'New York',         countryName: 'United States' },
+        { name: 'Los Angeles',      countryName: 'United States' },
+        { name: 'Chicago',          countryName: 'United States' },
+        { name: 'Texas',            countryName: 'United States' },
+        // Russia
+        { name: 'Moscow',           countryName: 'Russia' },
+        { name: 'Saint Petersburg', countryName: 'Russia' },
+        // France
+        { name: 'Paris',            countryName: 'France' },
+        { name: 'Lyon',             countryName: 'France' },
+        { name: 'Marseille',        countryName: 'France' },
+        // Egypt
+        { name: 'Cairo',            countryName: 'Egypt' },
+        { name: 'Luxor',            countryName: 'Egypt' },
+        // Italy
+        { name: 'Rome',             countryName: 'Italy' },
+        { name: 'Milan',            countryName: 'Italy' },
+        { name: 'Naples',           countryName: 'Italy' },
+        // UK
+        { name: 'London',           countryName: 'United Kingdom' },
+        { name: 'Manchester',       countryName: 'United Kingdom' },
+        // Germany
+        { name: 'Berlin',           countryName: 'Germany' },
+        { name: 'Munich',           countryName: 'Germany' },
+        // Japan
+        { name: 'Tokyo',            countryName: 'Japan' },
+        { name: 'Osaka',            countryName: 'Japan' },
+        // Australia
+        { name: 'Sydney',           countryName: 'Australia' },
+        { name: 'Melbourne',        countryName: 'Australia' },
+        // Canada
+        { name: 'Toronto',          countryName: 'Canada' },
+        { name: 'Vancouver',        countryName: 'Canada' },
+        // Brazil
+        { name: 'São Paulo',        countryName: 'Brazil' },
+        { name: 'Rio de Janeiro',   countryName: 'Brazil' },
+        // India
+        { name: 'Delhi',            countryName: 'India' },
+        { name: 'Mumbai',           countryName: 'India' },
+    ];
+    await prisma.cities.createMany({
+        data: citiesData.map(c => ({
+            name:       c.name,
+            country_id: countryMap.get(c.countryName)!,
+        })),
+    });
+
 
     console.log("Seeding complete!")
 }

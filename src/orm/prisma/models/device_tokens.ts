@@ -165,8 +165,8 @@ export type Device_tokensGroupByOutputType = {
   token: string
   device_type: string
   app_version: string | null
-  last_used: Date | null
-  created_at: Date | null
+  last_used: Date
+  created_at: Date
   _count: Device_tokensCountAggregateOutputType | null
   _min: Device_tokensMinAggregateOutputType | null
   _max: Device_tokensMaxAggregateOutputType | null
@@ -196,9 +196,9 @@ export type device_tokensWhereInput = {
   token?: Prisma.StringFilter<"device_tokens"> | string
   device_type?: Prisma.StringFilter<"device_tokens"> | string
   app_version?: Prisma.StringNullableFilter<"device_tokens"> | string | null
-  last_used?: Prisma.DateTimeNullableFilter<"device_tokens"> | Date | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"device_tokens"> | Date | string | null
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  last_used?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
 
 export type device_tokensOrderByWithRelationInput = {
@@ -207,9 +207,9 @@ export type device_tokensOrderByWithRelationInput = {
   token?: Prisma.SortOrder
   device_type?: Prisma.SortOrder
   app_version?: Prisma.SortOrderInput | Prisma.SortOrder
-  last_used?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  users?: Prisma.usersOrderByWithRelationInput
+  last_used?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  user?: Prisma.usersOrderByWithRelationInput
 }
 
 export type device_tokensWhereUniqueInput = Prisma.AtLeast<{
@@ -222,9 +222,9 @@ export type device_tokensWhereUniqueInput = Prisma.AtLeast<{
   token?: Prisma.StringFilter<"device_tokens"> | string
   device_type?: Prisma.StringFilter<"device_tokens"> | string
   app_version?: Prisma.StringNullableFilter<"device_tokens"> | string | null
-  last_used?: Prisma.DateTimeNullableFilter<"device_tokens"> | Date | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"device_tokens"> | Date | string | null
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  last_used?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }, "token_id" | "user_id_token">
 
 export type device_tokensOrderByWithAggregationInput = {
@@ -233,8 +233,8 @@ export type device_tokensOrderByWithAggregationInput = {
   token?: Prisma.SortOrder
   device_type?: Prisma.SortOrder
   app_version?: Prisma.SortOrderInput | Prisma.SortOrder
-  last_used?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_used?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.device_tokensCountOrderByAggregateInput
   _max?: Prisma.device_tokensMaxOrderByAggregateInput
   _min?: Prisma.device_tokensMinOrderByAggregateInput
@@ -249,8 +249,8 @@ export type device_tokensScalarWhereWithAggregatesInput = {
   token?: Prisma.StringWithAggregatesFilter<"device_tokens"> | string
   device_type?: Prisma.StringWithAggregatesFilter<"device_tokens"> | string
   app_version?: Prisma.StringNullableWithAggregatesFilter<"device_tokens"> | string | null
-  last_used?: Prisma.DateTimeNullableWithAggregatesFilter<"device_tokens"> | Date | string | null
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"device_tokens"> | Date | string | null
+  last_used?: Prisma.DateTimeWithAggregatesFilter<"device_tokens"> | Date | string
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"device_tokens"> | Date | string
 }
 
 export type device_tokensCreateInput = {
@@ -258,9 +258,9 @@ export type device_tokensCreateInput = {
   token: string
   device_type: string
   app_version?: string | null
-  last_used?: Date | string | null
-  created_at?: Date | string | null
-  users: Prisma.usersCreateNestedOneWithoutDevice_tokensInput
+  last_used?: Date | string
+  created_at?: Date | string
+  user: Prisma.usersCreateNestedOneWithoutDevice_tokensInput
 }
 
 export type device_tokensUncheckedCreateInput = {
@@ -269,8 +269,8 @@ export type device_tokensUncheckedCreateInput = {
   token: string
   device_type: string
   app_version?: string | null
-  last_used?: Date | string | null
-  created_at?: Date | string | null
+  last_used?: Date | string
+  created_at?: Date | string
 }
 
 export type device_tokensUpdateInput = {
@@ -278,9 +278,9 @@ export type device_tokensUpdateInput = {
   token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.StringFieldUpdateOperationsInput | string
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_used?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users?: Prisma.usersUpdateOneRequiredWithoutDevice_tokensNestedInput
+  last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneRequiredWithoutDevice_tokensNestedInput
 }
 
 export type device_tokensUncheckedUpdateInput = {
@@ -289,8 +289,8 @@ export type device_tokensUncheckedUpdateInput = {
   token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.StringFieldUpdateOperationsInput | string
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_used?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type device_tokensCreateManyInput = {
@@ -299,8 +299,8 @@ export type device_tokensCreateManyInput = {
   token: string
   device_type: string
   app_version?: string | null
-  last_used?: Date | string | null
-  created_at?: Date | string | null
+  last_used?: Date | string
+  created_at?: Date | string
 }
 
 export type device_tokensUpdateManyMutationInput = {
@@ -308,8 +308,8 @@ export type device_tokensUpdateManyMutationInput = {
   token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.StringFieldUpdateOperationsInput | string
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_used?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type device_tokensUncheckedUpdateManyInput = {
@@ -318,8 +318,8 @@ export type device_tokensUncheckedUpdateManyInput = {
   token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.StringFieldUpdateOperationsInput | string
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_used?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type device_tokensUser_idTokenCompoundUniqueInput = {
@@ -367,90 +367,90 @@ export type device_tokensOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type device_tokensCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUsersInput, Prisma.device_tokensUncheckedCreateWithoutUsersInput> | Prisma.device_tokensCreateWithoutUsersInput[] | Prisma.device_tokensUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUsersInput | Prisma.device_tokensCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.device_tokensCreateManyUsersInputEnvelope
+export type device_tokensCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUserInput, Prisma.device_tokensUncheckedCreateWithoutUserInput> | Prisma.device_tokensCreateWithoutUserInput[] | Prisma.device_tokensUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUserInput | Prisma.device_tokensCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.device_tokensCreateManyUserInputEnvelope
   connect?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
 }
 
-export type device_tokensUncheckedCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUsersInput, Prisma.device_tokensUncheckedCreateWithoutUsersInput> | Prisma.device_tokensCreateWithoutUsersInput[] | Prisma.device_tokensUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUsersInput | Prisma.device_tokensCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.device_tokensCreateManyUsersInputEnvelope
+export type device_tokensUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUserInput, Prisma.device_tokensUncheckedCreateWithoutUserInput> | Prisma.device_tokensCreateWithoutUserInput[] | Prisma.device_tokensUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUserInput | Prisma.device_tokensCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.device_tokensCreateManyUserInputEnvelope
   connect?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
 }
 
-export type device_tokensUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUsersInput, Prisma.device_tokensUncheckedCreateWithoutUsersInput> | Prisma.device_tokensCreateWithoutUsersInput[] | Prisma.device_tokensUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUsersInput | Prisma.device_tokensCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.device_tokensUpsertWithWhereUniqueWithoutUsersInput | Prisma.device_tokensUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.device_tokensCreateManyUsersInputEnvelope
+export type device_tokensUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUserInput, Prisma.device_tokensUncheckedCreateWithoutUserInput> | Prisma.device_tokensCreateWithoutUserInput[] | Prisma.device_tokensUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUserInput | Prisma.device_tokensCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.device_tokensUpsertWithWhereUniqueWithoutUserInput | Prisma.device_tokensUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.device_tokensCreateManyUserInputEnvelope
   set?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
   disconnect?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
   delete?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
   connect?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
-  update?: Prisma.device_tokensUpdateWithWhereUniqueWithoutUsersInput | Prisma.device_tokensUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.device_tokensUpdateManyWithWhereWithoutUsersInput | Prisma.device_tokensUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.device_tokensUpdateWithWhereUniqueWithoutUserInput | Prisma.device_tokensUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.device_tokensUpdateManyWithWhereWithoutUserInput | Prisma.device_tokensUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.device_tokensScalarWhereInput | Prisma.device_tokensScalarWhereInput[]
 }
 
-export type device_tokensUncheckedUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUsersInput, Prisma.device_tokensUncheckedCreateWithoutUsersInput> | Prisma.device_tokensCreateWithoutUsersInput[] | Prisma.device_tokensUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUsersInput | Prisma.device_tokensCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.device_tokensUpsertWithWhereUniqueWithoutUsersInput | Prisma.device_tokensUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.device_tokensCreateManyUsersInputEnvelope
+export type device_tokensUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUserInput, Prisma.device_tokensUncheckedCreateWithoutUserInput> | Prisma.device_tokensCreateWithoutUserInput[] | Prisma.device_tokensUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUserInput | Prisma.device_tokensCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.device_tokensUpsertWithWhereUniqueWithoutUserInput | Prisma.device_tokensUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.device_tokensCreateManyUserInputEnvelope
   set?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
   disconnect?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
   delete?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
   connect?: Prisma.device_tokensWhereUniqueInput | Prisma.device_tokensWhereUniqueInput[]
-  update?: Prisma.device_tokensUpdateWithWhereUniqueWithoutUsersInput | Prisma.device_tokensUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.device_tokensUpdateManyWithWhereWithoutUsersInput | Prisma.device_tokensUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.device_tokensUpdateWithWhereUniqueWithoutUserInput | Prisma.device_tokensUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.device_tokensUpdateManyWithWhereWithoutUserInput | Prisma.device_tokensUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.device_tokensScalarWhereInput | Prisma.device_tokensScalarWhereInput[]
 }
 
-export type device_tokensCreateWithoutUsersInput = {
+export type device_tokensCreateWithoutUserInput = {
   token_id?: string
   token: string
   device_type: string
   app_version?: string | null
-  last_used?: Date | string | null
-  created_at?: Date | string | null
+  last_used?: Date | string
+  created_at?: Date | string
 }
 
-export type device_tokensUncheckedCreateWithoutUsersInput = {
+export type device_tokensUncheckedCreateWithoutUserInput = {
   token_id?: string
   token: string
   device_type: string
   app_version?: string | null
-  last_used?: Date | string | null
-  created_at?: Date | string | null
+  last_used?: Date | string
+  created_at?: Date | string
 }
 
-export type device_tokensCreateOrConnectWithoutUsersInput = {
+export type device_tokensCreateOrConnectWithoutUserInput = {
   where: Prisma.device_tokensWhereUniqueInput
-  create: Prisma.XOR<Prisma.device_tokensCreateWithoutUsersInput, Prisma.device_tokensUncheckedCreateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.device_tokensCreateWithoutUserInput, Prisma.device_tokensUncheckedCreateWithoutUserInput>
 }
 
-export type device_tokensCreateManyUsersInputEnvelope = {
-  data: Prisma.device_tokensCreateManyUsersInput | Prisma.device_tokensCreateManyUsersInput[]
+export type device_tokensCreateManyUserInputEnvelope = {
+  data: Prisma.device_tokensCreateManyUserInput | Prisma.device_tokensCreateManyUserInput[]
   skipDuplicates?: boolean
 }
 
-export type device_tokensUpsertWithWhereUniqueWithoutUsersInput = {
+export type device_tokensUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.device_tokensWhereUniqueInput
-  update: Prisma.XOR<Prisma.device_tokensUpdateWithoutUsersInput, Prisma.device_tokensUncheckedUpdateWithoutUsersInput>
-  create: Prisma.XOR<Prisma.device_tokensCreateWithoutUsersInput, Prisma.device_tokensUncheckedCreateWithoutUsersInput>
+  update: Prisma.XOR<Prisma.device_tokensUpdateWithoutUserInput, Prisma.device_tokensUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.device_tokensCreateWithoutUserInput, Prisma.device_tokensUncheckedCreateWithoutUserInput>
 }
 
-export type device_tokensUpdateWithWhereUniqueWithoutUsersInput = {
+export type device_tokensUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.device_tokensWhereUniqueInput
-  data: Prisma.XOR<Prisma.device_tokensUpdateWithoutUsersInput, Prisma.device_tokensUncheckedUpdateWithoutUsersInput>
+  data: Prisma.XOR<Prisma.device_tokensUpdateWithoutUserInput, Prisma.device_tokensUncheckedUpdateWithoutUserInput>
 }
 
-export type device_tokensUpdateManyWithWhereWithoutUsersInput = {
+export type device_tokensUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.device_tokensScalarWhereInput
-  data: Prisma.XOR<Prisma.device_tokensUpdateManyMutationInput, Prisma.device_tokensUncheckedUpdateManyWithoutUsersInput>
+  data: Prisma.XOR<Prisma.device_tokensUpdateManyMutationInput, Prisma.device_tokensUncheckedUpdateManyWithoutUserInput>
 }
 
 export type device_tokensScalarWhereInput = {
@@ -462,44 +462,44 @@ export type device_tokensScalarWhereInput = {
   token?: Prisma.StringFilter<"device_tokens"> | string
   device_type?: Prisma.StringFilter<"device_tokens"> | string
   app_version?: Prisma.StringNullableFilter<"device_tokens"> | string | null
-  last_used?: Prisma.DateTimeNullableFilter<"device_tokens"> | Date | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"device_tokens"> | Date | string | null
+  last_used?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
 }
 
-export type device_tokensCreateManyUsersInput = {
+export type device_tokensCreateManyUserInput = {
   token_id?: string
   token: string
   device_type: string
   app_version?: string | null
-  last_used?: Date | string | null
-  created_at?: Date | string | null
+  last_used?: Date | string
+  created_at?: Date | string
 }
 
-export type device_tokensUpdateWithoutUsersInput = {
+export type device_tokensUpdateWithoutUserInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.StringFieldUpdateOperationsInput | string
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_used?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type device_tokensUncheckedUpdateWithoutUsersInput = {
+export type device_tokensUncheckedUpdateWithoutUserInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.StringFieldUpdateOperationsInput | string
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_used?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type device_tokensUncheckedUpdateManyWithoutUsersInput = {
+export type device_tokensUncheckedUpdateManyWithoutUserInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
   device_type?: Prisma.StringFieldUpdateOperationsInput | string
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_used?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -512,7 +512,7 @@ export type device_tokensSelect<ExtArgs extends runtime.Types.Extensions.Interna
   app_version?: boolean
   last_used?: boolean
   created_at?: boolean
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device_tokens"]>
 
 export type device_tokensSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -523,7 +523,7 @@ export type device_tokensSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   app_version?: boolean
   last_used?: boolean
   created_at?: boolean
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device_tokens"]>
 
 export type device_tokensSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -534,7 +534,7 @@ export type device_tokensSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   app_version?: boolean
   last_used?: boolean
   created_at?: boolean
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device_tokens"]>
 
 export type device_tokensSelectScalar = {
@@ -549,19 +549,19 @@ export type device_tokensSelectScalar = {
 
 export type device_tokensOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"token_id" | "user_id" | "token" | "device_type" | "app_version" | "last_used" | "created_at", ExtArgs["result"]["device_tokens"]>
 export type device_tokensInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type device_tokensIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type device_tokensIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $device_tokensPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "device_tokens"
   objects: {
-    users: Prisma.$usersPayload<ExtArgs>
+    user: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     token_id: string
@@ -569,8 +569,8 @@ export type $device_tokensPayload<ExtArgs extends runtime.Types.Extensions.Inter
     token: string
     device_type: string
     app_version: string | null
-    last_used: Date | null
-    created_at: Date | null
+    last_used: Date
+    created_at: Date
   }, ExtArgs["result"]["device_tokens"]>
   composites: {}
 }
@@ -965,7 +965,7 @@ readonly fields: device_tokensFieldRefs;
  */
 export interface Prisma__device_tokensClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  users<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

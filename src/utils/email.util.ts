@@ -1,4 +1,5 @@
 import { gmailTransporter, sgMail, isProd, createGmailTransporter } from '../config/email.js';
+import * as env from '../config/env.js';
 
 export async function sendPasswordResetEmail(email: string, token: string) {
   const subject = 'Password Reset Code';
@@ -12,13 +13,13 @@ export async function sendPasswordResetEmail(email: string, token: string) {
   if (isProd) {
     await sgMail.send({
       to: email,
-      from: `${process.env.APP_NAME} <${process.env.SENDGRID_FROM_EMAIL}>`,
+      from: `${env.APP_NAME} <${process.env.SENDGRID_FROM_EMAIL}>`,
       subject,
       html,
     });
   } else {
     await gmailTransporter.sendMail({
-      from: `"${process.env.APP_NAME}" <${process.env.GMAIL_USER}>`,
+      from: `"${env.APP_NAME}" <${process.env.GMAIL_USER}>`,
       to: email,
       subject,
       html,
@@ -27,7 +28,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
   // else {
   //   const transporter = await createGmailTransporter();
   //   await transporter.sendMail({
-  //     from: `"${process.env.APP_NAME}" <${process.env.GMAIL_USER}>`,
+  //     from: `"${env.APP_NAME}" <${process.env.GMAIL_USER}>`,
   //     to: email,
   //     subject,
   //     html,

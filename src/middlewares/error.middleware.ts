@@ -1,15 +1,12 @@
 import type { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { AppError } from '../types/appErrors.types.js';
-import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import { Prisma } from '@prisma/client';
 
-export function errorMiddleware(
-  err: unknown,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void {
+import jwt from 'jsonwebtoken';
+const { JsonWebTokenError, TokenExpiredError } = jwt;
+
+export function errorMiddleware(err: unknown, req: Request, res: Response, next: NextFunction) {
   // Zod validation errors
   if (err instanceof ZodError) {
     res.status(422).json({
@@ -44,7 +41,7 @@ export function errorMiddleware(
     else if (err.code === 'P2002')
       res.status(409).json({ error: 'Record already exists' });
     else if (err.code === 'P2003')
-      res.status(409).json({ error: 'Cannot delete, record has dependent data' });
+      res.status(409).json({ error: 'Operation failed because record has dependent data' });
     return;
   }
 

@@ -231,25 +231,25 @@ export type rolesScalarWhereWithAggregatesInput = {
 export type rolesCreateInput = {
   role_id?: bigint | number
   role_name: string
-  users?: Prisma.usersCreateNestedManyWithoutRolesInput
+  users?: Prisma.usersCreateNestedManyWithoutRoleInput
 }
 
 export type rolesUncheckedCreateInput = {
   role_id?: bigint | number
   role_name: string
-  users?: Prisma.usersUncheckedCreateNestedManyWithoutRolesInput
+  users?: Prisma.usersUncheckedCreateNestedManyWithoutRoleInput
 }
 
 export type rolesUpdateInput = {
   role_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role_name?: Prisma.StringFieldUpdateOperationsInput | string
-  users?: Prisma.usersUpdateManyWithoutRolesNestedInput
+  users?: Prisma.usersUpdateManyWithoutRoleNestedInput
 }
 
 export type rolesUncheckedUpdateInput = {
   role_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   role_name?: Prisma.StringFieldUpdateOperationsInput | string
-  users?: Prisma.usersUncheckedUpdateManyWithoutRolesNestedInput
+  users?: Prisma.usersUncheckedUpdateManyWithoutRoleNestedInput
 }
 
 export type rolesCreateManyInput = {

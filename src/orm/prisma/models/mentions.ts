@@ -152,7 +152,7 @@ export type MentionsGroupByOutputType = {
   mentioned_user_id: string
   post_id: string | null
   comment_id: string | null
-  created_at: Date | null
+  created_at: Date
   _count: MentionsCountAggregateOutputType | null
   _min: MentionsMinAggregateOutputType | null
   _max: MentionsMaxAggregateOutputType | null
@@ -181,10 +181,10 @@ export type mentionsWhereInput = {
   mentioned_user_id?: Prisma.UuidFilter<"mentions"> | string
   post_id?: Prisma.UuidNullableFilter<"mentions"> | string | null
   comment_id?: Prisma.UuidNullableFilter<"mentions"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"mentions"> | Date | string | null
-  comments?: Prisma.XOR<Prisma.CommentsNullableScalarRelationFilter, Prisma.commentsWhereInput> | null
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-  posts?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
+  created_at?: Prisma.DateTimeFilter<"mentions"> | Date | string
+  comment?: Prisma.XOR<Prisma.CommentsNullableScalarRelationFilter, Prisma.commentsWhereInput> | null
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  post?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
 }
 
 export type mentionsOrderByWithRelationInput = {
@@ -192,10 +192,10 @@ export type mentionsOrderByWithRelationInput = {
   mentioned_user_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrderInput | Prisma.SortOrder
   comment_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  comments?: Prisma.commentsOrderByWithRelationInput
-  users?: Prisma.usersOrderByWithRelationInput
-  posts?: Prisma.postsOrderByWithRelationInput
+  created_at?: Prisma.SortOrder
+  comment?: Prisma.commentsOrderByWithRelationInput
+  user?: Prisma.usersOrderByWithRelationInput
+  post?: Prisma.postsOrderByWithRelationInput
 }
 
 export type mentionsWhereUniqueInput = Prisma.AtLeast<{
@@ -206,10 +206,10 @@ export type mentionsWhereUniqueInput = Prisma.AtLeast<{
   mentioned_user_id?: Prisma.UuidFilter<"mentions"> | string
   post_id?: Prisma.UuidNullableFilter<"mentions"> | string | null
   comment_id?: Prisma.UuidNullableFilter<"mentions"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"mentions"> | Date | string | null
-  comments?: Prisma.XOR<Prisma.CommentsNullableScalarRelationFilter, Prisma.commentsWhereInput> | null
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-  posts?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
+  created_at?: Prisma.DateTimeFilter<"mentions"> | Date | string
+  comment?: Prisma.XOR<Prisma.CommentsNullableScalarRelationFilter, Prisma.commentsWhereInput> | null
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  post?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
 }, "mention_id">
 
 export type mentionsOrderByWithAggregationInput = {
@@ -217,7 +217,7 @@ export type mentionsOrderByWithAggregationInput = {
   mentioned_user_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrderInput | Prisma.SortOrder
   comment_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.mentionsCountOrderByAggregateInput
   _max?: Prisma.mentionsMaxOrderByAggregateInput
   _min?: Prisma.mentionsMinOrderByAggregateInput
@@ -231,15 +231,15 @@ export type mentionsScalarWhereWithAggregatesInput = {
   mentioned_user_id?: Prisma.UuidWithAggregatesFilter<"mentions"> | string
   post_id?: Prisma.UuidNullableWithAggregatesFilter<"mentions"> | string | null
   comment_id?: Prisma.UuidNullableWithAggregatesFilter<"mentions"> | string | null
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"mentions"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"mentions"> | Date | string
 }
 
 export type mentionsCreateInput = {
   mention_id?: string
-  created_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedOneWithoutMentionsInput
-  users: Prisma.usersCreateNestedOneWithoutMentionsInput
-  posts?: Prisma.postsCreateNestedOneWithoutMentionsInput
+  created_at?: Date | string
+  comment?: Prisma.commentsCreateNestedOneWithoutMentionsInput
+  user: Prisma.usersCreateNestedOneWithoutMentionsInput
+  post?: Prisma.postsCreateNestedOneWithoutMentionsInput
 }
 
 export type mentionsUncheckedCreateInput = {
@@ -247,15 +247,15 @@ export type mentionsUncheckedCreateInput = {
   mentioned_user_id: string
   post_id?: string | null
   comment_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type mentionsUpdateInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateOneWithoutMentionsNestedInput
-  users?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
-  posts?: Prisma.postsUpdateOneWithoutMentionsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comment?: Prisma.commentsUpdateOneWithoutMentionsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
+  post?: Prisma.postsUpdateOneWithoutMentionsNestedInput
 }
 
 export type mentionsUncheckedUpdateInput = {
@@ -263,7 +263,7 @@ export type mentionsUncheckedUpdateInput = {
   mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type mentionsCreateManyInput = {
@@ -271,12 +271,12 @@ export type mentionsCreateManyInput = {
   mentioned_user_id: string
   post_id?: string | null
   comment_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type mentionsUpdateManyMutationInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type mentionsUncheckedUpdateManyInput = {
@@ -284,7 +284,7 @@ export type mentionsUncheckedUpdateManyInput = {
   mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type MentionsListRelationFilter = {
@@ -321,170 +321,170 @@ export type mentionsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
-export type mentionsCreateNestedManyWithoutCommentsInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentsInput, Prisma.mentionsUncheckedCreateWithoutCommentsInput> | Prisma.mentionsCreateWithoutCommentsInput[] | Prisma.mentionsUncheckedCreateWithoutCommentsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentsInput | Prisma.mentionsCreateOrConnectWithoutCommentsInput[]
-  createMany?: Prisma.mentionsCreateManyCommentsInputEnvelope
+export type mentionsCreateNestedManyWithoutCommentInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentInput, Prisma.mentionsUncheckedCreateWithoutCommentInput> | Prisma.mentionsCreateWithoutCommentInput[] | Prisma.mentionsUncheckedCreateWithoutCommentInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentInput | Prisma.mentionsCreateOrConnectWithoutCommentInput[]
+  createMany?: Prisma.mentionsCreateManyCommentInputEnvelope
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
 }
 
-export type mentionsUncheckedCreateNestedManyWithoutCommentsInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentsInput, Prisma.mentionsUncheckedCreateWithoutCommentsInput> | Prisma.mentionsCreateWithoutCommentsInput[] | Prisma.mentionsUncheckedCreateWithoutCommentsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentsInput | Prisma.mentionsCreateOrConnectWithoutCommentsInput[]
-  createMany?: Prisma.mentionsCreateManyCommentsInputEnvelope
+export type mentionsUncheckedCreateNestedManyWithoutCommentInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentInput, Prisma.mentionsUncheckedCreateWithoutCommentInput> | Prisma.mentionsCreateWithoutCommentInput[] | Prisma.mentionsUncheckedCreateWithoutCommentInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentInput | Prisma.mentionsCreateOrConnectWithoutCommentInput[]
+  createMany?: Prisma.mentionsCreateManyCommentInputEnvelope
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
 }
 
-export type mentionsUpdateManyWithoutCommentsNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentsInput, Prisma.mentionsUncheckedCreateWithoutCommentsInput> | Prisma.mentionsCreateWithoutCommentsInput[] | Prisma.mentionsUncheckedCreateWithoutCommentsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentsInput | Prisma.mentionsCreateOrConnectWithoutCommentsInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutCommentsInput | Prisma.mentionsUpsertWithWhereUniqueWithoutCommentsInput[]
-  createMany?: Prisma.mentionsCreateManyCommentsInputEnvelope
+export type mentionsUpdateManyWithoutCommentNestedInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentInput, Prisma.mentionsUncheckedCreateWithoutCommentInput> | Prisma.mentionsCreateWithoutCommentInput[] | Prisma.mentionsUncheckedCreateWithoutCommentInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentInput | Prisma.mentionsCreateOrConnectWithoutCommentInput[]
+  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutCommentInput | Prisma.mentionsUpsertWithWhereUniqueWithoutCommentInput[]
+  createMany?: Prisma.mentionsCreateManyCommentInputEnvelope
   set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutCommentsInput | Prisma.mentionsUpdateWithWhereUniqueWithoutCommentsInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutCommentsInput | Prisma.mentionsUpdateManyWithWhereWithoutCommentsInput[]
+  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutCommentInput | Prisma.mentionsUpdateWithWhereUniqueWithoutCommentInput[]
+  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutCommentInput | Prisma.mentionsUpdateManyWithWhereWithoutCommentInput[]
   deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
-export type mentionsUncheckedUpdateManyWithoutCommentsNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentsInput, Prisma.mentionsUncheckedCreateWithoutCommentsInput> | Prisma.mentionsCreateWithoutCommentsInput[] | Prisma.mentionsUncheckedCreateWithoutCommentsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentsInput | Prisma.mentionsCreateOrConnectWithoutCommentsInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutCommentsInput | Prisma.mentionsUpsertWithWhereUniqueWithoutCommentsInput[]
-  createMany?: Prisma.mentionsCreateManyCommentsInputEnvelope
+export type mentionsUncheckedUpdateManyWithoutCommentNestedInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutCommentInput, Prisma.mentionsUncheckedCreateWithoutCommentInput> | Prisma.mentionsCreateWithoutCommentInput[] | Prisma.mentionsUncheckedCreateWithoutCommentInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutCommentInput | Prisma.mentionsCreateOrConnectWithoutCommentInput[]
+  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutCommentInput | Prisma.mentionsUpsertWithWhereUniqueWithoutCommentInput[]
+  createMany?: Prisma.mentionsCreateManyCommentInputEnvelope
   set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutCommentsInput | Prisma.mentionsUpdateWithWhereUniqueWithoutCommentsInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutCommentsInput | Prisma.mentionsUpdateManyWithWhereWithoutCommentsInput[]
+  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutCommentInput | Prisma.mentionsUpdateWithWhereUniqueWithoutCommentInput[]
+  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutCommentInput | Prisma.mentionsUpdateManyWithWhereWithoutCommentInput[]
   deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
-export type mentionsCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostsInput, Prisma.mentionsUncheckedCreateWithoutPostsInput> | Prisma.mentionsCreateWithoutPostsInput[] | Prisma.mentionsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostsInput | Prisma.mentionsCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.mentionsCreateManyPostsInputEnvelope
+export type mentionsCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostInput, Prisma.mentionsUncheckedCreateWithoutPostInput> | Prisma.mentionsCreateWithoutPostInput[] | Prisma.mentionsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostInput | Prisma.mentionsCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.mentionsCreateManyPostInputEnvelope
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
 }
 
-export type mentionsUncheckedCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostsInput, Prisma.mentionsUncheckedCreateWithoutPostsInput> | Prisma.mentionsCreateWithoutPostsInput[] | Prisma.mentionsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostsInput | Prisma.mentionsCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.mentionsCreateManyPostsInputEnvelope
+export type mentionsUncheckedCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostInput, Prisma.mentionsUncheckedCreateWithoutPostInput> | Prisma.mentionsCreateWithoutPostInput[] | Prisma.mentionsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostInput | Prisma.mentionsCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.mentionsCreateManyPostInputEnvelope
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
 }
 
-export type mentionsUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostsInput, Prisma.mentionsUncheckedCreateWithoutPostsInput> | Prisma.mentionsCreateWithoutPostsInput[] | Prisma.mentionsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostsInput | Prisma.mentionsCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutPostsInput | Prisma.mentionsUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.mentionsCreateManyPostsInputEnvelope
+export type mentionsUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostInput, Prisma.mentionsUncheckedCreateWithoutPostInput> | Prisma.mentionsCreateWithoutPostInput[] | Prisma.mentionsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostInput | Prisma.mentionsCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutPostInput | Prisma.mentionsUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.mentionsCreateManyPostInputEnvelope
   set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutPostsInput | Prisma.mentionsUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutPostsInput | Prisma.mentionsUpdateManyWithWhereWithoutPostsInput[]
+  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutPostInput | Prisma.mentionsUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutPostInput | Prisma.mentionsUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
-export type mentionsUncheckedUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostsInput, Prisma.mentionsUncheckedCreateWithoutPostsInput> | Prisma.mentionsCreateWithoutPostsInput[] | Prisma.mentionsUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostsInput | Prisma.mentionsCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutPostsInput | Prisma.mentionsUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.mentionsCreateManyPostsInputEnvelope
+export type mentionsUncheckedUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutPostInput, Prisma.mentionsUncheckedCreateWithoutPostInput> | Prisma.mentionsCreateWithoutPostInput[] | Prisma.mentionsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutPostInput | Prisma.mentionsCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutPostInput | Prisma.mentionsUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.mentionsCreateManyPostInputEnvelope
   set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutPostsInput | Prisma.mentionsUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutPostsInput | Prisma.mentionsUpdateManyWithWhereWithoutPostsInput[]
+  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutPostInput | Prisma.mentionsUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutPostInput | Prisma.mentionsUpdateManyWithWhereWithoutPostInput[]
   deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
-export type mentionsCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUsersInput, Prisma.mentionsUncheckedCreateWithoutUsersInput> | Prisma.mentionsCreateWithoutUsersInput[] | Prisma.mentionsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUsersInput | Prisma.mentionsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.mentionsCreateManyUsersInputEnvelope
+export type mentionsCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUserInput, Prisma.mentionsUncheckedCreateWithoutUserInput> | Prisma.mentionsCreateWithoutUserInput[] | Prisma.mentionsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUserInput | Prisma.mentionsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.mentionsCreateManyUserInputEnvelope
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
 }
 
-export type mentionsUncheckedCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUsersInput, Prisma.mentionsUncheckedCreateWithoutUsersInput> | Prisma.mentionsCreateWithoutUsersInput[] | Prisma.mentionsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUsersInput | Prisma.mentionsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.mentionsCreateManyUsersInputEnvelope
+export type mentionsUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUserInput, Prisma.mentionsUncheckedCreateWithoutUserInput> | Prisma.mentionsCreateWithoutUserInput[] | Prisma.mentionsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUserInput | Prisma.mentionsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.mentionsCreateManyUserInputEnvelope
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
 }
 
-export type mentionsUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUsersInput, Prisma.mentionsUncheckedCreateWithoutUsersInput> | Prisma.mentionsCreateWithoutUsersInput[] | Prisma.mentionsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUsersInput | Prisma.mentionsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutUsersInput | Prisma.mentionsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.mentionsCreateManyUsersInputEnvelope
+export type mentionsUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUserInput, Prisma.mentionsUncheckedCreateWithoutUserInput> | Prisma.mentionsCreateWithoutUserInput[] | Prisma.mentionsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUserInput | Prisma.mentionsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutUserInput | Prisma.mentionsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.mentionsCreateManyUserInputEnvelope
   set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutUsersInput | Prisma.mentionsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutUsersInput | Prisma.mentionsUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutUserInput | Prisma.mentionsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutUserInput | Prisma.mentionsUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
-export type mentionsUncheckedUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUsersInput, Prisma.mentionsUncheckedCreateWithoutUsersInput> | Prisma.mentionsCreateWithoutUsersInput[] | Prisma.mentionsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUsersInput | Prisma.mentionsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutUsersInput | Prisma.mentionsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.mentionsCreateManyUsersInputEnvelope
+export type mentionsUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.mentionsCreateWithoutUserInput, Prisma.mentionsUncheckedCreateWithoutUserInput> | Prisma.mentionsCreateWithoutUserInput[] | Prisma.mentionsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutUserInput | Prisma.mentionsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutUserInput | Prisma.mentionsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.mentionsCreateManyUserInputEnvelope
   set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
   connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutUsersInput | Prisma.mentionsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutUsersInput | Prisma.mentionsUpdateManyWithWhereWithoutUsersInput[]
+  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutUserInput | Prisma.mentionsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutUserInput | Prisma.mentionsUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
-export type mentionsCreateWithoutCommentsInput = {
+export type mentionsCreateWithoutCommentInput = {
   mention_id?: string
-  created_at?: Date | string | null
-  users: Prisma.usersCreateNestedOneWithoutMentionsInput
-  posts?: Prisma.postsCreateNestedOneWithoutMentionsInput
+  created_at?: Date | string
+  user: Prisma.usersCreateNestedOneWithoutMentionsInput
+  post?: Prisma.postsCreateNestedOneWithoutMentionsInput
 }
 
-export type mentionsUncheckedCreateWithoutCommentsInput = {
+export type mentionsUncheckedCreateWithoutCommentInput = {
   mention_id?: string
   mentioned_user_id: string
   post_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type mentionsCreateOrConnectWithoutCommentsInput = {
+export type mentionsCreateOrConnectWithoutCommentInput = {
   where: Prisma.mentionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutCommentsInput, Prisma.mentionsUncheckedCreateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.mentionsCreateWithoutCommentInput, Prisma.mentionsUncheckedCreateWithoutCommentInput>
 }
 
-export type mentionsCreateManyCommentsInputEnvelope = {
-  data: Prisma.mentionsCreateManyCommentsInput | Prisma.mentionsCreateManyCommentsInput[]
+export type mentionsCreateManyCommentInputEnvelope = {
+  data: Prisma.mentionsCreateManyCommentInput | Prisma.mentionsCreateManyCommentInput[]
   skipDuplicates?: boolean
 }
 
-export type mentionsUpsertWithWhereUniqueWithoutCommentsInput = {
+export type mentionsUpsertWithWhereUniqueWithoutCommentInput = {
   where: Prisma.mentionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.mentionsUpdateWithoutCommentsInput, Prisma.mentionsUncheckedUpdateWithoutCommentsInput>
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutCommentsInput, Prisma.mentionsUncheckedCreateWithoutCommentsInput>
+  update: Prisma.XOR<Prisma.mentionsUpdateWithoutCommentInput, Prisma.mentionsUncheckedUpdateWithoutCommentInput>
+  create: Prisma.XOR<Prisma.mentionsCreateWithoutCommentInput, Prisma.mentionsUncheckedCreateWithoutCommentInput>
 }
 
-export type mentionsUpdateWithWhereUniqueWithoutCommentsInput = {
+export type mentionsUpdateWithWhereUniqueWithoutCommentInput = {
   where: Prisma.mentionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.mentionsUpdateWithoutCommentsInput, Prisma.mentionsUncheckedUpdateWithoutCommentsInput>
+  data: Prisma.XOR<Prisma.mentionsUpdateWithoutCommentInput, Prisma.mentionsUncheckedUpdateWithoutCommentInput>
 }
 
-export type mentionsUpdateManyWithWhereWithoutCommentsInput = {
+export type mentionsUpdateManyWithWhereWithoutCommentInput = {
   where: Prisma.mentionsScalarWhereInput
-  data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutCommentsInput>
+  data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutCommentInput>
 }
 
 export type mentionsScalarWhereInput = {
@@ -495,171 +495,171 @@ export type mentionsScalarWhereInput = {
   mentioned_user_id?: Prisma.UuidFilter<"mentions"> | string
   post_id?: Prisma.UuidNullableFilter<"mentions"> | string | null
   comment_id?: Prisma.UuidNullableFilter<"mentions"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"mentions"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"mentions"> | Date | string
 }
 
-export type mentionsCreateWithoutPostsInput = {
+export type mentionsCreateWithoutPostInput = {
   mention_id?: string
-  created_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedOneWithoutMentionsInput
-  users: Prisma.usersCreateNestedOneWithoutMentionsInput
+  created_at?: Date | string
+  comment?: Prisma.commentsCreateNestedOneWithoutMentionsInput
+  user: Prisma.usersCreateNestedOneWithoutMentionsInput
 }
 
-export type mentionsUncheckedCreateWithoutPostsInput = {
+export type mentionsUncheckedCreateWithoutPostInput = {
   mention_id?: string
   mentioned_user_id: string
   comment_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type mentionsCreateOrConnectWithoutPostsInput = {
+export type mentionsCreateOrConnectWithoutPostInput = {
   where: Prisma.mentionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutPostsInput, Prisma.mentionsUncheckedCreateWithoutPostsInput>
+  create: Prisma.XOR<Prisma.mentionsCreateWithoutPostInput, Prisma.mentionsUncheckedCreateWithoutPostInput>
 }
 
-export type mentionsCreateManyPostsInputEnvelope = {
-  data: Prisma.mentionsCreateManyPostsInput | Prisma.mentionsCreateManyPostsInput[]
+export type mentionsCreateManyPostInputEnvelope = {
+  data: Prisma.mentionsCreateManyPostInput | Prisma.mentionsCreateManyPostInput[]
   skipDuplicates?: boolean
 }
 
-export type mentionsUpsertWithWhereUniqueWithoutPostsInput = {
+export type mentionsUpsertWithWhereUniqueWithoutPostInput = {
   where: Prisma.mentionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.mentionsUpdateWithoutPostsInput, Prisma.mentionsUncheckedUpdateWithoutPostsInput>
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutPostsInput, Prisma.mentionsUncheckedCreateWithoutPostsInput>
+  update: Prisma.XOR<Prisma.mentionsUpdateWithoutPostInput, Prisma.mentionsUncheckedUpdateWithoutPostInput>
+  create: Prisma.XOR<Prisma.mentionsCreateWithoutPostInput, Prisma.mentionsUncheckedCreateWithoutPostInput>
 }
 
-export type mentionsUpdateWithWhereUniqueWithoutPostsInput = {
+export type mentionsUpdateWithWhereUniqueWithoutPostInput = {
   where: Prisma.mentionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.mentionsUpdateWithoutPostsInput, Prisma.mentionsUncheckedUpdateWithoutPostsInput>
+  data: Prisma.XOR<Prisma.mentionsUpdateWithoutPostInput, Prisma.mentionsUncheckedUpdateWithoutPostInput>
 }
 
-export type mentionsUpdateManyWithWhereWithoutPostsInput = {
+export type mentionsUpdateManyWithWhereWithoutPostInput = {
   where: Prisma.mentionsScalarWhereInput
-  data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutPostsInput>
+  data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutPostInput>
 }
 
-export type mentionsCreateWithoutUsersInput = {
+export type mentionsCreateWithoutUserInput = {
   mention_id?: string
-  created_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedOneWithoutMentionsInput
-  posts?: Prisma.postsCreateNestedOneWithoutMentionsInput
+  created_at?: Date | string
+  comment?: Prisma.commentsCreateNestedOneWithoutMentionsInput
+  post?: Prisma.postsCreateNestedOneWithoutMentionsInput
 }
 
-export type mentionsUncheckedCreateWithoutUsersInput = {
+export type mentionsUncheckedCreateWithoutUserInput = {
   mention_id?: string
   post_id?: string | null
   comment_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type mentionsCreateOrConnectWithoutUsersInput = {
+export type mentionsCreateOrConnectWithoutUserInput = {
   where: Prisma.mentionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutUsersInput, Prisma.mentionsUncheckedCreateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.mentionsCreateWithoutUserInput, Prisma.mentionsUncheckedCreateWithoutUserInput>
 }
 
-export type mentionsCreateManyUsersInputEnvelope = {
-  data: Prisma.mentionsCreateManyUsersInput | Prisma.mentionsCreateManyUsersInput[]
+export type mentionsCreateManyUserInputEnvelope = {
+  data: Prisma.mentionsCreateManyUserInput | Prisma.mentionsCreateManyUserInput[]
   skipDuplicates?: boolean
 }
 
-export type mentionsUpsertWithWhereUniqueWithoutUsersInput = {
+export type mentionsUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.mentionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.mentionsUpdateWithoutUsersInput, Prisma.mentionsUncheckedUpdateWithoutUsersInput>
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutUsersInput, Prisma.mentionsUncheckedCreateWithoutUsersInput>
+  update: Prisma.XOR<Prisma.mentionsUpdateWithoutUserInput, Prisma.mentionsUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.mentionsCreateWithoutUserInput, Prisma.mentionsUncheckedCreateWithoutUserInput>
 }
 
-export type mentionsUpdateWithWhereUniqueWithoutUsersInput = {
+export type mentionsUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.mentionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.mentionsUpdateWithoutUsersInput, Prisma.mentionsUncheckedUpdateWithoutUsersInput>
+  data: Prisma.XOR<Prisma.mentionsUpdateWithoutUserInput, Prisma.mentionsUncheckedUpdateWithoutUserInput>
 }
 
-export type mentionsUpdateManyWithWhereWithoutUsersInput = {
+export type mentionsUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.mentionsScalarWhereInput
-  data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutUsersInput>
+  data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutUserInput>
 }
 
-export type mentionsCreateManyCommentsInput = {
+export type mentionsCreateManyCommentInput = {
   mention_id?: string
   mentioned_user_id: string
   post_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type mentionsUpdateWithoutCommentsInput = {
+export type mentionsUpdateWithoutCommentInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
-  posts?: Prisma.postsUpdateOneWithoutMentionsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
+  post?: Prisma.postsUpdateOneWithoutMentionsNestedInput
 }
 
-export type mentionsUncheckedUpdateWithoutCommentsInput = {
-  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type mentionsUncheckedUpdateManyWithoutCommentsInput = {
+export type mentionsUncheckedUpdateWithoutCommentInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
   mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type mentionsCreateManyPostsInput = {
+export type mentionsUncheckedUpdateManyWithoutCommentInput = {
+  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
+  mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type mentionsCreateManyPostInput = {
   mention_id?: string
   mentioned_user_id: string
   comment_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type mentionsUpdateWithoutPostsInput = {
+export type mentionsUpdateWithoutPostInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateOneWithoutMentionsNestedInput
-  users?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comment?: Prisma.commentsUpdateOneWithoutMentionsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
 }
 
-export type mentionsUncheckedUpdateWithoutPostsInput = {
-  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type mentionsUncheckedUpdateManyWithoutPostsInput = {
+export type mentionsUncheckedUpdateWithoutPostInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
   mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type mentionsCreateManyUsersInput = {
+export type mentionsUncheckedUpdateManyWithoutPostInput = {
+  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
+  mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type mentionsCreateManyUserInput = {
   mention_id?: string
   post_id?: string | null
   comment_id?: string | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
-export type mentionsUpdateWithoutUsersInput = {
+export type mentionsUpdateWithoutUserInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateOneWithoutMentionsNestedInput
-  posts?: Prisma.postsUpdateOneWithoutMentionsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comment?: Prisma.commentsUpdateOneWithoutMentionsNestedInput
+  post?: Prisma.postsUpdateOneWithoutMentionsNestedInput
 }
 
-export type mentionsUncheckedUpdateWithoutUsersInput = {
-  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type mentionsUncheckedUpdateManyWithoutUsersInput = {
+export type mentionsUncheckedUpdateWithoutUserInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type mentionsUncheckedUpdateManyWithoutUserInput = {
+  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
+  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -670,9 +670,9 @@ export type mentionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   post_id?: boolean
   comment_id?: boolean
   created_at?: boolean
-  comments?: boolean | Prisma.mentions$commentsArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.mentions$postsArgs<ExtArgs>
+  comment?: boolean | Prisma.mentions$commentArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.mentions$postArgs<ExtArgs>
 }, ExtArgs["result"]["mentions"]>
 
 export type mentionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -681,9 +681,9 @@ export type mentionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   post_id?: boolean
   comment_id?: boolean
   created_at?: boolean
-  comments?: boolean | Prisma.mentions$commentsArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.mentions$postsArgs<ExtArgs>
+  comment?: boolean | Prisma.mentions$commentArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.mentions$postArgs<ExtArgs>
 }, ExtArgs["result"]["mentions"]>
 
 export type mentionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -692,9 +692,9 @@ export type mentionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   post_id?: boolean
   comment_id?: boolean
   created_at?: boolean
-  comments?: boolean | Prisma.mentions$commentsArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.mentions$postsArgs<ExtArgs>
+  comment?: boolean | Prisma.mentions$commentArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.mentions$postArgs<ExtArgs>
 }, ExtArgs["result"]["mentions"]>
 
 export type mentionsSelectScalar = {
@@ -707,34 +707,34 @@ export type mentionsSelectScalar = {
 
 export type mentionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"mention_id" | "mentioned_user_id" | "post_id" | "comment_id" | "created_at", ExtArgs["result"]["mentions"]>
 export type mentionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  comments?: boolean | Prisma.mentions$commentsArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.mentions$postsArgs<ExtArgs>
+  comment?: boolean | Prisma.mentions$commentArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.mentions$postArgs<ExtArgs>
 }
 export type mentionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  comments?: boolean | Prisma.mentions$commentsArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.mentions$postsArgs<ExtArgs>
+  comment?: boolean | Prisma.mentions$commentArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.mentions$postArgs<ExtArgs>
 }
 export type mentionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  comments?: boolean | Prisma.mentions$commentsArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  posts?: boolean | Prisma.mentions$postsArgs<ExtArgs>
+  comment?: boolean | Prisma.mentions$commentArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.mentions$postArgs<ExtArgs>
 }
 
 export type $mentionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "mentions"
   objects: {
-    comments: Prisma.$commentsPayload<ExtArgs> | null
-    users: Prisma.$usersPayload<ExtArgs>
-    posts: Prisma.$postsPayload<ExtArgs> | null
+    comment: Prisma.$commentsPayload<ExtArgs> | null
+    user: Prisma.$usersPayload<ExtArgs>
+    post: Prisma.$postsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     mention_id: string
     mentioned_user_id: string
     post_id: string | null
     comment_id: string | null
-    created_at: Date | null
+    created_at: Date
   }, ExtArgs["result"]["mentions"]>
   composites: {}
 }
@@ -1129,9 +1129,9 @@ readonly fields: mentionsFieldRefs;
  */
 export interface Prisma__mentionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  comments<T extends Prisma.mentions$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mentions$commentsArgs<ExtArgs>>): Prisma.Prisma__commentsClient<runtime.Types.Result.GetResult<Prisma.$commentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  users<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  posts<T extends Prisma.mentions$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mentions$postsArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  comment<T extends Prisma.mentions$commentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mentions$commentArgs<ExtArgs>>): Prisma.Prisma__commentsClient<runtime.Types.Result.GetResult<Prisma.$commentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  post<T extends Prisma.mentions$postArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mentions$postArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1567,9 +1567,9 @@ export type mentionsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * mentions.comments
+ * mentions.comment
  */
-export type mentions$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type mentions$commentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the comments
    */
@@ -1586,9 +1586,9 @@ export type mentions$commentsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * mentions.posts
+ * mentions.post
  */
-export type mentions$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type mentions$postArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the posts
    */

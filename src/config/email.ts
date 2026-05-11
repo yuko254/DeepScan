@@ -1,9 +1,9 @@
-import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import sgMail from '@sendgrid/mail';
 import { google } from 'googleapis';
+import * as env from "./env.js";
 
-export const isProd = process.env.NODE_ENV! === 'production';
+export const isProd = env.NODE_ENV === 'production';
 
 if (isProd) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY!);

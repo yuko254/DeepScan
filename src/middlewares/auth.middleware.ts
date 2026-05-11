@@ -1,41 +1,52 @@
 // src/middlewares/auth.middleware.ts
 import type { Request, Response, NextFunction } from 'express';
 import { verifyAccessToken } from '../utils/jwt.utils.js';
-import type { JwtPayload } from '../dtos/jwt.dto.js';
+import type { accessPayload } from '../dtos/jwt.dto.js';
 import { UnauthorizedError, ForbiddenError } from '../types/appErrors.types.js';
-import { userDao } from '../dao/instances.js';
+import { userRepo } from '../Repository/instances.js';
 
 declare global {
   namespace Express {
     interface Request {
-      user?: JwtPayload;
+      user?: accessPayload;
     }
   }
 }
 
-export async function authenticate(req: Request, res: Response, next: NextFunction) {
+const authToken = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader?.startsWith('Bearer ')) {
-      throw new UnauthorizedError('Missing or invalid Authorization header');
+    let token = req.cookies?.access_token;
+    
+    if (!token) {
+      const authHeader = req.headers.authorization;
+      if (!authHeader?.startsWith('Bearer ')) {
+        throw new UnauthorizedError('Missing or invalid Authorization header');
+      }
+      token = authHeader.slice(7);
     }
 
-    const token = authHeader.slice(7);
     req.user = verifyAccessToken(token);
-    
-    next();
+    return true;
   } catch (err) {
     next(err);
+    return false;
   }
+}
+
+export function authenticate(req: Request, res: Response, next: NextFunction) {
+  const authres = authToken(req, res, next);
+  if (!authres) return; // auth middleware already called next with error
+  next();
 }
 
 export async function authenticateStrict(req: Request, res: Response, next: NextFunction) {
   // JWT check first
-  authenticate(req, res, async () => {
-    const user = await userDao.find({ user_id: req.user!.user_id });
-    if (!user) return next(new UnauthorizedError('User no longer exists'));
-    next();
-  });
+  const authres = authToken(req, res, next);
+  if (!authres) return; // auth middleware already called next with error
+
+  const user = await userRepo.findUnique({ where: { user_id: req.user!.user_id } });
+  if (!user) return next(new UnauthorizedError('User no longer exists'));
+  next();
 }
 
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
@@ -45,12 +56,12 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
   next();
 }
 
-export async function requireRole(...allowedRoles: string[]) {
+export function requireRole(...allowedRoles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
       return next(new UnauthorizedError('Authentication required'));
     }
-    if (!allowedRoles.includes(req.user.role_name ?? "user")) {
+    if (!allowedRoles.includes(req.user.role?.role_name ?? "user")) {
       return next(new ForbiddenError('Insufficient permissions'));
     }
     next();

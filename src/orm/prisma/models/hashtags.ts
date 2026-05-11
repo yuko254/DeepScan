@@ -31,20 +31,20 @@ export type HashtagsAvgAggregateOutputType = {
 }
 
 export type HashtagsSumAggregateOutputType = {
-  post_count: number | null
+  post_count: bigint | null
 }
 
 export type HashtagsMinAggregateOutputType = {
   hashtag_id: string | null
   name: string | null
-  post_count: number | null
+  post_count: bigint | null
   created_at: Date | null
 }
 
 export type HashtagsMaxAggregateOutputType = {
   hashtag_id: string | null
   name: string | null
-  post_count: number | null
+  post_count: bigint | null
   created_at: Date | null
 }
 
@@ -176,8 +176,8 @@ export type hashtagsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type HashtagsGroupByOutputType = {
   hashtag_id: string
   name: string
-  post_count: number | null
-  created_at: Date | null
+  post_count: bigint | null
+  created_at: Date
   _count: HashtagsCountAggregateOutputType | null
   _avg: HashtagsAvgAggregateOutputType | null
   _sum: HashtagsSumAggregateOutputType | null
@@ -206,8 +206,8 @@ export type hashtagsWhereInput = {
   NOT?: Prisma.hashtagsWhereInput | Prisma.hashtagsWhereInput[]
   hashtag_id?: Prisma.UuidFilter<"hashtags"> | string
   name?: Prisma.StringFilter<"hashtags"> | string
-  post_count?: Prisma.IntNullableFilter<"hashtags"> | number | null
-  created_at?: Prisma.DateTimeNullableFilter<"hashtags"> | Date | string | null
+  post_count?: Prisma.BigIntNullableFilter<"hashtags"> | bigint | number | null
+  created_at?: Prisma.DateTimeFilter<"hashtags"> | Date | string
   post_hashtags?: Prisma.Post_hashtagsListRelationFilter
 }
 
@@ -215,7 +215,7 @@ export type hashtagsOrderByWithRelationInput = {
   hashtag_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   post_count?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   post_hashtags?: Prisma.post_hashtagsOrderByRelationAggregateInput
 }
 
@@ -225,8 +225,8 @@ export type hashtagsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.hashtagsWhereInput | Prisma.hashtagsWhereInput[]
   OR?: Prisma.hashtagsWhereInput[]
   NOT?: Prisma.hashtagsWhereInput | Prisma.hashtagsWhereInput[]
-  post_count?: Prisma.IntNullableFilter<"hashtags"> | number | null
-  created_at?: Prisma.DateTimeNullableFilter<"hashtags"> | Date | string | null
+  post_count?: Prisma.BigIntNullableFilter<"hashtags"> | bigint | number | null
+  created_at?: Prisma.DateTimeFilter<"hashtags"> | Date | string
   post_hashtags?: Prisma.Post_hashtagsListRelationFilter
 }, "hashtag_id" | "name">
 
@@ -234,7 +234,7 @@ export type hashtagsOrderByWithAggregationInput = {
   hashtag_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   post_count?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.hashtagsCountOrderByAggregateInput
   _avg?: Prisma.hashtagsAvgOrderByAggregateInput
   _max?: Prisma.hashtagsMaxOrderByAggregateInput
@@ -248,61 +248,61 @@ export type hashtagsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.hashtagsScalarWhereWithAggregatesInput | Prisma.hashtagsScalarWhereWithAggregatesInput[]
   hashtag_id?: Prisma.UuidWithAggregatesFilter<"hashtags"> | string
   name?: Prisma.StringWithAggregatesFilter<"hashtags"> | string
-  post_count?: Prisma.IntNullableWithAggregatesFilter<"hashtags"> | number | null
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"hashtags"> | Date | string | null
+  post_count?: Prisma.BigIntNullableWithAggregatesFilter<"hashtags"> | bigint | number | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"hashtags"> | Date | string
 }
 
 export type hashtagsCreateInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutHashtagsInput
+  post_count?: bigint | number | null
+  created_at?: Date | string
+  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutHashtagInput
 }
 
 export type hashtagsUncheckedCreateInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutHashtagsInput
+  post_count?: bigint | number | null
+  created_at?: Date | string
+  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutHashtagInput
 }
 
 export type hashtagsUpdateInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutHashtagsNestedInput
+  post_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutHashtagNestedInput
 }
 
 export type hashtagsUncheckedUpdateInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutHashtagsNestedInput
+  post_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutHashtagNestedInput
 }
 
 export type hashtagsCreateManyInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
+  post_count?: bigint | number | null
+  created_at?: Date | string
 }
 
 export type hashtagsUpdateManyMutationInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  post_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type hashtagsUncheckedUpdateManyInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  post_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type hashtagsCountOrderByAggregateInput = {
@@ -339,12 +339,12 @@ export type HashtagsScalarRelationFilter = {
   isNot?: Prisma.hashtagsWhereInput
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type NullableBigIntFieldUpdateOperationsInput = {
+  set?: bigint | number | null
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
 }
 
 export type hashtagsCreateNestedOneWithoutPost_hashtagsInput = {
@@ -364,15 +364,15 @@ export type hashtagsUpdateOneRequiredWithoutPost_hashtagsNestedInput = {
 export type hashtagsCreateWithoutPost_hashtagsInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
+  post_count?: bigint | number | null
+  created_at?: Date | string
 }
 
 export type hashtagsUncheckedCreateWithoutPost_hashtagsInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
+  post_count?: bigint | number | null
+  created_at?: Date | string
 }
 
 export type hashtagsCreateOrConnectWithoutPost_hashtagsInput = {
@@ -394,15 +394,15 @@ export type hashtagsUpdateToOneWithWhereWithoutPost_hashtagsInput = {
 export type hashtagsUpdateWithoutPost_hashtagsInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  post_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type hashtagsUncheckedUpdateWithoutPost_hashtagsInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  post_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -482,8 +482,8 @@ export type $hashtagsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     hashtag_id: string
     name: string
-    post_count: number | null
-    created_at: Date | null
+    post_count: bigint | null
+    created_at: Date
   }, ExtArgs["result"]["hashtags"]>
   composites: {}
 }
@@ -910,7 +910,7 @@ export interface Prisma__hashtagsClient<T, Null = never, ExtArgs extends runtime
 export interface hashtagsFieldRefs {
   readonly hashtag_id: Prisma.FieldRef<"hashtags", 'String'>
   readonly name: Prisma.FieldRef<"hashtags", 'String'>
-  readonly post_count: Prisma.FieldRef<"hashtags", 'Int'>
+  readonly post_count: Prisma.FieldRef<"hashtags", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"hashtags", 'DateTime'>
 }
     

@@ -1,89 +1,73 @@
+import { Prisma } from "../config/prisma.js";
 import bcrypt from 'bcrypt';
-import { UserDao, RefreshTokenDao, RoleDao, PasswordResetDao } from '../dao/index.js';
+import crypto from 'crypto';
+import RedisClient from '../config/redis.js';
+
 import { generateTokens, verifyRefreshToken } from '../utils/jwt.utils.js';
 import { sendPasswordResetEmail } from '../utils/email.util.js';
-import type { RegisterInput, LoginInput, ResetPasswordInput, AuthResponseDto, TokensDto } from '../dtos/auth.dto.js';
+
+import { userRepo } from '../Repository/instances.js';
+
+import * as auth from '../dtos/auth.dto.js';
 import * as AppError from '../types/appErrors.types.js';
+import * as env from '../config/env.js';
 
-const SALT_ROUNDS = 12;
+const SALT_ROUNDS = env.SALT_ROUNDS;
+const redis = RedisClient.getInstance()
 export class AuthService {
-  constructor(
-    private userDao: UserDao,
-    private refreshTokenDao: RefreshTokenDao,
-    private roleDao: RoleDao,
-    private passwordResetDao: PasswordResetDao,
-  ) {}
+  constructor() { }
 
-  async register(input: RegisterInput): Promise<AuthResponseDto> {
-    // Check username taken
-    const existingUsername = await this.userDao.find({ username: input.username });
-    if (existingUsername) throw new AppError.ConflictError('Username already taken');
-
-    // Check email taken
-    const existingEmail = await this.userDao.find({ email: input.email });
-    if (existingEmail) throw new AppError.ConflictError('Email already registered');
-
-    // Hash password
+  async register(input: auth.RegisterBody): Promise<auth.AuthDto> {
     const hashed = await bcrypt.hash(input.password, SALT_ROUNDS);
 
-    // Create user
-    const user = await this.userDao.create({
-      username: input.username,
-      email: input.email,
-      password: hashed,
+    const user = await userRepo.create({
+      data: {
+        username: input.username,
+        email: input.email,
+        password: hashed,
+      },
+      include: { role: true },
+      omit: { password: true, role_id: true, created_at: true }
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already taken');
+      }
+      throw e;
     });
 
-    const role = await this.roleDao.find({ role_id: user.role_id! });
-    const userDto = {
-      user_id: user.user_id,
-      username: user.username,
-      email: user.email,
-      role_name: role?.role_name ?? 'user',
-    };
-
-    const tokens = generateTokens(userDto);
+    const tokens = generateTokens(user);
 
     // Store the hashed refresh token
     const hashedRefreshToken = await bcrypt.hash(tokens.refresh_token, SALT_ROUNDS);
-    await this.refreshTokenDao.createToken({
-      userId: user.user_id,
-      token: hashedRefreshToken,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-    });
+    const key = `refresh:${user.user_id}:${tokens.jti}`;
+    await redis.set(key, hashedRefreshToken, 'EX', env.REFRESH_TOKEN_TTL_SECONDS);
 
-    return { user: userDto, tokens };
+    return { user: user, tokens: tokens };
   }
 
-  async login(input: LoginInput): Promise<AuthResponseDto> {
+  async login(input: auth.LoginBody): Promise<auth.AuthDto> {
     // Find user
-    const user = await this.userDao.find({ email: input.email });
+    const user = await userRepo.findUnique({
+      where: { email: input.email },
+      include: { role: true },
+      omit: { role_id: true, created_at: true }
+    });
     if (!user) throw new AppError.UnauthorizedError('Invalid email or password');
 
     // Check password
     const valid = await bcrypt.compare(input.password, user.password);
     if (!valid) throw new AppError.UnauthorizedError('Invalid email or password');
 
-    const role = await this.roleDao.find({ role_id: user.role_id! });
-    const userDto = {
-      user_id: user.user_id,
-      username: user.username,
-      email: user.email,
-      role_name: role?.role_name ?? 'user',
-    };
-
-    const tokens = generateTokens(userDto);
+    const tokens = generateTokens(user);
 
     const hashedRefreshToken = await bcrypt.hash(tokens.refresh_token, SALT_ROUNDS);
-    await this.refreshTokenDao.createToken({
-      userId: user.user_id,
-      token: hashedRefreshToken,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    const key = `refresh:${user.user_id}:${tokens.jti}`;
+    await redis.set(key, hashedRefreshToken, 'EX', env.REFRESH_TOKEN_TTL_SECONDS);
 
-    return { user: userDto, tokens: tokens };
+    return { user: user, tokens: tokens };
   }
 
-  async refresh(refresh_token: string): Promise<TokensDto> {
+  async refresh(refresh_token: string): Promise<auth.TokensDto> {
     // Verify refresh token
     let payload;
     try {
@@ -93,77 +77,91 @@ export class AuthService {
     }
 
     // Ensure user still exists
-    const user = await this.userDao.find({ user_id: payload.user_id });
+    const user = await userRepo.findUnique({ 
+      where: { user_id: payload.user_id},
+      include: { role: true },
+      omit: { password: true, role_id: true, created_at: true }
+    });
     if (!user) throw new AppError.NotFoundError('User no longer exists');
 
     // Find the stored (hashed) token
-    const storedTokens = await this.refreshTokenDao.findByToken(refresh_token);
-    if (!storedTokens) {
-      // Token not found in DB - possible theft attempt!
-      // For enhanced security, revoked all tokens for this user here.
-      await this.refreshTokenDao.deleteAllForUser(user.user_id);
+    const key = `refresh:${payload.user_id}:${payload.jti}`;
+    const storedHash = await redis.get(key);
+    if (!storedHash) {
+      // Token reuse / not found → revoke all sessions for this user
+      await this.revokeAllUserTokens(payload.user_id, "refresh");
       throw new AppError.UnauthorizedError('Refresh token has been revoked or is invalid');
     }
 
     // Verify the raw token matches the stored hash
-    const isValid = await bcrypt.compare(refresh_token, storedTokens.token);
+    const isValid = await bcrypt.compare(refresh_token, storedHash);
     if (!isValid) {
       throw new AppError.UnauthorizedError('Refresh token is invalid');
     }
 
-    // Token is valid, so we can revoke it (token rotation)
-    await this.refreshTokenDao.deleteByToken(storedTokens.token);
+    // Rotation: delete old key, issue new tokens
+    await redis.del(key);
 
-    const role = await this.roleDao.find({ role_id: user.role_id! });
-    const userDto = {
-      user_id: user.user_id,
-      username: user.username,
-      email: user.email,
-      role_name: role?.role_name ?? 'user',
-    };
-    const newTokens = generateTokens(userDto);
+    const newTokens = generateTokens(user);
 
     // Store the new refresh token
-    const newHashedToken = await bcrypt.hash(newTokens.refresh_token, SALT_ROUNDS);
-    await this.refreshTokenDao.createToken({
-      userId: user.user_id,
-      token: newHashedToken,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    const newKey = `refresh:${user.user_id}:${newTokens.jti}`;
+    const newHashed = await bcrypt.hash(newTokens.refresh_token, SALT_ROUNDS);
+    await redis.set(newKey, newHashed, 'EX', env.REFRESH_TOKEN_TTL_SECONDS);
 
     return newTokens;
   }
 
   async logout(refresh_token: string): Promise<void> {
-    // Find and delete the specific token
-    await this.refreshTokenDao.deleteByToken(refresh_token);
+    try {
+      const payload = verifyRefreshToken(refresh_token);
+      const key = `refresh:${payload.user_id}:${payload.jti}`;
+      await redis.del(key);
+    } catch {
+      // token is invalid anyway
+    }
   }
 
   async forgotPassword(email: string): Promise<void> {
-    const user = await this.userDao.find({ email });
+    const user = await userRepo.findUnique({ where: { email: email } });
 
     // always return success even if email not found — prevents user enumeration
     if (!user) return;
 
-    const token = Math.floor(100000 + Math.random() * 900000).toString();
-    await this.passwordResetDao.createNew(user.user_id, token);
+    const token = crypto.randomBytes(4).toHex();
+    const key = `password_reset:${user.user_id}:${token}`;
+    await redis.set(key, user.user_id, 'EX', env.PASSWORD_RESET_TOKEN_IN_MIN);
     await sendPasswordResetEmail(user.email, token);
   }
 
-  async resetPassword(input: ResetPasswordInput): Promise<void> {
-    const record = await this.passwordResetDao.findByToken(input.token);
-
-    if (!record) throw new AppError.UnauthorizedError('Invalid or expired reset token');
-    if (record.expires_at < new Date()) {
-      await this.passwordResetDao.deleteByToken(input.token);
-      throw new AppError.UnauthorizedError('Reset token has expired');
-    }
+  async resetPassword(input: auth.ResetPasswordBody): Promise<void> {
+    const user_id = await redis.get(`password_reset:${input.token}`);
+    if (!user_id) throw new AppError.NotFoundError('Invalid or expired token');
+    await redis.del(`password_reset:${user_id}:${input.token}`);
 
     const hashed = await bcrypt.hash(input.new_password, SALT_ROUNDS);
-    await this.userDao.update({ user_id: record.user_id }, { password: hashed });
+    await userRepo.update({ where: { user_id: user_id }, data: { password: hashed } });
 
-    // invalidate token + revoke all sessions
-    await this.passwordResetDao.deleteByToken(input.token);
-    await this.refreshTokenDao.deleteAllForUser(record.user_id);
+    await this.revokeAllUserTokens(user_id, "password_reset");
+  }
+
+  async revokeAllUserTokens(userId: string, token: string): Promise<void> {
+    const keys: string[] = [];
+    const stream = redis.scanStream({
+      match: `${token}:${userId}:*`,
+      count: 100,
+    });
+
+    // Collect all matching keys
+    for await (const chunk of stream) {
+      keys.push(...chunk);
+    }
+
+    // Delete them in one pipeline if any exist
+    if (keys.length > 0) {
+      const pipeline = redis.pipeline();
+      keys.forEach(key => pipeline.del(key));
+      await pipeline.exec();
+    }
   }
 }

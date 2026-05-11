@@ -1,6 +1,7 @@
+import { z } from 'zod';
+import { type UserAccountDto } from "./users.dto.js";
 import * as user from "../validations/user.validation.js"
 import * as token from "../validations/tokens.validation.js"
-import { z } from 'zod';
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
@@ -28,26 +29,19 @@ export const RefreshTokenSchema = z.object({ refresh_token: token.TokenField });
 
 // ─── Inferred request types ───────────────────────────────────────────────────
 
-export type RegisterInput = z.infer<typeof RegisterSchema>;
-export type LoginInput = z.infer<typeof LoginSchema>;
-export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>;
-export type ResetPasswordInput = z.infer<typeof ResetPasswordSchema>;
+export type RegisterBody = z.infer<typeof RegisterSchema>;
+export type LoginBody = z.infer<typeof LoginSchema>;
+export type ForgotPasswordBody = z.infer<typeof ForgotPasswordSchema>;
+export type ResetPasswordBody = z.infer<typeof ResetPasswordSchema>;
 
 // ─── Response DTOs ────────────────────────────────────────────────────────────
-
-export interface AuthUserDto {
-  user_id: string;
-  username: string;
-  email: string;
-  role_name: string | null;
-}
-
 export interface TokensDto {
   access_token: string;
   refresh_token: string;
+  jti: string;
 }
 
-export interface AuthResponseDto {
-  user: AuthUserDto;
+export interface AuthDto {
+  user: UserAccountDto;
   tokens: TokensDto;
 }

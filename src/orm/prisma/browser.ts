@@ -63,6 +63,16 @@ export type follows = Prisma.followsModel
  */
 export type hashtags = Prisma.hashtagsModel
 /**
+ * Model countries
+ * 
+ */
+export type countries = Prisma.countriesModel
+/**
+ * Model cities
+ * 
+ */
+export type cities = Prisma.citiesModel
+/**
  * Model locations
  * 
  */
@@ -147,13 +157,3 @@ export type story_views = Prisma.story_viewsModel
  * 
  */
 export type users = Prisma.usersModel
-/**
- * Model refresh_tokens
- * 
- */
-export type refresh_tokens = Prisma.refresh_tokensModel
-/**
- * Model password_resets
- * 
- */
-export type password_resets = Prisma.password_resetsModel
