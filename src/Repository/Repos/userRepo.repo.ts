@@ -1,7 +1,7 @@
 import { Prisma, type users } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
-import type { UserFiltersDto } from "../../dtos/filters.dto.js";
+import type { UserFiltersDto } from "../../dtos/searchFilters.dto.js";
 
 export class UserRepo extends BaseRepository<
   typeof prisma.users

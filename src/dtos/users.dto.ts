@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import * as user from "../validations/user.validation.js"
-import * as zod from "../validations/common.validation.js";
-import type * as Dto from "./common.dto.js";
-import type { UserFiltersDto } from "./filters.dto.js";
+import * as zod from "../validations/validation.js";
+import type * as Dto from "./dto.js";
+import type { UserFiltersDto } from "./searchFilters.dto.js";
 import { UpsertProfileSchema, type ProfileDto } from "./profile.dto.js";
 
 // ─── Request schemas ──────────────────────────────────────────────────────────

@@ -3,7 +3,7 @@ import { profileRepo } from '../Repository/instances.js';
 import * as profile from "../dtos/profile.dto.js";
 import * as location from "../dtos/location.dto.js"
 import * as AppError from '../types/appErrors.types.js';
-import { deepClean } from "../dtos/common.dto.js";
+import { deepClean } from "../dtos/dto.js";
 import { LocationService } from "./location.service.js";
 
 

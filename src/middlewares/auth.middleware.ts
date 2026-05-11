@@ -1,7 +1,7 @@
 // src/middlewares/auth.middleware.ts
 import type { Request, Response, NextFunction } from 'express';
 import { verifyAccessToken } from '../utils/jwt.utils.js';
-import type { accessPayload } from '../dtos/jwt.dto.js';
+import type { accessPayload } from '../dtos/dto.js';
 import { UnauthorizedError, ForbiddenError } from '../types/appErrors.types.js';
 import { userRepo } from '../Repository/instances.js';
 

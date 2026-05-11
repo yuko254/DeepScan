@@ -1,4 +1,4 @@
-import * as zod from '../validations/common.validation.js';
+import * as zod from '../validations/validation.js';
 import { z } from 'zod';
 import { CreateLocationSchema, UpsertLocationSchema, type LocationDto } from './location.dto.js';
 

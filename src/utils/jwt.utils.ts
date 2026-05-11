@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid'; 
 import type { TokensDto } from '../dtos/auth.dto.js';
 import type { UserAccountDto } from '../dtos/users.dto.js';
-import type { accessPayload, refreshPayload } from '../dtos/common.dto.js';
+import type { accessPayload, refreshPayload } from '../dtos/dto.js';
 import * as env from '../config/env.js';
 
 export function signAccessToken(payload: accessPayload): string {

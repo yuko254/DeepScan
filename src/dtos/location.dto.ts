@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import type { Decimal } from "@prisma/client/runtime/client";
-import * as zod from '../validations/common.validation.js';
-import type * as Dto from "./common.dto.js";
-import type { CityFiltersDto, CountryFiltersDto } from './filters.dto.js';
+import * as zod from '../validations/validation.js';
+import type * as Dto from "./dto.js";
+import type { CityFiltersDto, CountryFiltersDto } from './searchFilters.dto.js';
 
 
 // ─── Request schemas ──────────────────────────────────────────────────────────

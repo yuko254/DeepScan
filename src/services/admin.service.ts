@@ -1,17 +1,19 @@
 import { Prisma, prisma } from "../config/prisma.js";
+import bcrypt from "bcrypt";
 
 import { userRepo } from "../Repository/instances.js";
-import { deepClean } from "../dtos/common.dto.js";
-import * as user from "../dtos/users.dto.js"
-import * as profile from "../dtos/profile.dto.js"
+import { deepClean } from "../dtos/dto.js";
+import * as user from "../dtos/users.dto.js";
+import * as profile from "../dtos/profile.dto.js";
 import * as AppError from '../types/appErrors.types.js';
 
 import { ProfileService } from "./profile.service.js";
 import { UserService } from "./user.service.js";
+import * as env from "../config/env.js"
 
 const profileService = new ProfileService();
 const userService = new UserService();
-
+const SALT_ROUNDS = env.SALT_ROUNDS
 export class AdminService {
   constructor() { }
 
@@ -41,7 +43,7 @@ export class AdminService {
 
   async createUser(input: user.AdminCreateUserAccountBody, profile?: profile.CreateProfileBody): Promise<user.UserDto> {
     return await prisma.$transaction(async (tx) => {
-      const createdAccount = await userService.AdminCreateAccount(input, tx);
+      const createdAccount = await this.createAccount(input, tx);
       const createdProfile = profile
         ? await profileService.createProfile(createdAccount.user_id, profile, tx)
         : null;
@@ -80,7 +82,27 @@ export class AdminService {
     });
   }
 
-  async deleteUser(userID: string): Promise<void> {
-    await userService.AdminDeleteAccount(userID);
+  async deleteUser(userID: string, tx?: Prisma.TransactionClient): Promise<void> {
+    await userRepo.withTx(tx).delete({ where: { user_id: userID } })
+      .catch((e) => {
+        if (e instanceof Prisma.PrismaClientKnownRequestError)
+          if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
+        throw e;
+      })
+  }
+
+  async createAccount(input: user.AdminCreateUserAccountBody, tx?: Prisma.TransactionClient): Promise<user.UserAccountDto> {
+    const { password, ...rest } = deepClean(input);
+    const hashed = await bcrypt.hash(password, SALT_ROUNDS);
+
+    return await userRepo.withTx(tx).create({
+      data: { ...rest, password: hashed },
+      omit: { password: true, created_at: true, role_id: true },
+      include: { role: true }
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError)
+        if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');
+      throw e;
+    });
   }
 }
