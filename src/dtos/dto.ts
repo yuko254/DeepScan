@@ -1,3 +1,4 @@
+import type { PrismaClient } from '@prisma/client';
 import { Decimal } from "@prisma/client/runtime/client";
 import type { RoleDto } from "./users.dto.js";
 
@@ -17,6 +18,11 @@ export interface accessPayload {
 export interface refreshPayload {
   user_id: string;
   jti: string;
+}
+
+export interface GraphqlContext {
+  user: accessPayload | undefined | null;
+  prisma: PrismaClient;
 }
 
 type RemoveUndefined<T> = {

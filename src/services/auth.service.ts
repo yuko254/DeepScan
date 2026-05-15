@@ -21,28 +21,28 @@ export class AuthService {
     const hashed = await bcrypt.hash(input.password, SALT_ROUNDS);
 
     const user = await userRepo.create({
-      data: {
-        username: input.username,
-        email: input.email,
-        password: hashed,
-      },
+      data: { username: input.username, email: input.email, password: hashed, },
       include: { role: true },
-      omit: { password: true, role_id: true, created_at: true }
     }).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already taken');
+        if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');
       }
       throw e;
     });
 
     const tokens = generateTokens(user);
-
-    // Store the hashed refresh token
     const hashedRefreshToken = await bcrypt.hash(tokens.refresh_token, SALT_ROUNDS);
     const key = `refresh:${user.user_id}:${tokens.jti}`;
     await redis.set(key, hashedRefreshToken, 'EX', env.REFRESH_TOKEN_TTL_SECONDS);
 
-    return { user: user, tokens: tokens };
+    const userDto = {
+      user_id: user.user_id,
+      username: user.username,
+      email: user.email,
+      role: user.role
+    };
+    const tokenDto = { ...tokens, jti: undefined }
+    return { user: userDto, tokens: tokenDto };
   }
 
   async login(input: auth.LoginBody): Promise<auth.AuthDto> {
@@ -50,7 +50,6 @@ export class AuthService {
     const user = await userRepo.findUnique({
       where: { email: input.email },
       include: { role: true },
-      omit: { role_id: true, created_at: true }
     });
     if (!user) throw new AppError.UnauthorizedError('Invalid email or password');
 
@@ -58,13 +57,22 @@ export class AuthService {
     const valid = await bcrypt.compare(input.password, user.password);
     if (!valid) throw new AppError.UnauthorizedError('Invalid email or password');
 
-    const tokens = generateTokens(user);
+    if (user.is_banned) throw new AppError.ForbiddenError('Your account has been banned');
+    if (!user.is_active) throw new AppError.ForbiddenError('Your account is deactivated');
 
+    const tokens = generateTokens(user);
     const hashedRefreshToken = await bcrypt.hash(tokens.refresh_token, SALT_ROUNDS);
     const key = `refresh:${user.user_id}:${tokens.jti}`;
     await redis.set(key, hashedRefreshToken, 'EX', env.REFRESH_TOKEN_TTL_SECONDS);
 
-    return { user: user, tokens: tokens };
+    const userDto = {
+      user_id: user.user_id,
+      username: user.username,
+      email: user.email,
+      role: user.role
+    };
+    const tokenDto = { ...tokens, jti: undefined }
+    return { user: userDto, tokens: tokenDto };
   }
 
   async refresh(refresh_token: string): Promise<auth.TokensDto> {
@@ -80,10 +88,11 @@ export class AuthService {
     const user = await userRepo.findUnique({ 
       where: { user_id: payload.user_id},
       include: { role: true },
-      omit: { password: true, role_id: true, created_at: true }
     });
     if (!user) throw new AppError.NotFoundError('User no longer exists');
-
+    if (user.is_banned) throw new AppError.ForbiddenError('Your account has been banned');
+    if (!user.is_active) throw new AppError.ForbiddenError('Your account is deactivated');
+ 
     // Find the stored (hashed) token
     const key = `refresh:${payload.user_id}:${payload.jti}`;
     const storedHash = await redis.get(key);
@@ -95,21 +104,17 @@ export class AuthService {
 
     // Verify the raw token matches the stored hash
     const isValid = await bcrypt.compare(refresh_token, storedHash);
-    if (!isValid) {
-      throw new AppError.UnauthorizedError('Refresh token is invalid');
-    }
+    if (!isValid) throw new AppError.UnauthorizedError('Refresh token is invalid');
 
     // Rotation: delete old key, issue new tokens
     await redis.del(key);
-
     const newTokens = generateTokens(user);
-
-    // Store the new refresh token
     const newKey = `refresh:${user.user_id}:${newTokens.jti}`;
     const newHashed = await bcrypt.hash(newTokens.refresh_token, SALT_ROUNDS);
     await redis.set(newKey, newHashed, 'EX', env.REFRESH_TOKEN_TTL_SECONDS);
-
-    return newTokens;
+    
+    const tokenDto = { ...newTokens, jti: undefined }
+    return tokenDto;
   }
 
   async logout(refresh_token: string): Promise<void> {
@@ -118,14 +123,13 @@ export class AuthService {
       const key = `refresh:${payload.user_id}:${payload.jti}`;
       await redis.del(key);
     } catch {
-      // token is invalid anyway
+      // token is already invalid — nothing to revoke
     }
   }
 
   async forgotPassword(email: string): Promise<void> {
-    const user = await userRepo.findUnique({ where: { email: email } });
-
-    // always return success even if email not found — prevents user enumeration
+    const user = await userRepo.findByEmail(email);
+    // Always return success — prevents user enumeration
     if (!user) return;
 
     const token = crypto.randomBytes(4).toHex();
@@ -135,14 +139,21 @@ export class AuthService {
   }
 
   async resetPassword(input: auth.ResetPasswordBody): Promise<void> {
-    const user_id = await redis.get(`password_reset:${input.token}`);
-    if (!user_id) throw new AppError.NotFoundError('Invalid or expired token');
-    await redis.del(`password_reset:${user_id}:${input.token}`);
+    const user = await userRepo.findByEmail(input.email);
+
+    // always return success even if email not found — prevents user enumeration
+    if (!user) return;
+
+    const resetKey = `password_reset:${user.user_id}:${input.token}`;
+    const tokenExists = await redis.get(resetKey);
+    if (!tokenExists) throw new AppError.NotFoundError('Invalid or expired token');
+
+    await redis.del(resetKey);
 
     const hashed = await bcrypt.hash(input.new_password, SALT_ROUNDS);
-    await userRepo.update({ where: { user_id: user_id }, data: { password: hashed } });
+    await userRepo.update({ where: { user_id: user.user_id }, data: { password: hashed } });
 
-    await this.revokeAllUserTokens(user_id, "password_reset");
+    await this.revokeAllUserTokens(user.user_id, "password_reset");
   }
 
   async revokeAllUserTokens(userId: string, token: string): Promise<void> {

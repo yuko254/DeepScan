@@ -21,6 +21,7 @@ export const ForgotPasswordSchema = z.object({
 });
 
 export const ResetPasswordSchema = z.object({
+  email: user.emailField,
   token: token.TokenField,
   new_password: user.passwordField,
 });
@@ -38,7 +39,7 @@ export type ResetPasswordBody = z.infer<typeof ResetPasswordSchema>;
 export interface TokensDto {
   access_token: string;
   refresh_token: string;
-  jti: string;
+  jti: string | undefined;
 }
 
 export interface AuthDto {

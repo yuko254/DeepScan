@@ -127,7 +127,7 @@ router.post('/forgot-password', async (req: Request, res: Response, next: NextFu
 
 /**
  * POST /auth/reset-password
- * Body: { token, new_password }
+ * Body: { email, token, new_password }
  */
 router.post('/reset-password', async (req: Request, res: Response, next: NextFunction) => {
   try {
