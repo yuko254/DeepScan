@@ -208,8 +208,8 @@ export type post_likesWhereInput = {
   user_id?: Prisma.UuidNullableFilter<"post_likes"> | string | null
   post_id?: Prisma.UuidFilter<"post_likes"> | string
   created_at?: Prisma.DateTimeFilter<"post_likes"> | Date | string
-  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
   user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }
 
 export type post_likesOrderByWithRelationInput = {
@@ -217,8 +217,8 @@ export type post_likesOrderByWithRelationInput = {
   user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   post_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  post?: Prisma.postsOrderByWithRelationInput
   user?: Prisma.usersOrderByWithRelationInput
+  post?: Prisma.postsOrderByWithRelationInput
 }
 
 export type post_likesWhereUniqueInput = Prisma.AtLeast<{
@@ -230,8 +230,8 @@ export type post_likesWhereUniqueInput = Prisma.AtLeast<{
   user_id?: Prisma.UuidNullableFilter<"post_likes"> | string | null
   post_id?: Prisma.UuidFilter<"post_likes"> | string
   created_at?: Prisma.DateTimeFilter<"post_likes"> | Date | string
-  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
   user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }, "id" | "user_id_post_id">
 
 export type post_likesOrderByWithAggregationInput = {
@@ -259,8 +259,8 @@ export type post_likesScalarWhereWithAggregatesInput = {
 export type post_likesCreateInput = {
   id?: bigint | number
   created_at?: Date | string
-  post: Prisma.postsCreateNestedOneWithoutPost_likesInput
   user?: Prisma.usersCreateNestedOneWithoutPost_likesInput
+  post: Prisma.postsCreateNestedOneWithoutPost_likesInput
 }
 
 export type post_likesUncheckedCreateInput = {
@@ -273,8 +273,8 @@ export type post_likesUncheckedCreateInput = {
 export type post_likesUpdateInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  post?: Prisma.postsUpdateOneRequiredWithoutPost_likesNestedInput
   user?: Prisma.usersUpdateOneWithoutPost_likesNestedInput
+  post?: Prisma.postsUpdateOneRequiredWithoutPost_likesNestedInput
 }
 
 export type post_likesUncheckedUpdateInput = {
@@ -572,8 +572,8 @@ export type post_likesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   user_id?: boolean
   post_id?: boolean
   created_at?: boolean
-  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   user?: boolean | Prisma.post_likes$userArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_likes"]>
 
 export type post_likesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -581,8 +581,8 @@ export type post_likesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   user_id?: boolean
   post_id?: boolean
   created_at?: boolean
-  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   user?: boolean | Prisma.post_likes$userArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_likes"]>
 
 export type post_likesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -590,8 +590,8 @@ export type post_likesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   user_id?: boolean
   post_id?: boolean
   created_at?: boolean
-  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   user?: boolean | Prisma.post_likes$userArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_likes"]>
 
 export type post_likesSelectScalar = {
@@ -603,23 +603,23 @@ export type post_likesSelectScalar = {
 
 export type post_likesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "post_id" | "created_at", ExtArgs["result"]["post_likes"]>
 export type post_likesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   user?: boolean | Prisma.post_likes$userArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_likesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   user?: boolean | Prisma.post_likes$userArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_likesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   user?: boolean | Prisma.post_likes$userArgs<ExtArgs>
+  post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 
 export type $post_likesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "post_likes"
   objects: {
-    post: Prisma.$postsPayload<ExtArgs>
     user: Prisma.$usersPayload<ExtArgs> | null
+    post: Prisma.$postsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: bigint
@@ -1020,8 +1020,8 @@ readonly fields: post_likesFieldRefs;
  */
 export interface Prisma__post_likesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  post<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.post_likes$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.post_likes$userArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  post<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -1,5 +1,5 @@
 export interface UserFiltersDto {
-  role_id?: BigInt;
+  role_id?: bigint;
   search?: string;
   // isActive?: boolean;
 }

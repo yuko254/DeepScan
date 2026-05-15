@@ -35,33 +35,24 @@ export type PostsSumAggregateOutputType = {
 }
 
 export type PostsMinAggregateOutputType = {
-  post_id: string | null
-  user_id: string | null
+  content_id: string | null
   category_id: bigint | null
   location_id: string | null
   text_content: string | null
-  created_at: Date | null
-  updated_at: Date | null
 }
 
 export type PostsMaxAggregateOutputType = {
-  post_id: string | null
-  user_id: string | null
+  content_id: string | null
   category_id: bigint | null
   location_id: string | null
   text_content: string | null
-  created_at: Date | null
-  updated_at: Date | null
 }
 
 export type PostsCountAggregateOutputType = {
-  post_id: number
-  user_id: number
+  content_id: number
   category_id: number
   location_id: number
   text_content: number
-  created_at: number
-  updated_at: number
   _all: number
 }
 
@@ -75,33 +66,24 @@ export type PostsSumAggregateInputType = {
 }
 
 export type PostsMinAggregateInputType = {
-  post_id?: true
-  user_id?: true
+  content_id?: true
   category_id?: true
   location_id?: true
   text_content?: true
-  created_at?: true
-  updated_at?: true
 }
 
 export type PostsMaxAggregateInputType = {
-  post_id?: true
-  user_id?: true
+  content_id?: true
   category_id?: true
   location_id?: true
   text_content?: true
-  created_at?: true
-  updated_at?: true
 }
 
 export type PostsCountAggregateInputType = {
-  post_id?: true
-  user_id?: true
+  content_id?: true
   category_id?: true
   location_id?: true
   text_content?: true
-  created_at?: true
-  updated_at?: true
   _all?: true
 }
 
@@ -192,13 +174,10 @@ export type postsGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 export type PostsGroupByOutputType = {
-  post_id: string
-  user_id: string
+  content_id: string
   category_id: bigint | null
   location_id: string | null
   text_content: string | null
-  created_at: Date
-  updated_at: Date | null
   _count: PostsCountAggregateOutputType | null
   _avg: PostsAvgAggregateOutputType | null
   _sum: PostsSumAggregateOutputType | null
@@ -225,76 +204,67 @@ export type postsWhereInput = {
   AND?: Prisma.postsWhereInput | Prisma.postsWhereInput[]
   OR?: Prisma.postsWhereInput[]
   NOT?: Prisma.postsWhereInput | Prisma.postsWhereInput[]
-  post_id?: Prisma.UuidFilter<"posts"> | string
-  user_id?: Prisma.UuidFilter<"posts"> | string
+  content_id?: Prisma.UuidFilter<"posts"> | string
   category_id?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
   location_id?: Prisma.UuidNullableFilter<"posts"> | string | null
   text_content?: Prisma.StringNullableFilter<"posts"> | string | null
-  created_at?: Prisma.DateTimeFilter<"posts"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
-  comments?: Prisma.CommentsListRelationFilter
-  media?: Prisma.MediaListRelationFilter
-  mentions?: Prisma.MentionsListRelationFilter
-  post_blocks?: Prisma.Post_blocksListRelationFilter
-  post_hashtags?: Prisma.Post_hashtagsListRelationFilter
-  post_likes?: Prisma.Post_likesListRelationFilter
+  content?: Prisma.XOR<Prisma.ContentsScalarRelationFilter, Prisma.contentsWhereInput>
   category?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   location?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
-  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  comments?: Prisma.CommentsListRelationFilter
+  post_blocks?: Prisma.Post_blocksListRelationFilter
+  post_likes?: Prisma.Post_likesListRelationFilter
   saved_posts?: Prisma.Saved_postsListRelationFilter
+  reportTargets?: Prisma.Report_targetsListRelationFilter
+  notificationTargets?: Prisma.Notification_targetsListRelationFilter
+  mentionTargets?: Prisma.Mention_targetsListRelationFilter
+  postTags?: Prisma.Post_tagsListRelationFilter
 }
 
 export type postsOrderByWithRelationInput = {
-  post_id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  content_id?: Prisma.SortOrder
   category_id?: Prisma.SortOrderInput | Prisma.SortOrder
   location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   text_content?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  comments?: Prisma.commentsOrderByRelationAggregateInput
-  media?: Prisma.mediaOrderByRelationAggregateInput
-  mentions?: Prisma.mentionsOrderByRelationAggregateInput
-  post_blocks?: Prisma.post_blocksOrderByRelationAggregateInput
-  post_hashtags?: Prisma.post_hashtagsOrderByRelationAggregateInput
-  post_likes?: Prisma.post_likesOrderByRelationAggregateInput
+  content?: Prisma.contentsOrderByWithRelationInput
   category?: Prisma.categoriesOrderByWithRelationInput
   location?: Prisma.locationsOrderByWithRelationInput
-  user?: Prisma.usersOrderByWithRelationInput
+  comments?: Prisma.commentsOrderByRelationAggregateInput
+  post_blocks?: Prisma.post_blocksOrderByRelationAggregateInput
+  post_likes?: Prisma.post_likesOrderByRelationAggregateInput
   saved_posts?: Prisma.saved_postsOrderByRelationAggregateInput
+  reportTargets?: Prisma.report_targetsOrderByRelationAggregateInput
+  notificationTargets?: Prisma.notification_targetsOrderByRelationAggregateInput
+  mentionTargets?: Prisma.mention_targetsOrderByRelationAggregateInput
+  postTags?: Prisma.post_tagsOrderByRelationAggregateInput
 }
 
 export type postsWhereUniqueInput = Prisma.AtLeast<{
-  post_id?: string
+  content_id?: string
   AND?: Prisma.postsWhereInput | Prisma.postsWhereInput[]
   OR?: Prisma.postsWhereInput[]
   NOT?: Prisma.postsWhereInput | Prisma.postsWhereInput[]
-  user_id?: Prisma.UuidFilter<"posts"> | string
   category_id?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
   location_id?: Prisma.UuidNullableFilter<"posts"> | string | null
   text_content?: Prisma.StringNullableFilter<"posts"> | string | null
-  created_at?: Prisma.DateTimeFilter<"posts"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
-  comments?: Prisma.CommentsListRelationFilter
-  media?: Prisma.MediaListRelationFilter
-  mentions?: Prisma.MentionsListRelationFilter
-  post_blocks?: Prisma.Post_blocksListRelationFilter
-  post_hashtags?: Prisma.Post_hashtagsListRelationFilter
-  post_likes?: Prisma.Post_likesListRelationFilter
+  content?: Prisma.XOR<Prisma.ContentsScalarRelationFilter, Prisma.contentsWhereInput>
   category?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   location?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
-  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  comments?: Prisma.CommentsListRelationFilter
+  post_blocks?: Prisma.Post_blocksListRelationFilter
+  post_likes?: Prisma.Post_likesListRelationFilter
   saved_posts?: Prisma.Saved_postsListRelationFilter
-}, "post_id">
+  reportTargets?: Prisma.Report_targetsListRelationFilter
+  notificationTargets?: Prisma.Notification_targetsListRelationFilter
+  mentionTargets?: Prisma.Mention_targetsListRelationFilter
+  postTags?: Prisma.Post_tagsListRelationFilter
+}, "content_id">
 
 export type postsOrderByWithAggregationInput = {
-  post_id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  content_id?: Prisma.SortOrder
   category_id?: Prisma.SortOrderInput | Prisma.SortOrder
   location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   text_content?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.postsCountOrderByAggregateInput
   _avg?: Prisma.postsAvgOrderByAggregateInput
   _max?: Prisma.postsMaxOrderByAggregateInput
@@ -306,108 +276,88 @@ export type postsScalarWhereWithAggregatesInput = {
   AND?: Prisma.postsScalarWhereWithAggregatesInput | Prisma.postsScalarWhereWithAggregatesInput[]
   OR?: Prisma.postsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.postsScalarWhereWithAggregatesInput | Prisma.postsScalarWhereWithAggregatesInput[]
-  post_id?: Prisma.UuidWithAggregatesFilter<"posts"> | string
-  user_id?: Prisma.UuidWithAggregatesFilter<"posts"> | string
+  content_id?: Prisma.UuidWithAggregatesFilter<"posts"> | string
   category_id?: Prisma.BigIntNullableWithAggregatesFilter<"posts"> | bigint | number | null
   location_id?: Prisma.UuidNullableWithAggregatesFilter<"posts"> | string | null
   text_content?: Prisma.StringNullableWithAggregatesFilter<"posts"> | string | null
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"posts"> | Date | string
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"posts"> | Date | string | null
 }
 
 export type postsCreateInput = {
-  post_id?: string
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsUpdateInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateManyInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
 }
 
 export type postsUpdateManyMutationInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type postsUncheckedUpdateManyInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PostsListRelationFilter = {
@@ -431,13 +381,10 @@ export type PostsNullableScalarRelationFilter = {
 }
 
 export type postsCountOrderByAggregateInput = {
-  post_id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  content_id?: Prisma.SortOrder
   category_id?: Prisma.SortOrder
   location_id?: Prisma.SortOrder
   text_content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
 }
 
 export type postsAvgOrderByAggregateInput = {
@@ -445,23 +392,17 @@ export type postsAvgOrderByAggregateInput = {
 }
 
 export type postsMaxOrderByAggregateInput = {
-  post_id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  content_id?: Prisma.SortOrder
   category_id?: Prisma.SortOrder
   location_id?: Prisma.SortOrder
   text_content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
 }
 
 export type postsMinOrderByAggregateInput = {
-  post_id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  content_id?: Prisma.SortOrder
   category_id?: Prisma.SortOrder
   location_id?: Prisma.SortOrder
   text_content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
 }
 
 export type postsSumOrderByAggregateInput = {
@@ -566,36 +507,68 @@ export type postsUncheckedUpdateManyWithoutLocationNestedInput = {
   deleteMany?: Prisma.postsScalarWhereInput | Prisma.postsScalarWhereInput[]
 }
 
-export type postsCreateNestedOneWithoutMediaInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutMediaInput, Prisma.postsUncheckedCreateWithoutMediaInput>
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutMediaInput
+export type postsCreateNestedOneWithoutContentInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutContentInput, Prisma.postsUncheckedCreateWithoutContentInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutContentInput
   connect?: Prisma.postsWhereUniqueInput
 }
 
-export type postsUpdateOneWithoutMediaNestedInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutMediaInput, Prisma.postsUncheckedCreateWithoutMediaInput>
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutMediaInput
-  upsert?: Prisma.postsUpsertWithoutMediaInput
+export type postsUncheckedCreateNestedOneWithoutContentInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutContentInput, Prisma.postsUncheckedCreateWithoutContentInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutContentInput
+  connect?: Prisma.postsWhereUniqueInput
+}
+
+export type postsUpdateOneWithoutContentNestedInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutContentInput, Prisma.postsUncheckedCreateWithoutContentInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutContentInput
+  upsert?: Prisma.postsUpsertWithoutContentInput
   disconnect?: Prisma.postsWhereInput | boolean
   delete?: Prisma.postsWhereInput | boolean
   connect?: Prisma.postsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutMediaInput, Prisma.postsUpdateWithoutMediaInput>, Prisma.postsUncheckedUpdateWithoutMediaInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutContentInput, Prisma.postsUpdateWithoutContentInput>, Prisma.postsUncheckedUpdateWithoutContentInput>
 }
 
-export type postsCreateNestedOneWithoutMentionsInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutMentionsInput, Prisma.postsUncheckedCreateWithoutMentionsInput>
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutMentionsInput
-  connect?: Prisma.postsWhereUniqueInput
-}
-
-export type postsUpdateOneWithoutMentionsNestedInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutMentionsInput, Prisma.postsUncheckedCreateWithoutMentionsInput>
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutMentionsInput
-  upsert?: Prisma.postsUpsertWithoutMentionsInput
+export type postsUncheckedUpdateOneWithoutContentNestedInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutContentInput, Prisma.postsUncheckedCreateWithoutContentInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutContentInput
+  upsert?: Prisma.postsUpsertWithoutContentInput
   disconnect?: Prisma.postsWhereInput | boolean
   delete?: Prisma.postsWhereInput | boolean
   connect?: Prisma.postsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutMentionsInput, Prisma.postsUpdateWithoutMentionsInput>, Prisma.postsUncheckedUpdateWithoutMentionsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutContentInput, Prisma.postsUpdateWithoutContentInput>, Prisma.postsUncheckedUpdateWithoutContentInput>
+}
+
+export type postsCreateNestedOneWithoutMentionTargetsInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutMentionTargetsInput, Prisma.postsUncheckedCreateWithoutMentionTargetsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutMentionTargetsInput
+  connect?: Prisma.postsWhereUniqueInput
+}
+
+export type postsUpdateOneWithoutMentionTargetsNestedInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutMentionTargetsInput, Prisma.postsUncheckedCreateWithoutMentionTargetsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutMentionTargetsInput
+  upsert?: Prisma.postsUpsertWithoutMentionTargetsInput
+  disconnect?: Prisma.postsWhereInput | boolean
+  delete?: Prisma.postsWhereInput | boolean
+  connect?: Prisma.postsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutMentionTargetsInput, Prisma.postsUpdateWithoutMentionTargetsInput>, Prisma.postsUncheckedUpdateWithoutMentionTargetsInput>
+}
+
+export type postsCreateNestedOneWithoutNotificationTargetsInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutNotificationTargetsInput, Prisma.postsUncheckedCreateWithoutNotificationTargetsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutNotificationTargetsInput
+  connect?: Prisma.postsWhereUniqueInput
+}
+
+export type postsUpdateOneWithoutNotificationTargetsNestedInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutNotificationTargetsInput, Prisma.postsUncheckedCreateWithoutNotificationTargetsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutNotificationTargetsInput
+  upsert?: Prisma.postsUpsertWithoutNotificationTargetsInput
+  disconnect?: Prisma.postsWhereInput | boolean
+  delete?: Prisma.postsWhereInput | boolean
+  connect?: Prisma.postsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutNotificationTargetsInput, Prisma.postsUpdateWithoutNotificationTargetsInput>, Prisma.postsUncheckedUpdateWithoutNotificationTargetsInput>
 }
 
 export type postsCreateNestedOneWithoutPost_blocksInput = {
@@ -612,20 +585,6 @@ export type postsUpdateOneRequiredWithoutPost_blocksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutPost_blocksInput, Prisma.postsUpdateWithoutPost_blocksInput>, Prisma.postsUncheckedUpdateWithoutPost_blocksInput>
 }
 
-export type postsCreateNestedOneWithoutPost_hashtagsInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutPost_hashtagsInput, Prisma.postsUncheckedCreateWithoutPost_hashtagsInput>
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutPost_hashtagsInput
-  connect?: Prisma.postsWhereUniqueInput
-}
-
-export type postsUpdateOneRequiredWithoutPost_hashtagsNestedInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutPost_hashtagsInput, Prisma.postsUncheckedCreateWithoutPost_hashtagsInput>
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutPost_hashtagsInput
-  upsert?: Prisma.postsUpsertWithoutPost_hashtagsInput
-  connect?: Prisma.postsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutPost_hashtagsInput, Prisma.postsUpdateWithoutPost_hashtagsInput>, Prisma.postsUncheckedUpdateWithoutPost_hashtagsInput>
-}
-
 export type postsCreateNestedOneWithoutPost_likesInput = {
   create?: Prisma.XOR<Prisma.postsCreateWithoutPost_likesInput, Prisma.postsUncheckedCreateWithoutPost_likesInput>
   connectOrCreate?: Prisma.postsCreateOrConnectWithoutPost_likesInput
@@ -638,6 +597,36 @@ export type postsUpdateOneRequiredWithoutPost_likesNestedInput = {
   upsert?: Prisma.postsUpsertWithoutPost_likesInput
   connect?: Prisma.postsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutPost_likesInput, Prisma.postsUpdateWithoutPost_likesInput>, Prisma.postsUncheckedUpdateWithoutPost_likesInput>
+}
+
+export type postsCreateNestedOneWithoutPostTagsInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutPostTagsInput, Prisma.postsUncheckedCreateWithoutPostTagsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutPostTagsInput
+  connect?: Prisma.postsWhereUniqueInput
+}
+
+export type postsUpdateOneRequiredWithoutPostTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutPostTagsInput, Prisma.postsUncheckedCreateWithoutPostTagsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutPostTagsInput
+  upsert?: Prisma.postsUpsertWithoutPostTagsInput
+  connect?: Prisma.postsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutPostTagsInput, Prisma.postsUpdateWithoutPostTagsInput>, Prisma.postsUncheckedUpdateWithoutPostTagsInput>
+}
+
+export type postsCreateNestedOneWithoutReportTargetsInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutReportTargetsInput, Prisma.postsUncheckedCreateWithoutReportTargetsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutReportTargetsInput
+  connect?: Prisma.postsWhereUniqueInput
+}
+
+export type postsUpdateOneWithoutReportTargetsNestedInput = {
+  create?: Prisma.XOR<Prisma.postsCreateWithoutReportTargetsInput, Prisma.postsUncheckedCreateWithoutReportTargetsInput>
+  connectOrCreate?: Prisma.postsCreateOrConnectWithoutReportTargetsInput
+  upsert?: Prisma.postsUpsertWithoutReportTargetsInput
+  disconnect?: Prisma.postsWhereInput | boolean
+  delete?: Prisma.postsWhereInput | boolean
+  connect?: Prisma.postsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutReportTargetsInput, Prisma.postsUpdateWithoutReportTargetsInput>, Prisma.postsUncheckedUpdateWithoutReportTargetsInput>
 }
 
 export type postsCreateNestedOneWithoutSaved_postsInput = {
@@ -656,78 +645,32 @@ export type postsUpdateOneWithoutSaved_postsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutSaved_postsInput, Prisma.postsUpdateWithoutSaved_postsInput>, Prisma.postsUncheckedUpdateWithoutSaved_postsInput>
 }
 
-export type postsCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutUserInput, Prisma.postsUncheckedCreateWithoutUserInput> | Prisma.postsCreateWithoutUserInput[] | Prisma.postsUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutUserInput | Prisma.postsCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.postsCreateManyUserInputEnvelope
-  connect?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-}
-
-export type postsUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutUserInput, Prisma.postsUncheckedCreateWithoutUserInput> | Prisma.postsCreateWithoutUserInput[] | Prisma.postsUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutUserInput | Prisma.postsCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.postsCreateManyUserInputEnvelope
-  connect?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-}
-
-export type postsUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutUserInput, Prisma.postsUncheckedCreateWithoutUserInput> | Prisma.postsCreateWithoutUserInput[] | Prisma.postsUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutUserInput | Prisma.postsCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.postsUpsertWithWhereUniqueWithoutUserInput | Prisma.postsUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.postsCreateManyUserInputEnvelope
-  set?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  disconnect?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  delete?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  connect?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  update?: Prisma.postsUpdateWithWhereUniqueWithoutUserInput | Prisma.postsUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.postsUpdateManyWithWhereWithoutUserInput | Prisma.postsUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.postsScalarWhereInput | Prisma.postsScalarWhereInput[]
-}
-
-export type postsUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.postsCreateWithoutUserInput, Prisma.postsUncheckedCreateWithoutUserInput> | Prisma.postsCreateWithoutUserInput[] | Prisma.postsUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.postsCreateOrConnectWithoutUserInput | Prisma.postsCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.postsUpsertWithWhereUniqueWithoutUserInput | Prisma.postsUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.postsCreateManyUserInputEnvelope
-  set?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  disconnect?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  delete?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  connect?: Prisma.postsWhereUniqueInput | Prisma.postsWhereUniqueInput[]
-  update?: Prisma.postsUpdateWithWhereUniqueWithoutUserInput | Prisma.postsUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.postsUpdateManyWithWhereWithoutUserInput | Prisma.postsUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.postsScalarWhereInput | Prisma.postsScalarWhereInput[]
-}
-
 export type postsCreateWithoutCategoryInput = {
-  post_id?: string
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutCategoryInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutCategoryInput = {
@@ -760,45 +703,38 @@ export type postsScalarWhereInput = {
   AND?: Prisma.postsScalarWhereInput | Prisma.postsScalarWhereInput[]
   OR?: Prisma.postsScalarWhereInput[]
   NOT?: Prisma.postsScalarWhereInput | Prisma.postsScalarWhereInput[]
-  post_id?: Prisma.UuidFilter<"posts"> | string
-  user_id?: Prisma.UuidFilter<"posts"> | string
+  content_id?: Prisma.UuidFilter<"posts"> | string
   category_id?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
   location_id?: Prisma.UuidNullableFilter<"posts"> | string | null
   text_content?: Prisma.StringNullableFilter<"posts"> | string | null
-  created_at?: Prisma.DateTimeFilter<"posts"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
 }
 
 export type postsCreateWithoutCommentsInput = {
-  post_id?: string
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutCommentsInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutCommentsInput = {
@@ -818,67 +754,59 @@ export type postsUpdateToOneWithWhereWithoutCommentsInput = {
 }
 
 export type postsUpdateWithoutCommentsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutCommentsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutLocationInput = {
-  post_id?: string
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutLocationInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   category_id?: bigint | number | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutLocationInput = {
@@ -907,196 +835,248 @@ export type postsUpdateManyWithWhereWithoutLocationInput = {
   data: Prisma.XOR<Prisma.postsUpdateManyMutationInput, Prisma.postsUncheckedUpdateManyWithoutLocationInput>
 }
 
-export type postsCreateWithoutMediaInput = {
-  post_id?: string
+export type postsCreateWithoutContentInput = {
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
-export type postsUncheckedCreateWithoutMediaInput = {
-  post_id?: string
-  user_id: string
+export type postsUncheckedCreateWithoutContentInput = {
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
-export type postsCreateOrConnectWithoutMediaInput = {
+export type postsCreateOrConnectWithoutContentInput = {
   where: Prisma.postsWhereUniqueInput
-  create: Prisma.XOR<Prisma.postsCreateWithoutMediaInput, Prisma.postsUncheckedCreateWithoutMediaInput>
+  create: Prisma.XOR<Prisma.postsCreateWithoutContentInput, Prisma.postsUncheckedCreateWithoutContentInput>
 }
 
-export type postsUpsertWithoutMediaInput = {
-  update: Prisma.XOR<Prisma.postsUpdateWithoutMediaInput, Prisma.postsUncheckedUpdateWithoutMediaInput>
-  create: Prisma.XOR<Prisma.postsCreateWithoutMediaInput, Prisma.postsUncheckedCreateWithoutMediaInput>
+export type postsUpsertWithoutContentInput = {
+  update: Prisma.XOR<Prisma.postsUpdateWithoutContentInput, Prisma.postsUncheckedUpdateWithoutContentInput>
+  create: Prisma.XOR<Prisma.postsCreateWithoutContentInput, Prisma.postsUncheckedCreateWithoutContentInput>
   where?: Prisma.postsWhereInput
 }
 
-export type postsUpdateToOneWithWhereWithoutMediaInput = {
+export type postsUpdateToOneWithWhereWithoutContentInput = {
   where?: Prisma.postsWhereInput
-  data: Prisma.XOR<Prisma.postsUpdateWithoutMediaInput, Prisma.postsUncheckedUpdateWithoutMediaInput>
+  data: Prisma.XOR<Prisma.postsUpdateWithoutContentInput, Prisma.postsUncheckedUpdateWithoutContentInput>
 }
 
-export type postsUpdateWithoutMediaInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
+export type postsUpdateWithoutContentInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
-export type postsUncheckedUpdateWithoutMediaInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+export type postsUncheckedUpdateWithoutContentInput = {
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
-export type postsCreateWithoutMentionsInput = {
-  post_id?: string
+export type postsCreateWithoutMentionTargetsInput = {
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
-export type postsUncheckedCreateWithoutMentionsInput = {
-  post_id?: string
-  user_id: string
+export type postsUncheckedCreateWithoutMentionTargetsInput = {
+  content_id: string
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
-export type postsCreateOrConnectWithoutMentionsInput = {
+export type postsCreateOrConnectWithoutMentionTargetsInput = {
   where: Prisma.postsWhereUniqueInput
-  create: Prisma.XOR<Prisma.postsCreateWithoutMentionsInput, Prisma.postsUncheckedCreateWithoutMentionsInput>
+  create: Prisma.XOR<Prisma.postsCreateWithoutMentionTargetsInput, Prisma.postsUncheckedCreateWithoutMentionTargetsInput>
 }
 
-export type postsUpsertWithoutMentionsInput = {
-  update: Prisma.XOR<Prisma.postsUpdateWithoutMentionsInput, Prisma.postsUncheckedUpdateWithoutMentionsInput>
-  create: Prisma.XOR<Prisma.postsCreateWithoutMentionsInput, Prisma.postsUncheckedCreateWithoutMentionsInput>
+export type postsUpsertWithoutMentionTargetsInput = {
+  update: Prisma.XOR<Prisma.postsUpdateWithoutMentionTargetsInput, Prisma.postsUncheckedUpdateWithoutMentionTargetsInput>
+  create: Prisma.XOR<Prisma.postsCreateWithoutMentionTargetsInput, Prisma.postsUncheckedCreateWithoutMentionTargetsInput>
   where?: Prisma.postsWhereInput
 }
 
-export type postsUpdateToOneWithWhereWithoutMentionsInput = {
+export type postsUpdateToOneWithWhereWithoutMentionTargetsInput = {
   where?: Prisma.postsWhereInput
-  data: Prisma.XOR<Prisma.postsUpdateWithoutMentionsInput, Prisma.postsUncheckedUpdateWithoutMentionsInput>
+  data: Prisma.XOR<Prisma.postsUpdateWithoutMentionTargetsInput, Prisma.postsUncheckedUpdateWithoutMentionTargetsInput>
 }
 
-export type postsUpdateWithoutMentionsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
+export type postsUpdateWithoutMentionTargetsInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
-export type postsUncheckedUpdateWithoutMentionsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+export type postsUncheckedUpdateWithoutMentionTargetsInput = {
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
+}
+
+export type postsCreateWithoutNotificationTargetsInput = {
+  text_content?: string | null
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
+  location?: Prisma.locationsCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
+}
+
+export type postsUncheckedCreateWithoutNotificationTargetsInput = {
+  content_id: string
+  category_id?: bigint | number | null
+  location_id?: string | null
+  text_content?: string | null
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type postsCreateOrConnectWithoutNotificationTargetsInput = {
+  where: Prisma.postsWhereUniqueInput
+  create: Prisma.XOR<Prisma.postsCreateWithoutNotificationTargetsInput, Prisma.postsUncheckedCreateWithoutNotificationTargetsInput>
+}
+
+export type postsUpsertWithoutNotificationTargetsInput = {
+  update: Prisma.XOR<Prisma.postsUpdateWithoutNotificationTargetsInput, Prisma.postsUncheckedUpdateWithoutNotificationTargetsInput>
+  create: Prisma.XOR<Prisma.postsCreateWithoutNotificationTargetsInput, Prisma.postsUncheckedCreateWithoutNotificationTargetsInput>
+  where?: Prisma.postsWhereInput
+}
+
+export type postsUpdateToOneWithWhereWithoutNotificationTargetsInput = {
+  where?: Prisma.postsWhereInput
+  data: Prisma.XOR<Prisma.postsUpdateWithoutNotificationTargetsInput, Prisma.postsUncheckedUpdateWithoutNotificationTargetsInput>
+}
+
+export type postsUpdateWithoutNotificationTargetsInput = {
+  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
+  location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
+}
+
+export type postsUncheckedUpdateWithoutNotificationTargetsInput = {
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
+  category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutPost_blocksInput = {
-  post_id?: string
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutPost_blocksInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutPost_blocksInput = {
@@ -1116,147 +1096,59 @@ export type postsUpdateToOneWithWhereWithoutPost_blocksInput = {
 }
 
 export type postsUpdateWithoutPost_blocksInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutPost_blocksInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
-}
-
-export type postsCreateWithoutPost_hashtagsInput = {
-  post_id?: string
-  text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
-  category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
-  location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
-}
-
-export type postsUncheckedCreateWithoutPost_hashtagsInput = {
-  post_id?: string
-  user_id: string
-  category_id?: bigint | number | null
-  location_id?: string | null
-  text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
-}
-
-export type postsCreateOrConnectWithoutPost_hashtagsInput = {
-  where: Prisma.postsWhereUniqueInput
-  create: Prisma.XOR<Prisma.postsCreateWithoutPost_hashtagsInput, Prisma.postsUncheckedCreateWithoutPost_hashtagsInput>
-}
-
-export type postsUpsertWithoutPost_hashtagsInput = {
-  update: Prisma.XOR<Prisma.postsUpdateWithoutPost_hashtagsInput, Prisma.postsUncheckedUpdateWithoutPost_hashtagsInput>
-  create: Prisma.XOR<Prisma.postsCreateWithoutPost_hashtagsInput, Prisma.postsUncheckedCreateWithoutPost_hashtagsInput>
-  where?: Prisma.postsWhereInput
-}
-
-export type postsUpdateToOneWithWhereWithoutPost_hashtagsInput = {
-  where?: Prisma.postsWhereInput
-  data: Prisma.XOR<Prisma.postsUpdateWithoutPost_hashtagsInput, Prisma.postsUncheckedUpdateWithoutPost_hashtagsInput>
-}
-
-export type postsUpdateWithoutPost_hashtagsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
-  category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
-  location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
-}
-
-export type postsUncheckedUpdateWithoutPost_hashtagsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutPost_likesInput = {
-  post_id?: string
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutPost_likesInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutPost_likesInput = {
@@ -1276,67 +1168,203 @@ export type postsUpdateToOneWithWhereWithoutPost_likesInput = {
 }
 
 export type postsUpdateWithoutPost_likesInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutPost_likesInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
-export type postsCreateWithoutSaved_postsInput = {
-  post_id?: string
+export type postsCreateWithoutPostTagsInput = {
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  user: Prisma.usersCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
 }
 
-export type postsUncheckedCreateWithoutSaved_postsInput = {
-  post_id?: string
-  user_id: string
+export type postsUncheckedCreateWithoutPostTagsInput = {
+  content_id: string
   category_id?: bigint | number | null
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type postsCreateOrConnectWithoutPostTagsInput = {
+  where: Prisma.postsWhereUniqueInput
+  create: Prisma.XOR<Prisma.postsCreateWithoutPostTagsInput, Prisma.postsUncheckedCreateWithoutPostTagsInput>
+}
+
+export type postsUpsertWithoutPostTagsInput = {
+  update: Prisma.XOR<Prisma.postsUpdateWithoutPostTagsInput, Prisma.postsUncheckedUpdateWithoutPostTagsInput>
+  create: Prisma.XOR<Prisma.postsCreateWithoutPostTagsInput, Prisma.postsUncheckedCreateWithoutPostTagsInput>
+  where?: Prisma.postsWhereInput
+}
+
+export type postsUpdateToOneWithWhereWithoutPostTagsInput = {
+  where?: Prisma.postsWhereInput
+  data: Prisma.XOR<Prisma.postsUpdateWithoutPostTagsInput, Prisma.postsUncheckedUpdateWithoutPostTagsInput>
+}
+
+export type postsUpdateWithoutPostTagsInput = {
+  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
+  location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+}
+
+export type postsUncheckedUpdateWithoutPostTagsInput = {
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
+  category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+}
+
+export type postsCreateWithoutReportTargetsInput = {
+  text_content?: string | null
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
+  location?: Prisma.locationsCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
+}
+
+export type postsUncheckedCreateWithoutReportTargetsInput = {
+  content_id: string
+  category_id?: bigint | number | null
+  location_id?: string | null
+  text_content?: string | null
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type postsCreateOrConnectWithoutReportTargetsInput = {
+  where: Prisma.postsWhereUniqueInput
+  create: Prisma.XOR<Prisma.postsCreateWithoutReportTargetsInput, Prisma.postsUncheckedCreateWithoutReportTargetsInput>
+}
+
+export type postsUpsertWithoutReportTargetsInput = {
+  update: Prisma.XOR<Prisma.postsUpdateWithoutReportTargetsInput, Prisma.postsUncheckedUpdateWithoutReportTargetsInput>
+  create: Prisma.XOR<Prisma.postsCreateWithoutReportTargetsInput, Prisma.postsUncheckedCreateWithoutReportTargetsInput>
+  where?: Prisma.postsWhereInput
+}
+
+export type postsUpdateToOneWithWhereWithoutReportTargetsInput = {
+  where?: Prisma.postsWhereInput
+  data: Prisma.XOR<Prisma.postsUpdateWithoutReportTargetsInput, Prisma.postsUncheckedUpdateWithoutReportTargetsInput>
+}
+
+export type postsUpdateWithoutReportTargetsInput = {
+  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
+  location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
+}
+
+export type postsUncheckedUpdateWithoutReportTargetsInput = {
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
+  category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
+}
+
+export type postsCreateWithoutSaved_postsInput = {
+  text_content?: string | null
+  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
+  location?: Prisma.locationsCreateNestedOneWithoutPostsInput
+  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
+}
+
+export type postsUncheckedCreateWithoutSaved_postsInput = {
+  content_id: string
+  category_id?: bigint | number | null
+  location_id?: string | null
+  text_content?: string | null
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
+  notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
+  mentionTargets?: Prisma.mention_targetsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutSaved_postsInput = {
@@ -1356,243 +1384,111 @@ export type postsUpdateToOneWithWhereWithoutSaved_postsInput = {
 }
 
 export type postsUpdateWithoutSaved_postsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutSaved_postsInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
-}
-
-export type postsCreateWithoutUserInput = {
-  post_id?: string
-  text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
-  category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
-  location?: Prisma.locationsCreateNestedOneWithoutPostsInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
-}
-
-export type postsUncheckedCreateWithoutUserInput = {
-  post_id?: string
-  category_id?: bigint | number | null
-  location_id?: string | null
-  text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
-  media?: Prisma.mediaUncheckedCreateNestedManyWithoutPostInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutPostInput
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutPostInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutPostInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
-}
-
-export type postsCreateOrConnectWithoutUserInput = {
-  where: Prisma.postsWhereUniqueInput
-  create: Prisma.XOR<Prisma.postsCreateWithoutUserInput, Prisma.postsUncheckedCreateWithoutUserInput>
-}
-
-export type postsCreateManyUserInputEnvelope = {
-  data: Prisma.postsCreateManyUserInput | Prisma.postsCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type postsUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.postsWhereUniqueInput
-  update: Prisma.XOR<Prisma.postsUpdateWithoutUserInput, Prisma.postsUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.postsCreateWithoutUserInput, Prisma.postsUncheckedCreateWithoutUserInput>
-}
-
-export type postsUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.postsWhereUniqueInput
-  data: Prisma.XOR<Prisma.postsUpdateWithoutUserInput, Prisma.postsUncheckedUpdateWithoutUserInput>
-}
-
-export type postsUpdateManyWithWhereWithoutUserInput = {
-  where: Prisma.postsScalarWhereInput
-  data: Prisma.XOR<Prisma.postsUpdateManyMutationInput, Prisma.postsUncheckedUpdateManyWithoutUserInput>
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateManyCategoryInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   location_id?: string | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
 }
 
 export type postsUpdateWithoutCategoryInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutCategoryInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateManyWithoutCategoryInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type postsCreateManyLocationInput = {
-  post_id?: string
-  user_id: string
+  content_id: string
   category_id?: bigint | number | null
   text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
 }
 
 export type postsUpdateWithoutLocationInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutLocationInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
+  notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
+  mentionTargets?: Prisma.mention_targetsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateManyWithoutLocationInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
   category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type postsCreateManyUserInput = {
-  post_id?: string
-  category_id?: bigint | number | null
-  location_id?: string | null
-  text_content?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-}
-
-export type postsUpdateWithoutUserInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
-  category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
-  location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
-}
-
-export type postsUncheckedUpdateWithoutUserInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
-  media?: Prisma.mediaUncheckedUpdateManyWithoutPostNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutPostNestedInput
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutPostNestedInput
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutPostNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
-}
-
-export type postsUncheckedUpdateManyWithoutUserInput = {
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  category_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1602,22 +1498,24 @@ export type postsUncheckedUpdateManyWithoutUserInput = {
 
 export type PostsCountOutputType = {
   comments: number
-  media: number
-  mentions: number
   post_blocks: number
-  post_hashtags: number
   post_likes: number
   saved_posts: number
+  reportTargets: number
+  notificationTargets: number
+  mentionTargets: number
+  postTags: number
 }
 
 export type PostsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   comments?: boolean | PostsCountOutputTypeCountCommentsArgs
-  media?: boolean | PostsCountOutputTypeCountMediaArgs
-  mentions?: boolean | PostsCountOutputTypeCountMentionsArgs
   post_blocks?: boolean | PostsCountOutputTypeCountPost_blocksArgs
-  post_hashtags?: boolean | PostsCountOutputTypeCountPost_hashtagsArgs
   post_likes?: boolean | PostsCountOutputTypeCountPost_likesArgs
   saved_posts?: boolean | PostsCountOutputTypeCountSaved_postsArgs
+  reportTargets?: boolean | PostsCountOutputTypeCountReportTargetsArgs
+  notificationTargets?: boolean | PostsCountOutputTypeCountNotificationTargetsArgs
+  mentionTargets?: boolean | PostsCountOutputTypeCountMentionTargetsArgs
+  postTags?: boolean | PostsCountOutputTypeCountPostTagsArgs
 }
 
 /**
@@ -1640,29 +1538,8 @@ export type PostsCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.
 /**
  * PostsCountOutputType without action
  */
-export type PostsCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.mediaWhereInput
-}
-
-/**
- * PostsCountOutputType without action
- */
-export type PostsCountOutputTypeCountMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.mentionsWhereInput
-}
-
-/**
- * PostsCountOutputType without action
- */
 export type PostsCountOutputTypeCountPost_blocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.post_blocksWhereInput
-}
-
-/**
- * PostsCountOutputType without action
- */
-export type PostsCountOutputTypeCountPost_hashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.post_hashtagsWhereInput
 }
 
 /**
@@ -1679,111 +1556,127 @@ export type PostsCountOutputTypeCountSaved_postsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.saved_postsWhereInput
 }
 
+/**
+ * PostsCountOutputType without action
+ */
+export type PostsCountOutputTypeCountReportTargetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.report_targetsWhereInput
+}
+
+/**
+ * PostsCountOutputType without action
+ */
+export type PostsCountOutputTypeCountNotificationTargetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.notification_targetsWhereInput
+}
+
+/**
+ * PostsCountOutputType without action
+ */
+export type PostsCountOutputTypeCountMentionTargetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.mention_targetsWhereInput
+}
+
+/**
+ * PostsCountOutputType without action
+ */
+export type PostsCountOutputTypeCountPostTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.post_tagsWhereInput
+}
+
 
 export type postsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  post_id?: boolean
-  user_id?: boolean
+  content_id?: boolean
   category_id?: boolean
   location_id?: boolean
   text_content?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  comments?: boolean | Prisma.posts$commentsArgs<ExtArgs>
-  media?: boolean | Prisma.posts$mediaArgs<ExtArgs>
-  mentions?: boolean | Prisma.posts$mentionsArgs<ExtArgs>
-  post_blocks?: boolean | Prisma.posts$post_blocksArgs<ExtArgs>
-  post_hashtags?: boolean | Prisma.posts$post_hashtagsArgs<ExtArgs>
-  post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
+  content?: boolean | Prisma.contentsDefaultArgs<ExtArgs>
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  comments?: boolean | Prisma.posts$commentsArgs<ExtArgs>
+  post_blocks?: boolean | Prisma.posts$post_blocksArgs<ExtArgs>
+  post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
   saved_posts?: boolean | Prisma.posts$saved_postsArgs<ExtArgs>
+  reportTargets?: boolean | Prisma.posts$reportTargetsArgs<ExtArgs>
+  notificationTargets?: boolean | Prisma.posts$notificationTargetsArgs<ExtArgs>
+  mentionTargets?: boolean | Prisma.posts$mentionTargetsArgs<ExtArgs>
+  postTags?: boolean | Prisma.posts$postTagsArgs<ExtArgs>
   _count?: boolean | Prisma.PostsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts"]>
 
 export type postsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  post_id?: boolean
-  user_id?: boolean
+  content_id?: boolean
   category_id?: boolean
   location_id?: boolean
   text_content?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  content?: boolean | Prisma.contentsDefaultArgs<ExtArgs>
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts"]>
 
 export type postsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  post_id?: boolean
-  user_id?: boolean
+  content_id?: boolean
   category_id?: boolean
   location_id?: boolean
   text_content?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  content?: boolean | Prisma.contentsDefaultArgs<ExtArgs>
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts"]>
 
 export type postsSelectScalar = {
-  post_id?: boolean
-  user_id?: boolean
+  content_id?: boolean
   category_id?: boolean
   location_id?: boolean
   text_content?: boolean
-  created_at?: boolean
-  updated_at?: boolean
 }
 
-export type postsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"post_id" | "user_id" | "category_id" | "location_id" | "text_content" | "created_at" | "updated_at", ExtArgs["result"]["posts"]>
+export type postsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"content_id" | "category_id" | "location_id" | "text_content", ExtArgs["result"]["posts"]>
 export type postsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  comments?: boolean | Prisma.posts$commentsArgs<ExtArgs>
-  media?: boolean | Prisma.posts$mediaArgs<ExtArgs>
-  mentions?: boolean | Prisma.posts$mentionsArgs<ExtArgs>
-  post_blocks?: boolean | Prisma.posts$post_blocksArgs<ExtArgs>
-  post_hashtags?: boolean | Prisma.posts$post_hashtagsArgs<ExtArgs>
-  post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
+  content?: boolean | Prisma.contentsDefaultArgs<ExtArgs>
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  comments?: boolean | Prisma.posts$commentsArgs<ExtArgs>
+  post_blocks?: boolean | Prisma.posts$post_blocksArgs<ExtArgs>
+  post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
   saved_posts?: boolean | Prisma.posts$saved_postsArgs<ExtArgs>
+  reportTargets?: boolean | Prisma.posts$reportTargetsArgs<ExtArgs>
+  notificationTargets?: boolean | Prisma.posts$notificationTargetsArgs<ExtArgs>
+  mentionTargets?: boolean | Prisma.posts$mentionTargetsArgs<ExtArgs>
+  postTags?: boolean | Prisma.posts$postTagsArgs<ExtArgs>
   _count?: boolean | Prisma.PostsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type postsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  content?: boolean | Prisma.contentsDefaultArgs<ExtArgs>
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type postsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  content?: boolean | Prisma.contentsDefaultArgs<ExtArgs>
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $postsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "posts"
   objects: {
-    comments: Prisma.$commentsPayload<ExtArgs>[]
-    media: Prisma.$mediaPayload<ExtArgs>[]
-    mentions: Prisma.$mentionsPayload<ExtArgs>[]
-    post_blocks: Prisma.$post_blocksPayload<ExtArgs>[]
-    post_hashtags: Prisma.$post_hashtagsPayload<ExtArgs>[]
-    post_likes: Prisma.$post_likesPayload<ExtArgs>[]
+    content: Prisma.$contentsPayload<ExtArgs>
     category: Prisma.$categoriesPayload<ExtArgs> | null
     location: Prisma.$locationsPayload<ExtArgs> | null
-    user: Prisma.$usersPayload<ExtArgs>
+    comments: Prisma.$commentsPayload<ExtArgs>[]
+    post_blocks: Prisma.$post_blocksPayload<ExtArgs>[]
+    post_likes: Prisma.$post_likesPayload<ExtArgs>[]
     saved_posts: Prisma.$saved_postsPayload<ExtArgs>[]
+    reportTargets: Prisma.$report_targetsPayload<ExtArgs>[]
+    notificationTargets: Prisma.$notification_targetsPayload<ExtArgs>[]
+    mentionTargets: Prisma.$mention_targetsPayload<ExtArgs>[]
+    postTags: Prisma.$post_tagsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    post_id: string
-    user_id: string
+    content_id: string
     category_id: bigint | null
     location_id: string | null
     text_content: string | null
-    created_at: Date
-    updated_at: Date | null
   }, ExtArgs["result"]["posts"]>
   composites: {}
 }
@@ -1867,8 +1760,8 @@ export interface postsDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    * // Get first 10 Posts
    * const posts = await prisma.posts.findMany({ take: 10 })
    * 
-   * // Only select the `post_id`
-   * const postsWithPost_idOnly = await prisma.posts.findMany({ select: { post_id: true } })
+   * // Only select the `content_id`
+   * const postsWithContent_idOnly = await prisma.posts.findMany({ select: { content_id: true } })
    * 
    */
   findMany<T extends postsFindManyArgs>(args?: Prisma.SelectSubset<T, postsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1912,9 +1805,9 @@ export interface postsDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    *   ]
    * })
    * 
-   * // Create many Posts and only return the `post_id`
-   * const postsWithPost_idOnly = await prisma.posts.createManyAndReturn({
-   *   select: { post_id: true },
+   * // Create many Posts and only return the `content_id`
+   * const postsWithContent_idOnly = await prisma.posts.createManyAndReturn({
+   *   select: { content_id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -2003,9 +1896,9 @@ export interface postsDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    *   ]
    * })
    * 
-   * // Update zero or more Posts and only return the `post_id`
-   * const postsWithPost_idOnly = await prisma.posts.updateManyAndReturn({
-   *   select: { post_id: true },
+   * // Update zero or more Posts and only return the `content_id`
+   * const postsWithContent_idOnly = await prisma.posts.updateManyAndReturn({
+   *   select: { content_id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2178,16 +2071,17 @@ readonly fields: postsFieldRefs;
  */
 export interface Prisma__postsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  comments<T extends Prisma.posts$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  media<T extends Prisma.posts$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  mentions<T extends Prisma.posts$mentionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$mentionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mentionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  post_blocks<T extends Prisma.posts$post_blocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_blocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  post_hashtags<T extends Prisma.posts$post_hashtagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_hashtagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_hashtagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  post_likes<T extends Prisma.posts$post_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  content<T extends Prisma.contentsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.contentsDefaultArgs<ExtArgs>>): Prisma.Prisma__contentsClient<runtime.Types.Result.GetResult<Prisma.$contentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.posts$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$categoryArgs<ExtArgs>>): Prisma.Prisma__categoriesClient<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   location<T extends Prisma.posts$locationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$locationArgs<ExtArgs>>): Prisma.Prisma__locationsClient<runtime.Types.Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  comments<T extends Prisma.posts$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  post_blocks<T extends Prisma.posts$post_blocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_blocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  post_likes<T extends Prisma.posts$post_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   saved_posts<T extends Prisma.posts$saved_postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$saved_postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$saved_postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reportTargets<T extends Prisma.posts$reportTargetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$reportTargetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$report_targetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notificationTargets<T extends Prisma.posts$notificationTargetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$notificationTargetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notification_targetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mentionTargets<T extends Prisma.posts$mentionTargetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$mentionTargetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mention_targetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  postTags<T extends Prisma.posts$postTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$postTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2217,13 +2111,10 @@ export interface Prisma__postsClient<T, Null = never, ExtArgs extends runtime.Ty
  * Fields of the posts model
  */
 export interface postsFieldRefs {
-  readonly post_id: Prisma.FieldRef<"posts", 'String'>
-  readonly user_id: Prisma.FieldRef<"posts", 'String'>
+  readonly content_id: Prisma.FieldRef<"posts", 'String'>
   readonly category_id: Prisma.FieldRef<"posts", 'BigInt'>
   readonly location_id: Prisma.FieldRef<"posts", 'String'>
   readonly text_content: Prisma.FieldRef<"posts", 'String'>
-  readonly created_at: Prisma.FieldRef<"posts", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"posts", 'DateTime'>
 }
     
 
@@ -2625,150 +2516,6 @@ export type postsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * posts.comments
- */
-export type posts$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the comments
-   */
-  select?: Prisma.commentsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the comments
-   */
-  omit?: Prisma.commentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.commentsInclude<ExtArgs> | null
-  where?: Prisma.commentsWhereInput
-  orderBy?: Prisma.commentsOrderByWithRelationInput | Prisma.commentsOrderByWithRelationInput[]
-  cursor?: Prisma.commentsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CommentsScalarFieldEnum | Prisma.CommentsScalarFieldEnum[]
-}
-
-/**
- * posts.media
- */
-export type posts$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the media
-   */
-  select?: Prisma.mediaSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the media
-   */
-  omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  where?: Prisma.mediaWhereInput
-  orderBy?: Prisma.mediaOrderByWithRelationInput | Prisma.mediaOrderByWithRelationInput[]
-  cursor?: Prisma.mediaWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MediaScalarFieldEnum | Prisma.MediaScalarFieldEnum[]
-}
-
-/**
- * posts.mentions
- */
-export type posts$mentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the mentions
-   */
-  select?: Prisma.mentionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the mentions
-   */
-  omit?: Prisma.mentionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mentionsInclude<ExtArgs> | null
-  where?: Prisma.mentionsWhereInput
-  orderBy?: Prisma.mentionsOrderByWithRelationInput | Prisma.mentionsOrderByWithRelationInput[]
-  cursor?: Prisma.mentionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MentionsScalarFieldEnum | Prisma.MentionsScalarFieldEnum[]
-}
-
-/**
- * posts.post_blocks
- */
-export type posts$post_blocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the post_blocks
-   */
-  select?: Prisma.post_blocksSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the post_blocks
-   */
-  omit?: Prisma.post_blocksOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.post_blocksInclude<ExtArgs> | null
-  where?: Prisma.post_blocksWhereInput
-  orderBy?: Prisma.post_blocksOrderByWithRelationInput | Prisma.post_blocksOrderByWithRelationInput[]
-  cursor?: Prisma.post_blocksWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Post_blocksScalarFieldEnum | Prisma.Post_blocksScalarFieldEnum[]
-}
-
-/**
- * posts.post_hashtags
- */
-export type posts$post_hashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the post_hashtags
-   */
-  select?: Prisma.post_hashtagsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the post_hashtags
-   */
-  omit?: Prisma.post_hashtagsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.post_hashtagsInclude<ExtArgs> | null
-  where?: Prisma.post_hashtagsWhereInput
-  orderBy?: Prisma.post_hashtagsOrderByWithRelationInput | Prisma.post_hashtagsOrderByWithRelationInput[]
-  cursor?: Prisma.post_hashtagsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Post_hashtagsScalarFieldEnum | Prisma.Post_hashtagsScalarFieldEnum[]
-}
-
-/**
- * posts.post_likes
- */
-export type posts$post_likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the post_likes
-   */
-  select?: Prisma.post_likesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the post_likes
-   */
-  omit?: Prisma.post_likesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.post_likesInclude<ExtArgs> | null
-  where?: Prisma.post_likesWhereInput
-  orderBy?: Prisma.post_likesOrderByWithRelationInput | Prisma.post_likesOrderByWithRelationInput[]
-  cursor?: Prisma.post_likesWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Post_likesScalarFieldEnum | Prisma.Post_likesScalarFieldEnum[]
-}
-
-/**
  * posts.category
  */
 export type posts$categoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2807,6 +2554,78 @@ export type posts$locationArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * posts.comments
+ */
+export type posts$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the comments
+   */
+  select?: Prisma.commentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the comments
+   */
+  omit?: Prisma.commentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.commentsInclude<ExtArgs> | null
+  where?: Prisma.commentsWhereInput
+  orderBy?: Prisma.commentsOrderByWithRelationInput | Prisma.commentsOrderByWithRelationInput[]
+  cursor?: Prisma.commentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentsScalarFieldEnum | Prisma.CommentsScalarFieldEnum[]
+}
+
+/**
+ * posts.post_blocks
+ */
+export type posts$post_blocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the post_blocks
+   */
+  select?: Prisma.post_blocksSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the post_blocks
+   */
+  omit?: Prisma.post_blocksOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.post_blocksInclude<ExtArgs> | null
+  where?: Prisma.post_blocksWhereInput
+  orderBy?: Prisma.post_blocksOrderByWithRelationInput | Prisma.post_blocksOrderByWithRelationInput[]
+  cursor?: Prisma.post_blocksWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Post_blocksScalarFieldEnum | Prisma.Post_blocksScalarFieldEnum[]
+}
+
+/**
+ * posts.post_likes
+ */
+export type posts$post_likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the post_likes
+   */
+  select?: Prisma.post_likesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the post_likes
+   */
+  omit?: Prisma.post_likesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.post_likesInclude<ExtArgs> | null
+  where?: Prisma.post_likesWhereInput
+  orderBy?: Prisma.post_likesOrderByWithRelationInput | Prisma.post_likesOrderByWithRelationInput[]
+  cursor?: Prisma.post_likesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Post_likesScalarFieldEnum | Prisma.Post_likesScalarFieldEnum[]
+}
+
+/**
  * posts.saved_posts
  */
 export type posts$saved_postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2828,6 +2647,102 @@ export type posts$saved_postsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.Saved_postsScalarFieldEnum | Prisma.Saved_postsScalarFieldEnum[]
+}
+
+/**
+ * posts.reportTargets
+ */
+export type posts$reportTargetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the report_targets
+   */
+  select?: Prisma.report_targetsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the report_targets
+   */
+  omit?: Prisma.report_targetsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.report_targetsInclude<ExtArgs> | null
+  where?: Prisma.report_targetsWhereInput
+  orderBy?: Prisma.report_targetsOrderByWithRelationInput | Prisma.report_targetsOrderByWithRelationInput[]
+  cursor?: Prisma.report_targetsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Report_targetsScalarFieldEnum | Prisma.Report_targetsScalarFieldEnum[]
+}
+
+/**
+ * posts.notificationTargets
+ */
+export type posts$notificationTargetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the notification_targets
+   */
+  select?: Prisma.notification_targetsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the notification_targets
+   */
+  omit?: Prisma.notification_targetsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notification_targetsInclude<ExtArgs> | null
+  where?: Prisma.notification_targetsWhereInput
+  orderBy?: Prisma.notification_targetsOrderByWithRelationInput | Prisma.notification_targetsOrderByWithRelationInput[]
+  cursor?: Prisma.notification_targetsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Notification_targetsScalarFieldEnum | Prisma.Notification_targetsScalarFieldEnum[]
+}
+
+/**
+ * posts.mentionTargets
+ */
+export type posts$mentionTargetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the mention_targets
+   */
+  select?: Prisma.mention_targetsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the mention_targets
+   */
+  omit?: Prisma.mention_targetsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.mention_targetsInclude<ExtArgs> | null
+  where?: Prisma.mention_targetsWhereInput
+  orderBy?: Prisma.mention_targetsOrderByWithRelationInput | Prisma.mention_targetsOrderByWithRelationInput[]
+  cursor?: Prisma.mention_targetsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Mention_targetsScalarFieldEnum | Prisma.Mention_targetsScalarFieldEnum[]
+}
+
+/**
+ * posts.postTags
+ */
+export type posts$postTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the post_tags
+   */
+  select?: Prisma.post_tagsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the post_tags
+   */
+  omit?: Prisma.post_tagsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.post_tagsInclude<ExtArgs> | null
+  where?: Prisma.post_tagsWhereInput
+  orderBy?: Prisma.post_tagsOrderByWithRelationInput | Prisma.post_tagsOrderByWithRelationInput[]
+  cursor?: Prisma.post_tagsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Post_tagsScalarFieldEnum | Prisma.Post_tagsScalarFieldEnum[]
 }
 
 /**

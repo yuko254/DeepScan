@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model device_tokens
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type device_tokensModel = runtime.Types.Result.DefaultSelection<Prisma.$device_tokensPayload>
 
@@ -28,7 +28,7 @@ export type Device_tokensMinAggregateOutputType = {
   token_id: string | null
   user_id: string | null
   token: string | null
-  device_type: string | null
+  device_type: $Enums.DeviceType | null
   app_version: string | null
   last_used: Date | null
   created_at: Date | null
@@ -38,7 +38,7 @@ export type Device_tokensMaxAggregateOutputType = {
   token_id: string | null
   user_id: string | null
   token: string | null
-  device_type: string | null
+  device_type: $Enums.DeviceType | null
   app_version: string | null
   last_used: Date | null
   created_at: Date | null
@@ -163,7 +163,7 @@ export type Device_tokensGroupByOutputType = {
   token_id: string
   user_id: string
   token: string
-  device_type: string
+  device_type: $Enums.DeviceType
   app_version: string | null
   last_used: Date
   created_at: Date
@@ -194,7 +194,7 @@ export type device_tokensWhereInput = {
   token_id?: Prisma.UuidFilter<"device_tokens"> | string
   user_id?: Prisma.UuidFilter<"device_tokens"> | string
   token?: Prisma.StringFilter<"device_tokens"> | string
-  device_type?: Prisma.StringFilter<"device_tokens"> | string
+  device_type?: Prisma.EnumDeviceTypeFilter<"device_tokens"> | $Enums.DeviceType
   app_version?: Prisma.StringNullableFilter<"device_tokens"> | string | null
   last_used?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
   created_at?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
@@ -220,7 +220,7 @@ export type device_tokensWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.device_tokensWhereInput | Prisma.device_tokensWhereInput[]
   user_id?: Prisma.UuidFilter<"device_tokens"> | string
   token?: Prisma.StringFilter<"device_tokens"> | string
-  device_type?: Prisma.StringFilter<"device_tokens"> | string
+  device_type?: Prisma.EnumDeviceTypeFilter<"device_tokens"> | $Enums.DeviceType
   app_version?: Prisma.StringNullableFilter<"device_tokens"> | string | null
   last_used?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
   created_at?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
@@ -247,7 +247,7 @@ export type device_tokensScalarWhereWithAggregatesInput = {
   token_id?: Prisma.UuidWithAggregatesFilter<"device_tokens"> | string
   user_id?: Prisma.UuidWithAggregatesFilter<"device_tokens"> | string
   token?: Prisma.StringWithAggregatesFilter<"device_tokens"> | string
-  device_type?: Prisma.StringWithAggregatesFilter<"device_tokens"> | string
+  device_type?: Prisma.EnumDeviceTypeWithAggregatesFilter<"device_tokens"> | $Enums.DeviceType
   app_version?: Prisma.StringNullableWithAggregatesFilter<"device_tokens"> | string | null
   last_used?: Prisma.DateTimeWithAggregatesFilter<"device_tokens"> | Date | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"device_tokens"> | Date | string
@@ -256,7 +256,7 @@ export type device_tokensScalarWhereWithAggregatesInput = {
 export type device_tokensCreateInput = {
   token_id?: string
   token: string
-  device_type: string
+  device_type: $Enums.DeviceType
   app_version?: string | null
   last_used?: Date | string
   created_at?: Date | string
@@ -267,7 +267,7 @@ export type device_tokensUncheckedCreateInput = {
   token_id?: string
   user_id: string
   token: string
-  device_type: string
+  device_type: $Enums.DeviceType
   app_version?: string | null
   last_used?: Date | string
   created_at?: Date | string
@@ -276,7 +276,7 @@ export type device_tokensUncheckedCreateInput = {
 export type device_tokensUpdateInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
-  device_type?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -287,7 +287,7 @@ export type device_tokensUncheckedUpdateInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
-  device_type?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -297,7 +297,7 @@ export type device_tokensCreateManyInput = {
   token_id?: string
   user_id: string
   token: string
-  device_type: string
+  device_type: $Enums.DeviceType
   app_version?: string | null
   last_used?: Date | string
   created_at?: Date | string
@@ -306,7 +306,7 @@ export type device_tokensCreateManyInput = {
 export type device_tokensUpdateManyMutationInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
-  device_type?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -316,7 +316,7 @@ export type device_tokensUncheckedUpdateManyInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
-  device_type?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -367,6 +367,10 @@ export type device_tokensOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type EnumDeviceTypeFieldUpdateOperationsInput = {
+  set?: $Enums.DeviceType
+}
+
 export type device_tokensCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.device_tokensCreateWithoutUserInput, Prisma.device_tokensUncheckedCreateWithoutUserInput> | Prisma.device_tokensCreateWithoutUserInput[] | Prisma.device_tokensUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.device_tokensCreateOrConnectWithoutUserInput | Prisma.device_tokensCreateOrConnectWithoutUserInput[]
@@ -412,7 +416,7 @@ export type device_tokensUncheckedUpdateManyWithoutUserNestedInput = {
 export type device_tokensCreateWithoutUserInput = {
   token_id?: string
   token: string
-  device_type: string
+  device_type: $Enums.DeviceType
   app_version?: string | null
   last_used?: Date | string
   created_at?: Date | string
@@ -421,7 +425,7 @@ export type device_tokensCreateWithoutUserInput = {
 export type device_tokensUncheckedCreateWithoutUserInput = {
   token_id?: string
   token: string
-  device_type: string
+  device_type: $Enums.DeviceType
   app_version?: string | null
   last_used?: Date | string
   created_at?: Date | string
@@ -460,7 +464,7 @@ export type device_tokensScalarWhereInput = {
   token_id?: Prisma.UuidFilter<"device_tokens"> | string
   user_id?: Prisma.UuidFilter<"device_tokens"> | string
   token?: Prisma.StringFilter<"device_tokens"> | string
-  device_type?: Prisma.StringFilter<"device_tokens"> | string
+  device_type?: Prisma.EnumDeviceTypeFilter<"device_tokens"> | $Enums.DeviceType
   app_version?: Prisma.StringNullableFilter<"device_tokens"> | string | null
   last_used?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
   created_at?: Prisma.DateTimeFilter<"device_tokens"> | Date | string
@@ -469,7 +473,7 @@ export type device_tokensScalarWhereInput = {
 export type device_tokensCreateManyUserInput = {
   token_id?: string
   token: string
-  device_type: string
+  device_type: $Enums.DeviceType
   app_version?: string | null
   last_used?: Date | string
   created_at?: Date | string
@@ -478,7 +482,7 @@ export type device_tokensCreateManyUserInput = {
 export type device_tokensUpdateWithoutUserInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
-  device_type?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -487,7 +491,7 @@ export type device_tokensUpdateWithoutUserInput = {
 export type device_tokensUncheckedUpdateWithoutUserInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
-  device_type?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -496,7 +500,7 @@ export type device_tokensUncheckedUpdateWithoutUserInput = {
 export type device_tokensUncheckedUpdateManyWithoutUserInput = {
   token_id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
-  device_type?: Prisma.StringFieldUpdateOperationsInput | string
+  device_type?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
   app_version?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_used?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -567,7 +571,7 @@ export type $device_tokensPayload<ExtArgs extends runtime.Types.Extensions.Inter
     token_id: string
     user_id: string
     token: string
-    device_type: string
+    device_type: $Enums.DeviceType
     app_version: string | null
     last_used: Date
     created_at: Date
@@ -998,7 +1002,7 @@ export interface device_tokensFieldRefs {
   readonly token_id: Prisma.FieldRef<"device_tokens", 'String'>
   readonly user_id: Prisma.FieldRef<"device_tokens", 'String'>
   readonly token: Prisma.FieldRef<"device_tokens", 'String'>
-  readonly device_type: Prisma.FieldRef<"device_tokens", 'String'>
+  readonly device_type: Prisma.FieldRef<"device_tokens", 'DeviceType'>
   readonly app_version: Prisma.FieldRef<"device_tokens", 'String'>
   readonly last_used: Prisma.FieldRef<"device_tokens", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"device_tokens", 'DateTime'>

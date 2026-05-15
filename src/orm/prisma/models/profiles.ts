@@ -238,9 +238,9 @@ export type profilesWhereInput = {
   phone_number?: Prisma.StringNullableFilter<"profiles"> | string | null
   birth_date?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"profiles"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   birth_location_details?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
   current_location_details?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
-  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
 
 export type profilesOrderByWithRelationInput = {
@@ -256,9 +256,9 @@ export type profilesOrderByWithRelationInput = {
   phone_number?: Prisma.SortOrderInput | Prisma.SortOrder
   birth_date?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  user?: Prisma.usersOrderByWithRelationInput
   birth_location_details?: Prisma.locationsOrderByWithRelationInput
   current_location_details?: Prisma.locationsOrderByWithRelationInput
-  user?: Prisma.usersOrderByWithRelationInput
 }
 
 export type profilesWhereUniqueInput = Prisma.AtLeast<{
@@ -277,9 +277,9 @@ export type profilesWhereUniqueInput = Prisma.AtLeast<{
   phone_number?: Prisma.StringNullableFilter<"profiles"> | string | null
   birth_date?: Prisma.DateTimeNullableFilter<"profiles"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"profiles"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   birth_location_details?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
   current_location_details?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
-  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }, "profile_id" | "user_id">
 
 export type profilesOrderByWithAggregationInput = {
@@ -328,9 +328,9 @@ export type profilesCreateInput = {
   phone_number?: string | null
   birth_date?: Date | string | null
   created_at?: Date | string
+  user: Prisma.usersCreateNestedOneWithoutProfileInput
   birth_location_details?: Prisma.locationsCreateNestedOneWithoutBirth_profilesInput
   current_location_details?: Prisma.locationsCreateNestedOneWithoutCurrent_profilesInput
-  user: Prisma.usersCreateNestedOneWithoutProfileInput
 }
 
 export type profilesUncheckedCreateInput = {
@@ -358,9 +358,9 @@ export type profilesUpdateInput = {
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneRequiredWithoutProfileNestedInput
   birth_location_details?: Prisma.locationsUpdateOneWithoutBirth_profilesNestedInput
   current_location_details?: Prisma.locationsUpdateOneWithoutCurrent_profilesNestedInput
-  user?: Prisma.usersUpdateOneRequiredWithoutProfileNestedInput
 }
 
 export type profilesUncheckedUpdateInput = {
@@ -564,6 +564,10 @@ export type profilesUncheckedUpdateManyWithoutCurrent_location_detailsNestedInpu
   deleteMany?: Prisma.profilesScalarWhereInput | Prisma.profilesScalarWhereInput[]
 }
 
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
 export type profilesCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
@@ -606,8 +610,8 @@ export type profilesCreateWithoutBirth_location_detailsInput = {
   phone_number?: string | null
   birth_date?: Date | string | null
   created_at?: Date | string
-  current_location_details?: Prisma.locationsCreateNestedOneWithoutCurrent_profilesInput
   user: Prisma.usersCreateNestedOneWithoutProfileInput
+  current_location_details?: Prisma.locationsCreateNestedOneWithoutCurrent_profilesInput
 }
 
 export type profilesUncheckedCreateWithoutBirth_location_detailsInput = {
@@ -644,8 +648,8 @@ export type profilesCreateWithoutCurrent_location_detailsInput = {
   phone_number?: string | null
   birth_date?: Date | string | null
   created_at?: Date | string
-  birth_location_details?: Prisma.locationsCreateNestedOneWithoutBirth_profilesInput
   user: Prisma.usersCreateNestedOneWithoutProfileInput
+  birth_location_details?: Prisma.locationsCreateNestedOneWithoutBirth_profilesInput
 }
 
 export type profilesUncheckedCreateWithoutCurrent_location_detailsInput = {
@@ -832,8 +836,8 @@ export type profilesUpdateWithoutBirth_location_detailsInput = {
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  current_location_details?: Prisma.locationsUpdateOneWithoutCurrent_profilesNestedInput
   user?: Prisma.usersUpdateOneRequiredWithoutProfileNestedInput
+  current_location_details?: Prisma.locationsUpdateOneWithoutCurrent_profilesNestedInput
 }
 
 export type profilesUncheckedUpdateWithoutBirth_location_detailsInput = {
@@ -874,8 +878,8 @@ export type profilesUpdateWithoutCurrent_location_detailsInput = {
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  birth_location_details?: Prisma.locationsUpdateOneWithoutBirth_profilesNestedInput
   user?: Prisma.usersUpdateOneRequiredWithoutProfileNestedInput
+  birth_location_details?: Prisma.locationsUpdateOneWithoutBirth_profilesNestedInput
 }
 
 export type profilesUncheckedUpdateWithoutCurrent_location_detailsInput = {
@@ -921,9 +925,9 @@ export type profilesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   phone_number?: boolean
   birth_date?: boolean
   created_at?: boolean
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   birth_location_details?: boolean | Prisma.profiles$birth_location_detailsArgs<ExtArgs>
   current_location_details?: boolean | Prisma.profiles$current_location_detailsArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
 export type profilesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -939,9 +943,9 @@ export type profilesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   phone_number?: boolean
   birth_date?: boolean
   created_at?: boolean
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   birth_location_details?: boolean | Prisma.profiles$birth_location_detailsArgs<ExtArgs>
   current_location_details?: boolean | Prisma.profiles$current_location_detailsArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
 export type profilesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -957,9 +961,9 @@ export type profilesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   phone_number?: boolean
   birth_date?: boolean
   created_at?: boolean
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   birth_location_details?: boolean | Prisma.profiles$birth_location_detailsArgs<ExtArgs>
   current_location_details?: boolean | Prisma.profiles$current_location_detailsArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profiles"]>
 
 export type profilesSelectScalar = {
@@ -979,27 +983,27 @@ export type profilesSelectScalar = {
 
 export type profilesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"profile_id" | "user_id" | "is_private" | "bio" | "avatar" | "birth_location_id" | "current_location_id" | "first_name" | "last_name" | "phone_number" | "birth_date" | "created_at", ExtArgs["result"]["profiles"]>
 export type profilesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   birth_location_details?: boolean | Prisma.profiles$birth_location_detailsArgs<ExtArgs>
   current_location_details?: boolean | Prisma.profiles$current_location_detailsArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type profilesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   birth_location_details?: boolean | Prisma.profiles$birth_location_detailsArgs<ExtArgs>
   current_location_details?: boolean | Prisma.profiles$current_location_detailsArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type profilesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   birth_location_details?: boolean | Prisma.profiles$birth_location_detailsArgs<ExtArgs>
   current_location_details?: boolean | Prisma.profiles$current_location_detailsArgs<ExtArgs>
-  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $profilesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "profiles"
   objects: {
+    user: Prisma.$usersPayload<ExtArgs>
     birth_location_details: Prisma.$locationsPayload<ExtArgs> | null
     current_location_details: Prisma.$locationsPayload<ExtArgs> | null
-    user: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     profile_id: string
@@ -1408,9 +1412,9 @@ readonly fields: profilesFieldRefs;
  */
 export interface Prisma__profilesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   birth_location_details<T extends Prisma.profiles$birth_location_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.profiles$birth_location_detailsArgs<ExtArgs>>): Prisma.Prisma__locationsClient<runtime.Types.Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   current_location_details<T extends Prisma.profiles$current_location_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.profiles$current_location_detailsArgs<ExtArgs>>): Prisma.Prisma__locationsClient<runtime.Types.Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

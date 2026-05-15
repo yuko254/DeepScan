@@ -1,10 +1,8 @@
-import { Prisma, type chat_participants } from "@prisma/client";
+import { type chat_participants } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
-export class ChatParticipantRepo extends BaseRepository<
-  typeof prisma.chat_participants
-> {
+export class ChatParticipantRepo extends BaseRepository<typeof prisma.chat_participants> {
   constructor() {
     super(prisma.chat_participants, 'chat_participants');
   }
@@ -27,7 +25,7 @@ export class ChatParticipantRepo extends BaseRepository<
     return prisma.chat_participants.create({
       data: {
         chat: { connect: { chat_id } },
-        users: { connect: { user_id } },
+        user: { connect: { user_id } },
       },
     });
   }
@@ -39,9 +37,13 @@ export class ChatParticipantRepo extends BaseRepository<
   }
 
   async isParticipant(chat_id: string, user_id: string): Promise<boolean> {
-    const p = await prisma.chat_participants.findUnique({
-      where: { user_id_chat_id: { user_id, chat_id } },
+    const p = await prisma.chat_participants.findFirst({
+      where: { user_id, chat_id },
     });
     return p !== null;
+  }
+
+  async getParticipantCount(chat_id: string): Promise<number> {
+    return prisma.chat_participants.count({ where: { chat_id } });
   }
 }

@@ -53,32 +53,43 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   blocks: 'blocks',
   categories: 'categories',
+  tags: 'tags',
   chat_participants: 'chat_participants',
   chats: 'chats',
   comment_likes: 'comment_likes',
   comments: 'comments',
   device_tokens: 'device_tokens',
   follows: 'follows',
+  follow_requests: 'follow_requests',
   hashtags: 'hashtags',
+  content_hashtags: 'content_hashtags',
+  comment_hashtags: 'comment_hashtags',
   countries: 'countries',
   cities: 'cities',
   locations: 'locations',
+  contents: 'contents',
   media: 'media',
   mentions: 'mentions',
+  mention_targets: 'mention_targets',
   messages: 'messages',
   notifications: 'notifications',
+  notification_targets: 'notification_targets',
   post_blocks: 'post_blocks',
-  post_hashtags: 'post_hashtags',
   post_likes: 'post_likes',
+  post_tags: 'post_tags',
   posts: 'posts',
   profiles: 'profiles',
   reports: 'reports',
+  report_targets: 'report_targets',
   roles: 'roles',
   saved_posts: 'saved_posts',
-  scan_history: 'scan_history',
+  scans: 'scans',
   stories: 'stories',
   story_views: 'story_views',
-  users: 'users'
+  users: 'users',
+  hashtag_usage: 'hashtag_usage',
+  post_like_counts: 'post_like_counts',
+  comment_like_counts: 'comment_like_counts'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -98,6 +109,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const BlocksScalarFieldEnum = {
+  id: 'id',
   blocker_id: 'blocker_id',
   blocked_id: 'blocked_id',
   created_at: 'created_at'
@@ -112,6 +124,14 @@ export const CategoriesScalarFieldEnum = {
 } as const
 
 export type CategoriesScalarFieldEnum = (typeof CategoriesScalarFieldEnum)[keyof typeof CategoriesScalarFieldEnum]
+
+
+export const TagsScalarFieldEnum = {
+  tag_id: 'tag_id',
+  name: 'name'
+} as const
+
+export type TagsScalarFieldEnum = (typeof TagsScalarFieldEnum)[keyof typeof TagsScalarFieldEnum]
 
 
 export const Chat_participantsScalarFieldEnum = {
@@ -149,10 +169,9 @@ export const CommentsScalarFieldEnum = {
   content: 'content',
   user_id: 'user_id',
   post_id: 'post_id',
-  parent_id: 'parent_id',
+  comment_parent_id: 'comment_parent_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  likes_count: 'likes_count',
   is_deleted: 'is_deleted'
 } as const
 
@@ -173,6 +192,7 @@ export type Device_tokensScalarFieldEnum = (typeof Device_tokensScalarFieldEnum)
 
 
 export const FollowsScalarFieldEnum = {
+  id: 'id',
   follower_id: 'follower_id',
   following_id: 'following_id',
   created_at: 'created_at'
@@ -181,14 +201,44 @@ export const FollowsScalarFieldEnum = {
 export type FollowsScalarFieldEnum = (typeof FollowsScalarFieldEnum)[keyof typeof FollowsScalarFieldEnum]
 
 
+export const Follow_requestsScalarFieldEnum = {
+  id: 'id',
+  requester_id: 'requester_id',
+  target_id: 'target_id',
+  status: 'status',
+  created_at: 'created_at'
+} as const
+
+export type Follow_requestsScalarFieldEnum = (typeof Follow_requestsScalarFieldEnum)[keyof typeof Follow_requestsScalarFieldEnum]
+
+
 export const HashtagsScalarFieldEnum = {
   hashtag_id: 'hashtag_id',
   name: 'name',
-  post_count: 'post_count',
   created_at: 'created_at'
 } as const
 
 export type HashtagsScalarFieldEnum = (typeof HashtagsScalarFieldEnum)[keyof typeof HashtagsScalarFieldEnum]
+
+
+export const Content_hashtagsScalarFieldEnum = {
+  id: 'id',
+  content_id: 'content_id',
+  hashtag_id: 'hashtag_id',
+  created_at: 'created_at'
+} as const
+
+export type Content_hashtagsScalarFieldEnum = (typeof Content_hashtagsScalarFieldEnum)[keyof typeof Content_hashtagsScalarFieldEnum]
+
+
+export const Comment_hashtagsScalarFieldEnum = {
+  id: 'id',
+  comment_id: 'comment_id',
+  hashtag_id: 'hashtag_id',
+  created_at: 'created_at'
+} as const
+
+export type Comment_hashtagsScalarFieldEnum = (typeof Comment_hashtagsScalarFieldEnum)[keyof typeof Comment_hashtagsScalarFieldEnum]
 
 
 export const CountriesScalarFieldEnum = {
@@ -210,8 +260,8 @@ export type CitiesScalarFieldEnum = (typeof CitiesScalarFieldEnum)[keyof typeof 
 
 export const LocationsScalarFieldEnum = {
   location_id: 'location_id',
-  city_id: 'city_id',
   country_id: 'country_id',
+  city_id: 'city_id',
   lat: 'lat',
   lng: 'lng',
   place_id: 'place_id'
@@ -220,13 +270,23 @@ export const LocationsScalarFieldEnum = {
 export type LocationsScalarFieldEnum = (typeof LocationsScalarFieldEnum)[keyof typeof LocationsScalarFieldEnum]
 
 
+export const ContentsScalarFieldEnum = {
+  content_id: 'content_id',
+  user_id: 'user_id',
+  type: 'type',
+  visibility: 'visibility',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type ContentsScalarFieldEnum = (typeof ContentsScalarFieldEnum)[keyof typeof ContentsScalarFieldEnum]
+
+
 export const MediaScalarFieldEnum = {
   media_id: 'media_id',
+  content_id: 'content_id',
   storage_path: 'storage_path',
-  media_type: 'media_type',
-  post_id: 'post_id',
-  story_id: 'story_id',
-  scan_id: 'scan_id'
+  type: 'type'
 } as const
 
 export type MediaScalarFieldEnum = (typeof MediaScalarFieldEnum)[keyof typeof MediaScalarFieldEnum]
@@ -235,12 +295,20 @@ export type MediaScalarFieldEnum = (typeof MediaScalarFieldEnum)[keyof typeof Me
 export const MentionsScalarFieldEnum = {
   mention_id: 'mention_id',
   mentioned_user_id: 'mentioned_user_id',
-  post_id: 'post_id',
-  comment_id: 'comment_id',
+  mention_target_id: 'mention_target_id',
   created_at: 'created_at'
 } as const
 
 export type MentionsScalarFieldEnum = (typeof MentionsScalarFieldEnum)[keyof typeof MentionsScalarFieldEnum]
+
+
+export const Mention_targetsScalarFieldEnum = {
+  target_id: 'target_id',
+  post_id: 'post_id',
+  comment_id: 'comment_id'
+} as const
+
+export type Mention_targetsScalarFieldEnum = (typeof Mention_targetsScalarFieldEnum)[keyof typeof Mention_targetsScalarFieldEnum]
 
 
 export const MessagesScalarFieldEnum = {
@@ -257,7 +325,8 @@ export type MessagesScalarFieldEnum = (typeof MessagesScalarFieldEnum)[keyof typ
 export const NotificationsScalarFieldEnum = {
   notification_id: 'notification_id',
   user_id: 'user_id',
-  target_id: 'target_id',
+  actor_id: 'actor_id',
+  notification_target_id: 'notification_target_id',
   type: 'type',
   message: 'message',
   delivered_at: 'delivered_at',
@@ -267,26 +336,27 @@ export const NotificationsScalarFieldEnum = {
 export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
 
 
+export const Notification_targetsScalarFieldEnum = {
+  target_id: 'target_id',
+  post_id: 'post_id',
+  comment_id: 'comment_id',
+  chat_id: 'chat_id'
+} as const
+
+export type Notification_targetsScalarFieldEnum = (typeof Notification_targetsScalarFieldEnum)[keyof typeof Notification_targetsScalarFieldEnum]
+
+
 export const Post_blocksScalarFieldEnum = {
   block_id: 'block_id',
   post_id: 'post_id',
+  media_id: 'media_id',
   type: 'type',
   position: 'position',
   content: 'content',
-  media_id: 'media_id',
   created_at: 'created_at'
 } as const
 
 export type Post_blocksScalarFieldEnum = (typeof Post_blocksScalarFieldEnum)[keyof typeof Post_blocksScalarFieldEnum]
-
-
-export const Post_hashtagsScalarFieldEnum = {
-  post_id: 'post_id',
-  hashtag_id: 'hashtag_id',
-  created_at: 'created_at'
-} as const
-
-export type Post_hashtagsScalarFieldEnum = (typeof Post_hashtagsScalarFieldEnum)[keyof typeof Post_hashtagsScalarFieldEnum]
 
 
 export const Post_likesScalarFieldEnum = {
@@ -299,14 +369,20 @@ export const Post_likesScalarFieldEnum = {
 export type Post_likesScalarFieldEnum = (typeof Post_likesScalarFieldEnum)[keyof typeof Post_likesScalarFieldEnum]
 
 
-export const PostsScalarFieldEnum = {
+export const Post_tagsScalarFieldEnum = {
+  id: 'id',
   post_id: 'post_id',
-  user_id: 'user_id',
+  tag_id: 'tag_id'
+} as const
+
+export type Post_tagsScalarFieldEnum = (typeof Post_tagsScalarFieldEnum)[keyof typeof Post_tagsScalarFieldEnum]
+
+
+export const PostsScalarFieldEnum = {
+  content_id: 'content_id',
   category_id: 'category_id',
   location_id: 'location_id',
-  text_content: 'text_content',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  text_content: 'text_content'
 } as const
 
 export type PostsScalarFieldEnum = (typeof PostsScalarFieldEnum)[keyof typeof PostsScalarFieldEnum]
@@ -333,14 +409,25 @@ export type ProfilesScalarFieldEnum = (typeof ProfilesScalarFieldEnum)[keyof typ
 export const ReportsScalarFieldEnum = {
   report_id: 'report_id',
   reporter_id: 'reporter_id',
-  reported_item_id: 'reported_item_id',
-  item_type: 'item_type',
+  resolver_id: 'resolver_id',
+  report_target_id: 'report_target_id',
   reason: 'reason',
   status: 'status',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  resolved_at: 'resolved_at'
 } as const
 
 export type ReportsScalarFieldEnum = (typeof ReportsScalarFieldEnum)[keyof typeof ReportsScalarFieldEnum]
+
+
+export const Report_targetsScalarFieldEnum = {
+  target_id: 'target_id',
+  post_id: 'post_id',
+  comment_id: 'comment_id',
+  story_id: 'story_id'
+} as const
+
+export type Report_targetsScalarFieldEnum = (typeof Report_targetsScalarFieldEnum)[keyof typeof Report_targetsScalarFieldEnum]
 
 
 export const RolesScalarFieldEnum = {
@@ -361,19 +448,18 @@ export const Saved_postsScalarFieldEnum = {
 export type Saved_postsScalarFieldEnum = (typeof Saved_postsScalarFieldEnum)[keyof typeof Saved_postsScalarFieldEnum]
 
 
-export const Scan_historyScalarFieldEnum = {
-  scan_id: 'scan_id',
-  user_id: 'user_id',
-  timestamp: 'timestamp',
-  metadata: 'metadata'
+export const ScansScalarFieldEnum = {
+  content_id: 'content_id',
+  location_id: 'location_id',
+  metadata: 'metadata',
+  timestamp: 'timestamp'
 } as const
 
-export type Scan_historyScalarFieldEnum = (typeof Scan_historyScalarFieldEnum)[keyof typeof Scan_historyScalarFieldEnum]
+export type ScansScalarFieldEnum = (typeof ScansScalarFieldEnum)[keyof typeof ScansScalarFieldEnum]
 
 
 export const StoriesScalarFieldEnum = {
-  story_id: 'story_id',
-  user_id: 'user_id',
+  content_id: 'content_id',
   expires_at: 'expires_at'
 } as const
 
@@ -396,10 +482,37 @@ export const UsersScalarFieldEnum = {
   username: 'username',
   email: 'email',
   password: 'password',
+  is_active: 'is_active',
+  is_banned: 'is_banned',
+  updated_at: 'updated_at',
   created_at: 'created_at'
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const Hashtag_usageScalarFieldEnum = {
+  hashtag_id: 'hashtag_id',
+  usage_count: 'usage_count'
+} as const
+
+export type Hashtag_usageScalarFieldEnum = (typeof Hashtag_usageScalarFieldEnum)[keyof typeof Hashtag_usageScalarFieldEnum]
+
+
+export const Post_like_countsScalarFieldEnum = {
+  post_id: 'post_id',
+  likes_count: 'likes_count'
+} as const
+
+export type Post_like_countsScalarFieldEnum = (typeof Post_like_countsScalarFieldEnum)[keyof typeof Post_like_countsScalarFieldEnum]
+
+
+export const Comment_like_countsScalarFieldEnum = {
+  comment_id: 'comment_id',
+  likes_count: 'likes_count'
+} as const
+
+export type Comment_like_countsScalarFieldEnum = (typeof Comment_like_countsScalarFieldEnum)[keyof typeof Comment_like_countsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -415,6 +528,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {

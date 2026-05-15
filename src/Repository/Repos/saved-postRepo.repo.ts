@@ -1,10 +1,8 @@
-import { Prisma, type saved_posts } from "@prisma/client";
+import { type saved_posts } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
-export class SavedPostRepo extends BaseRepository<
-  typeof prisma.saved_posts
-> {
+export class SavedPostRepo extends BaseRepository<typeof prisma.saved_posts> {
   constructor() {
     super(prisma.saved_posts, 'saved_posts', 'saved_id');
   }
@@ -13,7 +11,7 @@ export class SavedPostRepo extends BaseRepository<
     return prisma.saved_posts.create({
       data: {
         user: { connect: { user_id } },
-        post: { connect: { post_id } },
+        post: { connect: { content_id: post_id } }, // posts PK is content_id
       },
     });
   }
@@ -30,8 +28,12 @@ export class SavedPostRepo extends BaseRepository<
   async getSavedByUser(user_id: string): Promise<saved_posts[]> {
     return prisma.saved_posts.findMany({
       where: { user_id },
-      include: { post: true },
+      include: { post: { include: { content: { include: { media: true, user: true } } } } },
       orderBy: { saved_at: 'desc' },
     });
+  }
+
+  async countByUser(user_id: string): Promise<number> {
+    return prisma.saved_posts.count({ where: { user_id } });
   }
 }

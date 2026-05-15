@@ -1,10 +1,8 @@
-import { Prisma, type comment_likes } from "@prisma/client";
+import { type comment_likes } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
-export class CommentLikeRepo extends BaseRepository<
-  typeof prisma.comment_likes
-> {
+export class CommentLikeRepo extends BaseRepository<typeof prisma.comment_likes> {
   constructor() {
     super(prisma.comment_likes, 'comment_likes');
   }
@@ -27,5 +25,13 @@ export class CommentLikeRepo extends BaseRepository<
       where: { user_id_comment_id: { user_id, comment_id } },
     });
     return like !== null;
+  }
+
+  async getLikeCount(comment_id: string): Promise<number> {
+    return prisma.comment_likes.count({ where: { comment_id } });
+  }
+
+  async getLikedCommentsByUser(user_id: string): Promise<comment_likes[]> {
+    return prisma.comment_likes.findMany({ where: { user_id } });
   }
 }

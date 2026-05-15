@@ -20,23 +20,36 @@ export type followsModel = runtime.Types.Result.DefaultSelection<Prisma.$follows
 
 export type AggregateFollows = {
   _count: FollowsCountAggregateOutputType | null
+  _avg: FollowsAvgAggregateOutputType | null
+  _sum: FollowsSumAggregateOutputType | null
   _min: FollowsMinAggregateOutputType | null
   _max: FollowsMaxAggregateOutputType | null
 }
 
+export type FollowsAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type FollowsSumAggregateOutputType = {
+  id: bigint | null
+}
+
 export type FollowsMinAggregateOutputType = {
+  id: bigint | null
   follower_id: string | null
   following_id: string | null
   created_at: Date | null
 }
 
 export type FollowsMaxAggregateOutputType = {
+  id: bigint | null
   follower_id: string | null
   following_id: string | null
   created_at: Date | null
 }
 
 export type FollowsCountAggregateOutputType = {
+  id: number
   follower_id: number
   following_id: number
   created_at: number
@@ -44,19 +57,30 @@ export type FollowsCountAggregateOutputType = {
 }
 
 
+export type FollowsAvgAggregateInputType = {
+  id?: true
+}
+
+export type FollowsSumAggregateInputType = {
+  id?: true
+}
+
 export type FollowsMinAggregateInputType = {
+  id?: true
   follower_id?: true
   following_id?: true
   created_at?: true
 }
 
 export type FollowsMaxAggregateInputType = {
+  id?: true
   follower_id?: true
   following_id?: true
   created_at?: true
 }
 
 export type FollowsCountAggregateInputType = {
+  id?: true
   follower_id?: true
   following_id?: true
   created_at?: true
@@ -101,6 +125,18 @@ export type FollowsAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: FollowsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: FollowsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: FollowsMinAggregateInputType
@@ -131,15 +167,20 @@ export type followsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: FollowsCountAggregateInputType | true
+  _avg?: FollowsAvgAggregateInputType
+  _sum?: FollowsSumAggregateInputType
   _min?: FollowsMinAggregateInputType
   _max?: FollowsMaxAggregateInputType
 }
 
 export type FollowsGroupByOutputType = {
+  id: bigint
   follower_id: string
   following_id: string
   created_at: Date
   _count: FollowsCountAggregateOutputType | null
+  _avg: FollowsAvgAggregateOutputType | null
+  _sum: FollowsSumAggregateOutputType | null
   _min: FollowsMinAggregateOutputType | null
   _max: FollowsMaxAggregateOutputType | null
 }
@@ -163,6 +204,7 @@ export type followsWhereInput = {
   AND?: Prisma.followsWhereInput | Prisma.followsWhereInput[]
   OR?: Prisma.followsWhereInput[]
   NOT?: Prisma.followsWhereInput | Prisma.followsWhereInput[]
+  id?: Prisma.BigIntFilter<"follows"> | bigint | number
   follower_id?: Prisma.UuidFilter<"follows"> | string
   following_id?: Prisma.UuidFilter<"follows"> | string
   created_at?: Prisma.DateTimeFilter<"follows"> | Date | string
@@ -171,6 +213,7 @@ export type followsWhereInput = {
 }
 
 export type followsOrderByWithRelationInput = {
+  id?: Prisma.SortOrder
   follower_id?: Prisma.SortOrder
   following_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -179,6 +222,7 @@ export type followsOrderByWithRelationInput = {
 }
 
 export type followsWhereUniqueInput = Prisma.AtLeast<{
+  id?: bigint | number
   follower_id_following_id?: Prisma.followsFollower_idFollowing_idCompoundUniqueInput
   AND?: Prisma.followsWhereInput | Prisma.followsWhereInput[]
   OR?: Prisma.followsWhereInput[]
@@ -188,61 +232,72 @@ export type followsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"follows"> | Date | string
   follower?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   following?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-}, "follower_id_following_id">
+}, "id" | "follower_id_following_id">
 
 export type followsOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder
   follower_id?: Prisma.SortOrder
   following_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   _count?: Prisma.followsCountOrderByAggregateInput
+  _avg?: Prisma.followsAvgOrderByAggregateInput
   _max?: Prisma.followsMaxOrderByAggregateInput
   _min?: Prisma.followsMinOrderByAggregateInput
+  _sum?: Prisma.followsSumOrderByAggregateInput
 }
 
 export type followsScalarWhereWithAggregatesInput = {
   AND?: Prisma.followsScalarWhereWithAggregatesInput | Prisma.followsScalarWhereWithAggregatesInput[]
   OR?: Prisma.followsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.followsScalarWhereWithAggregatesInput | Prisma.followsScalarWhereWithAggregatesInput[]
+  id?: Prisma.BigIntWithAggregatesFilter<"follows"> | bigint | number
   follower_id?: Prisma.UuidWithAggregatesFilter<"follows"> | string
   following_id?: Prisma.UuidWithAggregatesFilter<"follows"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"follows"> | Date | string
 }
 
 export type followsCreateInput = {
+  id?: bigint | number
   created_at?: Date | string
   follower: Prisma.usersCreateNestedOneWithoutFollowingInput
   following: Prisma.usersCreateNestedOneWithoutFollowersInput
 }
 
 export type followsUncheckedCreateInput = {
+  id?: bigint | number
   follower_id: string
   following_id: string
   created_at?: Date | string
 }
 
 export type followsUpdateInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   follower?: Prisma.usersUpdateOneRequiredWithoutFollowingNestedInput
   following?: Prisma.usersUpdateOneRequiredWithoutFollowersNestedInput
 }
 
 export type followsUncheckedUpdateInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   follower_id?: Prisma.StringFieldUpdateOperationsInput | string
   following_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type followsCreateManyInput = {
+  id?: bigint | number
   follower_id: string
   following_id: string
   created_at?: Date | string
 }
 
 export type followsUpdateManyMutationInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type followsUncheckedUpdateManyInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   follower_id?: Prisma.StringFieldUpdateOperationsInput | string
   following_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -254,21 +309,32 @@ export type followsFollower_idFollowing_idCompoundUniqueInput = {
 }
 
 export type followsCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   follower_id?: Prisma.SortOrder
   following_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
+export type followsAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
 export type followsMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   follower_id?: Prisma.SortOrder
   following_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
 export type followsMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   follower_id?: Prisma.SortOrder
   following_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+}
+
+export type followsSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type FollowsListRelationFilter = {
@@ -366,11 +432,13 @@ export type followsUncheckedUpdateManyWithoutFollowingNestedInput = {
 }
 
 export type followsCreateWithoutFollowerInput = {
+  id?: bigint | number
   created_at?: Date | string
   following: Prisma.usersCreateNestedOneWithoutFollowersInput
 }
 
 export type followsUncheckedCreateWithoutFollowerInput = {
+  id?: bigint | number
   following_id: string
   created_at?: Date | string
 }
@@ -386,11 +454,13 @@ export type followsCreateManyFollowerInputEnvelope = {
 }
 
 export type followsCreateWithoutFollowingInput = {
+  id?: bigint | number
   created_at?: Date | string
   follower: Prisma.usersCreateNestedOneWithoutFollowingInput
 }
 
 export type followsUncheckedCreateWithoutFollowingInput = {
+  id?: bigint | number
   follower_id: string
   created_at?: Date | string
 }
@@ -425,6 +495,7 @@ export type followsScalarWhereInput = {
   AND?: Prisma.followsScalarWhereInput | Prisma.followsScalarWhereInput[]
   OR?: Prisma.followsScalarWhereInput[]
   NOT?: Prisma.followsScalarWhereInput | Prisma.followsScalarWhereInput[]
+  id?: Prisma.BigIntFilter<"follows"> | bigint | number
   follower_id?: Prisma.UuidFilter<"follows"> | string
   following_id?: Prisma.UuidFilter<"follows"> | string
   created_at?: Prisma.DateTimeFilter<"follows"> | Date | string
@@ -447,41 +518,49 @@ export type followsUpdateManyWithWhereWithoutFollowingInput = {
 }
 
 export type followsCreateManyFollowerInput = {
+  id?: bigint | number
   following_id: string
   created_at?: Date | string
 }
 
 export type followsCreateManyFollowingInput = {
+  id?: bigint | number
   follower_id: string
   created_at?: Date | string
 }
 
 export type followsUpdateWithoutFollowerInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   following?: Prisma.usersUpdateOneRequiredWithoutFollowersNestedInput
 }
 
 export type followsUncheckedUpdateWithoutFollowerInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   following_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type followsUncheckedUpdateManyWithoutFollowerInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   following_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type followsUpdateWithoutFollowingInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   follower?: Prisma.usersUpdateOneRequiredWithoutFollowingNestedInput
 }
 
 export type followsUncheckedUpdateWithoutFollowingInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   follower_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type followsUncheckedUpdateManyWithoutFollowingInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   follower_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -489,6 +568,7 @@ export type followsUncheckedUpdateManyWithoutFollowingInput = {
 
 
 export type followsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   follower_id?: boolean
   following_id?: boolean
   created_at?: boolean
@@ -497,6 +577,7 @@ export type followsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }, ExtArgs["result"]["follows"]>
 
 export type followsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   follower_id?: boolean
   following_id?: boolean
   created_at?: boolean
@@ -505,6 +586,7 @@ export type followsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 }, ExtArgs["result"]["follows"]>
 
 export type followsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   follower_id?: boolean
   following_id?: boolean
   created_at?: boolean
@@ -513,12 +595,13 @@ export type followsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 }, ExtArgs["result"]["follows"]>
 
 export type followsSelectScalar = {
+  id?: boolean
   follower_id?: boolean
   following_id?: boolean
   created_at?: boolean
 }
 
-export type followsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"follower_id" | "following_id" | "created_at", ExtArgs["result"]["follows"]>
+export type followsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "follower_id" | "following_id" | "created_at", ExtArgs["result"]["follows"]>
 export type followsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   follower?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   following?: boolean | Prisma.usersDefaultArgs<ExtArgs>
@@ -539,6 +622,7 @@ export type $followsPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     following: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    id: bigint
     follower_id: string
     following_id: string
     created_at: Date
@@ -625,8 +709,8 @@ export interface followsDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * // Get first 10 Follows
    * const follows = await prisma.follows.findMany({ take: 10 })
    * 
-   * // Only select the `follower_id`
-   * const followsWithFollower_idOnly = await prisma.follows.findMany({ select: { follower_id: true } })
+   * // Only select the `id`
+   * const followsWithIdOnly = await prisma.follows.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends followsFindManyArgs>(args?: Prisma.SelectSubset<T, followsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -670,9 +754,9 @@ export interface followsDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Create many Follows and only return the `follower_id`
-   * const followsWithFollower_idOnly = await prisma.follows.createManyAndReturn({
-   *   select: { follower_id: true },
+   * // Create many Follows and only return the `id`
+   * const followsWithIdOnly = await prisma.follows.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -761,9 +845,9 @@ export interface followsDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Update zero or more Follows and only return the `follower_id`
-   * const followsWithFollower_idOnly = await prisma.follows.updateManyAndReturn({
-   *   select: { follower_id: true },
+   * // Update zero or more Follows and only return the `id`
+   * const followsWithIdOnly = await prisma.follows.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -967,6 +1051,7 @@ export interface Prisma__followsClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the follows model
  */
 export interface followsFieldRefs {
+  readonly id: Prisma.FieldRef<"follows", 'BigInt'>
   readonly follower_id: Prisma.FieldRef<"follows", 'String'>
   readonly following_id: Prisma.FieldRef<"follows", 'String'>
   readonly created_at: Prisma.FieldRef<"follows", 'DateTime'>

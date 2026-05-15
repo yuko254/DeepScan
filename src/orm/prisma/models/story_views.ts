@@ -208,8 +208,8 @@ export type story_viewsWhereInput = {
   viewer_id?: Prisma.UuidNullableFilter<"story_views"> | string | null
   story_id?: Prisma.UuidFilter<"story_views"> | string
   viewed_at?: Prisma.DateTimeFilter<"story_views"> | Date | string
-  story?: Prisma.XOR<Prisma.StoriesScalarRelationFilter, Prisma.storiesWhereInput>
   user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  story?: Prisma.XOR<Prisma.StoriesScalarRelationFilter, Prisma.storiesWhereInput>
 }
 
 export type story_viewsOrderByWithRelationInput = {
@@ -217,8 +217,8 @@ export type story_viewsOrderByWithRelationInput = {
   viewer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   story_id?: Prisma.SortOrder
   viewed_at?: Prisma.SortOrder
-  story?: Prisma.storiesOrderByWithRelationInput
   user?: Prisma.usersOrderByWithRelationInput
+  story?: Prisma.storiesOrderByWithRelationInput
 }
 
 export type story_viewsWhereUniqueInput = Prisma.AtLeast<{
@@ -230,8 +230,8 @@ export type story_viewsWhereUniqueInput = Prisma.AtLeast<{
   viewer_id?: Prisma.UuidNullableFilter<"story_views"> | string | null
   story_id?: Prisma.UuidFilter<"story_views"> | string
   viewed_at?: Prisma.DateTimeFilter<"story_views"> | Date | string
-  story?: Prisma.XOR<Prisma.StoriesScalarRelationFilter, Prisma.storiesWhereInput>
   user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  story?: Prisma.XOR<Prisma.StoriesScalarRelationFilter, Prisma.storiesWhereInput>
 }, "id" | "viewer_id_story_id">
 
 export type story_viewsOrderByWithAggregationInput = {
@@ -259,8 +259,8 @@ export type story_viewsScalarWhereWithAggregatesInput = {
 export type story_viewsCreateInput = {
   id?: bigint | number
   viewed_at?: Date | string
-  story: Prisma.storiesCreateNestedOneWithoutStory_viewsInput
   user?: Prisma.usersCreateNestedOneWithoutStory_viewsInput
+  story: Prisma.storiesCreateNestedOneWithoutStory_viewsInput
 }
 
 export type story_viewsUncheckedCreateInput = {
@@ -273,8 +273,8 @@ export type story_viewsUncheckedCreateInput = {
 export type story_viewsUpdateInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   viewed_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  story?: Prisma.storiesUpdateOneRequiredWithoutStory_viewsNestedInput
   user?: Prisma.usersUpdateOneWithoutStory_viewsNestedInput
+  story?: Prisma.storiesUpdateOneRequiredWithoutStory_viewsNestedInput
 }
 
 export type story_viewsUncheckedUpdateInput = {
@@ -572,8 +572,8 @@ export type story_viewsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   viewer_id?: boolean
   story_id?: boolean
   viewed_at?: boolean
-  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
   user?: boolean | Prisma.story_views$userArgs<ExtArgs>
+  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["story_views"]>
 
 export type story_viewsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -581,8 +581,8 @@ export type story_viewsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   viewer_id?: boolean
   story_id?: boolean
   viewed_at?: boolean
-  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
   user?: boolean | Prisma.story_views$userArgs<ExtArgs>
+  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["story_views"]>
 
 export type story_viewsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -590,8 +590,8 @@ export type story_viewsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   viewer_id?: boolean
   story_id?: boolean
   viewed_at?: boolean
-  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
   user?: boolean | Prisma.story_views$userArgs<ExtArgs>
+  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["story_views"]>
 
 export type story_viewsSelectScalar = {
@@ -603,23 +603,23 @@ export type story_viewsSelectScalar = {
 
 export type story_viewsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "viewer_id" | "story_id" | "viewed_at", ExtArgs["result"]["story_views"]>
 export type story_viewsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
   user?: boolean | Prisma.story_views$userArgs<ExtArgs>
+  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
 }
 export type story_viewsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
   user?: boolean | Prisma.story_views$userArgs<ExtArgs>
+  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
 }
 export type story_viewsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
   user?: boolean | Prisma.story_views$userArgs<ExtArgs>
+  story?: boolean | Prisma.storiesDefaultArgs<ExtArgs>
 }
 
 export type $story_viewsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "story_views"
   objects: {
-    story: Prisma.$storiesPayload<ExtArgs>
     user: Prisma.$usersPayload<ExtArgs> | null
+    story: Prisma.$storiesPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: bigint
@@ -1020,8 +1020,8 @@ readonly fields: story_viewsFieldRefs;
  */
 export interface Prisma__story_viewsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  story<T extends Prisma.storiesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storiesDefaultArgs<ExtArgs>>): Prisma.Prisma__storiesClient<runtime.Types.Result.GetResult<Prisma.$storiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.story_views$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.story_views$userArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  story<T extends Prisma.storiesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storiesDefaultArgs<ExtArgs>>): Prisma.Prisma__storiesClient<runtime.Types.Result.GetResult<Prisma.$storiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

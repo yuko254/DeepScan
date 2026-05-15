@@ -20,23 +20,36 @@ export type blocksModel = runtime.Types.Result.DefaultSelection<Prisma.$blocksPa
 
 export type AggregateBlocks = {
   _count: BlocksCountAggregateOutputType | null
+  _avg: BlocksAvgAggregateOutputType | null
+  _sum: BlocksSumAggregateOutputType | null
   _min: BlocksMinAggregateOutputType | null
   _max: BlocksMaxAggregateOutputType | null
 }
 
+export type BlocksAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type BlocksSumAggregateOutputType = {
+  id: bigint | null
+}
+
 export type BlocksMinAggregateOutputType = {
+  id: bigint | null
   blocker_id: string | null
   blocked_id: string | null
   created_at: Date | null
 }
 
 export type BlocksMaxAggregateOutputType = {
+  id: bigint | null
   blocker_id: string | null
   blocked_id: string | null
   created_at: Date | null
 }
 
 export type BlocksCountAggregateOutputType = {
+  id: number
   blocker_id: number
   blocked_id: number
   created_at: number
@@ -44,19 +57,30 @@ export type BlocksCountAggregateOutputType = {
 }
 
 
+export type BlocksAvgAggregateInputType = {
+  id?: true
+}
+
+export type BlocksSumAggregateInputType = {
+  id?: true
+}
+
 export type BlocksMinAggregateInputType = {
+  id?: true
   blocker_id?: true
   blocked_id?: true
   created_at?: true
 }
 
 export type BlocksMaxAggregateInputType = {
+  id?: true
   blocker_id?: true
   blocked_id?: true
   created_at?: true
 }
 
 export type BlocksCountAggregateInputType = {
+  id?: true
   blocker_id?: true
   blocked_id?: true
   created_at?: true
@@ -101,6 +125,18 @@ export type BlocksAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: BlocksAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: BlocksSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: BlocksMinAggregateInputType
@@ -131,15 +167,20 @@ export type blocksGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: BlocksCountAggregateInputType | true
+  _avg?: BlocksAvgAggregateInputType
+  _sum?: BlocksSumAggregateInputType
   _min?: BlocksMinAggregateInputType
   _max?: BlocksMaxAggregateInputType
 }
 
 export type BlocksGroupByOutputType = {
+  id: bigint
   blocker_id: string
   blocked_id: string
   created_at: Date
   _count: BlocksCountAggregateOutputType | null
+  _avg: BlocksAvgAggregateOutputType | null
+  _sum: BlocksSumAggregateOutputType | null
   _min: BlocksMinAggregateOutputType | null
   _max: BlocksMaxAggregateOutputType | null
 }
@@ -163,6 +204,7 @@ export type blocksWhereInput = {
   AND?: Prisma.blocksWhereInput | Prisma.blocksWhereInput[]
   OR?: Prisma.blocksWhereInput[]
   NOT?: Prisma.blocksWhereInput | Prisma.blocksWhereInput[]
+  id?: Prisma.BigIntFilter<"blocks"> | bigint | number
   blocker_id?: Prisma.UuidFilter<"blocks"> | string
   blocked_id?: Prisma.UuidFilter<"blocks"> | string
   created_at?: Prisma.DateTimeFilter<"blocks"> | Date | string
@@ -171,6 +213,7 @@ export type blocksWhereInput = {
 }
 
 export type blocksOrderByWithRelationInput = {
+  id?: Prisma.SortOrder
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -179,6 +222,7 @@ export type blocksOrderByWithRelationInput = {
 }
 
 export type blocksWhereUniqueInput = Prisma.AtLeast<{
+  id?: bigint | number
   blocker_id_blocked_id?: Prisma.blocksBlocker_idBlocked_idCompoundUniqueInput
   AND?: Prisma.blocksWhereInput | Prisma.blocksWhereInput[]
   OR?: Prisma.blocksWhereInput[]
@@ -188,61 +232,72 @@ export type blocksWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"blocks"> | Date | string
   blocker?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   blocked?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-}, "blocker_id_blocked_id">
+}, "id" | "blocker_id_blocked_id">
 
 export type blocksOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   _count?: Prisma.blocksCountOrderByAggregateInput
+  _avg?: Prisma.blocksAvgOrderByAggregateInput
   _max?: Prisma.blocksMaxOrderByAggregateInput
   _min?: Prisma.blocksMinOrderByAggregateInput
+  _sum?: Prisma.blocksSumOrderByAggregateInput
 }
 
 export type blocksScalarWhereWithAggregatesInput = {
   AND?: Prisma.blocksScalarWhereWithAggregatesInput | Prisma.blocksScalarWhereWithAggregatesInput[]
   OR?: Prisma.blocksScalarWhereWithAggregatesInput[]
   NOT?: Prisma.blocksScalarWhereWithAggregatesInput | Prisma.blocksScalarWhereWithAggregatesInput[]
+  id?: Prisma.BigIntWithAggregatesFilter<"blocks"> | bigint | number
   blocker_id?: Prisma.UuidWithAggregatesFilter<"blocks"> | string
   blocked_id?: Prisma.UuidWithAggregatesFilter<"blocks"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"blocks"> | Date | string
 }
 
 export type blocksCreateInput = {
+  id?: bigint | number
   created_at?: Date | string
   blocker: Prisma.usersCreateNestedOneWithoutBlocked_usersInput
   blocked: Prisma.usersCreateNestedOneWithoutBlocked_bysInput
 }
 
 export type blocksUncheckedCreateInput = {
+  id?: bigint | number
   blocker_id: string
   blocked_id: string
   created_at?: Date | string
 }
 
 export type blocksUpdateInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blocker?: Prisma.usersUpdateOneRequiredWithoutBlocked_usersNestedInput
   blocked?: Prisma.usersUpdateOneRequiredWithoutBlocked_bysNestedInput
 }
 
 export type blocksUncheckedUpdateInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksCreateManyInput = {
+  id?: bigint | number
   blocker_id: string
   blocked_id: string
   created_at?: Date | string
 }
 
 export type blocksUpdateManyMutationInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksUncheckedUpdateManyInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -254,21 +309,32 @@ export type blocksBlocker_idBlocked_idCompoundUniqueInput = {
 }
 
 export type blocksCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
+export type blocksAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
 export type blocksMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
 export type blocksMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   blocker_id?: Prisma.SortOrder
   blocked_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+}
+
+export type blocksSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type BlocksListRelationFilter = {
@@ -279,6 +345,14 @@ export type BlocksListRelationFilter = {
 
 export type blocksOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type BigIntFieldUpdateOperationsInput = {
+  set?: bigint | number
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -374,11 +448,13 @@ export type blocksUncheckedUpdateManyWithoutBlockedNestedInput = {
 }
 
 export type blocksCreateWithoutBlockerInput = {
+  id?: bigint | number
   created_at?: Date | string
   blocked: Prisma.usersCreateNestedOneWithoutBlocked_bysInput
 }
 
 export type blocksUncheckedCreateWithoutBlockerInput = {
+  id?: bigint | number
   blocked_id: string
   created_at?: Date | string
 }
@@ -394,11 +470,13 @@ export type blocksCreateManyBlockerInputEnvelope = {
 }
 
 export type blocksCreateWithoutBlockedInput = {
+  id?: bigint | number
   created_at?: Date | string
   blocker: Prisma.usersCreateNestedOneWithoutBlocked_usersInput
 }
 
 export type blocksUncheckedCreateWithoutBlockedInput = {
+  id?: bigint | number
   blocker_id: string
   created_at?: Date | string
 }
@@ -433,6 +511,7 @@ export type blocksScalarWhereInput = {
   AND?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
   OR?: Prisma.blocksScalarWhereInput[]
   NOT?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
+  id?: Prisma.BigIntFilter<"blocks"> | bigint | number
   blocker_id?: Prisma.UuidFilter<"blocks"> | string
   blocked_id?: Prisma.UuidFilter<"blocks"> | string
   created_at?: Prisma.DateTimeFilter<"blocks"> | Date | string
@@ -455,41 +534,49 @@ export type blocksUpdateManyWithWhereWithoutBlockedInput = {
 }
 
 export type blocksCreateManyBlockerInput = {
+  id?: bigint | number
   blocked_id: string
   created_at?: Date | string
 }
 
 export type blocksCreateManyBlockedInput = {
+  id?: bigint | number
   blocker_id: string
   created_at?: Date | string
 }
 
 export type blocksUpdateWithoutBlockerInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blocked?: Prisma.usersUpdateOneRequiredWithoutBlocked_bysNestedInput
 }
 
 export type blocksUncheckedUpdateWithoutBlockerInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksUncheckedUpdateManyWithoutBlockerInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   blocked_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksUpdateWithoutBlockedInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blocker?: Prisma.usersUpdateOneRequiredWithoutBlocked_usersNestedInput
 }
 
 export type blocksUncheckedUpdateWithoutBlockedInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type blocksUncheckedUpdateManyWithoutBlockedInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   blocker_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -497,6 +584,7 @@ export type blocksUncheckedUpdateManyWithoutBlockedInput = {
 
 
 export type blocksSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
@@ -505,6 +593,7 @@ export type blocksSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
@@ -513,6 +602,7 @@ export type blocksSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
@@ -521,12 +611,13 @@ export type blocksSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 }, ExtArgs["result"]["blocks"]>
 
 export type blocksSelectScalar = {
+  id?: boolean
   blocker_id?: boolean
   blocked_id?: boolean
   created_at?: boolean
 }
 
-export type blocksOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"blocker_id" | "blocked_id" | "created_at", ExtArgs["result"]["blocks"]>
+export type blocksOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "blocker_id" | "blocked_id" | "created_at", ExtArgs["result"]["blocks"]>
 export type blocksInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   blocker?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   blocked?: boolean | Prisma.usersDefaultArgs<ExtArgs>
@@ -547,6 +638,7 @@ export type $blocksPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     blocked: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    id: bigint
     blocker_id: string
     blocked_id: string
     created_at: Date
@@ -633,8 +725,8 @@ export interface blocksDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * // Get first 10 Blocks
    * const blocks = await prisma.blocks.findMany({ take: 10 })
    * 
-   * // Only select the `blocker_id`
-   * const blocksWithBlocker_idOnly = await prisma.blocks.findMany({ select: { blocker_id: true } })
+   * // Only select the `id`
+   * const blocksWithIdOnly = await prisma.blocks.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends blocksFindManyArgs>(args?: Prisma.SelectSubset<T, blocksFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -678,9 +770,9 @@ export interface blocksDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Create many Blocks and only return the `blocker_id`
-   * const blocksWithBlocker_idOnly = await prisma.blocks.createManyAndReturn({
-   *   select: { blocker_id: true },
+   * // Create many Blocks and only return the `id`
+   * const blocksWithIdOnly = await prisma.blocks.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -769,9 +861,9 @@ export interface blocksDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Update zero or more Blocks and only return the `blocker_id`
-   * const blocksWithBlocker_idOnly = await prisma.blocks.updateManyAndReturn({
-   *   select: { blocker_id: true },
+   * // Update zero or more Blocks and only return the `id`
+   * const blocksWithIdOnly = await prisma.blocks.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -975,6 +1067,7 @@ export interface Prisma__blocksClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the blocks model
  */
 export interface blocksFieldRefs {
+  readonly id: Prisma.FieldRef<"blocks", 'BigInt'>
   readonly blocker_id: Prisma.FieldRef<"blocks", 'String'>
   readonly blocked_id: Prisma.FieldRef<"blocks", 'String'>
   readonly created_at: Prisma.FieldRef<"blocks", 'DateTime'>

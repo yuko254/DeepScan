@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS public.post_blocks
 (
     block_id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     post_id uuid NOT NULL,
-    type VARCHAR(20) NOT NULL CHECK (type IN ('text', 'image', 'video')),
+    type VARCHAR(20) NOT NULL,
     position INT NOT NULL,
     content JSONB NOT NULL,
     media_id uuid, -- Only used when type = 'image' or 'video'
@@ -291,18 +291,14 @@ CREATE TABLE IF NOT EXISTS public.mentions (
     created_at timestamptz DEFAULT now(),
     FOREIGN KEY (mentioned_user_id) REFERENCES public.users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES public.posts(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (comment_id) REFERENCES public.comments(comment_id) ON DELETE CASCADE,
-    CONSTRAINT mention_target_check CHECK (
-        (post_id IS NOT NULL AND comment_id IS NULL) OR
-        (post_id IS NULL AND comment_id IS NOT NULL)
-    )
+    FOREIGN KEY (comment_id) REFERENCES public.comments(comment_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS public.device_tokens (
     token_id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id uuid NOT NULL,
     token TEXT NOT NULL,                -- The actual push token
-    device_type VARCHAR(20) NOT NULL CHECK (device_type IN ('ios', 'android', 'web')),
+    device_type VARCHAR(20) NOT NULL,
     app_version VARCHAR(20),                  -- track app version
     last_used timestamptz DEFAULT now(),    -- For cleaning up stale tokens
     created_at timestamptz DEFAULT now(),
@@ -348,47 +344,5 @@ CREATE TRIGGER enforce_direct_chat_limit
     BEFORE INSERT ON public.chat_participants
     FOR EACH ROW
     EXECUTE FUNCTION check_direct_chat_participant_limit();
-
-CREATE OR REPLACE FUNCTION update_comment_likes_count()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        UPDATE "comments"
-        SET "likes_count" = "likes_count" + 1
-        WHERE "comment_id" = NEW."comment_id";
-    ELSIF (TG_OP = 'DELETE') THEN
-        UPDATE "comments"
-        SET "likes_count" = "likes_count" - 1
-        WHERE "comment_id" = OLD."comment_id";
-    END IF;
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER tr_update_comment_likes_count
-AFTER INSERT OR DELETE ON comment_likes
-FOR EACH ROW
-EXECUTE FUNCTION update_comment_likes_count();
-
-CREATE OR REPLACE FUNCTION update_hashtags_post_count()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        UPDATE "hashtags"
-        SET "post_count" = "post_count" + 1
-        WHERE "hashtag_id" = NEW."hashtag_id";
-    ELSIF (TG_OP = 'DELETE') THEN
-        UPDATE "hashtags"
-        SET "post_count" = "post_count" - 1
-        WHERE "hashtag_id" = OLD."hashtag_id";
-    END IF;
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER tr_update_hashtags_post_count
-AFTER INSERT OR DELETE ON post_hashtags
-FOR EACH ROW
-EXECUTE FUNCTION update_hashtags_post_count();
 
 END;

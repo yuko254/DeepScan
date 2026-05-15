@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model post_blocks
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * 
  */
 export type post_blocksModel = runtime.Types.Result.DefaultSelection<Prisma.$post_blocksPayload>
 
@@ -37,28 +37,28 @@ export type Post_blocksSumAggregateOutputType = {
 export type Post_blocksMinAggregateOutputType = {
   block_id: string | null
   post_id: string | null
-  type: string | null
-  position: bigint | null
   media_id: string | null
+  type: $Enums.BlockType | null
+  position: bigint | null
   created_at: Date | null
 }
 
 export type Post_blocksMaxAggregateOutputType = {
   block_id: string | null
   post_id: string | null
-  type: string | null
-  position: bigint | null
   media_id: string | null
+  type: $Enums.BlockType | null
+  position: bigint | null
   created_at: Date | null
 }
 
 export type Post_blocksCountAggregateOutputType = {
   block_id: number
   post_id: number
+  media_id: number
   type: number
   position: number
   content: number
-  media_id: number
   created_at: number
   _all: number
 }
@@ -75,28 +75,28 @@ export type Post_blocksSumAggregateInputType = {
 export type Post_blocksMinAggregateInputType = {
   block_id?: true
   post_id?: true
+  media_id?: true
   type?: true
   position?: true
-  media_id?: true
   created_at?: true
 }
 
 export type Post_blocksMaxAggregateInputType = {
   block_id?: true
   post_id?: true
+  media_id?: true
   type?: true
   position?: true
-  media_id?: true
   created_at?: true
 }
 
 export type Post_blocksCountAggregateInputType = {
   block_id?: true
   post_id?: true
+  media_id?: true
   type?: true
   position?: true
   content?: true
-  media_id?: true
   created_at?: true
   _all?: true
 }
@@ -190,10 +190,10 @@ export type post_blocksGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type Post_blocksGroupByOutputType = {
   block_id: string
   post_id: string
-  type: string
+  media_id: string | null
+  type: $Enums.BlockType
   position: bigint
   content: runtime.JsonValue
-  media_id: string | null
   created_at: Date
   _count: Post_blocksCountAggregateOutputType | null
   _avg: Post_blocksAvgAggregateOutputType | null
@@ -223,25 +223,25 @@ export type post_blocksWhereInput = {
   NOT?: Prisma.post_blocksWhereInput | Prisma.post_blocksWhereInput[]
   block_id?: Prisma.UuidFilter<"post_blocks"> | string
   post_id?: Prisma.UuidFilter<"post_blocks"> | string
-  type?: Prisma.StringFilter<"post_blocks"> | string
+  media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
+  type?: Prisma.EnumBlockTypeFilter<"post_blocks"> | $Enums.BlockType
   position?: Prisma.BigIntFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonFilter<"post_blocks">
-  media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
   created_at?: Prisma.DateTimeFilter<"post_blocks"> | Date | string
-  media?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.mediaWhereInput> | null
   post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
+  media?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.mediaWhereInput> | null
 }
 
 export type post_blocksOrderByWithRelationInput = {
   block_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   position?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  media?: Prisma.mediaOrderByWithRelationInput
   post?: Prisma.postsOrderByWithRelationInput
+  media?: Prisma.mediaOrderByWithRelationInput
 }
 
 export type post_blocksWhereUniqueInput = Prisma.AtLeast<{
@@ -251,22 +251,22 @@ export type post_blocksWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.post_blocksWhereInput[]
   NOT?: Prisma.post_blocksWhereInput | Prisma.post_blocksWhereInput[]
   post_id?: Prisma.UuidFilter<"post_blocks"> | string
-  type?: Prisma.StringFilter<"post_blocks"> | string
+  media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
+  type?: Prisma.EnumBlockTypeFilter<"post_blocks"> | $Enums.BlockType
   position?: Prisma.BigIntFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonFilter<"post_blocks">
-  media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
   created_at?: Prisma.DateTimeFilter<"post_blocks"> | Date | string
-  media?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.mediaWhereInput> | null
   post?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
+  media?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.mediaWhereInput> | null
 }, "block_id" | "post_id_position">
 
 export type post_blocksOrderByWithAggregationInput = {
   block_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   position?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  media_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   _count?: Prisma.post_blocksCountOrderByAggregateInput
   _avg?: Prisma.post_blocksAvgOrderByAggregateInput
@@ -281,66 +281,66 @@ export type post_blocksScalarWhereWithAggregatesInput = {
   NOT?: Prisma.post_blocksScalarWhereWithAggregatesInput | Prisma.post_blocksScalarWhereWithAggregatesInput[]
   block_id?: Prisma.UuidWithAggregatesFilter<"post_blocks"> | string
   post_id?: Prisma.UuidWithAggregatesFilter<"post_blocks"> | string
-  type?: Prisma.StringWithAggregatesFilter<"post_blocks"> | string
+  media_id?: Prisma.UuidNullableWithAggregatesFilter<"post_blocks"> | string | null
+  type?: Prisma.EnumBlockTypeWithAggregatesFilter<"post_blocks"> | $Enums.BlockType
   position?: Prisma.BigIntWithAggregatesFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonWithAggregatesFilter<"post_blocks">
-  media_id?: Prisma.UuidNullableWithAggregatesFilter<"post_blocks"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"post_blocks"> | Date | string
 }
 
 export type post_blocksCreateInput = {
   block_id?: string
-  type: string
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
-  media?: Prisma.mediaCreateNestedOneWithoutPost_blocksInput
   post: Prisma.postsCreateNestedOneWithoutPost_blocksInput
+  media?: Prisma.mediaCreateNestedOneWithoutPost_blocksInput
 }
 
 export type post_blocksUncheckedCreateInput = {
   block_id?: string
   post_id: string
-  type: string
+  media_id?: string | null
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: string | null
   created_at?: Date | string
 }
 
 export type post_blocksUpdateInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  media?: Prisma.mediaUpdateOneWithoutPost_blocksNestedInput
   post?: Prisma.postsUpdateOneRequiredWithoutPost_blocksNestedInput
+  media?: Prisma.mediaUpdateOneWithoutPost_blocksNestedInput
 }
 
 export type post_blocksUncheckedUpdateInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type post_blocksCreateManyInput = {
   block_id?: string
   post_id: string
-  type: string
+  media_id?: string | null
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: string | null
   created_at?: Date | string
 }
 
 export type post_blocksUpdateManyMutationInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -349,10 +349,10 @@ export type post_blocksUpdateManyMutationInput = {
 export type post_blocksUncheckedUpdateManyInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -374,10 +374,10 @@ export type post_blocksPost_idPositionCompoundUniqueInput = {
 export type post_blocksCountOrderByAggregateInput = {
   block_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   position?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  media_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -388,18 +388,18 @@ export type post_blocksAvgOrderByAggregateInput = {
 export type post_blocksMaxOrderByAggregateInput = {
   block_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   position?: Prisma.SortOrder
-  media_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
 export type post_blocksMinOrderByAggregateInput = {
   block_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrder
+  media_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   position?: Prisma.SortOrder
-  media_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -449,6 +449,10 @@ export type post_blocksUncheckedUpdateManyWithoutMediaNestedInput = {
   deleteMany?: Prisma.post_blocksScalarWhereInput | Prisma.post_blocksScalarWhereInput[]
 }
 
+export type EnumBlockTypeFieldUpdateOperationsInput = {
+  set?: $Enums.BlockType
+}
+
 export type post_blocksCreateNestedManyWithoutPostInput = {
   create?: Prisma.XOR<Prisma.post_blocksCreateWithoutPostInput, Prisma.post_blocksUncheckedCreateWithoutPostInput> | Prisma.post_blocksCreateWithoutPostInput[] | Prisma.post_blocksUncheckedCreateWithoutPostInput[]
   connectOrCreate?: Prisma.post_blocksCreateOrConnectWithoutPostInput | Prisma.post_blocksCreateOrConnectWithoutPostInput[]
@@ -493,7 +497,7 @@ export type post_blocksUncheckedUpdateManyWithoutPostNestedInput = {
 
 export type post_blocksCreateWithoutMediaInput = {
   block_id?: string
-  type: string
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
@@ -503,7 +507,7 @@ export type post_blocksCreateWithoutMediaInput = {
 export type post_blocksUncheckedCreateWithoutMediaInput = {
   block_id?: string
   post_id: string
-  type: string
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
@@ -541,16 +545,16 @@ export type post_blocksScalarWhereInput = {
   NOT?: Prisma.post_blocksScalarWhereInput | Prisma.post_blocksScalarWhereInput[]
   block_id?: Prisma.UuidFilter<"post_blocks"> | string
   post_id?: Prisma.UuidFilter<"post_blocks"> | string
-  type?: Prisma.StringFilter<"post_blocks"> | string
+  media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
+  type?: Prisma.EnumBlockTypeFilter<"post_blocks"> | $Enums.BlockType
   position?: Prisma.BigIntFilter<"post_blocks"> | bigint | number
   content?: Prisma.JsonFilter<"post_blocks">
-  media_id?: Prisma.UuidNullableFilter<"post_blocks"> | string | null
   created_at?: Prisma.DateTimeFilter<"post_blocks"> | Date | string
 }
 
 export type post_blocksCreateWithoutPostInput = {
   block_id?: string
-  type: string
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
@@ -559,10 +563,10 @@ export type post_blocksCreateWithoutPostInput = {
 
 export type post_blocksUncheckedCreateWithoutPostInput = {
   block_id?: string
-  type: string
+  media_id?: string | null
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: string | null
   created_at?: Date | string
 }
 
@@ -595,7 +599,7 @@ export type post_blocksUpdateManyWithWhereWithoutPostInput = {
 export type post_blocksCreateManyMediaInput = {
   block_id?: string
   post_id: string
-  type: string
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
@@ -603,7 +607,7 @@ export type post_blocksCreateManyMediaInput = {
 
 export type post_blocksUpdateWithoutMediaInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -613,7 +617,7 @@ export type post_blocksUpdateWithoutMediaInput = {
 export type post_blocksUncheckedUpdateWithoutMediaInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -622,7 +626,7 @@ export type post_blocksUncheckedUpdateWithoutMediaInput = {
 export type post_blocksUncheckedUpdateManyWithoutMediaInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -630,16 +634,16 @@ export type post_blocksUncheckedUpdateManyWithoutMediaInput = {
 
 export type post_blocksCreateManyPostInput = {
   block_id?: string
-  type: string
+  media_id?: string | null
+  type: $Enums.BlockType
   position: bigint | number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: string | null
   created_at?: Date | string
 }
 
 export type post_blocksUpdateWithoutPostInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -648,19 +652,19 @@ export type post_blocksUpdateWithoutPostInput = {
 
 export type post_blocksUncheckedUpdateWithoutPostInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type post_blocksUncheckedUpdateManyWithoutPostInput = {
   block_id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBlockTypeFieldUpdateOperationsInput | $Enums.BlockType
   position?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -669,76 +673,76 @@ export type post_blocksUncheckedUpdateManyWithoutPostInput = {
 export type post_blocksSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   block_id?: boolean
   post_id?: boolean
+  media_id?: boolean
   type?: boolean
   position?: boolean
   content?: boolean
-  media_id?: boolean
   created_at?: boolean
-  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
   post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
 }, ExtArgs["result"]["post_blocks"]>
 
 export type post_blocksSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   block_id?: boolean
   post_id?: boolean
+  media_id?: boolean
   type?: boolean
   position?: boolean
   content?: boolean
-  media_id?: boolean
   created_at?: boolean
-  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
   post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
 }, ExtArgs["result"]["post_blocks"]>
 
 export type post_blocksSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   block_id?: boolean
   post_id?: boolean
+  media_id?: boolean
   type?: boolean
   position?: boolean
   content?: boolean
-  media_id?: boolean
   created_at?: boolean
-  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
   post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
 }, ExtArgs["result"]["post_blocks"]>
 
 export type post_blocksSelectScalar = {
   block_id?: boolean
   post_id?: boolean
+  media_id?: boolean
   type?: boolean
   position?: boolean
   content?: boolean
-  media_id?: boolean
   created_at?: boolean
 }
 
-export type post_blocksOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"block_id" | "post_id" | "type" | "position" | "content" | "media_id" | "created_at", ExtArgs["result"]["post_blocks"]>
+export type post_blocksOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"block_id" | "post_id" | "media_id" | "type" | "position" | "content" | "created_at", ExtArgs["result"]["post_blocks"]>
 export type post_blocksInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
   post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
 }
 export type post_blocksIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
   post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
 }
 export type post_blocksIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
   post?: boolean | Prisma.postsDefaultArgs<ExtArgs>
+  media?: boolean | Prisma.post_blocks$mediaArgs<ExtArgs>
 }
 
 export type $post_blocksPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "post_blocks"
   objects: {
-    media: Prisma.$mediaPayload<ExtArgs> | null
     post: Prisma.$postsPayload<ExtArgs>
+    media: Prisma.$mediaPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     block_id: string
     post_id: string
-    type: string
+    media_id: string | null
+    type: $Enums.BlockType
     position: bigint
     content: runtime.JsonValue
-    media_id: string | null
     created_at: Date
   }, ExtArgs["result"]["post_blocks"]>
   composites: {}
@@ -1134,8 +1138,8 @@ readonly fields: post_blocksFieldRefs;
  */
 export interface Prisma__post_blocksClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  media<T extends Prisma.post_blocks$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.post_blocks$mediaArgs<ExtArgs>>): Prisma.Prisma__mediaClient<runtime.Types.Result.GetResult<Prisma.$mediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   post<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  media<T extends Prisma.post_blocks$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.post_blocks$mediaArgs<ExtArgs>>): Prisma.Prisma__mediaClient<runtime.Types.Result.GetResult<Prisma.$mediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1167,10 +1171,10 @@ export interface Prisma__post_blocksClient<T, Null = never, ExtArgs extends runt
 export interface post_blocksFieldRefs {
   readonly block_id: Prisma.FieldRef<"post_blocks", 'String'>
   readonly post_id: Prisma.FieldRef<"post_blocks", 'String'>
-  readonly type: Prisma.FieldRef<"post_blocks", 'String'>
+  readonly media_id: Prisma.FieldRef<"post_blocks", 'String'>
+  readonly type: Prisma.FieldRef<"post_blocks", 'BlockType'>
   readonly position: Prisma.FieldRef<"post_blocks", 'BigInt'>
   readonly content: Prisma.FieldRef<"post_blocks", 'Json'>
-  readonly media_id: Prisma.FieldRef<"post_blocks", 'String'>
   readonly created_at: Prisma.FieldRef<"post_blocks", 'DateTime'>
 }
     

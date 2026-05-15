@@ -1,10 +1,8 @@
-import { Prisma, type mentions } from "@prisma/client";
+import { type mentions } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
-export class MentionRepo extends BaseRepository<
-  typeof prisma.mentions
-> {
+export class MentionRepo extends BaseRepository<typeof prisma.mentions> {
   constructor() {
     super(prisma.mentions, 'mentions', 'mention_id');
   }
@@ -12,15 +10,24 @@ export class MentionRepo extends BaseRepository<
   async findByUser(mentioned_user_id: string): Promise<mentions[]> {
     return prisma.mentions.findMany({
       where: { mentioned_user_id },
+      include: { mention_target: true },
       orderBy: { created_at: 'desc' },
     });
   }
 
-  async findByPost(post_id: string): Promise<mentions[]> {
-    return prisma.mentions.findMany({ where: { post_id } });
+  async findByTarget(mention_target_id: string): Promise<mentions[]> {
+    return prisma.mentions.findMany({
+      where: { mention_target_id },
+      include: { user: { include: { profile: true } } },
+    });
   }
 
-  async findByComment(comment_id: string): Promise<mentions[]> {
-    return prisma.mentions.findMany({ where: { comment_id } });
+  async createMention(mentioned_user_id: string, mention_target_id: string): Promise<mentions> {
+    return prisma.mentions.create({
+      data: {
+        user: { connect: { user_id: mentioned_user_id } },
+        mention_target: { connect: { target_id: mention_target_id } },
+      },
+    });
   }
 }

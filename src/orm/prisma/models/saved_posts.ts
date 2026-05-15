@@ -174,8 +174,8 @@ export type saved_postsWhereInput = {
   user_id?: Prisma.UuidFilter<"saved_posts"> | string
   post_id?: Prisma.UuidNullableFilter<"saved_posts"> | string | null
   saved_at?: Prisma.DateTimeFilter<"saved_posts"> | Date | string
-  post?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
   user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  post?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
 }
 
 export type saved_postsOrderByWithRelationInput = {
@@ -183,8 +183,8 @@ export type saved_postsOrderByWithRelationInput = {
   user_id?: Prisma.SortOrder
   post_id?: Prisma.SortOrderInput | Prisma.SortOrder
   saved_at?: Prisma.SortOrder
-  post?: Prisma.postsOrderByWithRelationInput
   user?: Prisma.usersOrderByWithRelationInput
+  post?: Prisma.postsOrderByWithRelationInput
 }
 
 export type saved_postsWhereUniqueInput = Prisma.AtLeast<{
@@ -196,8 +196,8 @@ export type saved_postsWhereUniqueInput = Prisma.AtLeast<{
   user_id?: Prisma.UuidFilter<"saved_posts"> | string
   post_id?: Prisma.UuidNullableFilter<"saved_posts"> | string | null
   saved_at?: Prisma.DateTimeFilter<"saved_posts"> | Date | string
-  post?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
   user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  post?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
 }, "saved_id" | "user_id_post_id">
 
 export type saved_postsOrderByWithAggregationInput = {
@@ -223,8 +223,8 @@ export type saved_postsScalarWhereWithAggregatesInput = {
 export type saved_postsCreateInput = {
   saved_id?: string
   saved_at?: Date | string
-  post?: Prisma.postsCreateNestedOneWithoutSaved_postsInput
   user: Prisma.usersCreateNestedOneWithoutSaved_postsInput
+  post?: Prisma.postsCreateNestedOneWithoutSaved_postsInput
 }
 
 export type saved_postsUncheckedCreateInput = {
@@ -237,8 +237,8 @@ export type saved_postsUncheckedCreateInput = {
 export type saved_postsUpdateInput = {
   saved_id?: Prisma.StringFieldUpdateOperationsInput | string
   saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  post?: Prisma.postsUpdateOneWithoutSaved_postsNestedInput
   user?: Prisma.usersUpdateOneRequiredWithoutSaved_postsNestedInput
+  post?: Prisma.postsUpdateOneWithoutSaved_postsNestedInput
 }
 
 export type saved_postsUncheckedUpdateInput = {
@@ -528,8 +528,8 @@ export type saved_postsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   user_id?: boolean
   post_id?: boolean
   saved_at?: boolean
-  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
 }, ExtArgs["result"]["saved_posts"]>
 
 export type saved_postsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -537,8 +537,8 @@ export type saved_postsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   user_id?: boolean
   post_id?: boolean
   saved_at?: boolean
-  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
 }, ExtArgs["result"]["saved_posts"]>
 
 export type saved_postsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -546,8 +546,8 @@ export type saved_postsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   user_id?: boolean
   post_id?: boolean
   saved_at?: boolean
-  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
 }, ExtArgs["result"]["saved_posts"]>
 
 export type saved_postsSelectScalar = {
@@ -559,23 +559,23 @@ export type saved_postsSelectScalar = {
 
 export type saved_postsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"saved_id" | "user_id" | "post_id" | "saved_at", ExtArgs["result"]["saved_posts"]>
 export type saved_postsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
 }
 export type saved_postsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
 }
 export type saved_postsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  post?: boolean | Prisma.saved_posts$postArgs<ExtArgs>
 }
 
 export type $saved_postsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "saved_posts"
   objects: {
-    post: Prisma.$postsPayload<ExtArgs> | null
     user: Prisma.$usersPayload<ExtArgs>
+    post: Prisma.$postsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     saved_id: string
@@ -976,8 +976,8 @@ readonly fields: saved_postsFieldRefs;
  */
 export interface Prisma__saved_postsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  post<T extends Prisma.saved_posts$postArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.saved_posts$postArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  post<T extends Prisma.saved_posts$postArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.saved_posts$postArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

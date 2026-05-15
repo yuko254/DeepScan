@@ -1,10 +1,8 @@
-import { Prisma, type messages } from "@prisma/client";
+import { type messages } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
-export class MessageRepo extends BaseRepository<
-  typeof prisma.messages
-> {
+export class MessageRepo extends BaseRepository<typeof prisma.messages> {
   constructor() {
     super(prisma.messages, 'messages', 'message_id');
   }
@@ -22,9 +20,20 @@ export class MessageRepo extends BaseRepository<
     return prisma.messages.create({
       data: {
         chat: { connect: { chat_id } },
-        users: { connect: { user_id: sender_id } },
+        user: { connect: { user_id: sender_id } }, // fix: was 'users'
         text_content,
       },
     });
+  }
+
+  async getLastMessage(chat_id: string): Promise<messages | null> {
+    return prisma.messages.findFirst({
+      where: { chat_id },
+      orderBy: { sent_at: 'desc' },
+    });
+  }
+
+  async deleteMessage(message_id: string): Promise<messages> {
+    return prisma.messages.delete({ where: { message_id } });
   }
 }

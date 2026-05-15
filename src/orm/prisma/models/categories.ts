@@ -295,14 +295,6 @@ export type CategoriesNullableScalarRelationFilter = {
   isNot?: Prisma.categoriesWhereInput | null
 }
 
-export type BigIntFieldUpdateOperationsInput = {
-  set?: bigint | number
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
-}
-
 export type categoriesCreateNestedOneWithoutPostsInput = {
   create?: Prisma.XOR<Prisma.categoriesCreateWithoutPostsInput, Prisma.categoriesUncheckedCreateWithoutPostsInput>
   connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPostsInput

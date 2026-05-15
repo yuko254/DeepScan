@@ -1,10 +1,8 @@
-import { Prisma, type post_likes } from "@prisma/client";
+import { type post_likes } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
-export class PostLikeRepo extends BaseRepository<
-  typeof prisma.post_likes
-> {
+export class PostLikeRepo extends BaseRepository<typeof prisma.post_likes> {
   constructor() {
     super(prisma.post_likes, 'post_likes');
   }
@@ -13,7 +11,7 @@ export class PostLikeRepo extends BaseRepository<
     return prisma.post_likes.create({
       data: {
         user: { connect: { user_id } },
-        post: { connect: { post_id } },
+        post: { connect: { content_id: post_id } }, // posts PK is content_id
       },
     });
   }
@@ -27,6 +25,10 @@ export class PostLikeRepo extends BaseRepository<
       where: { user_id_post_id: { user_id, post_id } },
     });
     return like !== null;
+  }
+
+  async getLikeCount(post_id: string): Promise<number> {
+    return prisma.post_likes.count({ where: { post_id } });
   }
 
   async getLikedPostsByUser(user_id: string): Promise<post_likes[]> {

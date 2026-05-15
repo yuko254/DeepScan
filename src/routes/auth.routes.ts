@@ -126,10 +126,10 @@ router.post('/forgot-password', async (req: Request, res: Response, next: NextFu
 });
 
 /**
- * POST /auth/change-password
+ * POST /auth/reset-password
  * Body: { token, new_password }
  */
-router.post('/change-password', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/reset-password', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = ResetPasswordSchema.parse(req.body);
     await authService.resetPassword(input);

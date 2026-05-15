@@ -1,4 +1,5 @@
 import express from 'express';
+import { expressMiddleware } from '@as-integrations/express5';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import * as env from "./config/env.js";
@@ -9,13 +10,13 @@ import tyex from 'tyex';
 import nodox from 'nodox-cli';
 import { apiReference } from '@scalar/express-api-reference';
 
-
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import { graphqlServer } from "./graphql/server.js";
 
 import { errorMiddleware } from './middlewares/error.middleware.js';
-import { authenticateStrict, requireRole } from "./middlewares/auth.middleware.js"
+import { authenticateStrict, requireRole, authenticate } from "./middlewares/auth.middleware.js"
 
 const app = express();
 
@@ -29,10 +30,6 @@ app.use(cookieParser());
 app.use(nodox(app))
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/admin', authenticateStrict, requireRole("admin"), adminRoutes);
-
 app.get('/health', async (req, res, next) => {
   const healthStatus = {
     server: 'OK',
@@ -46,7 +43,7 @@ app.get('/health', async (req, res, next) => {
     // $queryRaw is the fastest way to ping without fetching data
     await prisma.$queryRaw`SELECT 1`;
     healthStatus.database = 'OK';
-  } catch (error) {
+  } catch (error: any) {
     healthStatus.database = `DOWN: ${error.code}`;
   }
 
@@ -57,13 +54,29 @@ app.get('/health', async (req, res, next) => {
     if (redisPing === 'PONG') {
       healthStatus.redis = 'OK';
     }
-  } catch (error) {
+  } catch (error: any) {
     healthStatus.redis = `DOWN: ${error.code}`;
   }
     // Determine status code
     const isHealthy = healthStatus.database === 'OK' && healthStatus.redis === 'OK';
     res.status(isHealthy ? 200 : 503).json(healthStatus);
 });
+
+await graphqlServer.start();
+app.use('/graphql', authenticate,
+  expressMiddleware(graphqlServer, {
+    context: async ({ req }) => ({
+      user: req.user ?? null,
+      prisma,
+    }),
+  })
+);
+
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/admin', authenticateStrict, requireRole("admin"), adminRoutes);
+
+
 
 // tyex OpenAPI spec generation
 app.get('/openapi.json', (req, res) => {

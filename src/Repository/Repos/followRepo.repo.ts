@@ -1,15 +1,14 @@
-import { Prisma, type follows } from "@prisma/client";
+import { type follows } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
-export class FollowRepo extends BaseRepository<
-  typeof prisma.follows
-> {
+export class FollowRepo extends BaseRepository<typeof prisma.follows> {
   constructor() {
     super(prisma.follows, 'follows', undefined);
   }
+
   async findById(): Promise<never> {
-    throw new Error('BlockRepo does not support findById — use findUnique with composite key { blocker_id, blocked_id }');
+    throw new Error('FollowRepo does not support findById — use findUnique with composite key { follower_id, following_id }');
   }
 
   async follow(follower_id: string, following_id: string): Promise<follows> {
@@ -48,5 +47,14 @@ export class FollowRepo extends BaseRepository<
 
   async getFollowingCount(follower_id: string): Promise<number> {
     return prisma.follows.count({ where: { follower_id } });
+  }
+
+  async getMutuals(user_id_a: string, user_id_b: string): Promise<string[]> {
+    const [aFollowing, bFollowing] = await Promise.all([
+      prisma.follows.findMany({ where: { follower_id: user_id_a }, select: { following_id: true } }),
+      prisma.follows.findMany({ where: { follower_id: user_id_b }, select: { following_id: true } }),
+    ]);
+    const bSet = new Set(bFollowing.map((f) => f.following_id));
+    return aFollowing.map((f) => f.following_id).filter((id) => bSet.has(id));
   }
 }
