@@ -14,7 +14,7 @@ export const GetUserParam = z.object({
 export const GetUsersQuerySchema = z.object({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
-  role_id: z.bigint().optional(),
+  role_id: zod.ID.optional(),
   search: z.string().optional(),
 }).transform(({ role_id, search, ...rest }) => ({
   ...rest,
@@ -29,10 +29,10 @@ export const UserAccountSchema = z.object({
   user_id: z.undefined(),
   role_id: z.undefined(),
   created_at: z.undefined()
-})
+});
 
 export const AdminCreateUserAccountSchema = UserAccountSchema.extend({ 
-  role_id: z.bigint(), 
+  role_id: zod.ID,
 });
 
 export const UpdateUserAccountSchema = z.object({ 
@@ -43,11 +43,11 @@ export const UpdateUserAccountSchema = z.object({
   user_id: z.undefined(),
   role_id: z.undefined(),
   created_at: z.undefined(),
-})
+});
 
 export const AdminUpdateUserAccountSchema = UpdateUserAccountSchema.extend({
   password: user.passwordField.optional(),
-  role_id: z.bigint().optional(), 
+  role_id: zod.ID.optional(), 
 });
 
 export const AdminUpdateUserSchema = AdminUpdateUserAccountSchema.extend({ 
@@ -57,6 +57,11 @@ export const AdminUpdateUserSchema = AdminUpdateUserAccountSchema.extend({
 export const ChangePasswordSchema = z.object({ 
   oldPass: user.passwordField, 
   newPass: user.passwordField
+});
+
+export const RoleSchema = z.object({
+  role_id: zod.ID,
+  role_name: z.string().min(1),
 });
 
 // ─── Inferred types ───────────────────────────────────────────────────
@@ -75,7 +80,7 @@ export type ChangePasswordBody = z.infer<typeof ChangePasswordSchema>;
 // ─── Response DTOs ────────────────────────────────────────────────────────────
 
 export interface RoleDto {
-  role_id: BigInt;
+  role_id: bigint;
   role_name: string;
 }
 

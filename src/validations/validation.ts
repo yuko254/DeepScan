@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const UUID = z.uuid('Invalid ID');
+export const ID = z.coerce.bigint('Invalid ID').positive('ID must be positive');
 
 export const pageQuery = z.string()
   .optional()

@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid'; 
 import type { TokensDto } from '../dtos/auth.dto.js';
 import type { UserAccountDto } from '../dtos/users.dto.js';
-import type { accessPayload, refreshPayload } from '../dtos/dto.js';
+import { type accessPayload, type refreshPayload, AccessPayloadSchema, RefreshPayloadSchema } from '../dtos/dto.js';
 import * as env from '../config/env.js';
 
 export function signAccessToken(payload: accessPayload): string {
@@ -14,17 +14,20 @@ export function signRefreshToken(payload: refreshPayload): string {
 }
 
 export function verifyAccessToken(token: string): accessPayload {
-  return jwt.verify(token, env.ACCESS_TOKEN_SECRET) as accessPayload;
+  const raw = jwt.verify(token, env.ACCESS_TOKEN_SECRET, { algorithms: ['HS256'] });
+  return AccessPayloadSchema.parse(raw);
 }
 
 export function verifyRefreshToken(token: string): refreshPayload {
-  return jwt.verify(token, env.REFRESH_TOKEN_SECRET) as refreshPayload;
+  const raw = jwt.verify(token, env.REFRESH_TOKEN_SECRET, { algorithms: ['HS256'] }) as refreshPayload;
+  return RefreshPayloadSchema.parse(raw);
 }
 
 export function generateTokens(user: UserAccountDto): TokensDto {
   const jti = uuidv4(); // unique token ID
 
   const accessPayload: accessPayload = {
+    sub: user.user_id,
     user_id: user.user_id,
     username: user.username,
     role: user.role,

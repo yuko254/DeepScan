@@ -1,7 +1,7 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { AuthService } from '../services/auth.service.js';
 import { RegisterSchema, LoginSchema, RefreshTokenSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../dtos/auth.dto.js';
-import { authLimiter, loginLimiter } from '../middlewares/rateLimit.middleware.js';
+import { authLimiter, loginLimiter, passwordResetLimiter } from '../middlewares/rateLimit.middleware.js';
 import * as env from '../config/env.js';
 
 const router = Router();
@@ -114,7 +114,7 @@ router.post('/logout', async (req: Request, res: Response, next: NextFunction) =
  * POST /auth/forgot-password
  * Body: { email }
  */
-router.post('/forgot-password', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/forgot-password', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email } = ForgotPasswordSchema.parse(req.body);
     await authService.forgotPassword(email);
@@ -129,7 +129,7 @@ router.post('/forgot-password', async (req: Request, res: Response, next: NextFu
  * POST /auth/reset-password
  * Body: { email, token, new_password }
  */
-router.post('/reset-password', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/reset-password', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = ResetPasswordSchema.parse(req.body);
     await authService.resetPassword(input);

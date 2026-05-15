@@ -5,6 +5,8 @@ import { userRepo } from "../Repository/instances.js";
 import { deepClean } from "../dtos/dto.js";
 import * as user from "../dtos/users.dto.js";
 import * as profile from "../dtos/profile.dto.js";
+import * as role from "../dtos/role.dto.js";
+import * as report from "../dtos/report.dto.js";
 import * as AppError from '../types/appErrors.types.js';
 
 import { ProfileService } from "./profile.service.js";
@@ -97,8 +99,8 @@ export class AdminService {
 
     return await userRepo.withTx(tx).create({
       data: { ...rest, password: hashed },
-      omit: { password: true, created_at: true, role_id: true },
-      include: { role: true }
+      include: { role: true },
+      omit: { password: true, role_id: true }
     }).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError)
         if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');

@@ -1,6 +1,8 @@
+import { z } from 'zod';
 import type { PrismaClient } from '@prisma/client';
 import { Decimal } from "@prisma/client/runtime/client";
-import type { RoleDto } from "./users.dto.js";
+import { RoleSchema } from "./users.dto.js";
+import * as zod from "../validations/validation.js";
 
 export interface PageDto {
   page: number
@@ -9,21 +11,26 @@ export interface PageDto {
   totalPages: number
 }
 
-export interface accessPayload {
-  user_id: string;
-  username: string;
-  role: RoleDto | null | undefined;
-}
+export const AccessPayloadSchema = z.object({
+  sub: zod.UUID,
+  user_id: zod.UUID,
+  username: z.string().min(1),
+  role: RoleSchema.nullable().optional(),
+});
+export type accessPayload = z.infer<typeof AccessPayloadSchema>;
 
-export interface refreshPayload {
-  user_id: string;
-  jti: string;
-}
+export const RefreshPayloadSchema = z.object({
+  user_id: zod.UUID,
+  jti: zod.UUID,
+});
+export type refreshPayload = z.infer<typeof RefreshPayloadSchema>;
 
 export interface GraphqlContext {
   user: accessPayload | undefined | null;
   prisma: PrismaClient;
 }
+
+
 
 type RemoveUndefined<T> = {
   [K in keyof T as T[K] extends undefined ? never : K]: T[K]

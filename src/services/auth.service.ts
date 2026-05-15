@@ -106,13 +106,13 @@ export class AuthService {
     const isValid = await bcrypt.compare(refresh_token, storedHash);
     if (!isValid) throw new AppError.UnauthorizedError('Refresh token is invalid');
 
-    // Rotation: delete old key, issue new tokens
-    await redis.del(key);
+    // Rotation: issue new tokens, delete old key
     const newTokens = generateTokens(user);
     const newKey = `refresh:${user.user_id}:${newTokens.jti}`;
     const newHashed = await bcrypt.hash(newTokens.refresh_token, SALT_ROUNDS);
     await redis.set(newKey, newHashed, 'EX', env.REFRESH_TOKEN_TTL_SECONDS);
-    
+    await redis.del(key);
+
     const tokenDto = { ...newTokens, jti: undefined }
     return tokenDto;
   }
@@ -140,9 +140,7 @@ export class AuthService {
 
   async resetPassword(input: auth.ResetPasswordBody): Promise<void> {
     const user = await userRepo.findByEmail(input.email);
-
-    // always return success even if email not found — prevents user enumeration
-    if (!user) return;
+    if (!user) throw new AppError.NotFoundError("Email doesn't exist")
 
     const resetKey = `password_reset:${user.user_id}:${input.token}`;
     const tokenExists = await redis.get(resetKey);
@@ -156,10 +154,10 @@ export class AuthService {
     await this.revokeAllUserTokens(user.user_id, "password_reset");
   }
 
-  async revokeAllUserTokens(userId: string, token: string): Promise<void> {
+  async revokeAllUserTokens(userId: string, context: string): Promise<void> {
     const keys: string[] = [];
     const stream = redis.scanStream({
-      match: `${token}:${userId}:*`,
+      match: `${context}:${userId}:*`,
       count: 100,
     });
 
