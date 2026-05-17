@@ -17,7 +17,19 @@ export class BaseRepository<
     private modelName: keyof Prisma.TransactionClient,
     private pkField: string = 'id'
   ) { }
-
+  
+  protected filterMapping: Record<string, (value: any) => any> = {};
+  protected buildWhere<F extends Record<string, any>>(filters?: F): any {
+    if (!filters) return {};
+    const where: any = {};
+    for (const [key, value] of Object.entries(filters)) {
+      if (value === undefined) continue;
+      const fn = this.filterMapping[key];
+      if (fn) Object.assign(where, fn(value));
+    }
+    return where;
+  }
+  
   withTx(tx?: Prisma.TransactionClient): this {
     if (!tx) return this;
     const scoped = Object.create(this) as this;

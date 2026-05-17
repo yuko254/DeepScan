@@ -12,23 +12,18 @@ const locationService = new LocationService()
 export class ProfileService {
   constructor() { }
 
-  async getProfile(ids: { userID?: string; profileID?: string }): Promise<profile.ProfileDto> {
-    const { userID, profileID } = ids;
-    if (!userID && !profileID)
-      throw new AppError.BadRequestError('either userID or profileID is required');
+  async getProfile(ids: { userID?: string; profileID?: string }, tx?: Prisma.TransactionClient) {
+    const { userID, profileID } = this.resolveID(ids);
 
-    const res = await profileRepo.findUnique({
+    const res = await profileRepo.withTx(tx).findUnique({
       where: profileID && userID
         ? { profile_id: profileID, user_id: userID }
         : profileID
           ? { profile_id: profileID }
           : { user_id: userID },
       include: {
-        birth_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-        current_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-      },
-      omit: {
-        user_id: true, birth_location_id: true, current_location_id: true, created_at: true
+        birth_location_details: { include: { city: true, country: true } },
+        current_location_details: { include: { city: true, country: true } },
       },
     });
 
@@ -36,7 +31,7 @@ export class ProfileService {
     return res;
   }
 
-  async createProfile(userID: string, input: profile.CreateProfileBody, tx?: Prisma.TransactionClient): Promise<profile.ProfileDto> {
+  async createProfile(userID: string, input: profile.CreateProfileBody, tx?: Prisma.TransactionClient) {
     const { birth_location, current_location, ...profile } = deepClean(input);
 
     const run = async (tx: Prisma.TransactionClient) => {
@@ -53,11 +48,8 @@ export class ProfileService {
           current_location_id: currentLocationId,
         },
         include: {
-          birth_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-          current_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-        },
-        omit: {
-          user_id: true, birth_location_id: true, current_location_id: true, created_at: true
+          birth_location_details: { include: { city: true, country: true } },
+          current_location_details: { include: { city: true, country: true } },
         },
       });
     }
@@ -72,11 +64,12 @@ export class ProfileService {
     })
   }
 
-  async updateProfile(input: profile.UpdateProfileBody, ids: { userID?: string; profileID?: string }, tx?: Prisma.TransactionClient): Promise<profile.ProfileDto> {
-    const { userID, profileID } = ids;
-    const { birth_location, current_location, ...profile } = deepClean(input);
-    if (!userID && !profileID)
-      throw new AppError.BadRequestError('either userID or profileID is required');
+  async updateProfile(input: profile.UpdateProfileBody, ids: { userID?: string; profileID?: string }, tx?: Prisma.TransactionClient) {
+    const data = deepClean(input);
+    const { birth_location, current_location, ...profile } = data
+    if (Object.keys(data).length === 0) return this.getProfile(ids);
+
+    const { userID, profileID } = this.resolveID(ids);
 
     const run = async (tx: Prisma.TransactionClient) => {
       const [birthLocationId, currentLocationId] = await Promise.all([
@@ -96,11 +89,8 @@ export class ProfileService {
           current_location_id: currentLocationId,
         },
         include: {
-          birth_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-          current_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-        },
-        omit: {
-          user_id: true, birth_location_id: true, current_location_id: true, created_at: true
+          birth_location_details: { include: { city: true, country: true } },
+          current_location_details: { include: { city: true, country: true } },
         },
       });
     }
@@ -115,10 +105,8 @@ export class ProfileService {
     })
   }
 
-  async deleteProfile(ids: { userID?: string; profileID?: string }, tx?: Prisma.TransactionClient): Promise<void> {
-    const { userID, profileID } = ids;
-    if (!userID && !profileID)
-      throw new AppError.BadRequestError('either userID or profileID is required');
+  async deleteProfile(ids: { userID?: string; profileID?: string }, tx?: Prisma.TransactionClient) {
+    const { userID, profileID } = this.resolveID(ids);
 
     await profileRepo.withTx(tx).delete({
       where: profileID && userID
@@ -142,5 +130,12 @@ export class ProfileService {
       return locationService.updateLocation(location_id, rest as location.UpdateLocationBody, tx).then(l => l.location_id);
     }
     return locationService.createLocation(input as location.CreateLocationBody, tx).then(l => l.location_id);
+  }
+
+  private resolveID(ids: { userID?: string; profileID?: string }) {
+    const { userID, profileID } = ids;
+    if (!userID && !profileID)
+      throw new AppError.BadRequestError('either userID or profileID is required');
+    return { userID, profileID };
   }
 }

@@ -1,7 +1,6 @@
 // removeChildrenByGlob.ts
 import fg from 'fast-glob';
 import { rm } from 'fs/promises';
-import { join } from 'path';
 
 export async function removeChildren(
   pattern: string,
@@ -9,7 +8,7 @@ export async function removeChildren(
     cwd?: string;
     dryRun?: boolean;
   }
-): Promise<void> {
+) {
   const cwd = options?.cwd ?? process.cwd();
   const filesAndDirs = await fg(pattern, {
     cwd,

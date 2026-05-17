@@ -7,19 +7,19 @@ export class MediaRepo extends BaseRepository<typeof prisma.media> {
     super(prisma.media, 'media', 'media_id');
   }
 
-  async findByContent(content_id: string): Promise<media[]> {
-    return prisma.media.findMany({ where: { content_id } });
+  async findByContent(content_id: string) {
+    return this.model.findMany({ where: { content_id } });
   }
 
-  async findByType(content_id: string, type: MediaType): Promise<media[]> {
-    return prisma.media.findMany({ where: { content_id, type } });
+  async findByType(content_id: string, type: MediaType) {
+    return this.model.findMany({ where: { content_id, type } });
   }
 
-  async findByStoragePath(storage_path: string): Promise<media | null> {
-    return prisma.media.findFirst({ where: { storage_path } });
+  async findByStoragePath(storage_path: string) {
+    return this.model.findFirst({ where: { storage_path } });
   }
 
-  async deleteByContent(content_id: string): Promise<void> {
-    await prisma.media.deleteMany({ where: { content_id } });
+  async deleteByContent(content_id: string) {
+    await this.model.deleteMany({ where: { content_id } });
   }
 }

@@ -1,16 +1,15 @@
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid'; 
-import type { TokensDto } from '../dtos/auth.dto.js';
 import type { UserAccountDto } from '../dtos/users.dto.js';
-import { type accessPayload, type refreshPayload, AccessPayloadSchema, RefreshPayloadSchema } from '../dtos/dto.js';
+import { type accessPayload, type refreshPayload, AccessPayloadSchema, RefreshPayloadSchema } from '../dtos/jwt.dto.js';
 import * as env from '../config/env.js';
 
-export function signAccessToken(payload: accessPayload): string {
+export function signAccessToken(payload: accessPayload) {
   return jwt.sign(payload, env.ACCESS_TOKEN_SECRET, { expiresIn: env.ACCESS_TOKEN_TTL_STRING } as jwt.SignOptions);
 }
 
-export function signRefreshToken(payload: refreshPayload): string {
-  return jwt.sign(payload, env.REFRESH_TOKEN_SECRET, { expiresIn: env.REFRESH_TOKEN_TTL_STRING } as jwt.SignOptions);
+export function signRefreshToken(payload: refreshPayload, ttlSeconds: number) {
+  return jwt.sign(payload, env.REFRESH_TOKEN_SECRET, { expiresIn: ttlSeconds } as jwt.SignOptions);
 }
 
 export function verifyAccessToken(token: string): accessPayload {
@@ -23,7 +22,7 @@ export function verifyRefreshToken(token: string): refreshPayload {
   return RefreshPayloadSchema.parse(raw);
 }
 
-export function generateTokens(user: UserAccountDto): TokensDto {
+export function generateTokens(user: UserAccountDto, stayLoggedIn: boolean) {
   const jti = uuidv4(); // unique token ID
 
   const accessPayload: accessPayload = {
@@ -38,9 +37,14 @@ export function generateTokens(user: UserAccountDto): TokensDto {
     jti: jti, // lookup key in Redis
   };
 
+  const refreshTTLSeconds = stayLoggedIn
+    ? 365 * 24 * 60 * 60   // 365 days
+    : env.REFRESH_TOKEN_TTL_SECONDS;
+
   return {
     access_token: signAccessToken(accessPayload),
-    refresh_token: signRefreshToken(refreshPayload),
-    jti: jti
+    refresh_token: signRefreshToken(refreshPayload, refreshTTLSeconds),
+    jti: jti,
+    refreshTTLSeconds
   };
 }

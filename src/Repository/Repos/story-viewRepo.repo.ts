@@ -7,8 +7,8 @@ export class StoryViewRepo extends BaseRepository<typeof prisma.story_views> {
     super(prisma.story_views, 'story_views');
   }
 
-  async view(story_id: string, viewer_id: string): Promise<story_views> {
-    return prisma.story_views.upsert({
+  async view(story_id: string, viewer_id: string) {
+    return this.model.upsert({
       where: { viewer_id_story_id: { story_id, viewer_id } },
       update: { viewed_at: new Date() },
       create: {
@@ -18,22 +18,22 @@ export class StoryViewRepo extends BaseRepository<typeof prisma.story_views> {
     });
   }
 
-  async hasViewed(story_id: string, viewer_id: string): Promise<boolean> {
-    const view = await prisma.story_views.findUnique({
+  async hasViewed(story_id: string, viewer_id: string) {
+    const view = await this.model.findUnique({
       where: { viewer_id_story_id: { story_id, viewer_id } },
     });
     return view !== null;
   }
 
-  async getViewers(story_id: string): Promise<story_views[]> {
-    return prisma.story_views.findMany({
+  async getViewers(story_id: string) {
+    return this.model.findMany({
       where: { story_id },
       include: { user: { include: { profile: true } } }, // fix: was 'users'
       orderBy: { viewed_at: 'desc' },
     });
   }
 
-  async getViewCount(story_id: string): Promise<number> {
-    return prisma.story_views.count({ where: { story_id } });
+  async getViewCount(story_id: string) {
+    return this.model.count({ where: { story_id } });
   }
 }

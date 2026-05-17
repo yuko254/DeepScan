@@ -9,11 +9,14 @@ export const RegisterSchema = z.object({
   username: user.usernameField,
   email: user.emailField,
   password: user.passwordField,
+  stayLoggedIn: z.boolean().optional()
 });
 
 export const LoginSchema = z.object({
-  email: user.emailField,
+  username: user.usernameField.optional(),
+  email: user.emailField.optional(),
   password: z.string().min(1, 'Password is required'), // weaker on purpose — no length hint on login
+  stayLoggedIn: z.boolean().optional()
 });
 
 export const ForgotPasswordSchema = z.object({
@@ -39,7 +42,6 @@ export type ResetPasswordBody = z.infer<typeof ResetPasswordSchema>;
 export interface TokensDto {
   access_token: string;
   refresh_token: string;
-  jti: string | undefined;
 }
 
 export interface AuthDto {

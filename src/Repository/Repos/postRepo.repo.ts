@@ -7,25 +7,25 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
     super(prisma.posts, 'posts', 'content_id'); // fix: PK is content_id
   }
 
-  async findByUser(user_id: string): Promise<posts[]> {
+  async findByUser(user_id: string) {
     // posts go through contents for user_id
-    return prisma.posts.findMany({
+    return this.model.findMany({
       where: { content: { user_id } },
       include: { content: true },
       orderBy: { content: { created_at: 'desc' } },
     });
   }
 
-  async findByCategory(category_id: bigint): Promise<posts[]> {
-    return prisma.posts.findMany({
+  async findByCategory(category_id: bigint) {
+    return this.model.findMany({
       where: { category_id },
       include: { content: true },
       orderBy: { content: { created_at: 'desc' } },
     });
   }
 
-  async findWithMedia(content_id: string): Promise<posts | null> {
-    return prisma.posts.findUnique({
+  async findWithMedia(content_id: string) {
+    return this.model.findUnique({
       where: { content_id },
       include: {
         content: { include: { media: true } },
@@ -34,8 +34,8 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
     });
   }
 
-  async findWithDetails(content_id: string): Promise<posts | null> {
-    return prisma.posts.findUnique({
+  async findWithDetails(content_id: string) {
+    return this.model.findUnique({
       where: { content_id },
       include: {
         content: {
@@ -55,11 +55,11 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
     });
   }
 
-  async getLikeCount(content_id: string): Promise<number> {
-    return prisma.post_likes.count({ where: { post_id: content_id } });
+  async getLikeCount(content_id: string) {
+    return this.model.count({ where: { post_id: content_id } });
   }
 
-  async getCommentCount(content_id: string): Promise<number> {
-    return prisma.comments.count({ where: { post_id: content_id, is_deleted: false } });
+  async getCommentCount(content_id: string) {
+    return this.model.count({ where: { post_id: content_id, is_deleted: false } });
   }
 }

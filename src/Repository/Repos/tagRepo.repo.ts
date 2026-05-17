@@ -7,20 +7,20 @@ export class TagRepo extends BaseRepository<typeof prisma.tags> {
     super(prisma.tags, 'tags', 'tag_id');
   }
 
-  async findByName(name: string): Promise<tags | null> {
-    return prisma.tags.findUnique({ where: { name } });
+  async findByName(name: string) {
+    return this.model.findUnique({ where: { name } });
   }
 
-  async findOrCreateByName(name: string): Promise<tags> {
-    return prisma.tags.upsert({ where: { name }, update: {}, create: { name } });
+  async findOrCreateByName(name: string) {
+    return this.model.upsert({ where: { name }, update: {}, create: { name } });
   }
 
-  async findAll(): Promise<tags[]> {
-    return prisma.tags.findMany({ orderBy: { name: 'asc' } });
+  async findAll() {
+    return this.model.findMany({ orderBy: { name: 'asc' } });
   }
 
-  async search(query: string): Promise<tags[]> {
-    return prisma.tags.findMany({
+  async search(query: string) {
+    return this.model.findMany({
       where: { name: { contains: query, mode: 'insensitive' } },
       orderBy: { name: 'asc' },
       take: 20,

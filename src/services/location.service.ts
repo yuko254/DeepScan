@@ -7,208 +7,211 @@ import * as location from "../dtos/location.dto.js"
 import * as AppError from '../types/appErrors.types.js';
 
 export class LocationService {
-    constructor() { }
+  constructor() { }
 
-    // ─── Location ──────────────────────────────────────────────────────────────────
+  // ─── Location ──────────────────────────────────────────────────────────────────
 
-    async getLocation(locationID: string): Promise<location.LocationDto> {
-        const res = await locationRepo.findUnique({
-            where: { location_id: locationID },
-            include: { city: true, country: true },
-            omit: { city_id: true, country_id: true }
+  async getLocation(locationID: string, tx?: Prisma.TransactionClient) {
+    const location = await locationRepo.withTx(tx).findWithDetails(locationID);
+    if (!location) throw new AppError.NotFoundError('Location not found');
+    return location;
+  }
+
+  async createLocation(input: location.CreateLocationBody, tx?: Prisma.TransactionClient) {
+    const data = deepClean(input);
+    const { city_id, country_id, ...location } = data;
+    if (city_id) await this.checkCityCountry(city_id, country_id, tx);
+
+    return await locationRepo.withTx(tx).create({
+      data: {
+        ...location,
+        country: { connect: { country_id: country_id } },
+        city: city_id ? { connect: { city_id: city_id } } : undefined,
+      },
+      include: { city: true, country: true },
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2003') throw new AppError.NotFoundError("couldn't find specified country (or city) ID");
+      }
+      throw e;
+    })
+  }
+
+  async updateLocation(locationID: string, input: location.UpdateLocationBody, tx?: Prisma.TransactionClient) {
+    const data = deepClean(input);
+    if (Object.keys(data).length === 0)
+      return this.getLocation(locationID, tx);
+
+    let { city_id, country_id, ...location } = data
+
+    if (city_id) {
+      if (!country_id) {
+        const existingLocation = await locationRepo.withTx(tx).findUnique({
+          where: { location_id: locationID },
+          select: { country_id: true }
         });
-
-        if (!res) throw new AppError.NotFoundError('Location not found');
-        return res;
+        if (!existingLocation) throw new AppError.NotFoundError('Location not found');
+        country_id = existingLocation.country_id
+      }
+      await this.checkCityCountry(city_id, country_id, tx);
     }
 
-    async createLocation(input: location.CreateLocationBody, tx?: Prisma.TransactionClient): Promise<location.LocationDto> {
-        const data = deepClean(input);
-        const { city_id, country_id, ...location } = data;
-        if (city_id) await this.checkCityCountry(city_id, country_id, tx);
+    return await locationRepo.withTx(tx).update({
+      where: { location_id: locationID },
+      data: {
+        ...location,
+        country: country_id ? { connect: { country_id: country_id } } : undefined,
+        city: city_id ? { connect: { city_id: city_id } } : undefined,
+      },
+      include: { city: true, country: true },
+    }).catch((err) => {
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code === 'P2003') throw new AppError.NotFoundError("couldn't find specified country (or city) ID");
+        if (err.code === 'P2002') throw new AppError.ConflictError('A location with this place ID already exists');
+      }
+      throw err;
+    })
+  }
 
-        return await locationRepo.withTx(tx).create({
-            data: {
-                ...location,
-                country: { connect: { country_id: country_id } },
-                city: city_id ? { connect: { city_id: city_id } } : undefined,
-            },
-            include: { city: true, country: true },
-            omit: { city_id: true, country_id: true }
-        }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2003') throw new AppError.NotFoundError("couldn't find specified country (or city) ID");
-            }
-            throw e;
-        })
-    }
+  async deleteLocation(locationID: string, tx?: Prisma.TransactionClient) {
+    await locationRepo.withTx(tx).delete({
+      where: { location_id: locationID }
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2025') throw new AppError.NotFoundError("couldn't find specified location ID");
+        if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete location because it is still in use')
+      }
+      throw e;
+    })
+  }
 
-    async updateLocation(locationID: string, input: location.UpdateLocationBody, tx?: Prisma.TransactionClient): Promise<location.LocationDto> {
-        let { city_id, country_id, ...location } = deepClean(input);
+  // ─── Country ──────────────────────────────────────────────────────────────────
 
-        if (city_id) {
-            if (!country_id) {
-                const existingLocation = await locationRepo.withTx(tx).findUnique({
-                    where: { location_id: locationID },
-                    select: { country_id: true }
-                });
-                if (!existingLocation) throw new AppError.NotFoundError('Location not found');
-                country_id = existingLocation.country_id
-            }
-            await this.checkCityCountry(city_id, country_id, tx);
-        }
+  async getCountries(query: location.GetCountriesQuery) {
+    const skip = (query.page - 1) * query.limit;
+    const where = query.filters.search
+      ? { name: { contains: query.filters.search, mode: 'insensitive' as const } }
+      : {};
 
-        return await locationRepo.withTx(tx).update({
-            where: { location_id: locationID },
-            data: {
-                ...location,
-                country: country_id ? { connect: { country_id: country_id } } : undefined,
-                city: city_id ? { connect: { city_id: city_id } } : undefined,
-            },
-            include: { city: true, country: true },
-            omit: { city_id: true, country_id: true }
-        }).catch((err) => {
-            if (err instanceof Prisma.PrismaClientKnownRequestError) {
-                if (err.code === 'P2003') throw new AppError.NotFoundError("couldn't find specified country (or city) ID");
-                if (err.code === 'P2002') throw new AppError.ConflictError('A location with this place ID already exists');
-            }
-            throw err;
-        })
-    }
+    const [countries, total] = await Promise.all([
+      countryRepo.findMany({ where, skip, take: query.limit, orderBy: { name: 'asc' } }),
+      countryRepo.count({ where }),
+    ]);
 
-    async deleteLocation(locationID: string, tx?: Prisma.TransactionClient) {
-        await locationRepo.withTx(tx).delete({
-            where: { location_id: locationID }
-        }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2025') throw new AppError.NotFoundError("couldn't find specified location ID");
-                if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete location because it is still in use')
-            }
-            throw e;
-        })
-    }
+    return {
+      countries,
+      pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) },
+    };
+  }
 
-    // ─── Country ──────────────────────────────────────────────────────────────────
+  async getCountry(countryID: bigint) {
+    const res = await countryRepo.findUnique({ where: { country_id: countryID } });
+    if (!res) throw new AppError.NotFoundError('Country not found');
+    return res;
+  }
 
-    async getCountries(query: location.GetCountriesQuery): Promise<location.CountriesPageDto> {
-        const skip = (query.page - 1) * query.limit;
-        const where = query.filters.search
-            ? { name: { contains: query.filters.search, mode: 'insensitive' as const } }
-            : {};
+  async createCountry(input: location.CreateCountryBody, tx?: Prisma.TransactionClient) {
+    return await countryRepo.withTx(tx).create({ data: deepClean(input) }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError)
+        if (e.code === 'P2002') throw new AppError.ConflictError('Country already exists');
+      throw e;
+    });
+  }
 
-        const [countries, total] = await Promise.all([
-            countryRepo.findMany({ where, skip, take: query.limit, orderBy: { name: 'asc' } }),
-            countryRepo.count({ where }),
-        ]);
+  async updateCountry(countryID: bigint, input: location.UpdateCountryBody, tx?: Prisma.TransactionClient) {
+    const data = deepClean(input);
+    if (Object.keys(data).length === 0) return this.getCountry(countryID);
 
-        return {
-            countries,
-            pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) },
-        };
-    }
+    return await countryRepo.withTx(tx).update({
+      where: { country_id: countryID },
+      data,
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2025') throw new AppError.NotFoundError('Country not found');
+        if (e.code === 'P2002') throw new AppError.ConflictError('Country already exists');
+      }
+      throw e;
+    });
+  }
 
-    async getCountry(countryID: bigint): Promise<location.CountryDto> {
-        const res = await countryRepo.findUnique({ where: { country_id: countryID } });
-        if (!res) throw new AppError.NotFoundError('Country not found');
-        return res;
-    }
+  async deleteCountry(countryID: bigint, tx?: Prisma.TransactionClient) {
+    await countryRepo.withTx(tx).delete({ where: { country_id: countryID } }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2025') throw new AppError.NotFoundError('Country not found');
+        if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete country because it is still in use');
+      }
+      throw e;
+    });
+  }
 
-    async createCountry(input: location.CreateCountryBody): Promise<location.CountryDto> {
-        return await countryRepo.create({ data: deepClean(input) }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError)
-                if (e.code === 'P2002') throw new AppError.ConflictError('Country already exists');
-            throw e;
-        });
-    }
+  // ─── City ─────────────────────────────────────────────────────────────────────
 
-    async updateCountry(countryID: bigint, input: location.UpdateCountryBody): Promise<location.CountryDto> {
-        return await countryRepo.update({
-            where: { country_id: countryID },
-            data: deepClean(input),
-        }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2025') throw new AppError.NotFoundError('Country not found');
-                if (e.code === 'P2002') throw new AppError.ConflictError('Country already exists');
-            }
-            throw e;
-        });
-    }
+  async getCities(query: location.GetCitiesQuery) {
+    const skip = (query.page - 1) * query.limit;
+    const where = {
+      ...(query.filters.search ? { name: { contains: query.filters.search, mode: 'insensitive' as const } } : {}),
+      ...(query.filters.country_id ? { country_id: query.filters.country_id } : {}),
+    };
 
-    async deleteCountry(countryID: bigint): Promise<void> {
-        await countryRepo.delete({ where: { country_id: countryID } }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2025') throw new AppError.NotFoundError('Country not found');
-                if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete country because it is still in use');
-            }
-            throw e;
-        });
-    }
+    const [cities, total] = await Promise.all([
+      cityRepo.findMany({ where, skip, take: query.limit, orderBy: { name: 'asc' } }),
+      cityRepo.count({ where }),
+    ]);
 
-    // ─── City ─────────────────────────────────────────────────────────────────────
+    return {
+      cities,
+      pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) },
+    };
+  }
 
-    async getCities(query: location.GetCitiesQuery): Promise<location.CitiesPageDto> {
-        const skip = (query.page - 1) * query.limit;
-        const where = {
-            ...(query.filters.search ? { name: { contains: query.filters.search, mode: 'insensitive' as const } } : {}),
-            ...(query.filters.country_id ? { country_id: query.filters.country_id } : {}),
-        };
+  async getCity(cityID: bigint) {
+    const res = await cityRepo.findUnique({ where: { city_id: cityID } });
+    if (!res) throw new AppError.NotFoundError('City not found');
+    return res;
+  }
 
-        const [cities, total] = await Promise.all([
-            cityRepo.findMany({ where, skip, take: query.limit, orderBy: { name: 'asc' } }),
-            cityRepo.count({ where }),
-        ]);
+  async createCity(input: location.CreateCityBody, tx?: Prisma.TransactionClient) {
+    return await cityRepo.withTx(tx).create({ data: deepClean(input) }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') throw new AppError.ConflictError('City already exists in this country');
+        if (e.code === 'P2003') throw new AppError.NotFoundError('Country not found');
+      }
+      throw e;
+    });
+  }
 
-        return {
-            cities,
-            pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) },
-        };
-    }
+  async updateCity(cityID: bigint, input: location.UpdateCityBody, tx?: Prisma.TransactionClient) {
+    const data = deepClean(input);
+    if (Object.keys(data).length === 0) return this.getCity(cityID);
 
-    async getCity(cityID: bigint): Promise<location.CityDto> {
-        const res = await cityRepo.findUnique({ where: { city_id: cityID } });
-        if (!res) throw new AppError.NotFoundError('City not found');
-        return res;
-    }
+    return await cityRepo.withTx(tx).update({
+      where: { city_id: cityID },
+      data,
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2025') throw new AppError.NotFoundError('City not found');
+        if (e.code === 'P2002') throw new AppError.ConflictError('City already exists in this country');
+        if (e.code === 'P2003') throw new AppError.NotFoundError('Country not found');
+      }
+      throw e;
+    });
+  }
 
-    async createCity(input: location.CreateCityBody): Promise<location.CityDto> {
-        return await cityRepo.create({ data: deepClean(input) }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2002') throw new AppError.ConflictError('City already exists in this country');
-                if (e.code === 'P2003') throw new AppError.NotFoundError('Country not found');
-            }
-            throw e;
-        });
-    }
+  async deleteCity(cityID: bigint, tx?: Prisma.TransactionClient) {
+    await cityRepo.withTx(tx).delete({ where: { city_id: cityID } }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2025') throw new AppError.NotFoundError('City not found');
+        if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete city because it is still in use');
+      }
+      throw e;
+    });
+  }
 
-    async updateCity(cityID: bigint, input: location.UpdateCityBody): Promise<location.CityDto> {
-        return await cityRepo.update({
-            where: { city_id: cityID },
-            data: deepClean(input),
-        }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2025') throw new AppError.NotFoundError('City not found');
-                if (e.code === 'P2002') throw new AppError.ConflictError('City already exists in this country');
-                if (e.code === 'P2003') throw new AppError.NotFoundError('Country not found');
-            }
-            throw e;
-        });
-    }
+  // ─── Helpers ─────────────────────────────────────────────────────────────────────
 
-    async deleteCity(cityID: bigint): Promise<void> {
-        await cityRepo.delete({ where: { city_id: cityID } }).catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2025') throw new AppError.NotFoundError('City not found');
-                if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete city because it is still in use');
-            }
-            throw e;
-        });
-    }
-
-    // ─── Helpers ─────────────────────────────────────────────────────────────────────
-
-    async checkCityCountry(cityID: bigint, countryID: bigint, tx?: Prisma.TransactionClient) {
-        const city = await cityRepo.withTx(tx).findById(cityID);
-        if (!city) throw new AppError.NotFoundError("couldn't find specified city ID");
-        if (city.country_id !== countryID) throw new AppError.ValidationError("this city doesn't belong in this country");
-    }
+  async checkCityCountry(cityID: bigint, countryID: bigint, tx?: Prisma.TransactionClient) {
+    const city = await cityRepo.withTx(tx).findById(cityID);
+    if (!city) throw new AppError.NotFoundError("couldn't find specified city ID");
+    if (city.country_id !== countryID) throw new AppError.ValidationError("this city doesn't belong in this country");
+  }
 }

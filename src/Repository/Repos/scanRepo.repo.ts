@@ -8,16 +8,16 @@ export class ScanRepo extends BaseRepository<typeof prisma.scans> {
     super(prisma.scans, 'scans', 'content_id');
   }
 
-  async findByUser(user_id: string): Promise<scans[]> {
-    return prisma.scans.findMany({
+  async findByUser(user_id: string) {
+    return this.model.findMany({
       where: { content: { user_id } },
       include: { content: { include: { media: true } }, location: true },
       orderBy: { timestamp: 'desc' },
     });
   }
 
-  async findWithDetails(content_id: string): Promise<scans | null> {
-    return prisma.scans.findUnique({
+  async findWithDetails(content_id: string) {
+    return this.model.findUnique({
       where: { content_id },
       include: {
         content: { include: { media: true, user: { include: { profile: true } } } },
@@ -26,8 +26,8 @@ export class ScanRepo extends BaseRepository<typeof prisma.scans> {
     });
   }
 
-  async findWithLocation(content_id: string): Promise<scans | null> {
-    return prisma.scans.findUnique({
+  async findWithLocation(content_id: string) {
+    return this.model.findUnique({
       where: { content_id },
       include: { location: true },
     });

@@ -7,26 +7,26 @@ export class PostTagRepo extends BaseRepository<typeof prisma.post_tags> {
     super(prisma.post_tags, 'post_tags', undefined);
   }
 
-  async findById(): Promise<never> {
+  async findById() {
     throw new Error('PostTagRepo does not support findById — use findUnique with composite key { post_id, tag_id }');
   }
 
-  async findByPost(post_id: string): Promise<post_tags[]> {
-    return prisma.post_tags.findMany({
+  async findByPost(post_id: string) {
+    return this.model.findMany({
       where: { post_id },
       include: { tag: true },
     });
   }
 
-  async findByTag(tag_id: bigint): Promise<post_tags[]> {
-    return prisma.post_tags.findMany({
+  async findByTag(tag_id: bigint) {
+    return this.model.findMany({
       where: { tag_id },
       include: { post: true },
     });
   }
 
-  async attach(post_id: string, tag_id: bigint): Promise<post_tags> {
-    return prisma.post_tags.create({
+  async attach(post_id: string, tag_id: bigint) {
+    return this.model.create({
       data: {
         post: { connect: { content_id: post_id } },
         tag: { connect: { tag_id } },
@@ -34,16 +34,16 @@ export class PostTagRepo extends BaseRepository<typeof prisma.post_tags> {
     });
   }
 
-  async detach(post_id: string, tag_id: bigint): Promise<post_tags> {
-    return prisma.post_tags.delete({
+  async detach(post_id: string, tag_id: bigint) {
+    return this.model.delete({
       where: { post_id_tag_id: { post_id, tag_id } },
     });
   }
 
-  async sync(post_id: string, tag_ids: bigint[]): Promise<void> {
-    await prisma.post_tags.deleteMany({ where: { post_id } });
+  async sync(post_id: string, tag_ids: bigint[]) {
+    await this.model.deleteMany({ where: { post_id } });
     if (tag_ids.length > 0) {
-      await prisma.post_tags.createMany({
+      await this.model.createMany({
         data: tag_ids.map((tag_id) => ({ post_id, tag_id })),
       });
     }

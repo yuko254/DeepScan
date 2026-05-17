@@ -1,8 +1,10 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { AuthService } from '../services/auth.service.js';
 import { RegisterSchema, LoginSchema, RefreshTokenSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../dtos/auth.dto.js';
+import type { AuthDto } from '../dtos/auth.dto.js';
 import { authLimiter, loginLimiter, passwordResetLimiter } from '../middlewares/rateLimit.middleware.js';
 import * as env from '../config/env.js';
+import { toUserAccountDto } from '../dtos/users.dto.js';
 
 const router = Router();
 
@@ -37,10 +39,20 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
     const input = RegisterSchema.parse(req.body);
     const { user, tokens } = await authService.register(input);
 
+    if (input.stayLoggedIn)
+      REFRESH_COOKIE_OPTIONS.maxAge = 365 * 24 * 60 * 60 * 1000
     res.cookie('access_token', tokens.access_token, ACCESS_COOKIE_OPTIONS);
     res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
 
-    res.status(201).json({ user, tokens });
+    const Res = {
+      user: toUserAccountDto(user),
+      tokens: {
+        refresh_token: tokens.refresh_token,
+        access_token: tokens.access_token
+      }
+    } as AuthDto
+
+    res.status(201).json(Res);
   } catch (err) {
     next(err);
   }
@@ -56,10 +68,20 @@ router.post('/login', loginLimiter, async (req: Request, res: Response, next: Ne
     const input = LoginSchema.parse(req.body);
     const { user, tokens } = await authService.login(input);
 
+    if (input.stayLoggedIn)
+      REFRESH_COOKIE_OPTIONS.maxAge = 365 * 24 * 60 * 60 * 1000
     res.cookie('access_token', tokens.access_token, ACCESS_COOKIE_OPTIONS);
     res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
 
-    res.json({ user, tokens });
+    const Res = {
+      user: toUserAccountDto(user),
+      tokens: {
+        refresh_token: tokens.refresh_token,
+        access_token: tokens.access_token
+      }
+    } as AuthDto
+
+    res.json(Res);
   } catch (err) {
     next(err);
   }
@@ -69,7 +91,7 @@ router.post('/login', loginLimiter, async (req: Request, res: Response, next: Ne
  * POST /auth/refresh
  * cookie: { refresh_token }
  * Body: { refresh_token }
- * Response: { tokens: TokensDto }
+ * Response: { TokensDto }
  */
 router.post('/refresh', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -82,7 +104,14 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
     res.cookie('access_token', tokens.access_token, ACCESS_COOKIE_OPTIONS);
     res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
 
-    res.json({ tokens });
+    const Res = {
+      tokens: {
+        refresh_token: tokens.refresh_token,
+        access_token: tokens.access_token
+      }
+    } as AuthDto
+
+    res.json(Res.tokens);
   } catch (err) {
     next(err);
   }

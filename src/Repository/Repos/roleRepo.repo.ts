@@ -7,15 +7,15 @@ export class RoleRepo extends BaseRepository<typeof prisma.roles> {
     super(prisma.roles, 'roles', 'role_id');
   }
 
-  async findByName(role_name: Role): Promise<roles | null> {
-    return prisma.roles.findUnique({ where: { role_name } });
+  async findByName(role_name: Role) {
+    return this.model.findUnique({ where: { role_name } });
   }
 
-  async findAll(): Promise<roles[]> {
-    return prisma.roles.findMany({ orderBy: { role_id: 'asc' } });
+  async findAll() {
+    return this.model.findMany({ orderBy: { role_id: 'asc' } });
   }
 
-  async assignToUser(user_id: string, role_id: bigint): Promise<void> {
-    await prisma.users.update({ where: { user_id }, data: { role_id } });
+  async assignToUser(user_id: string, role_id: bigint) {
+    await this.model.update({ where: { user_id }, data: { role_id } });
   }
 }

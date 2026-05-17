@@ -7,8 +7,8 @@ export class MessageRepo extends BaseRepository<typeof prisma.messages> {
     super(prisma.messages, 'messages', 'message_id');
   }
 
-  async findByChat(chat_id: string, take = 50, cursor?: string): Promise<messages[]> {
-    return prisma.messages.findMany({
+  async findByChat(chat_id: string, take = 50, cursor?: string) {
+    return this.model.findMany({
       where: { chat_id },
       orderBy: { sent_at: 'desc' },
       take,
@@ -16,8 +16,8 @@ export class MessageRepo extends BaseRepository<typeof prisma.messages> {
     });
   }
 
-  async send(chat_id: string, sender_id: string, text_content: string): Promise<messages> {
-    return prisma.messages.create({
+  async send(chat_id: string, sender_id: string, text_content: string) {
+    return this.model.create({
       data: {
         chat: { connect: { chat_id } },
         user: { connect: { user_id: sender_id } }, // fix: was 'users'
@@ -26,14 +26,14 @@ export class MessageRepo extends BaseRepository<typeof prisma.messages> {
     });
   }
 
-  async getLastMessage(chat_id: string): Promise<messages | null> {
-    return prisma.messages.findFirst({
+  async getLastMessage(chat_id: string) {
+    return this.model.findFirst({
       where: { chat_id },
       orderBy: { sent_at: 'desc' },
     });
   }
 
-  async deleteMessage(message_id: string): Promise<messages> {
-    return prisma.messages.delete({ where: { message_id } });
+  async deleteMessage(message_id: string) {
+    return this.model.delete({ where: { message_id } });
   }
 }

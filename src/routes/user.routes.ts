@@ -1,6 +1,6 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { UserService } from '../services/user.service.js';
-import { UpdateUserAccountSchema, ChangePasswordSchema, UserAccountSchema } from '../dtos/users.dto.js';
+import { UpdateUserAccountSchema, ChangePasswordSchema, UserAccountSchema, toUserAccountDto } from '../dtos/users.dto.js';
 import { authenticate, authenticateStrict } from "../middlewares/auth.middleware.js"
 
 const router = Router();
@@ -13,7 +13,8 @@ const userService = new UserService();
 router.get('/me', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await userService.getAccount(req.user!.user_id);
-    res.json(user);
+    const Res = toUserAccountDto(user)
+    res.json(Res);
   } catch (err) {
     next(err);
   }
@@ -26,11 +27,9 @@ router.get('/me', authenticate, async (req: Request, res: Response, next: NextFu
 router.patch('/me', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = UpdateUserAccountSchema.parse(req.body);
-    if (Object.keys(input).length === 0)
-      return res.status(400).json({ error: 'No fields to update' });
-
-    const result = await userService.updateAccount(req.user!.user_id, input);
-    res.json(result);
+    const user = await userService.updateAccount(req.user!.user_id, input);
+    const Res = toUserAccountDto(user)
+    res.json(Res);
   } catch (err) {
     next(err); 
   }
@@ -57,7 +56,7 @@ router.delete('/me', authenticateStrict, async (req: Request, res: Response, nex
 router.patch("/me/change-password", authenticateStrict, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = ChangePasswordSchema.parse(req.body);
-    await userService.resetPass(req.user!.user_id, input);
+    await userService.changePass(req.user!.user_id, input);
     res.json({ message: 'Password reseted successfully' });
   } catch (err) {
     next(err);

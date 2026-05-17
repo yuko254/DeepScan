@@ -7,8 +7,8 @@ export class NotificationRepo extends BaseRepository<typeof prisma.notifications
     super(prisma.notifications, 'notifications', 'notification_id');
   }
 
-  async findByUser(user_id: string, take = 30): Promise<notifications[]> {
-    return prisma.notifications.findMany({
+  async findByUser(user_id: string, take = 30) {
+    return this.model.findMany({
       where: { user_id },
       include: { actor: { include: { profile: true } }, notification_target: true },
       orderBy: { delivered_at: 'desc' },
@@ -16,33 +16,33 @@ export class NotificationRepo extends BaseRepository<typeof prisma.notifications
     });
   }
 
-  async findUnread(user_id: string): Promise<notifications[]> {
-    return prisma.notifications.findMany({
+  async findUnread(user_id: string) {
+    return this.model.findMany({
       where: { user_id, read_at: null },
       include: { actor: { include: { profile: true } } },
       orderBy: { delivered_at: 'desc' },
     });
   }
 
-  async markAsRead(notification_id: string): Promise<notifications> {
-    return prisma.notifications.update({
+  async markAsRead(notification_id: string) {
+    return this.model.update({
       where: { notification_id },
       data: { read_at: new Date() },
     });
   }
 
-  async markAllAsRead(user_id: string): Promise<Prisma.BatchPayload> {
-    return prisma.notifications.updateMany({
+  async markAllAsRead(user_id: string) {
+    return this.model.updateMany({
       where: { user_id, read_at: null },
       data: { read_at: new Date() },
     });
   }
 
-  async getUnreadCount(user_id: string): Promise<number> {
-    return prisma.notifications.count({ where: { user_id, read_at: null } });
+  async getUnreadCount(user_id: string) {
+    return this.model.count({ where: { user_id, read_at: null } });
   }
 
-  async deleteOld(before: Date): Promise<Prisma.BatchPayload> {
-    return prisma.notifications.deleteMany({ where: { delivered_at: { lt: before } } });
+  async deleteOld(before: Date) {
+    return this.model.deleteMany({ where: { delivered_at: { lt: before } } });
   }
 }

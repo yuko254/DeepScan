@@ -7,8 +7,8 @@ export class PostLikeRepo extends BaseRepository<typeof prisma.post_likes> {
     super(prisma.post_likes, 'post_likes');
   }
 
-  async like(user_id: string, post_id: string): Promise<post_likes> {
-    return prisma.post_likes.create({
+  async like(user_id: string, post_id: string) {
+    return this.model.create({
       data: {
         user: { connect: { user_id } },
         post: { connect: { content_id: post_id } }, // posts PK is content_id
@@ -16,22 +16,22 @@ export class PostLikeRepo extends BaseRepository<typeof prisma.post_likes> {
     });
   }
 
-  async unlike(user_id: string, post_id: string): Promise<post_likes> {
-    return prisma.post_likes.delete({ where: { user_id_post_id: { user_id, post_id } } });
+  async unlike(user_id: string, post_id: string) {
+    return this.model.delete({ where: { user_id_post_id: { user_id, post_id } } });
   }
 
-  async isLiked(user_id: string, post_id: string): Promise<boolean> {
-    const like = await prisma.post_likes.findUnique({
+  async isLiked(user_id: string, post_id: string) {
+    const like = await this.model.findUnique({
       where: { user_id_post_id: { user_id, post_id } },
     });
     return like !== null;
   }
 
-  async getLikeCount(post_id: string): Promise<number> {
-    return prisma.post_likes.count({ where: { post_id } });
+  async getLikeCount(post_id: string) {
+    return this.model.count({ where: { post_id } });
   }
 
-  async getLikedPostsByUser(user_id: string): Promise<post_likes[]> {
-    return prisma.post_likes.findMany({ where: { user_id } });
+  async getLikedPostsByUser(user_id: string) {
+    return this.model.findMany({ where: { user_id } });
   }
 }

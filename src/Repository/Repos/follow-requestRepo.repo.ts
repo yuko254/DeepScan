@@ -7,12 +7,12 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
     super(prisma.follow_requests, 'follow_requests', undefined);
   }
 
-  async findById(): Promise<never> {
+  async findById() {
     throw new Error('FollowRequestRepo does not support findById — use findUnique with composite key { requester_id, target_id }');
   }
 
-  async request(requester_id: string, target_id: string): Promise<follow_requests> {
-    return prisma.follow_requests.create({
+  async request(requester_id: string, target_id: string) {
+    return this.model.create({
       data: {
         requester: { connect: { user_id: requester_id } },
         target: { connect: { user_id: target_id } },
@@ -20,50 +20,50 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
     });
   }
 
-  async cancel(requester_id: string, target_id: string): Promise<follow_requests> {
-    return prisma.follow_requests.delete({
+  async cancel(requester_id: string, target_id: string) {
+    return this.model.delete({
       where: { requester_id_target_id: { requester_id, target_id } },
     });
   }
 
-  async accept(requester_id: string, target_id: string): Promise<follow_requests> {
-    return prisma.follow_requests.update({
+  async accept(requester_id: string, target_id: string) {
+    return this.model.update({
       where: { requester_id_target_id: { requester_id, target_id } },
       data: { status: FollowRequestStatus.accepted },
     });
   }
 
-  async reject(requester_id: string, target_id: string): Promise<follow_requests> {
-    return prisma.follow_requests.update({
+  async reject(requester_id: string, target_id: string) {
+    return this.model.update({
       where: { requester_id_target_id: { requester_id, target_id } },
       data: { status: FollowRequestStatus.rejected },
     });
   }
 
-  async findPendingForUser(target_id: string): Promise<follow_requests[]> {
-    return prisma.follow_requests.findMany({
+  async findPendingForUser(target_id: string) {
+    return this.model.findMany({
       where: { target_id, status: FollowRequestStatus.pending },
       include: { requester: { include: { profile: true } } },
       orderBy: { created_at: 'desc' },
     });
   }
 
-  async findSentByUser(requester_id: string): Promise<follow_requests[]> {
-    return prisma.follow_requests.findMany({
+  async findSentByUser(requester_id: string) {
+    return this.model.findMany({
       where: { requester_id },
       orderBy: { created_at: 'desc' },
     });
   }
 
-  async exists(requester_id: string, target_id: string): Promise<boolean> {
-    const req = await prisma.follow_requests.findUnique({
+  async exists(requester_id: string, target_id: string) {
+    const req = await this.model.findUnique({
       where: { requester_id_target_id: { requester_id, target_id } },
     });
     return req !== null;
   }
 
-  async getStatus(requester_id: string, target_id: string): Promise<FollowRequestStatus | null> {
-    const req = await prisma.follow_requests.findUnique({
+  async getStatus(requester_id: string, target_id: string) {
+    const req = await this.model.findUnique({
       where: { requester_id_target_id: { requester_id, target_id } },
     });
     return req?.status ?? null;

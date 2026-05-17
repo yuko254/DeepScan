@@ -10,7 +10,7 @@
     "start:prod": "node dist/server.js",
     "generate:repo": "tsx scripts/generate-repo-index.ts",
     "generate:graphql": "tsx scripts/generate-graphql-schema.ts",
-    "generate": "prisma generate && tsx scripts/custom.ts && npm run generate:repo && npm run generate:graphql",
+    "generate": "prisma generate && tsx scripts/custom.ts && npm run generate:repo && npm run generate:graphql && npm run codegen",
     "codegen": "graphql-codegen --config codegen.config.ts"
   },
   "keywords": [],
@@ -48,6 +48,13 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@abcx3/prisma-generator-dart": "^3.0.5",
+    "@graphql-codegen/add": "^7.0.0",
+    "@graphql-codegen/cli": "^6.3.1",
+    "@graphql-codegen/typescript": "^6.0.1",
+    "@graphql-codegen/typescript-resolvers": "^6.0.1",
+    "@mermaid-js/mermaid-cli": "^11.15.0",
+    "@mrleebo/prisma-ast": "^0.16.0",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
@@ -57,22 +64,16 @@
     "@types/node": "^25.8.0",
     "@types/nodemailer": "^8.0.0",
     "@types/pluralize": "^0.0.33",
-    "tsc-alias": "^1.8.17",
-    "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.22.0",
-    "typescript": "^6.0.3",
+    "googleapis": "^171.4.0",
     "prisma": "^7.8.0",
     "prisma-erd-generator": "^2.4.2",
     "prisma-generator-fake-data": "^0.18.3",
     "prisma-openapi": "^1.6.0",
     "prisma-zod-generator": "^2.1.4",
-    "@mrleebo/prisma-ast": "^0.16.0",
-    "@abcx3/prisma-generator-dart": "^3.0.5",
-    "@graphql-codegen/cli": "^6.3.1",
-    "@graphql-codegen/typescript": "^6.0.1",
-    "@graphql-codegen/typescript-resolvers": "^6.0.1",
-    "@mermaid-js/mermaid-cli": "^11.15.0",
-    "googleapis": "^171.4.0",
-    "puppeteer": "^24.43.1"
+    "puppeteer": "^24.43.1",
+    "tsc-alias": "^1.8.17",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.22.0",
+    "typescript": "^6.0.3"
   }
 }

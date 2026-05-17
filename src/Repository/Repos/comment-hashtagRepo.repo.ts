@@ -7,27 +7,27 @@ export class CommentHashtagRepo extends BaseRepository<typeof prisma.comment_has
     super(prisma.comment_hashtags, 'comment_hashtags', undefined);
   }
 
-  async findById(): Promise<never> {
+  async findById() {
     throw new Error('CommentHashtagRepo does not support findById — use findUnique with composite key { comment_id, hashtag_id }');
   }
 
-  async findByComment(comment_id: string): Promise<comment_hashtags[]> {
-    return prisma.comment_hashtags.findMany({
+  async findByComment(comment_id: string) {
+    return this.model.findMany({
       where: { comment_id },
       include: { hashtag: true },
     });
   }
 
-  async findByHashtag(hashtag_id: string): Promise<comment_hashtags[]> {
-    return prisma.comment_hashtags.findMany({
+  async findByHashtag(hashtag_id: string) {
+    return this.model.findMany({
       where: { hashtag_id },
       include: { comment: true },
       orderBy: { created_at: 'desc' },
     });
   }
 
-  async attach(comment_id: string, hashtag_id: string): Promise<comment_hashtags> {
-    return prisma.comment_hashtags.create({
+  async attach(comment_id: string, hashtag_id: string) {
+    return this.model.create({
       data: {
         comment: { connect: { comment_id } },
         hashtag: { connect: { hashtag_id } },
@@ -35,16 +35,16 @@ export class CommentHashtagRepo extends BaseRepository<typeof prisma.comment_has
     });
   }
 
-  async detach(comment_id: string, hashtag_id: string): Promise<comment_hashtags> {
-    return prisma.comment_hashtags.delete({
+  async detach(comment_id: string, hashtag_id: string) {
+    return this.model.delete({
       where: { comment_id_hashtag_id: { comment_id, hashtag_id } },
     });
   }
 
-  async sync(comment_id: string, hashtag_ids: string[]): Promise<void> {
-    await prisma.comment_hashtags.deleteMany({ where: { comment_id } });
+  async sync(comment_id: string, hashtag_ids: string[]) {
+    await this.model.deleteMany({ where: { comment_id } });
     if (hashtag_ids.length > 0) {
-      await prisma.comment_hashtags.createMany({
+      await this.model.createMany({
         data: hashtag_ids.map((hashtag_id) => ({ comment_id, hashtag_id })),
       });
     }

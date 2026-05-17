@@ -29,7 +29,7 @@ class RedisClient {
     return RedisClient.instance;
   }
 
-  public static async disconnect(): Promise<void> {
+  public static async disconnect() {
     if (RedisClient.instance) {
       await RedisClient.instance.quit();
     }

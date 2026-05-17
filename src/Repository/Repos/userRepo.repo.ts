@@ -1,86 +1,82 @@
 import { type users, Prisma } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
-import type { UserFiltersDto } from "../../dtos/searchFilters.dto.js";
+import { userFilterMapping, type UserFiltersDto } from "../../dtos/searchFilters.dto.js";
 
 export class UserRepo extends BaseRepository<typeof prisma.users> {
+  protected filterMapping = userFilterMapping;
   constructor() {
     super(prisma.users, 'users', 'user_id');
   }
 
-  private buildWhere(filters?: UserFiltersDto): Prisma.usersWhereInput {
-    const where: Prisma.usersWhereInput = {};
-    if (filters?.role_id) where.role = { role_id: filters.role_id };
-    if (filters?.search) where.username = { contains: filters.search, mode: 'insensitive' };
-    return where;
-  }
-
-  async findWithRole(user_id: string) {
-    const res = await prisma.users.findUnique({
+  async findAccount(user_id: string) {
+    return await this.model.findUnique({
       where: { user_id },
-      select: {
-        user_id: true,
-        username: true,
-        email: true,
-        role: true,
-      },
+      include: { role: true }
     });
-    if (!res) return null;
-    return { user_id: res.user_id, username: res.username, email: res.email, role: res.role ?? null };
   }
 
   async findUser(user_id: string) {
-    const res = await prisma.users.findUnique({
+    return await this.model.findUnique({
       where: { user_id },
       include: {
+        role: true,
         profile: {
           include: {
-            birth_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-            current_location_details: { include: { city: true, country: true }, omit: { city_id: true, country_id: true } },
-          },
-          omit: { user_id: true, created_at: true, birth_location_id: true, current_location_id: true },
+            birth_location_details: {
+              include: {
+                city: true,
+                country: true
+              }
+            },
+            current_location_details: {
+              include: {
+                city: true,
+                country: true
+              }
+            }
+          }
         },
-        role: true,
-      },
-      omit: { password: true, role_id: true },
+      }
     });
-    if (!res) return null;
-    return { user_id: res.user_id, username: res.username, email: res.email, role: res.role ?? null, profile: res.profile ?? null };
   }
 
-  async findByEmail(email: string): Promise<users | null> {
-    return prisma.users.findUnique({ where: { email } });
+  async findAccountByEmail(email: string) {
+    return this.model.findUnique({ where: { email }, include: { role: true } });
   }
 
-  async findByUsername(username: string): Promise<users | null> {
-    return prisma.users.findUnique({ where: { username } });
+  async findAccountByUsername(username: string) {
+    return this.model.findUnique({ where: { username }, include: { role: true } });
   }
 
   async getPage(take: number, skip: number, filters?: UserFiltersDto) {
     const where = this.buildWhere(filters);
-    const res = await prisma.users.findMany({
+    return await this.model.findMany({
       take,
       skip,
       where,
-      select: { user_id: true, username: true, email: true, role: true },
+      include: { role: true },
       orderBy: { created_at: 'desc' },
     });
-    return res.map((r) => ({ user_id: r.user_id, username: r.username, email: r.email, role: r.role ?? null }));
   }
 
-  async countByFilter(filters?: UserFiltersDto): Promise<number> {
-    return prisma.users.count({ where: this.buildWhere(filters) });
+  async countByFilter(filters?: UserFiltersDto) {
+    return this.model.count({ where: this.buildWhere(filters) });
   }
 
-  async ban(user_id: string): Promise<users> {
-    return prisma.users.update({ where: { user_id }, data: { is_banned: true } });
+  async ban(user_id: string) {
+    return this.model.update({ where: { user_id }, data: { is_banned: true }, include: { role: true } });
   }
 
-  async unban(user_id: string): Promise<users> {
-    return prisma.users.update({ where: { user_id }, data: { is_banned: false } });
+  async unban(user_id: string) {
+    return this.model.update({ where: { user_id }, data: { is_banned: false }, include: { role: true } });
   }
 
-  async deactivate(user_id: string): Promise<users> {
-    return prisma.users.update({ where: { user_id }, data: { is_active: false } });
+  async deactivate(user_id: string) {
+    return this.model.update({ where: { user_id }, data: { is_active: false }, include: { role: true } });
+  }
+
+  async reactivate(user_id: string) {
+    return this.model.update({ where: { user_id }, data: { is_active: true }, include: { role: true } });
   }
 }

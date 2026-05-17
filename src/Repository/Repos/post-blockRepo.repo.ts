@@ -7,29 +7,29 @@ export class PostBlockRepo extends BaseRepository<typeof prisma.post_blocks> {
     super(prisma.post_blocks, 'post_blocks', 'block_id');
   }
 
-  async findByPost(post_id: string): Promise<post_blocks[]> {
-    return prisma.post_blocks.findMany({
+  async findByPost(post_id: string) {
+    return this.model.findMany({
       where: { post_id },
       include: { media: true },
       orderBy: { position: 'asc' },
     });
   }
 
-  async findByType(post_id: string, type: BlockType): Promise<post_blocks[]> {
-    return prisma.post_blocks.findMany({
+  async findByType(post_id: string, type: BlockType) {
+    return this.model.findMany({
       where: { post_id, type },
       orderBy: { position: 'asc' },
     });
   }
 
-  async reorder(block_id: string, new_position: bigint): Promise<post_blocks> {
-    return prisma.post_blocks.update({
+  async reorder(block_id: string, new_position: bigint) {
+    return this.model.update({
       where: { block_id },
       data: { position: new_position },
     });
   }
 
-  async deleteByPost(post_id: string): Promise<void> {
-    await prisma.post_blocks.deleteMany({ where: { post_id } });
+  async deleteByPost(post_id: string) {
+    await this.model.deleteMany({ where: { post_id } });
   }
 }

@@ -1,8 +1,10 @@
 import { z } from 'zod';
-import type { Decimal } from "@prisma/client/runtime/client";
+import { Decimal } from '@prisma/client/runtime/client';
 import * as zod from '../validations/validation.js';
 import type * as Dto from "./dto.js";
+import type * as prisma from "./prismaRes.dto.js";
 import type { CityFiltersDto, CountryFiltersDto } from './searchFilters.dto.js';
+import type { Countries, Cities, Locations } from '../graphql/graphql.js';
 
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
@@ -101,25 +103,23 @@ export type UpdateCityBody = z.infer<typeof UpdateCitySchema>;
 
 // ─── Response DTOs ────────────────────────────────────────────────────────────
 
-export interface CountryDto {
-  country_id: bigint;
-  name: string;
-}
+export type CountryDto = Pick<Countries, 'country_id' | 'name'>;
+export type CityDto = Pick<Cities, 'city_id' | 'name' | 'country_id'>;
 
-export interface CityDto {
-  city_id: bigint;
-  name: string;
-  country_id: bigint;
-}
-
-export interface LocationDto {
-  location_id: string;
-  lat: Decimal | null;
-  lng: Decimal | null;
-  place_id: string | null;
+export type LocationDto = Pick<Locations, 'location_id' | 'lat' | 'lng' | 'place_id'> & {
   city: CityDto | null;
   country: CountryDto;
 };
+export function toLocationDto(location: prisma.PrismaLocation): LocationDto {
+  return {
+    location_id: location.location_id,
+    lat: location.lat instanceof Decimal ? location.lat.toNumber() : location.lat,
+    lng: location.lng instanceof Decimal ? location.lng.toNumber() : location.lng,
+    place_id: location.place_id,
+    city: location.city ?? null,
+    country: location.country,
+  };
+}
 
 export interface CountriesPageDto {
   countries: CountryDto[];

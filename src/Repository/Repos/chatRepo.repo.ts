@@ -7,8 +7,8 @@ export class ChatRepo extends BaseRepository<typeof prisma.chats> {
     super(prisma.chats, 'chats', 'chat_id');
   }
 
-  async findByUser(user_id: string): Promise<chats[]> {
-    return prisma.chats.findMany({
+  async findByUser(user_id: string) {
+    return this.model.findMany({
       where: { chat_participants: { some: { user_id } } },
       include: {
         chat_participants: { include: { user: { include: { profile: true } } } },
@@ -18,15 +18,15 @@ export class ChatRepo extends BaseRepository<typeof prisma.chats> {
     });
   }
 
-  async findWithParticipants(chat_id: string): Promise<chats | null> {
-    return prisma.chats.findUnique({
+  async findWithParticipants(chat_id: string) {
+    return this.model.findUnique({
       where: { chat_id },
       include: { chat_participants: { include: { user: { include: { profile: true } } } } },
     });
   }
 
-  async createGroupChat(title: string, user_ids: string[]): Promise<chats> {
-    return prisma.chats.create({
+  async createGroupChat(title: string, user_ids: string[]) {
+    return this.model.create({
       data: {
         title,
         is_group_chat: true,
@@ -37,8 +37,8 @@ export class ChatRepo extends BaseRepository<typeof prisma.chats> {
     });
   }
 
-  async createDirectChat(user_id_a: string, user_id_b: string): Promise<chats> {
-    return prisma.chats.create({
+  async createDirectChat(user_id_a: string, user_id_b: string) {
+    return this.model.create({
       data: {
         is_group_chat: false,
         chat_participants: {
@@ -52,8 +52,8 @@ export class ChatRepo extends BaseRepository<typeof prisma.chats> {
   }
 
   /** Find the existing DM between exactly two users, if any */
-  async findDirectChat(user_id_a: string, user_id_b: string): Promise<chats | null> {
-    return prisma.chats.findFirst({
+  async findDirectChat(user_id_a: string, user_id_b: string) {
+    return this.model.findFirst({
       where: {
         is_group_chat: false,
         chat_participants: { some: { user_id: user_id_a } },
@@ -62,11 +62,11 @@ export class ChatRepo extends BaseRepository<typeof prisma.chats> {
     });
   }
 
-  async updateTitle(chat_id: string, title: string): Promise<chats> {
-    return prisma.chats.update({ where: { chat_id }, data: { title } });
+  async updateTitle(chat_id: string, title: string) {
+    return this.model.update({ where: { chat_id }, data: { title } });
   }
 
-  async deleteChat(chat_id: string): Promise<chats> {
-    return prisma.chats.delete({ where: { chat_id } });
+  async deleteChat(chat_id: string) {
+    return this.model.delete({ where: { chat_id } });
   }
 }

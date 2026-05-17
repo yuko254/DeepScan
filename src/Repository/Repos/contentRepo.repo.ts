@@ -7,23 +7,23 @@ export class ContentRepo extends BaseRepository<typeof prisma.contents> {
     super(prisma.contents, 'contents', 'content_id');
   }
 
-  async findByUser(user_id: string, type?: ContentType): Promise<contents[]> {
-    return prisma.contents.findMany({
+  async findByUser(user_id: string, type?: ContentType) {
+    return this.model.findMany({
       where: { user_id, ...(type && { type }) },
       include: { media: true },
       orderBy: { created_at: 'desc' },
     });
   }
 
-  async findByType(type: ContentType, visibility?: Visibility): Promise<contents[]> {
-    return prisma.contents.findMany({
+  async findByType(type: ContentType, visibility?: Visibility) {
+    return this.model.findMany({
       where: { type, ...(visibility && { visibility }) },
       include: { media: true },
       orderBy: { created_at: 'desc' },
     });
   }
 
-  async updateVisibility(content_id: string, visibility: Visibility): Promise<contents> {
-    return prisma.contents.update({ where: { content_id }, data: { visibility } });
+  async updateVisibility(content_id: string, visibility: Visibility) {
+    return this.model.update({ where: { content_id }, data: { visibility } });
   }
 }

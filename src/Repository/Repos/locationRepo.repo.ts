@@ -7,22 +7,22 @@ export class LocationRepo extends BaseRepository<typeof prisma.locations> {
     super(prisma.locations, 'locations', 'location_id');
   }
 
-  async findByPlaceId(place_id: string): Promise<locations | null> {
-    return prisma.locations.findFirst({ where: { place_id } });
+  async findByPlaceId(place_id: string) {
+    return this.model.findFirst({ where: { place_id } });
   }
 
-  async findWithDetails(location_id: string): Promise<locations | null> {
-    return prisma.locations.findUnique({
+  async findWithDetails(location_id: string) {
+    return this.model.findUnique({
       where: { location_id },
       include: { country: true, city: true },
     });
   }
 
-  async findByCountry(country_id: bigint): Promise<locations[]> {
-    return prisma.locations.findMany({ where: { country_id } });
+  async findByCountry(country_id: bigint) {
+    return this.model.findMany({ where: { country_id } });
   }
 
-  async findByCity(city_id: bigint): Promise<locations[]> {
-    return prisma.locations.findMany({ where: { city_id } });
+  async findByCity(city_id: bigint) {
+    return this.model.findMany({ where: { city_id } });
   }
 }

@@ -1,20 +1,27 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { AdminService } from "../services/admin.service.js";
 import { GetUsersQuerySchema, GetUserParam, AdminUpdateUserSchema, AdminCreateUserAccountSchema } from '../dtos/users.dto.js';
+import { type AdminUsersAccountsPageDto, toAdminUserAccountDto, toAdminUserDto } from '../dtos/users.dto.js';
 
 const router = Router();
 
 const adminService = new AdminService();
 
 /**
- * GET /admin/users?page=1&limit=20&search=abc&role=user
+ * GET /admin/users?page=1&limit=20&search=abc&role=user&isActive=true&isBanned=true
  * Response: { users: UserAccountDto[], pagination: PageDto }
  */
 router.get('/users', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const query = GetUsersQuerySchema.parse(req.query);
     const result = await adminService.getUsers(query);
-    res.json(result);
+
+    const Res: AdminUsersAccountsPageDto = {
+      users: result.users.map(toAdminUserAccountDto),
+      pagination: result.pagination
+    }
+
+    res.json(Res);
   } catch (err) {
     next(err);
   }
@@ -27,8 +34,11 @@ router.get('/users', async (req: Request, res: Response, next: NextFunction) => 
 router.get('/users/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { user_id } = GetUserParam.parse(req.params);
-    const result = await adminService.getUser(user_id);
-    res.json(result);
+    const user = await adminService.getUser(user_id);
+
+    const Res = toAdminUserDto(user)
+
+    res.json(Res);
   } catch (err) {
     next(err);
   }
@@ -42,8 +52,11 @@ router.get('/users/:user_id', async (req: Request, res: Response, next: NextFunc
 router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = AdminCreateUserAccountSchema.parse(req.body)
-    const result = await adminService.createUser(input);
-    res.json(result);
+    const user = await adminService.createUser(input);
+
+    const Res = toAdminUserDto(user)
+
+    res.json(Res);
   } catch (err) {
     next(err);
   }
@@ -59,8 +72,11 @@ router.patch('/users/:user_id', async (req: Request, res: Response, next: NextFu
   try {
     const { user_id } = GetUserParam.parse(req.params);
     const input = AdminUpdateUserSchema.parse(req.body)
-    const result = await adminService.updateUser(user_id, input);
-    res.json(result);
+    const user = await adminService.updateUser(user_id, input);
+
+    const Res = toAdminUserDto(user)
+
+    res.json(Res);
   } catch (err) {
     next(err);
   }

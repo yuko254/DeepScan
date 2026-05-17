@@ -7,20 +7,20 @@ export class CountryRepo extends BaseRepository<typeof prisma.countries> {
     super(prisma.countries, 'countries', 'country_id');
   }
 
-  async search(query: string): Promise<countries[]> {
-    return prisma.countries.findMany({
+  async search(query: string) {
+    return this.model.findMany({
       where: { name: { contains: query, mode: 'insensitive' } },
       orderBy: { name: 'asc' }, // fix: was 'desc'
       take: 20,
     });
   }
 
-  async findAll(): Promise<countries[]> {
-    return prisma.countries.findMany({ orderBy: { name: 'asc' } });
+  async findAll() {
+    return this.model.findMany({ orderBy: { name: 'asc' } });
   }
 
-  async findWithCities(country_id: bigint): Promise<countries | null> {
-    return prisma.countries.findUnique({
+  async findWithCities(country_id: bigint) {
+    return this.model.findUnique({
       where: { country_id },
       include: { cities: { orderBy: { name: 'asc' } } },
     });

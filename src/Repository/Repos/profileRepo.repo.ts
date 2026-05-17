@@ -7,12 +7,12 @@ export class ProfileRepo extends BaseRepository<typeof prisma.profiles> {
     super(prisma.profiles, 'profiles', 'profile_id');
   }
 
-  async findByUserId(user_id: string): Promise<profiles | null> {
-    return prisma.profiles.findUnique({ where: { user_id } });
+  async findByUserId(user_id: string) {
+    return this.model.findUnique({ where: { user_id } });
   }
 
-  async findWithLocations(user_id: string): Promise<profiles | null> {
-    return prisma.profiles.findUnique({
+  async findWithLocations(user_id: string) {
+    return this.model.findUnique({
       where: { user_id },
       include: {
         birth_location_details: { include: { city: true, country: true } },
@@ -21,12 +21,12 @@ export class ProfileRepo extends BaseRepository<typeof prisma.profiles> {
     });
   }
 
-  async updateAvatar(user_id: string, avatar: string): Promise<profiles> {
-    return prisma.profiles.update({ where: { user_id }, data: { avatar } });
+  async updateAvatar(user_id: string, avatar: string) {
+    return this.model.update({ where: { user_id }, data: { avatar } });
   }
 
-  async search(query: string): Promise<profiles[]> {
-    return prisma.profiles.findMany({
+  async search(query: string) {
+    return this.model.findMany({
       where: {
         OR: [
           { first_name: { contains: query, mode: 'insensitive' } },
