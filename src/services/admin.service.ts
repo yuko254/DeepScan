@@ -104,7 +104,7 @@ export class AdminService {
 
     return await prisma.$transaction(async (tx) => {
       const [updatedAccount, updatedProfile] = await Promise.all([
-        userService.updateAccount(userID, account),
+        userService.updateAccount(userID, account, tx),
         profile
           ? 'profile_id' in profile
             ? profileService.updateProfile(profile as profile.UpdateProfileBody, { userID: userID, profileID: profile.profile_id }, tx)

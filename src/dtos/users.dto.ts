@@ -94,7 +94,7 @@ export type ChangePasswordBody = z.infer<typeof ChangePasswordSchema>;
 export type RoleDto = Pick<Roles, 'role_id' | 'role_name'>;
 export function toRoleDto(role: prisma.PrismaRole): RoleDto {
   return {
-    role_id: role.role_id,
+    role_id: role.role_id.toString(),
     role_name: role.role_name as RoleDto['role_name'],
   };
 }

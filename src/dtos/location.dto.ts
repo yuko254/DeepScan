@@ -5,6 +5,7 @@ import type * as Dto from "./dto.js";
 import type * as prisma from "./prismaRes.dto.js";
 import type { CityFiltersDto, CountryFiltersDto } from './searchFilters.dto.js';
 import type { Countries, Cities, Locations } from '../graphql/graphql.js';
+import type { cities, countries } from '@prisma/client';
 
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
@@ -104,7 +105,21 @@ export type UpdateCityBody = z.infer<typeof UpdateCitySchema>;
 // ─── Response DTOs ────────────────────────────────────────────────────────────
 
 export type CountryDto = Pick<Countries, 'country_id' | 'name'>;
+export function toCountryDto(country: countries): CountryDto {
+  return {
+    country_id: country.country_id.toString(),
+    name: country.name
+  };
+}
+
 export type CityDto = Pick<Cities, 'city_id' | 'name' | 'country_id'>;
+export function toCityDto(city: cities): CityDto {
+  return {
+    city_id: city.city_id.toString(),
+    name: city.name,
+    country_id: city.country_id.toString()
+  };
+}
 
 export type LocationDto = Pick<Locations, 'location_id' | 'lat' | 'lng' | 'place_id'> & {
   city: CityDto | null;
@@ -116,8 +131,8 @@ export function toLocationDto(location: prisma.PrismaLocation): LocationDto {
     lat: location.lat instanceof Decimal ? location.lat.toNumber() : location.lat,
     lng: location.lng instanceof Decimal ? location.lng.toNumber() : location.lng,
     place_id: location.place_id,
-    city: location.city ?? null,
-    country: location.country,
+    city: location.city ? toCityDto(location.city) : null,
+    country: toCountryDto(location.country),
   };
 }
 

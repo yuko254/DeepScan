@@ -13,7 +13,7 @@ const config: CodegenConfig = {
         scalars: {
           DateTime: 'Date',
           JSON: 'Record<string, any>',
-          BigInt: 'bigint',
+          BigInt: 'string',
         },
       },
     },
