@@ -52,7 +52,6 @@ export class AuthService {
     if (!valid) throw new AppError.UnauthorizedError('Invalid email or password');
 
     if (user.is_banned) throw new AppError.ForbiddenError('Your account has been banned');
-    if (!user.is_active) throw new AppError.ForbiddenError('Your account has been deactivated');
 
     const tokens = generateTokens(getTokenUser(user), input.stayLoggedIn ?? false);
     const key = `refresh:${user.user_id}:${tokens.jti}`;
@@ -72,7 +71,6 @@ export class AuthService {
     const user = await userRepo.findAccount(payload.user_id)
     if (!user) throw new AppError.NotFoundError('User no longer exists');
     if (user.is_banned) throw new AppError.ForbiddenError('Your account has been banned');
-    if (!user.is_active) throw new AppError.ForbiddenError('Your account is deactivated');
  
     const key = `refresh:${payload.user_id}:${payload.jti}`;
     const state = await redis.get(key);

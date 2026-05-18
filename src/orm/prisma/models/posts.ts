@@ -284,7 +284,7 @@ export type postsScalarWhereWithAggregatesInput = {
 
 export type postsCreateInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -314,7 +314,7 @@ export type postsUncheckedCreateInput = {
 
 export type postsUpdateInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -647,7 +647,7 @@ export type postsUpdateOneWithoutSaved_postsNestedInput = {
 
 export type postsCreateWithoutCategoryInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
@@ -711,7 +711,7 @@ export type postsScalarWhereInput = {
 
 export type postsCreateWithoutCommentsInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
@@ -755,7 +755,7 @@ export type postsUpdateToOneWithWhereWithoutCommentsInput = {
 
 export type postsUpdateWithoutCommentsInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
@@ -783,7 +783,7 @@ export type postsUncheckedUpdateWithoutCommentsInput = {
 
 export type postsCreateWithoutLocationInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
   post_blocks?: Prisma.post_blocksCreateNestedManyWithoutPostInput
@@ -909,7 +909,7 @@ export type postsUncheckedUpdateWithoutContentInput = {
 
 export type postsCreateWithoutMentionTargetsInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -953,7 +953,7 @@ export type postsUpdateToOneWithWhereWithoutMentionTargetsInput = {
 
 export type postsUpdateWithoutMentionTargetsInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -981,7 +981,7 @@ export type postsUncheckedUpdateWithoutMentionTargetsInput = {
 
 export type postsCreateWithoutNotificationTargetsInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -1025,7 +1025,7 @@ export type postsUpdateToOneWithWhereWithoutNotificationTargetsInput = {
 
 export type postsUpdateWithoutNotificationTargetsInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -1053,7 +1053,7 @@ export type postsUncheckedUpdateWithoutNotificationTargetsInput = {
 
 export type postsCreateWithoutPost_blocksInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -1097,7 +1097,7 @@ export type postsUpdateToOneWithWhereWithoutPost_blocksInput = {
 
 export type postsUpdateWithoutPost_blocksInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -1125,7 +1125,7 @@ export type postsUncheckedUpdateWithoutPost_blocksInput = {
 
 export type postsCreateWithoutPost_likesInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -1169,7 +1169,7 @@ export type postsUpdateToOneWithWhereWithoutPost_likesInput = {
 
 export type postsUpdateWithoutPost_likesInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -1197,7 +1197,7 @@ export type postsUncheckedUpdateWithoutPost_likesInput = {
 
 export type postsCreateWithoutPostTagsInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -1241,7 +1241,7 @@ export type postsUpdateToOneWithWhereWithoutPostTagsInput = {
 
 export type postsUpdateWithoutPostTagsInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -1269,7 +1269,7 @@ export type postsUncheckedUpdateWithoutPostTagsInput = {
 
 export type postsCreateWithoutReportTargetsInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -1313,7 +1313,7 @@ export type postsUpdateToOneWithWhereWithoutReportTargetsInput = {
 
 export type postsUpdateWithoutReportTargetsInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -1341,7 +1341,7 @@ export type postsUncheckedUpdateWithoutReportTargetsInput = {
 
 export type postsCreateWithoutSaved_postsInput = {
   text_content?: string | null
-  content: Prisma.contentsCreateNestedOneWithoutPostsInput
+  content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
@@ -1385,7 +1385,7 @@ export type postsUpdateToOneWithWhereWithoutSaved_postsInput = {
 
 export type postsUpdateWithoutSaved_postsInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
@@ -1419,7 +1419,7 @@ export type postsCreateManyCategoryInput = {
 
 export type postsUpdateWithoutCategoryInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput
@@ -1459,7 +1459,7 @@ export type postsCreateManyLocationInput = {
 
 export type postsUpdateWithoutLocationInput = {
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutPostsNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
   post_blocks?: Prisma.post_blocksUpdateManyWithoutPostNestedInput

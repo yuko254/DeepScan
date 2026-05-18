@@ -74,7 +74,7 @@ app.use('/graphql', authenticate,
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
-app.use('/admin', authenticateStrict, requireRole("admin"), adminRoutes);
+app.use('/admin', authenticateStrict, requireRole("admin", "moderator"), adminRoutes);
 
 
 

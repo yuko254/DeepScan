@@ -1,6 +1,7 @@
 // AUTO-GENERATED — do not edit manually
 // Run: npx tsx scripts/generate-repo-index.ts
 
+export * from './Repos/adminAuditRepo.repo.js';
 export * from './Repos/BaseRepository.repo.js';
 export * from './Repos/blockRepo.repo.js';
 export * from './Repos/categoryRepo.repo.js';

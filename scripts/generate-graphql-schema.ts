@@ -3,21 +3,21 @@ import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 
 // ── Annotation configuration (edit this to add/remove annotations) ──
 const ANNOTATION_CONFIG: Record<string, string> = {
-  '@Include':          'include',
-  '@IncludeOnCreate':  'includeOnCreate',
-  '@IncludeOnUpdate':  'includeOnUpdate',
-  '@Exclude':          'exclude',
-  '@ExcludeOnType':    'excludeOnType',
-  '@ExcludeOnCreate':  'excludeOnCreate',
-  '@ExcludeOnUpdate':  'excludeOnUpdate',
-  '@Required':         'required',
+  '@Include': 'include',
+  '@IncludeOnCreate': 'includeOnCreate',
+  '@IncludeOnUpdate': 'includeOnUpdate',
+  '@Exclude': 'exclude',
+  '@ExcludeOnType': 'excludeOnType',
+  '@ExcludeOnCreate': 'excludeOnCreate',
+  '@ExcludeOnUpdate': 'excludeOnUpdate',
+  '@Required': 'required',
   '@RequiredOnCreate': 'requiredOnCreate',
   '@RequiredOnUpdate': 'requiredOnUpdate',
-  '@nested':           'allowNesting',
-  '@nestedOnly':       'nestedOnly',
-  '@sensitive':        'isSensitive',
-  '@system':           'isSystem',
-  '@reference':        'isReference', 
+  '@nested': 'allowNesting',
+  '@nestedOnly': 'nestedOnly',
+  '@sensitive': 'isSensitive',
+  '@system': 'isSystem',
+  '@reference': 'isReference',
 };
 
 // ── Types ─────────────────────────────────────────────
@@ -120,9 +120,9 @@ function getPrecedingAnnotation(raw: string, matchStart: number, annotation: str
     if (line.length === 0) continue;
     if (line.startsWith('//')) {
       const content = line.slice(2).trim();
-      const escaped = annotation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escaped = annotation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').toLowerCase();
       const regex = new RegExp(`(?:^|\\s)${escaped}(?:\\s|$)`);
-      return regex.test(content);
+      return regex.test(content.toLowerCase());
     }
     break;
   }
@@ -274,10 +274,10 @@ function parseModels(raw: string): Model[] {
       nestedFks: new Set(allFks),
       forwardRelations: fields.filter(f => f.isRelation && f.Relation?.FKs?.length),
       nestedOnly: modelNestedOnly,
-      isSystem: modelIsSystem || modelExclude,
+      isSystem: modelIsSystem,
       isReference: modelIsReference,
-      showInCreate: !modelExcludeOnCreate && !modelIsSystem,
-      showInUpdate: !modelExcludeOnUpdate && !modelIsSystem,
+      showInCreate: !modelExcludeOnCreate && !modelIsSystem && !modelExclude,
+      showInUpdate: !modelExcludeOnUpdate && !modelIsSystem && !modelExclude,
       showInType: !modelExcludeOnType && !modelExclude,
       hasCreateInput: false,
       hasUpdateInput: false,
@@ -329,7 +329,7 @@ function computeFieldVisibility(models: Model[]) {
     for (const field of model.fields) {
       let baseCreate = !field.isRelation && !field.isPk && !field.isSystem && !model.nestedFks.has(field.name);
       let baseUpdate = field.isPk || !field.isRelation && !field.isSystem && !model.Fks.has(field.name);
-      let baseType   = !field.isSensitive;
+      let baseType = !field.isSensitive;
 
       if (!field.isRelation && model.Fks.has(field.name)) {
         baseType = false;
@@ -340,7 +340,7 @@ function computeFieldVisibility(models: Model[]) {
 
       let showCreate = baseCreate;
       let showUpdate = baseUpdate;
-      let showType   = baseType;
+      let showType = baseType;
 
       if (field.include) {
         showCreate = showUpdate = showType = true;
@@ -353,11 +353,20 @@ function computeFieldVisibility(models: Model[]) {
       }
       if (field.excludeOnCreate) showCreate = false;
       if (field.excludeOnUpdate) showUpdate = false;
-      if (field.excludeOnType)   showType   = false;
+      if (field.excludeOnType) showType = false;
+
+      if (field.isRelation) {
+        const targetModel = models.find(m => m.name === field.type);
+        if (targetModel) {
+          if (!targetModel.showInType) showType = false;
+          if (!targetModel.showInCreate) showCreate = false;
+          if (!targetModel.showInUpdate) showUpdate = false;
+        }
+      }
 
       field.showInCreate = showCreate;
       field.showInUpdate = showUpdate;
-      field.showInType   = showType;
+      field.showInType = showType;
     }
   }
 }
@@ -470,9 +479,28 @@ function generateModelSchema(
 
   // ── Type definition ────────────────────────────────
   if (model.showInType) {
-    const typeFields = model.fields.filter(f => f.showInType);
     let typeStr = `type ${model.name} {\n`;
-    for (const field of typeFields) {
+    // Iterate over ALL fields, not just visible ones, so we can comment on hidden relations
+    for (const field of model.fields) {
+      if (field.isRelation) {
+        const targetModel = models.find(m => m.name === field.type);
+        const targetHidden = !targetModel || !targetModel.showInType;
+
+        if (targetHidden) {
+          // Comment out the field and explain why
+          const reason = targetModel
+            ? (targetModel.isSystem ? '@system' : '@Exclude / @ExcludeOnType')
+            : 'model not found';
+          const fieldType = field.isList
+            ? `[${field.type}]!`
+            : `${field.required ? field.type + '!' : field.type}`;
+          typeStr += `  # ${field.name}: ${fieldType}  // this model has a ${reason}\n`;
+          continue;   // skip actual field output
+        }
+      }
+      if (!field.showInType) continue;
+
+      // Normal field output (identical to before)
       if (field.isRelation) {
         typeStr += field.isList
           ? `  ${field.name}: [${field.type}]!\n`
@@ -642,7 +670,7 @@ function generateModelSchema(
   return result;
 }
 
-function generateSDL(   
+function generateSDL(
   models: Model[],
   composable: Map<string, { childModel: Model; childRel: Field; parentField: Field }[]>,
   enums: { name: string; values: string[] }[]

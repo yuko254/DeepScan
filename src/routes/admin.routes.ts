@@ -1,6 +1,6 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { AdminService } from "../services/admin.service.js";
-import { GetUsersQuerySchema, GetUserParam, AdminUpdateUserSchema, AdminCreateUserAccountSchema } from '../dtos/users.dto.js';
+import { GetUsersQuerySchema, GetUserParam, AdminUpdateUserSchema, AdminCreateUserSchema } from '../dtos/users.dto.js';
 import { type AdminUsersAccountsPageDto, toAdminUserAccountDto, toAdminUserDto } from '../dtos/users.dto.js';
 import { GetReportParam, GetReportsQuerySchema, AdminUpdateReportSchema, type ReportsPageDto, type ReportDto, toReportListItemDto, toReportDto } from '../dtos/report.dto.js';
 import { GetPostParam, GetCommentParam, GetStoryParam } from '../dtos/content.dto.js';
@@ -47,14 +47,14 @@ router.get('/users/:user_id', async (req: Request, res: Response, next: NextFunc
 });
 
 /**
- * POST /admin/users/:user_id
+ * POST /admin/users
  * Body: { AdminCreateUserBody }
  * Response: { UserDto }
  */
 router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const input = AdminCreateUserAccountSchema.parse(req.body)
-    const user = await adminService.createUser(input);
+    const input = AdminCreateUserSchema.parse(req.body)
+    const user = await adminService.createUser(req.user!, input);
 
     const Res = toAdminUserDto(user)
 
@@ -74,9 +74,9 @@ router.patch('/users/:user_id', async (req: Request, res: Response, next: NextFu
   try {
     const { user_id } = GetUserParam.parse(req.params);
     const input = AdminUpdateUserSchema.parse(req.body)
-    const user = await adminService.updateUser(user_id, input);
+    const user = await adminService.updateUser(req.user!, user_id, input);
 
-    const Res = toAdminUserDto(user)
+    const Res = toAdminUserDto(user);
 
     res.json(Res);
   } catch (err) {
@@ -91,7 +91,7 @@ router.patch('/users/:user_id', async (req: Request, res: Response, next: NextFu
 router.delete('/users/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { user_id } = GetUserParam.parse(req.params);
-    await adminService.deleteUser(user_id);
+    await adminService.deleteUser(req.user!, user_id);
     res.status(204).send();
   } catch (err) {
     next(err);
@@ -146,8 +146,7 @@ router.patch('/reports/:report_id', async (req: Request, res: Response, next: Ne
   try {
     const { report_id } = GetReportParam.parse(req.params);
     const input = AdminUpdateReportSchema.parse(req.body);
-    await adminService.resolveReport(report_id, input.resolver_id, input);
-    const report = await adminService.getReport(report_id);
+    const report = await adminService.resolveReport(req.user!, report_id, input);
 
     const Res: ReportDto = toReportDto(report);
 
@@ -176,7 +175,7 @@ router.get('/reports/stats', async (req: Request, res: Response, next: NextFunct
  */
 router.get('/stats/overview', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const stats = await adminService.getAdminStats();
+    const stats = await adminService.getAppStats();
     res.json(stats);
   } catch (err) {
     next(err);
@@ -191,7 +190,7 @@ router.get('/stats/overview', async (req: Request, res: Response, next: NextFunc
 router.delete('/posts/:post_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { post_id } = GetPostParam.parse(req.params);
-    await adminService.deletePost(post_id);
+    await adminService.deletePost(req.user!, post_id);
     res.status(204).send();
   } catch (err) {
     next(err);
@@ -205,7 +204,7 @@ router.delete('/posts/:post_id', async (req: Request, res: Response, next: NextF
 router.delete('/comments/:comment_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { comment_id } = GetCommentParam.parse(req.params);
-    await adminService.deleteComment(comment_id);
+    await adminService.deleteComment(req.user!, comment_id);
     res.status(204).send();
   } catch (err) {
     next(err);
@@ -219,7 +218,7 @@ router.delete('/comments/:comment_id', async (req: Request, res: Response, next:
 router.delete('/stories/:story_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { story_id } = GetStoryParam.parse(req.params);
-    await adminService.deleteStory(story_id);
+    await adminService.deleteStory(req.user!, story_id);
     res.status(204).send();
   } catch (err) {
     next(err);

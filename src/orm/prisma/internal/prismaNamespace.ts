@@ -420,6 +420,7 @@ export const ModelName = {
   stories: 'stories',
   story_views: 'story_views',
   users: 'users',
+  admin_audits: 'admin_audits',
   hashtag_usage: 'hashtag_usage',
   post_like_counts: 'post_like_counts',
   comment_like_counts: 'comment_like_counts'
@@ -438,7 +439,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "blocks" | "categories" | "tags" | "chat_participants" | "chats" | "comment_likes" | "comments" | "device_tokens" | "follows" | "follow_requests" | "hashtags" | "content_hashtags" | "comment_hashtags" | "countries" | "cities" | "locations" | "contents" | "media" | "mentions" | "mention_targets" | "messages" | "notifications" | "notification_targets" | "post_blocks" | "post_likes" | "post_tags" | "posts" | "profiles" | "reports" | "report_targets" | "roles" | "saved_posts" | "scans" | "stories" | "story_views" | "users" | "hashtag_usage" | "post_like_counts" | "comment_like_counts"
+    modelProps: "blocks" | "categories" | "tags" | "chat_participants" | "chats" | "comment_likes" | "comments" | "device_tokens" | "follows" | "follow_requests" | "hashtags" | "content_hashtags" | "comment_hashtags" | "countries" | "cities" | "locations" | "contents" | "media" | "mentions" | "mention_targets" | "messages" | "notifications" | "notification_targets" | "post_blocks" | "post_likes" | "post_tags" | "posts" | "profiles" | "reports" | "report_targets" | "roles" | "saved_posts" | "scans" | "stories" | "story_views" | "users" | "admin_audits" | "hashtag_usage" | "post_like_counts" | "comment_like_counts"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3106,6 +3107,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    admin_audits: {
+      payload: Prisma.$admin_auditsPayload<ExtArgs>
+      fields: Prisma.admin_auditsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.admin_auditsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.admin_auditsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>
+        }
+        findFirst: {
+          args: Prisma.admin_auditsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.admin_auditsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>
+        }
+        findMany: {
+          args: Prisma.admin_auditsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>[]
+        }
+        create: {
+          args: Prisma.admin_auditsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>
+        }
+        createMany: {
+          args: Prisma.admin_auditsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.admin_auditsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>[]
+        }
+        delete: {
+          args: Prisma.admin_auditsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>
+        }
+        update: {
+          args: Prisma.admin_auditsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>
+        }
+        deleteMany: {
+          args: Prisma.admin_auditsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.admin_auditsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.admin_auditsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>[]
+        }
+        upsert: {
+          args: Prisma.admin_auditsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$admin_auditsPayload>
+        }
+        aggregate: {
+          args: Prisma.Admin_auditsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdmin_audits>
+        }
+        groupBy: {
+          args: Prisma.admin_auditsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Admin_auditsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.admin_auditsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Admin_auditsCountAggregateOutputType> | number
+        }
+      }
+    }
     hashtag_usage: {
       payload: Prisma.$hashtag_usagePayload<ExtArgs>
       fields: Prisma.hashtag_usageFieldRefs
@@ -3427,7 +3502,8 @@ export const ContentsScalarFieldEnum = {
   type: 'type',
   visibility: 'visibility',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted'
 } as const
 
 export type ContentsScalarFieldEnum = (typeof ContentsScalarFieldEnum)[keyof typeof ContentsScalarFieldEnum]
@@ -3575,7 +3651,8 @@ export const Report_targetsScalarFieldEnum = {
   target_id: 'target_id',
   post_id: 'post_id',
   comment_id: 'comment_id',
-  story_id: 'story_id'
+  story_id: 'story_id',
+  profile_id: 'profile_id'
 } as const
 
 export type Report_targetsScalarFieldEnum = (typeof Report_targetsScalarFieldEnum)[keyof typeof Report_targetsScalarFieldEnum]
@@ -3640,6 +3717,20 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const Admin_auditsScalarFieldEnum = {
+  audit_id: 'audit_id',
+  admin_username: 'admin_username',
+  action: 'action',
+  target_table: 'target_table',
+  target_id: 'target_id',
+  old_data: 'old_data',
+  new_data: 'new_data',
+  created_at: 'created_at'
+} as const
+
+export type Admin_auditsScalarFieldEnum = (typeof Admin_auditsScalarFieldEnum)[keyof typeof Admin_auditsScalarFieldEnum]
 
 
 export const Hashtag_usageScalarFieldEnum = {
@@ -4096,6 +4187,7 @@ export type GlobalOmitConfig = {
   stories?: Prisma.storiesOmit
   story_views?: Prisma.story_viewsOmit
   users?: Prisma.usersOmit
+  admin_audits?: Prisma.admin_auditsOmit
   hashtag_usage?: Prisma.hashtag_usageOmit
   post_like_counts?: Prisma.post_like_countsOmit
   comment_like_counts?: Prisma.comment_like_countsOmit

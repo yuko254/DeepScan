@@ -43,7 +43,6 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
     return this.model.count({ where: { post_id, is_deleted: false } });
   }
 
-  /** Soft delete — sets is_deleted = true */
   async softDelete(comment_id: string, deletor: string) {
     return this.model.update({ where: { comment_id }, data: { is_deleted: true, content: `deleted by ${deletor}` } });
   }

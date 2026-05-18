@@ -87,6 +87,7 @@ export const ModelName = {
   stories: 'stories',
   story_views: 'story_views',
   users: 'users',
+  admin_audits: 'admin_audits',
   hashtag_usage: 'hashtag_usage',
   post_like_counts: 'post_like_counts',
   comment_like_counts: 'comment_like_counts'
@@ -276,7 +277,8 @@ export const ContentsScalarFieldEnum = {
   type: 'type',
   visibility: 'visibility',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted'
 } as const
 
 export type ContentsScalarFieldEnum = (typeof ContentsScalarFieldEnum)[keyof typeof ContentsScalarFieldEnum]
@@ -424,7 +426,8 @@ export const Report_targetsScalarFieldEnum = {
   target_id: 'target_id',
   post_id: 'post_id',
   comment_id: 'comment_id',
-  story_id: 'story_id'
+  story_id: 'story_id',
+  profile_id: 'profile_id'
 } as const
 
 export type Report_targetsScalarFieldEnum = (typeof Report_targetsScalarFieldEnum)[keyof typeof Report_targetsScalarFieldEnum]
@@ -489,6 +492,20 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const Admin_auditsScalarFieldEnum = {
+  audit_id: 'audit_id',
+  admin_username: 'admin_username',
+  action: 'action',
+  target_table: 'target_table',
+  target_id: 'target_id',
+  old_data: 'old_data',
+  new_data: 'new_data',
+  created_at: 'created_at'
+} as const
+
+export type Admin_auditsScalarFieldEnum = (typeof Admin_auditsScalarFieldEnum)[keyof typeof Admin_auditsScalarFieldEnum]
 
 
 export const Hashtag_usageScalarFieldEnum = {

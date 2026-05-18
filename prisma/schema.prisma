@@ -314,13 +314,14 @@ model contents {
   visibility          Visibility   @default(public)
   created_at          DateTime     @default(now()) @db.Timestamptz(6)
   updated_at          DateTime     @updatedAt @db.Timestamptz(6)
+  is_deleted          Boolean      @default(false) // @system
 
   user                users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 
   media               media[] // @nested
-  posts               posts? // @nested
-  stories             stories? // @nested
-  scans               scans? // @nested
+  post                posts? // @nested
+  story               stories? // @nested
+  scan                scans? // @nested
   contentHashtags     content_hashtags[]
 }
 
@@ -412,7 +413,7 @@ model notification_targets {
   post_id     String?   @db.Uuid
   comment_id  String?   @db.Uuid
   chat_id     String?   @db.Uuid
-
+  
   post        posts?    @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
   comment     comments? @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
   chat        chats?    @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
@@ -657,6 +658,7 @@ model users {
 
   @@index([username(ops: raw("gin_trgm_ops"))], map: "idx_users_username_trgm", type: Gin)
   @@index([role_id])
+  adminAudits admin_audits[]
 }
 
 // CREATE VIEW hashtag_usage AS
@@ -752,4 +754,21 @@ enum Role {
   admin
   moderator
   user
+}
+
+// @exclude
+model admin_audits {
+  audit_id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  admin_username   String?
+  action           String
+  target_table     String?
+  target_id        String?
+  old_data         Json?
+  new_data         Json?
+  created_at       DateTime @default(now()) @db.Timestamptz(6)
+
+  admin            users?   @relation(fields: [admin_username], references: [username], onDelete: SetNull)
+
+  @@index([admin_username])
+  @@index([created_at])
 }

@@ -1,4 +1,4 @@
-import { type GraphQLResolveInfo, GraphQLScalarType, type GraphQLScalarTypeConfig } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
@@ -873,10 +873,11 @@ export type Contents = {
   contentHashtags: Array<Maybe<Content_Hashtags>>;
   content_id: Scalars['String']['output'];
   created_at: Scalars['DateTime']['output'];
+  is_deleted: Scalars['Boolean']['output'];
   media: Array<Maybe<Media>>;
-  posts?: Maybe<Posts>;
-  scans?: Maybe<Scans>;
-  stories?: Maybe<Stories>;
+  post?: Maybe<Posts>;
+  scan?: Maybe<Scans>;
+  story?: Maybe<Stories>;
   type: ContentType;
   updated_at: Scalars['DateTime']['output'];
   user: Users;
@@ -885,18 +886,18 @@ export type Contents = {
 
 export type ContentsCreateInput = {
   media?: InputMaybe<Array<MediaCreateInput>>;
-  posts?: InputMaybe<PostsCreateInput>;
-  scans?: InputMaybe<ScansCreateInput>;
-  stories?: InputMaybe<StoriesCreateInput>;
+  post?: InputMaybe<PostsCreateInput>;
+  scan?: InputMaybe<ScansCreateInput>;
+  story?: InputMaybe<StoriesCreateInput>;
   visibility: Visibility;
 };
 
 export type ContentsUpdateInput = {
   content_id?: InputMaybe<Scalars['String']['input']>;
   media?: InputMaybe<Array<MediaUpdateInput>>;
-  posts?: InputMaybe<PostsUpdateInput>;
-  scans?: InputMaybe<ScansUpdateInput>;
-  stories?: InputMaybe<StoriesUpdateInput>;
+  post?: InputMaybe<PostsUpdateInput>;
+  scan?: InputMaybe<ScansUpdateInput>;
+  story?: InputMaybe<StoriesUpdateInput>;
   visibility?: InputMaybe<Visibility>;
 };
 
@@ -1186,6 +1187,7 @@ export type Profiles = {
   last_name: Scalars['String']['output'];
   phone_number?: Maybe<Scalars['String']['output']>;
   profile_id: Scalars['String']['output'];
+  reportTargets: Array<Maybe<Report_Targets>>;
   user: Users;
 };
 
@@ -1218,6 +1220,7 @@ export type Report_Targets = {
   __typename?: 'report_targets';
   comment?: Maybe<Comments>;
   post?: Maybe<Posts>;
+  profile?: Maybe<Profiles>;
   reports: Array<Maybe<Reports>>;
   story?: Maybe<Stories>;
   target_id: Scalars['String']['output'];
@@ -1226,6 +1229,7 @@ export type Report_Targets = {
 export type Report_TargetsCreateInput = {
   comment_id?: InputMaybe<Scalars['String']['input']>;
   post_id?: InputMaybe<Scalars['String']['input']>;
+  profile_id?: InputMaybe<Scalars['String']['input']>;
   story_id?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1893,10 +1897,11 @@ export type ContentsResolvers<ContextType = any, ParentType extends ResolversPar
   contentHashtags?: Resolver<Array<Maybe<ResolversTypes['content_hashtags']>>, ParentType, ContextType>;
   content_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  is_deleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   media?: Resolver<Array<Maybe<ResolversTypes['media']>>, ParentType, ContextType>;
-  posts?: Resolver<Maybe<ResolversTypes['posts']>, ParentType, ContextType>;
-  scans?: Resolver<Maybe<ResolversTypes['scans']>, ParentType, ContextType>;
-  stories?: Resolver<Maybe<ResolversTypes['stories']>, ParentType, ContextType>;
+  post?: Resolver<Maybe<ResolversTypes['posts']>, ParentType, ContextType>;
+  scan?: Resolver<Maybe<ResolversTypes['scans']>, ParentType, ContextType>;
+  story?: Resolver<Maybe<ResolversTypes['stories']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['ContentType'], ParentType, ContextType>;
   updated_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
@@ -2059,12 +2064,14 @@ export type ProfilesResolvers<ContextType = any, ParentType extends ResolversPar
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone_number?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   profile_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  reportTargets?: Resolver<Array<Maybe<ResolversTypes['report_targets']>>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
 };
 
 export type Report_TargetsResolvers<ContextType = any, ParentType extends ResolversParentTypes['report_targets'] = ResolversParentTypes['report_targets']> = {
   comment?: Resolver<Maybe<ResolversTypes['comments']>, ParentType, ContextType>;
   post?: Resolver<Maybe<ResolversTypes['posts']>, ParentType, ContextType>;
+  profile?: Resolver<Maybe<ResolversTypes['profiles']>, ParentType, ContextType>;
   reports?: Resolver<Array<Maybe<ResolversTypes['reports']>>, ParentType, ContextType>;
   story?: Resolver<Maybe<ResolversTypes['stories']>, ParentType, ContextType>;
   target_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

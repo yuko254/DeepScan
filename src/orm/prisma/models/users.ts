@@ -270,6 +270,7 @@ export type usersWhereInput = {
   saved_posts?: Prisma.Saved_postsListRelationFilter
   story_views?: Prisma.Story_viewsListRelationFilter
   contents?: Prisma.ContentsListRelationFilter
+  adminAudits?: Prisma.Admin_auditsListRelationFilter
 }
 
 export type usersOrderByWithRelationInput = {
@@ -304,6 +305,7 @@ export type usersOrderByWithRelationInput = {
   saved_posts?: Prisma.saved_postsOrderByRelationAggregateInput
   story_views?: Prisma.story_viewsOrderByRelationAggregateInput
   contents?: Prisma.contentsOrderByRelationAggregateInput
+  adminAudits?: Prisma.admin_auditsOrderByRelationAggregateInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -341,6 +343,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   saved_posts?: Prisma.Saved_postsListRelationFilter
   story_views?: Prisma.Story_viewsListRelationFilter
   contents?: Prisma.ContentsListRelationFilter
+  adminAudits?: Prisma.Admin_auditsListRelationFilter
 }, "user_id" | "username" | "email">
 
 export type usersOrderByWithAggregationInput = {
@@ -406,6 +409,7 @@ export type usersCreateInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateInput = {
@@ -439,6 +443,7 @@ export type usersUncheckedCreateInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersUpdateInput = {
@@ -472,6 +477,7 @@ export type usersUpdateInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -505,6 +511,7 @@ export type usersUncheckedUpdateInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateManyInput = {
@@ -960,6 +967,22 @@ export type usersUpdateOneWithoutStory_viewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutStory_viewsInput, Prisma.usersUpdateWithoutStory_viewsInput>, Prisma.usersUncheckedUpdateWithoutStory_viewsInput>
 }
 
+export type usersCreateNestedOneWithoutAdminAuditsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutAdminAuditsInput, Prisma.usersUncheckedCreateWithoutAdminAuditsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutAdminAuditsInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneWithoutAdminAuditsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutAdminAuditsInput, Prisma.usersUncheckedCreateWithoutAdminAuditsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutAdminAuditsInput
+  upsert?: Prisma.usersUpsertWithoutAdminAuditsInput
+  disconnect?: Prisma.usersWhereInput | boolean
+  delete?: Prisma.usersWhereInput | boolean
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutAdminAuditsInput, Prisma.usersUpdateWithoutAdminAuditsInput>, Prisma.usersUncheckedUpdateWithoutAdminAuditsInput>
+}
+
 export type usersCreateWithoutBlocked_usersInput = {
   user_id?: string
   username: string
@@ -990,6 +1013,7 @@ export type usersCreateWithoutBlocked_usersInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutBlocked_usersInput = {
@@ -1022,6 +1046,7 @@ export type usersUncheckedCreateWithoutBlocked_usersInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutBlocked_usersInput = {
@@ -1059,6 +1084,7 @@ export type usersCreateWithoutBlocked_bysInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutBlocked_bysInput = {
@@ -1091,6 +1117,7 @@ export type usersUncheckedCreateWithoutBlocked_bysInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutBlocked_bysInput = {
@@ -1139,6 +1166,7 @@ export type usersUpdateWithoutBlocked_usersInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutBlocked_usersInput = {
@@ -1171,6 +1199,7 @@ export type usersUncheckedUpdateWithoutBlocked_usersInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUpsertWithoutBlocked_bysInput = {
@@ -1214,6 +1243,7 @@ export type usersUpdateWithoutBlocked_bysInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutBlocked_bysInput = {
@@ -1246,6 +1276,7 @@ export type usersUncheckedUpdateWithoutBlocked_bysInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutChat_participantsInput = {
@@ -1278,6 +1309,7 @@ export type usersCreateWithoutChat_participantsInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutChat_participantsInput = {
@@ -1310,6 +1342,7 @@ export type usersUncheckedCreateWithoutChat_participantsInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutChat_participantsInput = {
@@ -1358,6 +1391,7 @@ export type usersUpdateWithoutChat_participantsInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutChat_participantsInput = {
@@ -1390,6 +1424,7 @@ export type usersUncheckedUpdateWithoutChat_participantsInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutComment_likesInput = {
@@ -1422,6 +1457,7 @@ export type usersCreateWithoutComment_likesInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutComment_likesInput = {
@@ -1454,6 +1490,7 @@ export type usersUncheckedCreateWithoutComment_likesInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutComment_likesInput = {
@@ -1502,6 +1539,7 @@ export type usersUpdateWithoutComment_likesInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutComment_likesInput = {
@@ -1534,6 +1572,7 @@ export type usersUncheckedUpdateWithoutComment_likesInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutCommentsInput = {
@@ -1566,6 +1605,7 @@ export type usersCreateWithoutCommentsInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutCommentsInput = {
@@ -1598,6 +1638,7 @@ export type usersUncheckedCreateWithoutCommentsInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutCommentsInput = {
@@ -1646,6 +1687,7 @@ export type usersUpdateWithoutCommentsInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutCommentsInput = {
@@ -1678,6 +1720,7 @@ export type usersUncheckedUpdateWithoutCommentsInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutDevice_tokensInput = {
@@ -1710,6 +1753,7 @@ export type usersCreateWithoutDevice_tokensInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutDevice_tokensInput = {
@@ -1742,6 +1786,7 @@ export type usersUncheckedCreateWithoutDevice_tokensInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutDevice_tokensInput = {
@@ -1790,6 +1835,7 @@ export type usersUpdateWithoutDevice_tokensInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutDevice_tokensInput = {
@@ -1822,6 +1868,7 @@ export type usersUncheckedUpdateWithoutDevice_tokensInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutFollowingInput = {
@@ -1854,6 +1901,7 @@ export type usersCreateWithoutFollowingInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutFollowingInput = {
@@ -1886,6 +1934,7 @@ export type usersUncheckedCreateWithoutFollowingInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutFollowingInput = {
@@ -1923,6 +1972,7 @@ export type usersCreateWithoutFollowersInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutFollowersInput = {
@@ -1955,6 +2005,7 @@ export type usersUncheckedCreateWithoutFollowersInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutFollowersInput = {
@@ -2003,6 +2054,7 @@ export type usersUpdateWithoutFollowingInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutFollowingInput = {
@@ -2035,6 +2087,7 @@ export type usersUncheckedUpdateWithoutFollowingInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUpsertWithoutFollowersInput = {
@@ -2078,6 +2131,7 @@ export type usersUpdateWithoutFollowersInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutFollowersInput = {
@@ -2110,6 +2164,7 @@ export type usersUncheckedUpdateWithoutFollowersInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutFollow_RequestersInput = {
@@ -2142,6 +2197,7 @@ export type usersCreateWithoutFollow_RequestersInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutFollow_RequestersInput = {
@@ -2174,6 +2230,7 @@ export type usersUncheckedCreateWithoutFollow_RequestersInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutFollow_RequestersInput = {
@@ -2211,6 +2268,7 @@ export type usersCreateWithoutFollow_requests_targetsInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutFollow_requests_targetsInput = {
@@ -2243,6 +2301,7 @@ export type usersUncheckedCreateWithoutFollow_requests_targetsInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutFollow_requests_targetsInput = {
@@ -2291,6 +2350,7 @@ export type usersUpdateWithoutFollow_RequestersInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutFollow_RequestersInput = {
@@ -2323,6 +2383,7 @@ export type usersUncheckedUpdateWithoutFollow_RequestersInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUpsertWithoutFollow_requests_targetsInput = {
@@ -2366,6 +2427,7 @@ export type usersUpdateWithoutFollow_requests_targetsInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutFollow_requests_targetsInput = {
@@ -2398,6 +2460,7 @@ export type usersUncheckedUpdateWithoutFollow_requests_targetsInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutContentsInput = {
@@ -2430,6 +2493,7 @@ export type usersCreateWithoutContentsInput = {
   reports?: Prisma.reportsCreateNestedManyWithoutUserInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutContentsInput = {
@@ -2462,6 +2526,7 @@ export type usersUncheckedCreateWithoutContentsInput = {
   reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutContentsInput = {
@@ -2510,6 +2575,7 @@ export type usersUpdateWithoutContentsInput = {
   reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutContentsInput = {
@@ -2542,6 +2608,7 @@ export type usersUncheckedUpdateWithoutContentsInput = {
   reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutMentionsInput = {
@@ -2574,6 +2641,7 @@ export type usersCreateWithoutMentionsInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutMentionsInput = {
@@ -2606,6 +2674,7 @@ export type usersUncheckedCreateWithoutMentionsInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutMentionsInput = {
@@ -2654,6 +2723,7 @@ export type usersUpdateWithoutMentionsInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutMentionsInput = {
@@ -2686,6 +2756,7 @@ export type usersUncheckedUpdateWithoutMentionsInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutMessagesInput = {
@@ -2718,6 +2789,7 @@ export type usersCreateWithoutMessagesInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutMessagesInput = {
@@ -2750,6 +2822,7 @@ export type usersUncheckedCreateWithoutMessagesInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutMessagesInput = {
@@ -2798,6 +2871,7 @@ export type usersUpdateWithoutMessagesInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutMessagesInput = {
@@ -2830,6 +2904,7 @@ export type usersUncheckedUpdateWithoutMessagesInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutNotificationsInput = {
@@ -2862,6 +2937,7 @@ export type usersCreateWithoutNotificationsInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutNotificationsInput = {
@@ -2894,6 +2970,7 @@ export type usersUncheckedCreateWithoutNotificationsInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutNotificationsInput = {
@@ -2931,6 +3008,7 @@ export type usersCreateWithoutNotification_actorsInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutNotification_actorsInput = {
@@ -2963,6 +3041,7 @@ export type usersUncheckedCreateWithoutNotification_actorsInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutNotification_actorsInput = {
@@ -3011,6 +3090,7 @@ export type usersUpdateWithoutNotificationsInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutNotificationsInput = {
@@ -3043,6 +3123,7 @@ export type usersUncheckedUpdateWithoutNotificationsInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUpsertWithoutNotification_actorsInput = {
@@ -3086,6 +3167,7 @@ export type usersUpdateWithoutNotification_actorsInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutNotification_actorsInput = {
@@ -3118,6 +3200,7 @@ export type usersUncheckedUpdateWithoutNotification_actorsInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutPost_likesInput = {
@@ -3150,6 +3233,7 @@ export type usersCreateWithoutPost_likesInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutPost_likesInput = {
@@ -3182,6 +3266,7 @@ export type usersUncheckedCreateWithoutPost_likesInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutPost_likesInput = {
@@ -3230,6 +3315,7 @@ export type usersUpdateWithoutPost_likesInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutPost_likesInput = {
@@ -3262,6 +3348,7 @@ export type usersUncheckedUpdateWithoutPost_likesInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutProfileInput = {
@@ -3294,6 +3381,7 @@ export type usersCreateWithoutProfileInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutProfileInput = {
@@ -3326,6 +3414,7 @@ export type usersUncheckedCreateWithoutProfileInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutProfileInput = {
@@ -3374,6 +3463,7 @@ export type usersUpdateWithoutProfileInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutProfileInput = {
@@ -3406,6 +3496,7 @@ export type usersUncheckedUpdateWithoutProfileInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutReportsInput = {
@@ -3438,6 +3529,7 @@ export type usersCreateWithoutReportsInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutReportsInput = {
@@ -3470,6 +3562,7 @@ export type usersUncheckedCreateWithoutReportsInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutReportsInput = {
@@ -3507,6 +3600,7 @@ export type usersCreateWithoutReport_resolversInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutReport_resolversInput = {
@@ -3539,6 +3633,7 @@ export type usersUncheckedCreateWithoutReport_resolversInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutReport_resolversInput = {
@@ -3587,6 +3682,7 @@ export type usersUpdateWithoutReportsInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutReportsInput = {
@@ -3619,6 +3715,7 @@ export type usersUncheckedUpdateWithoutReportsInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUpsertWithoutReport_resolversInput = {
@@ -3662,6 +3759,7 @@ export type usersUpdateWithoutReport_resolversInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutReport_resolversInput = {
@@ -3694,6 +3792,7 @@ export type usersUncheckedUpdateWithoutReport_resolversInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutRoleInput = {
@@ -3726,6 +3825,7 @@ export type usersCreateWithoutRoleInput = {
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutRoleInput = {
@@ -3758,6 +3858,7 @@ export type usersUncheckedCreateWithoutRoleInput = {
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutRoleInput = {
@@ -3831,6 +3932,7 @@ export type usersCreateWithoutSaved_postsInput = {
   reports?: Prisma.reportsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutSaved_postsInput = {
@@ -3863,6 +3965,7 @@ export type usersUncheckedCreateWithoutSaved_postsInput = {
   reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutSaved_postsInput = {
@@ -3911,6 +4014,7 @@ export type usersUpdateWithoutSaved_postsInput = {
   reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutSaved_postsInput = {
@@ -3943,6 +4047,7 @@ export type usersUncheckedUpdateWithoutSaved_postsInput = {
   reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersCreateWithoutStory_viewsInput = {
@@ -3975,6 +4080,7 @@ export type usersCreateWithoutStory_viewsInput = {
   reports?: Prisma.reportsCreateNestedManyWithoutUserInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
 }
 
 export type usersUncheckedCreateWithoutStory_viewsInput = {
@@ -4007,6 +4113,7 @@ export type usersUncheckedCreateWithoutStory_viewsInput = {
   reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type usersCreateOrConnectWithoutStory_viewsInput = {
@@ -4055,6 +4162,7 @@ export type usersUpdateWithoutStory_viewsInput = {
   reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutStory_viewsInput = {
@@ -4086,6 +4194,155 @@ export type usersUncheckedUpdateWithoutStory_viewsInput = {
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
   reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
+}
+
+export type usersCreateWithoutAdminAuditsInput = {
+  user_id?: string
+  username: string
+  email: string
+  password: string
+  is_active?: boolean
+  is_banned?: boolean
+  updated_at?: Date | string
+  created_at?: Date | string
+  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
+  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
+  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
+  follow_Requesters?: Prisma.follow_requestsCreateNestedManyWithoutRequesterInput
+  follow_requests_targets?: Prisma.follow_requestsCreateNestedManyWithoutTargetInput
+  notification_actors?: Prisma.notificationsCreateNestedManyWithoutActorInput
+  report_resolvers?: Prisma.reportsCreateNestedManyWithoutResolverInput
+  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
+  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
+  contents?: Prisma.contentsCreateNestedManyWithoutUserInput
+}
+
+export type usersUncheckedCreateWithoutAdminAuditsInput = {
+  user_id?: string
+  role_id?: bigint | number | null
+  username: string
+  email: string
+  password: string
+  is_active?: boolean
+  is_banned?: boolean
+  updated_at?: Date | string
+  created_at?: Date | string
+  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
+  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
+  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
+  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
+  follow_Requesters?: Prisma.follow_requestsUncheckedCreateNestedManyWithoutRequesterInput
+  follow_requests_targets?: Prisma.follow_requestsUncheckedCreateNestedManyWithoutTargetInput
+  notification_actors?: Prisma.notificationsUncheckedCreateNestedManyWithoutActorInput
+  report_resolvers?: Prisma.reportsUncheckedCreateNestedManyWithoutResolverInput
+  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
+  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
+  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
+  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
+  contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type usersCreateOrConnectWithoutAdminAuditsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutAdminAuditsInput, Prisma.usersUncheckedCreateWithoutAdminAuditsInput>
+}
+
+export type usersUpsertWithoutAdminAuditsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutAdminAuditsInput, Prisma.usersUncheckedUpdateWithoutAdminAuditsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutAdminAuditsInput, Prisma.usersUncheckedCreateWithoutAdminAuditsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutAdminAuditsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutAdminAuditsInput, Prisma.usersUncheckedUpdateWithoutAdminAuditsInput>
+}
+
+export type usersUpdateWithoutAdminAuditsInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
+  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
+  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
+  follow_Requesters?: Prisma.follow_requestsUpdateManyWithoutRequesterNestedInput
+  follow_requests_targets?: Prisma.follow_requestsUpdateManyWithoutTargetNestedInput
+  notification_actors?: Prisma.notificationsUpdateManyWithoutActorNestedInput
+  report_resolvers?: Prisma.reportsUpdateManyWithoutResolverNestedInput
+  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
+  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
+  contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+}
+
+export type usersUncheckedUpdateWithoutAdminAuditsInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
+  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
+  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
+  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
+  follow_Requesters?: Prisma.follow_requestsUncheckedUpdateManyWithoutRequesterNestedInput
+  follow_requests_targets?: Prisma.follow_requestsUncheckedUpdateManyWithoutTargetNestedInput
+  notification_actors?: Prisma.notificationsUncheckedUpdateManyWithoutActorNestedInput
+  report_resolvers?: Prisma.reportsUncheckedUpdateManyWithoutResolverNestedInput
+  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
+  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
+  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
+  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -4130,6 +4387,7 @@ export type usersUpdateWithoutRoleInput = {
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateWithoutRoleInput = {
@@ -4162,6 +4420,7 @@ export type usersUncheckedUpdateWithoutRoleInput = {
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
+  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type usersUncheckedUpdateManyWithoutRoleInput = {
@@ -4201,6 +4460,7 @@ export type UsersCountOutputType = {
   saved_posts: number
   story_views: number
   contents: number
+  adminAudits: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4224,6 +4484,7 @@ export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   saved_posts?: boolean | UsersCountOutputTypeCountSaved_postsArgs
   story_views?: boolean | UsersCountOutputTypeCountStory_viewsArgs
   contents?: boolean | UsersCountOutputTypeCountContentsArgs
+  adminAudits?: boolean | UsersCountOutputTypeCountAdminAuditsArgs
 }
 
 /**
@@ -4376,6 +4637,13 @@ export type UsersCountOutputTypeCountContentsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.contentsWhereInput
 }
 
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountAdminAuditsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.admin_auditsWhereInput
+}
+
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   user_id?: boolean
@@ -4409,6 +4677,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   saved_posts?: boolean | Prisma.users$saved_postsArgs<ExtArgs>
   story_views?: boolean | Prisma.users$story_viewsArgs<ExtArgs>
   contents?: boolean | Prisma.users$contentsArgs<ExtArgs>
+  adminAudits?: boolean | Prisma.users$adminAuditsArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -4474,6 +4743,7 @@ export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   saved_posts?: boolean | Prisma.users$saved_postsArgs<ExtArgs>
   story_views?: boolean | Prisma.users$story_viewsArgs<ExtArgs>
   contents?: boolean | Prisma.users$contentsArgs<ExtArgs>
+  adminAudits?: boolean | Prisma.users$adminAuditsArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4508,6 +4778,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     saved_posts: Prisma.$saved_postsPayload<ExtArgs>[]
     story_views: Prisma.$story_viewsPayload<ExtArgs>[]
     contents: Prisma.$contentsPayload<ExtArgs>[]
+    adminAudits: Prisma.$admin_auditsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_id: string
@@ -4935,6 +5206,7 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
   saved_posts<T extends Prisma.users$saved_postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$saved_postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$saved_postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   story_views<T extends Prisma.users$story_viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$story_viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$story_viewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contents<T extends Prisma.users$contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$contentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  adminAudits<T extends Prisma.users$adminAuditsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$adminAuditsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$admin_auditsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5889,6 +6161,30 @@ export type users$contentsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.ContentsScalarFieldEnum | Prisma.ContentsScalarFieldEnum[]
+}
+
+/**
+ * users.adminAudits
+ */
+export type users$adminAuditsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the admin_audits
+   */
+  select?: Prisma.admin_auditsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the admin_audits
+   */
+  omit?: Prisma.admin_auditsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.admin_auditsInclude<ExtArgs> | null
+  where?: Prisma.admin_auditsWhereInput
+  orderBy?: Prisma.admin_auditsOrderByWithRelationInput | Prisma.admin_auditsOrderByWithRelationInput[]
+  cursor?: Prisma.admin_auditsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Admin_auditsScalarFieldEnum | Prisma.Admin_auditsScalarFieldEnum[]
 }
 
 /**

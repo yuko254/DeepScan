@@ -166,7 +166,7 @@ type comments {
 input commentsCreateInput {
   content: String!
   post_id: String!
-  comment_parent_id: String # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
+  comment_parent_id: String
 }
 
 input commentsUpdateInput {
@@ -326,29 +326,30 @@ type contents {
   visibility: Visibility!
   created_at: DateTime!
   updated_at: DateTime!
+  is_deleted: Boolean!
   user: users!
   media: [media]!
-  posts: posts
-  stories: stories
-  scans: scans
+  post: posts
+  story: stories
+  scan: scans
   contentHashtags: [content_hashtags]!
 }
 
 input contentsCreateInput {
   visibility: Visibility!
   media: [mediaCreateInput!]
-  posts: postsCreateInput
-  scans: scansCreateInput
-  stories: storiesCreateInput
+  post: postsCreateInput
+  scan: scansCreateInput
+  story: storiesCreateInput
 }
 
 input contentsUpdateInput {
   content_id: String
   visibility: Visibility
   media: [mediaUpdateInput!]
-  posts: postsUpdateInput
-  scans: scansUpdateInput
-  stories: storiesUpdateInput
+  post: postsUpdateInput
+  scan: scansUpdateInput
+  story: storiesUpdateInput
 }
 
 type media {
@@ -508,6 +509,7 @@ type profiles {
   user: users!
   birth_location_details: locations
   current_location_details: locations
+  reportTargets: [report_targets]!
 }
 
 input profilesCreateInput {
@@ -556,6 +558,7 @@ type report_targets {
   post: posts
   comment: comments
   story: stories
+  profile: profiles
   reports: [reports]!
 }
 
@@ -563,6 +566,7 @@ input report_targetsCreateInput {
   post_id: String
   comment_id: String
   story_id: String
+  profile_id: String
 }
 
 type roles {
@@ -667,6 +671,7 @@ type users {
   saved_posts: [saved_posts]!
   story_views: [story_views]!
   contents: [contents]!
+  # adminAudits: [admin_audits]!  // this model has a @Exclude / @ExcludeOnType
 }
 
 input usersCreateInput {

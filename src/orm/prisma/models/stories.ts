@@ -200,7 +200,7 @@ export type storiesScalarWhereWithAggregatesInput = {
 
 export type storiesCreateInput = {
   expires_at?: Date | string | null
-  content: Prisma.contentsCreateNestedOneWithoutStoriesInput
+  content: Prisma.contentsCreateNestedOneWithoutStoryInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutStoryInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutStoryInput
 }
@@ -214,7 +214,7 @@ export type storiesUncheckedCreateInput = {
 
 export type storiesUpdateInput = {
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutStoriesNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutStoryNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutStoryNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutStoryNestedInput
 }
@@ -369,7 +369,7 @@ export type storiesUncheckedUpdateWithoutContentInput = {
 
 export type storiesCreateWithoutReportTargetsInput = {
   expires_at?: Date | string | null
-  content: Prisma.contentsCreateNestedOneWithoutStoriesInput
+  content: Prisma.contentsCreateNestedOneWithoutStoryInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutStoryInput
 }
 
@@ -397,7 +397,7 @@ export type storiesUpdateToOneWithWhereWithoutReportTargetsInput = {
 
 export type storiesUpdateWithoutReportTargetsInput = {
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutStoriesNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutStoryNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutStoryNestedInput
 }
 
@@ -409,7 +409,7 @@ export type storiesUncheckedUpdateWithoutReportTargetsInput = {
 
 export type storiesCreateWithoutStory_viewsInput = {
   expires_at?: Date | string | null
-  content: Prisma.contentsCreateNestedOneWithoutStoriesInput
+  content: Prisma.contentsCreateNestedOneWithoutStoryInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutStoryInput
 }
 
@@ -437,7 +437,7 @@ export type storiesUpdateToOneWithWhereWithoutStory_viewsInput = {
 
 export type storiesUpdateWithoutStory_viewsInput = {
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutStoriesNestedInput
+  content?: Prisma.contentsUpdateOneRequiredWithoutStoryNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutStoryNestedInput
 }
 

@@ -23,7 +23,36 @@ export class ContentRepo extends BaseRepository<typeof prisma.contents> {
     });
   }
 
+  async findPost(post_id: string) {
+    return this.model.findMany({
+      where: { content_id: post_id },
+      include: { post: { include: { post_blocks: true } } },
+      orderBy: { created_at: 'desc' },
+    });
+  }
+
+  async findStory(story_id: string) {
+    return this.model.findMany({
+      where: { content_id: story_id },
+      include: { story: true, media: true },
+      orderBy: { created_at: 'desc' },
+    });
+  }
+
+  async findScan(scan_id: string) {
+    return this.model.findMany({
+      where: { content_id: scan_id },
+      include: { scan: true, media: true },
+      orderBy: { created_at: 'desc' },
+    });
+  }
+
   async updateVisibility(content_id: string, visibility: Visibility) {
     return this.model.update({ where: { content_id }, data: { visibility } });
   }
+
+  async softDelete(content_id: string, deletor?: string) {
+    return this.model.update({ where: { content_id }, data: { is_deleted: true, content: deletor ? `deleted by ${deletor}` : undefined }});
+  }
 }
+

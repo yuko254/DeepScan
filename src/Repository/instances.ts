@@ -1,6 +1,7 @@
 // AUTO-GENERATED
 import * as Repos from './index.js';
 
+export const adminAuditRepo = new Repos.AdminAuditRepo();
 
 export const blockRepo = new Repos.BlockRepo();
 export const categoryRepo = new Repos.CategoryRepo();

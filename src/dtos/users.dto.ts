@@ -4,7 +4,7 @@ import * as zod from "../validations/validation.js";
 import type * as Dto from "./dto.js";
 import type * as prisma from "./prismaRes.dto.js";
 import type { UserFiltersDto } from "./searchFilters.dto.js";
-import { UpsertProfileSchema, toProfileDto, type ProfileDto } from "./profile.dto.js";
+import { CreateProfileSchema, UpsertProfileSchema, toProfileDto, type ProfileDto } from "./profile.dto.js";
 import type { Roles, Users } from '../graphql/graphql.js';
 
 
@@ -40,6 +40,10 @@ export const AdminCreateUserAccountSchema = UserAccountSchema.extend({
   role_id: zod.ID,
 });
 
+export const AdminCreateUserSchema = AdminCreateUserAccountSchema.extend({ 
+  profile: CreateProfileSchema.nullable().optional()
+});
+
 export const UpdateUserAccountSchema = z.object({ 
   username: user.usernameField.optional(),
   email: user.emailField.optional(),
@@ -57,7 +61,7 @@ export const AdminUpdateUserAccountSchema = UpdateUserAccountSchema.extend({
   is_active: z.boolean().optional(),
 });
 
-export const AdminUpdateUserSchema = AdminUpdateUserAccountSchema.extend({ 
+export const AdminUpdateUserSchema = AdminUpdateUserAccountSchema.extend({
   profile: UpsertProfileSchema.nullable().optional(), 
 });
 
@@ -77,11 +81,12 @@ export type GetUsersQuery = z.infer<typeof GetUsersQuerySchema>;
 
 export type UserAccountBody = z.infer<typeof UserAccountSchema>;
 export type AdminCreateUserAccountBody = z.infer<typeof AdminCreateUserAccountSchema>;
+export type AdminCreateUserBody = z.infer<typeof AdminCreateUserSchema>;
 
 export type UpdateUserAccountBody = z.infer<typeof UpdateUserAccountSchema>;
 export type AdminUpdateUserAccountBody = z.infer<typeof AdminUpdateUserAccountSchema>;
-
 export type AdminUpdateUserBody = z.infer<typeof AdminUpdateUserSchema>;
+
 export type ChangePasswordBody = z.infer<typeof ChangePasswordSchema>;
 
 // ─── Response DTOs ────────────────────────────────────────────────────────────

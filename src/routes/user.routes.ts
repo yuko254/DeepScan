@@ -1,5 +1,5 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
-import { UserService } from '../services/user.service.js';
+import { UserService } from '../services/userAccount.service.js';
 import { UpdateUserAccountSchema, ChangePasswordSchema, UserAccountSchema, toUserAccountDto } from '../dtos/users.dto.js';
 import { authenticate, authenticateStrict } from "../middlewares/auth.middleware.js"
 

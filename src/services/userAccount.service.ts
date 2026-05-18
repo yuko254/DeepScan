@@ -19,7 +19,7 @@ export class UserService {
   async updateAccount(userID: string, input: user.UpdateUserAccountBody | user.AdminUpdateUserAccountBody, tx?: Prisma.TransactionClient) {
     const user = deepClean(input)
     if (Object.keys(user).length === 0)
-      return this.getAccount(userID, tx);
+      return await this.getAccount(userID, tx);
 
     return await userRepo.withTx(tx).update({
       where: { user_id: userID },

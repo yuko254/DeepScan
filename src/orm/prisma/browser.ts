@@ -198,6 +198,11 @@ export type story_views = Prisma.story_viewsModel
  */
 export type users = Prisma.usersModel
 /**
+ * Model admin_audits
+ * 
+ */
+export type admin_audits = Prisma.admin_auditsModel
+/**
  * Model hashtag_usage
  * 
  */
