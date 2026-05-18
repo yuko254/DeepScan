@@ -38,6 +38,7 @@ router.patch('/me', authenticate, async (req: Request, res: Response, next: Next
 /**
  * DELETE /users/me
  * Body: { username, email, password }
+ * Response: 204 No Content
  */
 router.delete('/me', authenticateStrict, async (req: Request, res: Response, next: NextFunction) => {
   try {

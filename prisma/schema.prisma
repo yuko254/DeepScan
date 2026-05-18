@@ -167,7 +167,7 @@ model comments {
 
   user                   users?          @relation(fields: [user_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
   post                   posts           @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
-  comment                comments?       @relation("commentsTocomments", fields: [comment_parent_id], references: [comment_id], onDelete: SetNull, onUpdate: NoAction)
+  comment                comments?       @relation("commentsTocomments", fields: [comment_parent_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
 
   replies                comments[]      @relation("commentsTocomments")
 

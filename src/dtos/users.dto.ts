@@ -52,7 +52,9 @@ export const UpdateUserAccountSchema = z.object({
 
 export const AdminUpdateUserAccountSchema = UpdateUserAccountSchema.extend({
   password: user.passwordField.optional(),
-  role_id: zod.ID.optional(), 
+  role_id: zod.ID.optional(),
+  is_banned: z.boolean().optional(),
+  is_active: z.boolean().optional(),
 });
 
 export const AdminUpdateUserSchema = AdminUpdateUserAccountSchema.extend({ 

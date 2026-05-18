@@ -2,6 +2,8 @@ import { Router, type Request, type Response, type NextFunction } from 'express'
 import { AdminService } from "../services/admin.service.js";
 import { GetUsersQuerySchema, GetUserParam, AdminUpdateUserSchema, AdminCreateUserAccountSchema } from '../dtos/users.dto.js';
 import { type AdminUsersAccountsPageDto, toAdminUserAccountDto, toAdminUserDto } from '../dtos/users.dto.js';
+import { GetReportParam, GetReportsQuerySchema, AdminUpdateReportSchema, type ReportsPageDto, type ReportDto, toReportListItemDto, toReportDto } from '../dtos/report.dto.js';
+import { GetPostParam, GetCommentParam, GetStoryParam } from '../dtos/content.dto.js';
 
 const router = Router();
 
@@ -84,7 +86,7 @@ router.patch('/users/:user_id', async (req: Request, res: Response, next: NextFu
 
 /**
  * DELETE /admin/users/:user_id
- * Response: { UserDto }
+ * Response: 204 No Content
  */
 router.delete('/users/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -96,5 +98,132 @@ router.delete('/users/:user_id', async (req: Request, res: Response, next: NextF
   }
 });
 
+// ─── Reports ──────────────────────────────────────────────────────────────────
+
+/**
+ * GET /admin/reports?page=1&limit=20&status=pending&reporter=uuid&resolver=uuid&reported=uuid
+ * Response: { reports: ReportListItem[], pagination: PageDto }
+ */
+router.get('/reports', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const query = GetReportsQuerySchema.parse(req.query);
+    const result = await adminService.getReports(query);
+
+    const Res: ReportsPageDto = {
+      reports: result.reports.map(toReportListItemDto),
+      pagination: result.pagination
+    };
+
+    res.json(Res);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /admin/reports/:report_id
+ * Response: { ReportDto }
+ */
+router.get('/reports/:report_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { report_id } = GetReportParam.parse(req.params);
+    const report = await adminService.getReport(report_id);
+
+    const Res: ReportDto = toReportDto(report);
+
+    res.json(Res);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * PATCH /admin/reports/:report_id
+ * Body: { resolver_id: UUID, status: ReportStatus }
+ * Response: { ReportDto }
+ */
+router.patch('/reports/:report_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { report_id } = GetReportParam.parse(req.params);
+    const input = AdminUpdateReportSchema.parse(req.body);
+    await adminService.resolveReport(report_id, input.resolver_id, input);
+    const report = await adminService.getReport(report_id);
+
+    const Res: ReportDto = toReportDto(report);
+
+    res.json(Res);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /admin/reports/stats
+ * Response: { [ReportStatus]: number }
+ */
+router.get('/reports/stats', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const stats = await adminService.getReportStats();
+    res.json(stats);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /admin/stats/overview
+ * Response: { users: number, posts: number, comments: number, stories: number, reports: number }
+ */
+router.get('/stats/overview', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const stats = await adminService.getAdminStats();
+    res.json(stats);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+/**
+ * DELETE /admin/posts/:post_id
+ * Response: 204 No Content
+ */
+router.delete('/posts/:post_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { post_id } = GetPostParam.parse(req.params);
+    await adminService.deletePost(post_id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /admin/comments/:comment_id
+ * Response: 204 No Content
+ */
+router.delete('/comments/:comment_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { comment_id } = GetCommentParam.parse(req.params);
+    await adminService.deleteComment(comment_id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /admin/stories/:story_id
+ * Response: 204 No Content
+ */
+router.delete('/stories/:story_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { story_id } = GetStoryParam.parse(req.params);
+    await adminService.deleteStory(story_id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default router;

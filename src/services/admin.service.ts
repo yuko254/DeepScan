@@ -2,7 +2,7 @@ import { Prisma, prisma } from "../config/prisma.js";
 import { ReportStatus } from "@prisma/client";
 import bcrypt from "bcrypt";
 
-import { userRepo, roleRepo, reportRepo } from "../Repository/instances.js";
+import { userRepo, roleRepo, reportRepo, postRepo, commentRepo, storyRepo } from "../Repository/instances.js";
 import { deepClean } from "../dtos/dto.js";
 import * as user from "../dtos/users.dto.js";
 import * as profile from "../dtos/profile.dto.js";
@@ -78,12 +78,28 @@ export class AdminService {
   async updateUser(userID: string, input: user.AdminUpdateUserBody) {
     const data = deepClean(input);
     if (Object.keys(data).length === 0) return this.getUser(userID);
-    const { profile, ...account } = data
+    const { profile, is_banned, is_active, ...account } = data
 
     return await prisma.$transaction(async (tx) => {
+      // Build update data for account (including is_banned, is_active, role_id if present)
+      const accountUpdateData: any = {};
+      if (Object.keys(account).length) {
+        Object.assign(accountUpdateData, account);
+      }
+      if (is_banned !== undefined) {
+        accountUpdateData.is_banned = is_banned;
+      }
+      if (is_active !== undefined) {
+        accountUpdateData.is_active = is_active;
+      }
+
       const [updatedAccount, updatedProfile] = await Promise.all([
-        Object.keys(account).length
-          ? userService.updateAccount(userID, account as user.AdminUpdateUserAccountBody, tx)
+        Object.keys(accountUpdateData).length
+          ? userRepo.withTx(tx).update({
+              where: { user_id: userID },
+              data: accountUpdateData,
+              include: { role: true }
+            })
           : userService.getAccount(userID),
         profile
           ? 'profile_id' in profile
@@ -111,40 +127,6 @@ export class AdminService {
       })
   }
 
-  // ─── Ban / Deactivate ─────────────────────────────────────────────────────────
- 
-  async banUser(userID: string) {
-    return await userRepo.ban(userID).then(() => userService.getAccount(userID)).catch((e) => {
-      if (e instanceof Prisma.PrismaClientKnownRequestError)
-        if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
-      throw e;
-    });
-  }
- 
-  async unbanUser(userID: string) {
-    return await userRepo.unban(userID).then(() => userService.getAccount(userID)).catch((e) => {
-      if (e instanceof Prisma.PrismaClientKnownRequestError)
-        if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
-      throw e;
-    });
-  }
- 
-  async deactivateUser(userID: string) {
-    return await userRepo.deactivate(userID).then(() => userService.getAccount(userID)).catch((e) => {
-      if (e instanceof Prisma.PrismaClientKnownRequestError)
-        if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
-      throw e;
-    });
-  }
- 
-  async reactivateUser(userID: string) {
-    return await userRepo.reactivate(userID).then(() => userService.getAccount(userID)).catch((e) => {
-      if (e instanceof Prisma.PrismaClientKnownRequestError)
-        if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
-      throw e;
-    });
-  }
-
   // ─── Roles ────────────────────────────────────────────────────────────────────
  
   async getRoles() {
@@ -161,17 +143,24 @@ export class AdminService {
     });
   }
  
-  async assignRole(userID: string, roleID: bigint) {
-    await roleRepo.findById(roleID).then(r => {
-      if (!r) throw new AppError.NotFoundError('Role not found');
-    });
-    return await roleRepo.assignToUser(userID, roleID)
-      .then(() => userService.getAccount(userID))
-      .catch((e) => {
-        if (e instanceof Prisma.PrismaClientKnownRequestError)
-          if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
-        throw e;
-      });
+  // ─── Admin Stats ──────────────────────────────────────────────────────────────
+
+  async getAdminStats() {
+    const [usersCount, postsCount, commentsCount, storiesCount, reportsCount] = await Promise.all([
+      prisma.users.count(),
+      prisma.posts.count(),
+      prisma.comments.count(),
+      prisma.stories.count(),
+      reportRepo.countByStatus(),
+    ]);
+
+    return {
+      users: usersCount,
+      posts: postsCount,
+      comments: commentsCount,
+      stories: storiesCount,
+      reports: reportsCount,
+    };
   }
 
   // ─── Reports ──────────────────────────────────────────────────────────────────
@@ -211,4 +200,31 @@ export class AdminService {
       throw e;
     });
   }
+
+  // ─── Content Moderation ──────────────────────────────────────────────────────
+
+  async deletePost(postID: string, tx?: Prisma.TransactionClient) {
+    await postRepo.withTx(tx).delete({ where: { content_id: postID } }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError)
+        if (e.code === 'P2025') throw new AppError.NotFoundError('Post not found');
+      throw e;
+    });
+  }
+
+  async deleteComment(commentID: string, tx?: Prisma.TransactionClient) {
+    await commentRepo.withTx(tx).softDelete(commentID, "admin").catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError)
+        if (e.code === 'P2025') throw new AppError.NotFoundError('Comment not found');
+      throw e;
+    });
+  }
+
+  async deleteStory(storyID: string, tx?: Prisma.TransactionClient) {
+    await storyRepo.withTx(tx).delete({ where: { content_id: storyID } }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError)
+        if (e.code === 'P2025') throw new AppError.NotFoundError('Story not found');
+      throw e;
+    });
+  }
 }
+
