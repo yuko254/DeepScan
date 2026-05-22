@@ -7,7 +7,7 @@ import type { Profiles } from '../graphql/graphql.js';
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
 export const GetProfileParam = z.strictObject({
-  profile_id: zod.UUID,
+  profile_id: zod.byId.uuid('profileId'),
 });
 
 export const CreateProfileSchema = z.strictObject({
@@ -36,7 +36,7 @@ export const UpdateProfileSchema = z.strictObject({
 
 export const UpsertProfileSchema = z.union([
   CreateProfileSchema,
-  z.strictObject({ profile_id: zod.UUID }).and(UpdateProfileSchema),
+  z.strictObject({ profile_id: zod.byId.uuid('profileId') }).and(UpdateProfileSchema),
 ]);
 
 // ─── Inferred request types ───────────────────────────────────────────────────

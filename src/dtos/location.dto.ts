@@ -11,20 +11,20 @@ import type { cities, countries } from '@prisma/client';
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
 export const GetLocationParam = z.strictObject({
-  location_id: zod.UUID,
+  location_id: zod.byId.uuid('locationId'),
 });
 
 export const CreateLocationSchema = z.strictObject({
-  country_id: zod.ID,
-  city_id: zod.ID.nullable(),
+  country_id: zod.byId.number('countryId'),
+  city_id: zod.byId.number('cityId').nullable(),
   lat: z.coerce.number().nullable(),
   lng: z.coerce.number().nullable(),
   place_id: z.string().nullable(),
 });
 
 const UpdateLocationSchema = z.strictObject({
-  country_id: zod.ID.optional(),
-  city_id: zod.ID.nullable().optional(),
+  country_id: zod.byId.number('countryId').optional(),
+  city_id: zod.byId.number('cityId').nullable().optional(),
   lat: z.coerce.number().nullable().optional(),
   lng: z.coerce.number().nullable().optional(),
   place_id: z.string().nullable().optional(),
@@ -32,11 +32,11 @@ const UpdateLocationSchema = z.strictObject({
 
 export const UpsertLocationSchema = z.union([
   CreateLocationSchema,
-  z.strictObject({ location_id: zod.UUID }).and(UpdateLocationSchema),
+  z.strictObject({ location_id: zod.byId.uuid('locationId') }).and(UpdateLocationSchema),
 ])
 
 export const GetCountryParam = z.strictObject({
-  country_id: zod.ID
+  country_id: zod.byId.number('countryId')
 });
 
 export const GetCountriesQuerySchema = z.strictObject({
@@ -57,14 +57,14 @@ export const UpdateCountrySchema = z.strictObject({
 });
 
 export const GetCityParam = z.strictObject({
-  city_id: zod.ID
+  city_id: zod.byId.number('cityId')
 });
 
 export const GetCitiesQuerySchema = z.strictObject({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
   search: z.string().optional(),
-  country_id: zod.ID.optional(),
+  country_id: zod.byId.number('countryId').optional(),
 }).transform(({ search, country_id, ...rest }) => ({
   ...rest,
   filters: { search, country_id } as CityFiltersDto,
@@ -72,12 +72,12 @@ export const GetCitiesQuerySchema = z.strictObject({
 
 export const CreateCitySchema = z.strictObject({
   name: z.string().max(255, 'Name must be at most 255 characters'),
-  country_id: zod.ID,
+  country_id: zod.byId.number('countryId'),
 });
 
 export const UpdateCitySchema = z.strictObject({
   name: z.string().max(255, 'Name must be at most 255 characters').optional(),
-  country_id: zod.ID.optional(),
+  country_id: zod.byId.number('countryId').optional(),
 });
 
 // ─── Inferred request types ───────────────────────────────────────────────────

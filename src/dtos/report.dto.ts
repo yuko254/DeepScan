@@ -8,34 +8,34 @@ import  { type UserAccountDto, toUserAccountDto } from './users.dto.js';
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
 export const GetReportParam = z.strictObject({
-  report_id: zod.UUID,
+  report_id: zod.byId.uuid('reportId'),
 });
 
 export const GetReportsQuerySchema = z.strictObject({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
   status: z.string().optional(),
-  reporter: zod.UUID.optional(),
-  resolver: zod.UUID.optional(),
-  reported: zod.UUID.optional(),
+  reporter: zod.byId.uuid('reporterId').optional(),
+  resolver: zod.byId.uuid('resolverId').optional(),
+  reported: zod.byId.uuid('reporetedId').optional(),
 }).transform(({ status, reporter, resolver, reported, ...rest }) => ({
   ...rest,
   filters: { status, reporter_id: reporter, resolver_id: resolver, report_target_id: reported } as ReportFiltersDto,
 }));
 
 export const ReportSchema = z.strictObject({ 
-    report_target_id: zod.UUID,
+    report_target_id: zod.byId.uuid('report_target_id'),
     reason: z.string().min(20),
 });
 
 export const UpdateReportSchema = z.strictObject({ 
-    report_id: zod.UUID,
+    report_id: zod.byId.uuid('reportId'),
     reason: z.string().min(20).optional(),
 });
 
 export const AdminUpdateReportSchema = z.strictObject({ 
-    report_id: zod.UUID,
-    resolver_id: zod.UUID,
+    report_id: zod.byId.uuid('reportId'),
+    resolver_id: zod.byId.uuid('resolverId'),
     status: z.string(),
 });
 

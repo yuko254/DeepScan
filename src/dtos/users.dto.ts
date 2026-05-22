@@ -11,14 +11,14 @@ import type { Roles, Users } from '../graphql/graphql.js';
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
 export const GetUserParam = z.strictObject({
-  user_id: zod.UUID,
+  user_id: zod.byId.uuid('userId'),
 });
 
 export const GetUsersQuerySchema = z.strictObject({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
   search: z.string().optional(),
-  role: zod.ID.optional(),
+  role: zod.byId.number('roleId').optional(),
   isActive: z.boolean().optional(),
   isBanned: z.boolean().optional(),
 }).transform(({ role, search, isActive, isBanned, ...rest }) => ({
@@ -33,7 +33,7 @@ export const UserAccountSchema = z.strictObject({
 });
 
 export const AdminCreateUserAccountSchema = UserAccountSchema.extend({ 
-  role_id: zod.ID,
+  role_id: zod.byId.number('roleId'),
 });
 
 export const AdminCreateUserSchema = AdminCreateUserAccountSchema.extend({ 
@@ -47,7 +47,7 @@ export const UpdateUserAccountSchema = z.strictObject({
 
 export const AdminUpdateUserAccountSchema = UpdateUserAccountSchema.extend({
   password: user.passwordField.optional(),
-  role_id: zod.ID.optional(),
+  role_id: zod.byId.number('roleId').optional(),
   is_banned: z.boolean().optional(),
   is_active: z.boolean().optional(),
 });
@@ -62,7 +62,7 @@ export const ChangePasswordSchema = z.strictObject({
 });
 
 export const RoleSchema = z.strictObject({
-  role_id: zod.ID,
+  role_id: zod.byId.number('roleId'),
   role_name: z.string().min(1),
 });
 
