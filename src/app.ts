@@ -6,6 +6,7 @@ import * as env from "./config/env.js";
 
 import RedisClient from './config/redis.js';
 import { prisma } from './config/prisma.js';
+import { initBucket } from './config/MinIo.js'
 import tyex from 'tyex';
 import nodox from 'nodox-cli';
 import { apiReference } from '@scalar/express-api-reference';
@@ -13,12 +14,15 @@ import { apiReference } from '@scalar/express-api-reference';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import uploadsRoutes from './routes/uploads.routes.js';
 import { graphqlServer } from "./graphql/server.js";
 
 import { errorMiddleware } from './middlewares/error.middleware.js';
-import { authenticateStrict, requireRole, authenticate } from "./middlewares/auth.middleware.js"
+import { authenticateSoft, authenticateStrict,  requireRole } from "./middlewares/auth.middleware.js"
 
 const app = express();
+await initBucket()
+await graphqlServer.start();
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors({
@@ -62,10 +66,10 @@ app.get('/health', async (req, res, next) => {
     res.status(isHealthy ? 200 : 503).json(healthStatus);
 });
 
-await graphqlServer.start();
-app.use('/graphql', authenticate,
+app.use('/graphql', authenticateSoft,
   expressMiddleware(graphqlServer, {
     context: async ({ req }) => ({
+      req: req,
       user: req.user ?? null,
       prisma,
     }),
@@ -75,8 +79,7 @@ app.use('/graphql', authenticate,
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/admin', authenticateStrict, requireRole("admin", "moderator"), adminRoutes);
-
-
+app.use('/upload', authenticateStrict, uploadsRoutes);
 
 // tyex OpenAPI spec generation
 app.get('/openapi.json', (req, res) => {

@@ -1,13 +1,12 @@
-import { Prisma } from "../config/prisma.js";
+import { Prisma } from "../../config/prisma.js";
 
-import { locationRepo, cityRepo, countryRepo } from "../Repository/instances.js";
-import { deepClean } from "../dtos/dto.js";
+import { locationRepo, cityRepo, countryRepo } from "../../Repository/instances.js";
+import { deepClean } from "../../dtos/dto.js";
 
-import * as location from "../dtos/location.dto.js"
-import * as AppError from '../types/appErrors.types.js';
+import * as location from "../../dtos/location.dto.js"
+import * as AppError from '../../types/appErrors.types.js';
 
 export class LocationService {
-  constructor() { }
 
   // ─── Location ──────────────────────────────────────────────────────────────────
 
@@ -74,9 +73,7 @@ export class LocationService {
   }
 
   async deleteLocation(locationID: string, tx?: Prisma.TransactionClient) {
-    await locationRepo.withTx(tx).delete({
-      where: { location_id: locationID }
-    }).catch((e) => {
+    await locationRepo.withTx(tx).deleteById(locationID).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') throw new AppError.NotFoundError("couldn't find specified location ID");
         if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete location because it is still in use')
@@ -104,7 +101,7 @@ export class LocationService {
     };
   }
 
-  async getCountry(countryID: bigint) {
+  async getCountry(countryID: number) {
     const res = await countryRepo.findUnique({ where: { country_id: countryID } });
     if (!res) throw new AppError.NotFoundError('Country not found');
     return res;
@@ -118,7 +115,7 @@ export class LocationService {
     });
   }
 
-  async updateCountry(countryID: bigint, input: location.UpdateCountryBody, tx?: Prisma.TransactionClient) {
+  async updateCountry(countryID: number, input: location.UpdateCountryBody, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
     if (Object.keys(data).length === 0) return this.getCountry(countryID);
 
@@ -134,8 +131,8 @@ export class LocationService {
     });
   }
 
-  async deleteCountry(countryID: bigint, tx?: Prisma.TransactionClient) {
-    await countryRepo.withTx(tx).delete({ where: { country_id: countryID } }).catch((e) => {
+  async deleteCountry(countryID: number, tx?: Prisma.TransactionClient) {
+    await countryRepo.withTx(tx).deleteById(countryID).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') throw new AppError.NotFoundError('Country not found');
         if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete country because it is still in use');
@@ -164,7 +161,7 @@ export class LocationService {
     };
   }
 
-  async getCity(cityID: bigint) {
+  async getCity(cityID: number) {
     const res = await cityRepo.findUnique({ where: { city_id: cityID } });
     if (!res) throw new AppError.NotFoundError('City not found');
     return res;
@@ -180,7 +177,7 @@ export class LocationService {
     });
   }
 
-  async updateCity(cityID: bigint, input: location.UpdateCityBody, tx?: Prisma.TransactionClient) {
+  async updateCity(cityID: number, input: location.UpdateCityBody, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
     if (Object.keys(data).length === 0) return this.getCity(cityID);
 
@@ -197,8 +194,8 @@ export class LocationService {
     });
   }
 
-  async deleteCity(cityID: bigint, tx?: Prisma.TransactionClient) {
-    await cityRepo.withTx(tx).delete({ where: { city_id: cityID } }).catch((e) => {
+  async deleteCity(cityID: number, tx?: Prisma.TransactionClient) {
+    await cityRepo.withTx(tx).deleteById(cityID).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') throw new AppError.NotFoundError('City not found');
         if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete city because it is still in use');
@@ -209,9 +206,11 @@ export class LocationService {
 
   // ─── Helpers ─────────────────────────────────────────────────────────────────────
 
-  async checkCityCountry(cityID: bigint, countryID: bigint, tx?: Prisma.TransactionClient) {
+  private async checkCityCountry(cityID: number, countryID: number, tx?: Prisma.TransactionClient) {
     const city = await cityRepo.withTx(tx).findById(cityID);
     if (!city) throw new AppError.NotFoundError("couldn't find specified city ID");
     if (city.country_id !== countryID) throw new AppError.ValidationError("this city doesn't belong in this country");
   }
 }
+
+export const locationService = new LocationService();

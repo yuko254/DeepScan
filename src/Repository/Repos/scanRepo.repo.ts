@@ -11,7 +11,7 @@ export class ScanRepo extends BaseRepository<typeof prisma.scans> {
   async findByUser(user_id: string) {
     return this.model.findMany({
       where: { content: { user_id } },
-      include: { content: { include: { media: true } }, location: true },
+      include: { content: true, location: true },
       orderBy: { timestamp: 'desc' },
     });
   }

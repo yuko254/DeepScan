@@ -1,0 +1,24 @@
+extend type Query {
+  storyViewers(storyId: ID!): [users!]!
+  activeStories: [stories!]!
+}
+
+extend type Mutation {
+  viewStory(storyId: ID!): StoryViewPayload!
+}
+
+type StoryViewPayload {
+  viewed: Boolean!
+  storyId: ID!
+  viewCount: Int!
+}
+
+extend type Query {
+  postComments(postId: ID!, cursor: String, limit: Int): CommentsResult!
+}
+
+type CommentsResult {
+  comments: [comments!]!
+  nextCursor: String
+  hasMore: Boolean!
+}

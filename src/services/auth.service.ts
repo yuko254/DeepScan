@@ -8,19 +8,19 @@ import { sendPasswordResetEmail } from '../utils/email.util.js';
 
 import { userRepo } from '../Repository/instances.js';
 
+import { toUserAccountDto } from "../dtos/users.dto.js";
 import * as auth from '../dtos/auth.dto.js';
 import * as jwt from '../dtos/jwt.dto.js';
 import * as AppError from '../types/appErrors.types.js';
 import * as env from '../config/env.js';
-import type { UserAccountDto } from "../dtos/users.dto.js";
 
-const SALT_ROUNDS = env.SALT_ROUNDS;
-const redis = RedisClient.getInstance()
+
 export class AuthService {
-  constructor() { }
+  private redis = RedisClient.getInstance();
+  private SALT_ROUNDS = env.SALT_ROUNDS;
 
   async register(input: auth.RegisterBody) {
-    const hashed = await bcrypt.hash(input.password, SALT_ROUNDS);
+    const hashed = await bcrypt.hash(input.password, this.SALT_ROUNDS);
 
     const user = await userRepo.create({
       data: { username: input.username, email: input.email, password: hashed, },
@@ -32,9 +32,9 @@ export class AuthService {
       throw e;
     });
 
-    const tokens = generateTokens(getTokenUser(user), input.stayLoggedIn ?? false);
+    const tokens = generateTokens(toUserAccountDto(user), input.stayLoggedIn ?? false);
     const key = `refresh:${user.user_id}:${tokens.jti}`;
-    await redis.set(key, "active", "EX", tokens.refreshTTLSeconds);
+    await this.redis.set(key, "active", "EX", tokens.refreshTTLSeconds);
 
     return { user, tokens };
   }
@@ -53,9 +53,9 @@ export class AuthService {
 
     if (user.is_banned) throw new AppError.ForbiddenError('Your account has been banned');
 
-    const tokens = generateTokens(getTokenUser(user), input.stayLoggedIn ?? false);
+    const tokens = generateTokens(toUserAccountDto(user), input.stayLoggedIn ?? false);
     const key = `refresh:${user.user_id}:${tokens.jti}`;
-    await redis.set(key, "active", "EX", tokens.refreshTTLSeconds);
+    await this.redis.set(key, "active", "EX", tokens.refreshTTLSeconds);
 
     return { user, tokens };
   }
@@ -71,9 +71,9 @@ export class AuthService {
     const user = await userRepo.findAccount(payload.user_id)
     if (!user) throw new AppError.NotFoundError('User no longer exists');
     if (user.is_banned) throw new AppError.ForbiddenError('Your account has been banned');
- 
+
     const key = `refresh:${payload.user_id}:${payload.jti}`;
-    const state = await redis.get(key);
+    const state = await this.redis.get(key);
 
     // Key missing → token expired or never existed → just reject
     if (state === null) {
@@ -88,11 +88,11 @@ export class AuthService {
 
     // Rotation: issue new tokens, mark old key
     const RemainingSeconds = payload.exp! - Math.floor(Date.now() / 1000);
-    await redis.set(key, 'consumed', 'EX', RemainingSeconds);
+    await this.redis.set(key, 'consumed', 'EX', RemainingSeconds);
 
-    const newTokens = generateTokens(getTokenUser(user), false);
+    const newTokens = generateTokens(toUserAccountDto(user), false);
     const newKey = `refresh:${user.user_id}:${newTokens.jti}`;
-    await redis.set(newKey, "active", 'EX', newTokens.refreshTTLSeconds);
+    await this.redis.set(newKey, "active", 'EX', newTokens.refreshTTLSeconds);
 
     return newTokens;
   }
@@ -101,7 +101,7 @@ export class AuthService {
     try {
       const payload = verifyRefreshToken(refresh_token);
       const key = `refresh:${payload.user_id}:${payload.jti}`;
-      await redis.del(key);
+      await this.redis.del(key);
     } catch {
       // token is already invalid — nothing to revoke
     }
@@ -116,7 +116,7 @@ export class AuthService {
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const key = `password_reset:${user.user_id}:${hashedToken}`;
-    await redis.set(key, '1', 'EX', env.PASSWORD_RESET_TOKEN_IN_MIN);
+    await this.redis.set(key, '1', 'EX', env.PASSWORD_RESET_TOKEN_IN_MIN);
 
     await sendPasswordResetEmail(user.email, token);
   }
@@ -129,13 +129,13 @@ export class AuthService {
     const hashedToken = crypto.createHash('sha256').update(input.token).digest('hex');
     const key = `password_reset:${user.user_id}:${hashedToken}`;
 
-    const exists = await redis.exists(key);
+    const exists = await this.redis.exists(key);
     if (!exists) throw new AppError.NotFoundError('Invalid or expired token');
 
     // Token is valid – delete it immediately (single‑use)
-    await redis.del(key);
+    await this.redis.del(key);
 
-    const hashedPassword = await bcrypt.hash(input.new_password, SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(input.new_password, this.SALT_ROUNDS);
     await userRepo.update({ where: { user_id: user.user_id }, data: { password: hashedPassword } });
 
     // Revoke all existing refresh tokens to force re‑login on all devices
@@ -144,7 +144,7 @@ export class AuthService {
 
   async revokeAllUserTokens(userId: string, context: string) {
     const keys: string[] = [];
-    const stream = redis.scanStream({
+    const stream = this.redis.scanStream({
       match: `${context}:${userId}:*`,
       count: 100,
     });
@@ -156,17 +156,9 @@ export class AuthService {
 
     // Delete them in one pipeline if any exist
     if (keys.length > 0) {
-      const pipeline = redis.pipeline();
+      const pipeline = this.redis.pipeline();
       keys.forEach(key => pipeline.del(key));
       await pipeline.exec();
     }
   }
-}
-
-function getTokenUser(user: any) {
-  return {
-    user_id: user.user_id,
-    username: user.username,
-    role: user.role,
-  } as UserAccountDto
 }

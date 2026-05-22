@@ -18,11 +18,11 @@ export class LocationRepo extends BaseRepository<typeof prisma.locations> {
     });
   }
 
-  async findByCountry(country_id: bigint) {
+  async findByCountry(country_id: number) {
     return this.model.findMany({ where: { country_id } });
   }
 
-  async findByCity(city_id: bigint) {
+  async findByCity(city_id: number) {
     return this.model.findMany({ where: { city_id } });
   }
 }

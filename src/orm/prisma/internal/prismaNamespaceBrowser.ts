@@ -74,7 +74,6 @@ export const ModelName = {
   messages: 'messages',
   notifications: 'notifications',
   notification_targets: 'notification_targets',
-  post_blocks: 'post_blocks',
   post_likes: 'post_likes',
   post_tags: 'post_tags',
   posts: 'posts',
@@ -276,6 +275,7 @@ export const ContentsScalarFieldEnum = {
   user_id: 'user_id',
   type: 'type',
   visibility: 'visibility',
+  content_map: 'content_map',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted'
@@ -286,7 +286,6 @@ export type ContentsScalarFieldEnum = (typeof ContentsScalarFieldEnum)[keyof typ
 
 export const MediaScalarFieldEnum = {
   media_id: 'media_id',
-  content_id: 'content_id',
   storage_path: 'storage_path',
   type: 'type'
 } as const
@@ -346,19 +345,6 @@ export const Notification_targetsScalarFieldEnum = {
 } as const
 
 export type Notification_targetsScalarFieldEnum = (typeof Notification_targetsScalarFieldEnum)[keyof typeof Notification_targetsScalarFieldEnum]
-
-
-export const Post_blocksScalarFieldEnum = {
-  block_id: 'block_id',
-  post_id: 'post_id',
-  media_id: 'media_id',
-  type: 'type',
-  position: 'position',
-  content: 'content',
-  created_at: 'created_at'
-} as const
-
-export type Post_blocksScalarFieldEnum = (typeof Post_blocksScalarFieldEnum)[keyof typeof Post_blocksScalarFieldEnum]
 
 
 export const Post_likesScalarFieldEnum = {

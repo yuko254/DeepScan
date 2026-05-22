@@ -31,12 +31,12 @@ export type UsersAvgAggregateOutputType = {
 }
 
 export type UsersSumAggregateOutputType = {
-  role_id: bigint | null
+  role_id: number | null
 }
 
 export type UsersMinAggregateOutputType = {
   user_id: string | null
-  role_id: bigint | null
+  role_id: number | null
   username: string | null
   email: string | null
   password: string | null
@@ -48,7 +48,7 @@ export type UsersMinAggregateOutputType = {
 
 export type UsersMaxAggregateOutputType = {
   user_id: string | null
-  role_id: bigint | null
+  role_id: number | null
   username: string | null
   email: string | null
   password: string | null
@@ -205,7 +205,7 @@ export type usersGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type UsersGroupByOutputType = {
   user_id: string
-  role_id: bigint | null
+  role_id: number | null
   username: string
   email: string
   password: string
@@ -240,7 +240,7 @@ export type usersWhereInput = {
   OR?: Prisma.usersWhereInput[]
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   user_id?: Prisma.UuidFilter<"users"> | string
-  role_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
+  role_id?: Prisma.IntNullableFilter<"users"> | number | null
   username?: Prisma.StringFilter<"users"> | string
   email?: Prisma.StringFilter<"users"> | string
   password?: Prisma.StringFilter<"users"> | string
@@ -315,7 +315,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   OR?: Prisma.usersWhereInput[]
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
-  role_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
+  role_id?: Prisma.IntNullableFilter<"users"> | number | null
   password?: Prisma.StringFilter<"users"> | string
   is_active?: Prisma.BoolFilter<"users"> | boolean
   is_banned?: Prisma.BoolFilter<"users"> | boolean
@@ -368,7 +368,7 @@ export type usersScalarWhereWithAggregatesInput = {
   OR?: Prisma.usersScalarWhereWithAggregatesInput[]
   NOT?: Prisma.usersScalarWhereWithAggregatesInput | Prisma.usersScalarWhereWithAggregatesInput[]
   user_id?: Prisma.UuidWithAggregatesFilter<"users"> | string
-  role_id?: Prisma.BigIntNullableWithAggregatesFilter<"users"> | bigint | number | null
+  role_id?: Prisma.IntNullableWithAggregatesFilter<"users"> | number | null
   username?: Prisma.StringWithAggregatesFilter<"users"> | string
   email?: Prisma.StringWithAggregatesFilter<"users"> | string
   password?: Prisma.StringWithAggregatesFilter<"users"> | string
@@ -414,7 +414,7 @@ export type usersCreateInput = {
 
 export type usersUncheckedCreateInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -482,7 +482,7 @@ export type usersUpdateInput = {
 
 export type usersUncheckedUpdateInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -516,7 +516,7 @@ export type usersUncheckedUpdateInput = {
 
 export type usersCreateManyInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -539,7 +539,7 @@ export type usersUpdateManyMutationInput = {
 
 export type usersUncheckedUpdateManyInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1018,7 +1018,7 @@ export type usersCreateWithoutBlocked_usersInput = {
 
 export type usersUncheckedCreateWithoutBlocked_usersInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -1089,7 +1089,7 @@ export type usersCreateWithoutBlocked_bysInput = {
 
 export type usersUncheckedCreateWithoutBlocked_bysInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -1171,7 +1171,7 @@ export type usersUpdateWithoutBlocked_usersInput = {
 
 export type usersUncheckedUpdateWithoutBlocked_usersInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1248,7 +1248,7 @@ export type usersUpdateWithoutBlocked_bysInput = {
 
 export type usersUncheckedUpdateWithoutBlocked_bysInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1314,7 +1314,7 @@ export type usersCreateWithoutChat_participantsInput = {
 
 export type usersUncheckedCreateWithoutChat_participantsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -1396,7 +1396,7 @@ export type usersUpdateWithoutChat_participantsInput = {
 
 export type usersUncheckedUpdateWithoutChat_participantsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1462,7 +1462,7 @@ export type usersCreateWithoutComment_likesInput = {
 
 export type usersUncheckedCreateWithoutComment_likesInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -1544,7 +1544,7 @@ export type usersUpdateWithoutComment_likesInput = {
 
 export type usersUncheckedUpdateWithoutComment_likesInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1610,7 +1610,7 @@ export type usersCreateWithoutCommentsInput = {
 
 export type usersUncheckedCreateWithoutCommentsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -1692,7 +1692,7 @@ export type usersUpdateWithoutCommentsInput = {
 
 export type usersUncheckedUpdateWithoutCommentsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1758,7 +1758,7 @@ export type usersCreateWithoutDevice_tokensInput = {
 
 export type usersUncheckedCreateWithoutDevice_tokensInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -1840,7 +1840,7 @@ export type usersUpdateWithoutDevice_tokensInput = {
 
 export type usersUncheckedUpdateWithoutDevice_tokensInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1906,7 +1906,7 @@ export type usersCreateWithoutFollowingInput = {
 
 export type usersUncheckedCreateWithoutFollowingInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -1977,7 +1977,7 @@ export type usersCreateWithoutFollowersInput = {
 
 export type usersUncheckedCreateWithoutFollowersInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -2059,7 +2059,7 @@ export type usersUpdateWithoutFollowingInput = {
 
 export type usersUncheckedUpdateWithoutFollowingInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2136,7 +2136,7 @@ export type usersUpdateWithoutFollowersInput = {
 
 export type usersUncheckedUpdateWithoutFollowersInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2202,7 +2202,7 @@ export type usersCreateWithoutFollow_RequestersInput = {
 
 export type usersUncheckedCreateWithoutFollow_RequestersInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -2273,7 +2273,7 @@ export type usersCreateWithoutFollow_requests_targetsInput = {
 
 export type usersUncheckedCreateWithoutFollow_requests_targetsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -2355,7 +2355,7 @@ export type usersUpdateWithoutFollow_RequestersInput = {
 
 export type usersUncheckedUpdateWithoutFollow_RequestersInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2432,7 +2432,7 @@ export type usersUpdateWithoutFollow_requests_targetsInput = {
 
 export type usersUncheckedUpdateWithoutFollow_requests_targetsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2498,7 +2498,7 @@ export type usersCreateWithoutContentsInput = {
 
 export type usersUncheckedCreateWithoutContentsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -2580,7 +2580,7 @@ export type usersUpdateWithoutContentsInput = {
 
 export type usersUncheckedUpdateWithoutContentsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2646,7 +2646,7 @@ export type usersCreateWithoutMentionsInput = {
 
 export type usersUncheckedCreateWithoutMentionsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -2728,7 +2728,7 @@ export type usersUpdateWithoutMentionsInput = {
 
 export type usersUncheckedUpdateWithoutMentionsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2794,7 +2794,7 @@ export type usersCreateWithoutMessagesInput = {
 
 export type usersUncheckedCreateWithoutMessagesInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -2876,7 +2876,7 @@ export type usersUpdateWithoutMessagesInput = {
 
 export type usersUncheckedUpdateWithoutMessagesInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2942,7 +2942,7 @@ export type usersCreateWithoutNotificationsInput = {
 
 export type usersUncheckedCreateWithoutNotificationsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -3013,7 +3013,7 @@ export type usersCreateWithoutNotification_actorsInput = {
 
 export type usersUncheckedCreateWithoutNotification_actorsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -3095,7 +3095,7 @@ export type usersUpdateWithoutNotificationsInput = {
 
 export type usersUncheckedUpdateWithoutNotificationsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3172,7 +3172,7 @@ export type usersUpdateWithoutNotification_actorsInput = {
 
 export type usersUncheckedUpdateWithoutNotification_actorsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3238,7 +3238,7 @@ export type usersCreateWithoutPost_likesInput = {
 
 export type usersUncheckedCreateWithoutPost_likesInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -3320,7 +3320,7 @@ export type usersUpdateWithoutPost_likesInput = {
 
 export type usersUncheckedUpdateWithoutPost_likesInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3386,7 +3386,7 @@ export type usersCreateWithoutProfileInput = {
 
 export type usersUncheckedCreateWithoutProfileInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -3468,7 +3468,7 @@ export type usersUpdateWithoutProfileInput = {
 
 export type usersUncheckedUpdateWithoutProfileInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3534,7 +3534,7 @@ export type usersCreateWithoutReportsInput = {
 
 export type usersUncheckedCreateWithoutReportsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -3605,7 +3605,7 @@ export type usersCreateWithoutReport_resolversInput = {
 
 export type usersUncheckedCreateWithoutReport_resolversInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -3687,7 +3687,7 @@ export type usersUpdateWithoutReportsInput = {
 
 export type usersUncheckedUpdateWithoutReportsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3764,7 +3764,7 @@ export type usersUpdateWithoutReport_resolversInput = {
 
 export type usersUncheckedUpdateWithoutReport_resolversInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3892,7 +3892,7 @@ export type usersScalarWhereInput = {
   OR?: Prisma.usersScalarWhereInput[]
   NOT?: Prisma.usersScalarWhereInput | Prisma.usersScalarWhereInput[]
   user_id?: Prisma.UuidFilter<"users"> | string
-  role_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
+  role_id?: Prisma.IntNullableFilter<"users"> | number | null
   username?: Prisma.StringFilter<"users"> | string
   email?: Prisma.StringFilter<"users"> | string
   password?: Prisma.StringFilter<"users"> | string
@@ -3937,7 +3937,7 @@ export type usersCreateWithoutSaved_postsInput = {
 
 export type usersUncheckedCreateWithoutSaved_postsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -4019,7 +4019,7 @@ export type usersUpdateWithoutSaved_postsInput = {
 
 export type usersUncheckedUpdateWithoutSaved_postsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4085,7 +4085,7 @@ export type usersCreateWithoutStory_viewsInput = {
 
 export type usersUncheckedCreateWithoutStory_viewsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -4167,7 +4167,7 @@ export type usersUpdateWithoutStory_viewsInput = {
 
 export type usersUncheckedUpdateWithoutStory_viewsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4233,7 +4233,7 @@ export type usersCreateWithoutAdminAuditsInput = {
 
 export type usersUncheckedCreateWithoutAdminAuditsInput = {
   user_id?: string
-  role_id?: bigint | number | null
+  role_id?: number | null
   username: string
   email: string
   password: string
@@ -4315,7 +4315,7 @@ export type usersUpdateWithoutAdminAuditsInput = {
 
 export type usersUncheckedUpdateWithoutAdminAuditsInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4782,7 +4782,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_id: string
-    role_id: bigint | null
+    role_id: number | null
     username: string
     email: string
     password: string
@@ -5237,7 +5237,7 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface usersFieldRefs {
   readonly user_id: Prisma.FieldRef<"users", 'String'>
-  readonly role_id: Prisma.FieldRef<"users", 'BigInt'>
+  readonly role_id: Prisma.FieldRef<"users", 'Int'>
   readonly username: Prisma.FieldRef<"users", 'String'>
   readonly email: Prisma.FieldRef<"users", 'String'>
   readonly password: Prisma.FieldRef<"users", 'String'>

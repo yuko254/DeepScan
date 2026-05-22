@@ -407,7 +407,6 @@ export const ModelName = {
   messages: 'messages',
   notifications: 'notifications',
   notification_targets: 'notification_targets',
-  post_blocks: 'post_blocks',
   post_likes: 'post_likes',
   post_tags: 'post_tags',
   posts: 'posts',
@@ -439,7 +438,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "blocks" | "categories" | "tags" | "chat_participants" | "chats" | "comment_likes" | "comments" | "device_tokens" | "follows" | "follow_requests" | "hashtags" | "content_hashtags" | "comment_hashtags" | "countries" | "cities" | "locations" | "contents" | "media" | "mentions" | "mention_targets" | "messages" | "notifications" | "notification_targets" | "post_blocks" | "post_likes" | "post_tags" | "posts" | "profiles" | "reports" | "report_targets" | "roles" | "saved_posts" | "scans" | "stories" | "story_views" | "users" | "admin_audits" | "hashtag_usage" | "post_like_counts" | "comment_like_counts"
+    modelProps: "blocks" | "categories" | "tags" | "chat_participants" | "chats" | "comment_likes" | "comments" | "device_tokens" | "follows" | "follow_requests" | "hashtags" | "content_hashtags" | "comment_hashtags" | "countries" | "cities" | "locations" | "contents" | "media" | "mentions" | "mention_targets" | "messages" | "notifications" | "notification_targets" | "post_likes" | "post_tags" | "posts" | "profiles" | "reports" | "report_targets" | "roles" | "saved_posts" | "scans" | "stories" | "story_views" | "users" | "admin_audits" | "hashtag_usage" | "post_like_counts" | "comment_like_counts"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2145,80 +2144,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    post_blocks: {
-      payload: Prisma.$post_blocksPayload<ExtArgs>
-      fields: Prisma.post_blocksFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.post_blocksFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.post_blocksFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>
-        }
-        findFirst: {
-          args: Prisma.post_blocksFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.post_blocksFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>
-        }
-        findMany: {
-          args: Prisma.post_blocksFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>[]
-        }
-        create: {
-          args: Prisma.post_blocksCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>
-        }
-        createMany: {
-          args: Prisma.post_blocksCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.post_blocksCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>[]
-        }
-        delete: {
-          args: Prisma.post_blocksDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>
-        }
-        update: {
-          args: Prisma.post_blocksUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>
-        }
-        deleteMany: {
-          args: Prisma.post_blocksDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.post_blocksUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.post_blocksUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>[]
-        }
-        upsert: {
-          args: Prisma.post_blocksUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$post_blocksPayload>
-        }
-        aggregate: {
-          args: Prisma.Post_blocksAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePost_blocks>
-        }
-        groupBy: {
-          args: Prisma.post_blocksGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Post_blocksGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.post_blocksCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Post_blocksCountAggregateOutputType> | number
-        }
-      }
-    }
     post_likes: {
       payload: Prisma.$post_likesPayload<ExtArgs>
       fields: Prisma.post_likesFieldRefs
@@ -3501,6 +3426,7 @@ export const ContentsScalarFieldEnum = {
   user_id: 'user_id',
   type: 'type',
   visibility: 'visibility',
+  content_map: 'content_map',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted'
@@ -3511,7 +3437,6 @@ export type ContentsScalarFieldEnum = (typeof ContentsScalarFieldEnum)[keyof typ
 
 export const MediaScalarFieldEnum = {
   media_id: 'media_id',
-  content_id: 'content_id',
   storage_path: 'storage_path',
   type: 'type'
 } as const
@@ -3571,19 +3496,6 @@ export const Notification_targetsScalarFieldEnum = {
 } as const
 
 export type Notification_targetsScalarFieldEnum = (typeof Notification_targetsScalarFieldEnum)[keyof typeof Notification_targetsScalarFieldEnum]
-
-
-export const Post_blocksScalarFieldEnum = {
-  block_id: 'block_id',
-  post_id: 'post_id',
-  media_id: 'media_id',
-  type: 'type',
-  position: 'position',
-  content: 'content',
-  created_at: 'created_at'
-} as const
-
-export type Post_blocksScalarFieldEnum = (typeof Post_blocksScalarFieldEnum)[keyof typeof Post_blocksScalarFieldEnum]
 
 
 export const Post_likesScalarFieldEnum = {
@@ -3854,6 +3766,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -3931,6 +3857,20 @@ export type ListEnumVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'MediaType'
  */
 export type EnumMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaType'>
@@ -3959,34 +3899,6 @@ export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
- * Reference to a field of type 'BlockType'
- */
-export type EnumBlockTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BlockType'>
-    
-
-
-/**
- * Reference to a field of type 'BlockType[]'
- */
-export type ListEnumBlockTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BlockType[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
  * Reference to a field of type 'ReportStatus'
  */
 export type EnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus'>
@@ -4011,20 +3923,6 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -4174,7 +4072,6 @@ export type GlobalOmitConfig = {
   messages?: Prisma.messagesOmit
   notifications?: Prisma.notificationsOmit
   notification_targets?: Prisma.notification_targetsOmit
-  post_blocks?: Prisma.post_blocksOmit
   post_likes?: Prisma.post_likesOmit
   post_tags?: Prisma.post_tagsOmit
   posts?: Prisma.postsOmit

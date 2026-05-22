@@ -44,8 +44,31 @@ export async function authenticateStrict(req: Request, res: Response, next: Next
   const authres = authToken(req, res, next);
   if (!authres) return; // auth middleware already called next with error
 
-  const user = await userRepo.findUnique({ where: { user_id: req.user!.user_id } });
+  const user = await userRepo.findById(req.user!.user_id);
   if (!user) return next(new UnauthorizedError('User no longer exists'));
+  next();
+}
+
+export function authenticateSoft(req: Request, res: Response, next: NextFunction) {
+  try {
+    let token = req.cookies?.access_token;
+    
+    if (!token) {
+      const authHeader = req.headers.authorization;
+      if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.slice(7);
+      }
+    }
+
+    if (token) {
+      req.user = verifyAccessToken(token);
+    } else {
+      req.user = undefined;
+    }
+  } catch (err) {
+    // Token invalid or expired – treat as unauthenticated
+    req.user = undefined;
+  }
   next();
 }
 

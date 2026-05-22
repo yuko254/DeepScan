@@ -96,7 +96,7 @@ model blocks {
 
 // @reference
 model categories {
-  category_id   BigInt   @id @default(autoincrement())
+  category_id   Int      @id @default(autoincrement())
   name          String   @unique @db.VarChar(50)
 
   posts         posts[]
@@ -106,7 +106,7 @@ model categories {
 
 // @reference
 model tags {
-  tag_id    BigInt      @id @default(autoincrement())
+  tag_id    Int         @id @default(autoincrement())
   name      String      @unique @db.VarChar(50)
 
   post_tags post_tags[]
@@ -141,9 +141,10 @@ model chats {
   @@index([title(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
+// @system
 model comment_likes {
   id         BigInt    @id @default(autoincrement())
-  user_id    String?   @db.Uuid // @system
+  user_id    String?   @db.Uuid
   comment_id String    @db.Uuid
   created_at DateTime  @default(now()) @db.Timestamptz(6)
 
@@ -267,7 +268,7 @@ model comment_hashtags {
 
 // @reference
 model countries {
-  country_id  BigInt      @id @default(autoincrement())
+  country_id  Int         @id @default(autoincrement())
   name        String      @unique @db.VarChar(255)
 
   cities      cities[] // @nested
@@ -277,9 +278,9 @@ model countries {
 }
 // @reference
 model cities {
-  city_id     BigInt        @id @default(autoincrement())
+  city_id     Int           @id @default(autoincrement())
   name        String        @db.VarChar(255)
-  country_id  BigInt        
+  country_id  Int         
 
   country     countries     @relation(fields: [country_id], references: [country_id], onDelete: Cascade, onUpdate: Cascade)
   locations   locations[]
@@ -291,8 +292,8 @@ model cities {
 
 model locations {
   location_id      String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  country_id       BigInt     
-  city_id          BigInt?    
+  country_id       Int     
+  city_id          Int?    
   lat              Decimal?   @db.Decimal(10, 8)
   lng              Decimal?   @db.Decimal(11, 8)
   place_id         String?    @db.VarChar(255)
@@ -312,13 +313,13 @@ model contents {
   user_id             String       @db.Uuid // @system
   type                ContentType           // @system 
   visibility          Visibility   @default(public)
+  content_map         Json
   created_at          DateTime     @default(now()) @db.Timestamptz(6)
   updated_at          DateTime     @updatedAt @db.Timestamptz(6)
   is_deleted          Boolean      @default(false) // @system
 
   user                users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 
-  media               media[] // @nested
   post                posts? // @nested
   story               stories? // @nested
   scan                scans? // @nested
@@ -328,14 +329,9 @@ model contents {
 // @nestedOnly
 model media {
   media_id     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  content_id   String?       @db.Uuid 
   storage_path String
   type         MediaType        
-
-  content      contents?     @relation(fields: [content_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
-  post_blocks  post_blocks[]
-
-  @@index([content_id])
+  
   @@index([storage_path])
 }
 
@@ -431,23 +427,7 @@ model notification_targets {
   // );
 }
 
-// @nestedOnly
-model post_blocks {
-  block_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  post_id    String    @db.Uuid
-  media_id   String?   @db.Uuid
-  type       BlockType   
-  position   BigInt
-  content    Json
-  created_at DateTime  @default(now()) @db.Timestamptz(6)
-
-  post       posts     @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
-  media      media?    @relation(fields: [media_id], references: [media_id], onDelete: SetNull, onUpdate: NoAction) // @nested
-
-  @@unique([post_id, position], map: "unique_post_block_position")
-  @@index([type], map: "idx_post_blocks_type")
-}
-
+// @system
 model post_likes {
   id         BigInt    @id @default(autoincrement())
   user_id    String?   @db.Uuid // @system
@@ -466,7 +446,7 @@ model post_likes {
 model post_tags {
   id      BigInt  @id @default(autoincrement())
   post_id String  @db.Uuid
-  tag_id  BigInt
+  tag_id  Int
 
   post    posts   @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
   tag     tags    @relation(fields: [tag_id], references: [tag_id], onDelete: Cascade, onUpdate: NoAction)
@@ -478,7 +458,7 @@ model post_tags {
 // @nestedOnly
 model posts {
   content_id    String          @id @db.Uuid
-  category_id   BigInt?         
+  category_id   Int?         
   location_id   String?         @db.Uuid
   text_content  String?         // @system
 
@@ -487,7 +467,6 @@ model posts {
   location      locations?      @relation(fields: [location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
 
   comments      comments[]
-  post_blocks   post_blocks[] // @nested
   post_likes    post_likes[]
   saved_posts   saved_posts[]
   reportTargets report_targets[]
@@ -555,6 +534,7 @@ model report_targets {
   @@unique([post_id], where: raw("post_id IS NOT NULL"))
   @@unique([comment_id], where: raw("comment_id IS NOT NULL"))
   @@unique([story_id], where: raw("story_id IS NOT NULL"))
+  @@unique([profile_id], where: raw("profile_id IS NOT NULL"))
   // ALTER TABLE report_targets
   // ADD CONSTRAINT single_target_check CHECK (
   //   (post_id IS NOT NULL)::int +
@@ -563,18 +543,19 @@ model report_targets {
   // );
 }
 
-// @reference
+// @system
 model roles {
-  role_id   BigInt  @id @default(autoincrement())
+  role_id   Int     @id @default(autoincrement())
   role_name Role    @unique 
 
   users     users[]
 }
 
+// @system
 model saved_posts {
   saved_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id  String    @db.Uuid // @system
-  post_id  String?   @db.Uuid // @RequiredOnCreate
+  user_id  String    @db.Uuid
+  post_id  String?   @db.Uuid
   saved_at DateTime  @default(now()) @db.Timestamptz(6)
 
   user     users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
@@ -596,7 +577,7 @@ model scans {
   location       locations? @relation(fields: [location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
 }
 
-// @nestedOnly
+// @nestedOnly @excludeOnUpdate
 model stories {
   content_id    String        @id @db.Uuid
   expires_at    DateTime?     @db.Timestamptz(6)
@@ -606,6 +587,7 @@ model stories {
   reportTargets report_targets[]
 }
 
+// @system
 model story_views {
   id        BigInt    @id @default(autoincrement())
   viewer_id String?   @db.Uuid // @system
@@ -622,7 +604,7 @@ model story_views {
 
 model users {
   user_id                  String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  role_id                  BigInt?             @default(3) // @system
+  role_id                  Int?                @default(3) // @system
   username                 String              @unique @db.VarChar(50)
   email                    String              @unique @db.VarChar(255)
   password                 String              @db.VarChar(60) // @sensitive
@@ -738,11 +720,6 @@ enum FollowRequestStatus {
   pending
   accepted
   rejected
-}
-
-enum BlockType {
-  text
-  media
 }
 
 enum MediaType {

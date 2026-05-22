@@ -3,7 +3,7 @@ import { RoleSchema } from "./users.dto.js";
 import * as zod from "../validations/validation.js";
 
 
-export const AccessPayloadSchema = z.object({
+export const AccessPayloadSchema = z.strictObject({
   sub: zod.UUID,
   user_id: zod.UUID,
   username: z.string().min(1),
@@ -12,7 +12,7 @@ export const AccessPayloadSchema = z.object({
 
 export type accessPayload = z.infer<typeof AccessPayloadSchema>;
 
-export const RefreshPayloadSchema = z.object({
+export const RefreshPayloadSchema = z.strictObject({
   user_id: zod.UUID,
   jti: zod.UUID,
 });

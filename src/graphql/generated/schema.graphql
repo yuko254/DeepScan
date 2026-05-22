@@ -44,11 +44,6 @@ enum FollowRequestStatus {
   rejected
 }
 
-enum BlockType {
-  text
-  media
-}
-
 enum MediaType {
   image
   video
@@ -72,7 +67,7 @@ input blocksCreateInput {
 }
 
 type categories {
-  category_id: BigInt!
+  category_id: Int!
   name: String!
   posts: [posts]!
 }
@@ -82,12 +77,12 @@ input categoriesCreateInput {
 }
 
 input categoriesUpdateInput {
-  category_id: BigInt
+  category_id: Int!
   name: String
 }
 
 type tags {
-  tag_id: BigInt!
+  tag_id: Int!
   name: String!
   post_tags: [post_tags]!
 }
@@ -97,7 +92,7 @@ input tagsCreateInput {
 }
 
 input tagsUpdateInput {
-  tag_id: BigInt
+  tag_id: Int!
   name: String
 }
 
@@ -129,7 +124,7 @@ input chatsCreateInput {
 }
 
 input chatsUpdateInput {
-  chat_id: String
+  chat_id: String!
   title: String
   is_group_chat: Boolean
   # chatParticipants: [chat_participantsUpdateInput!] this model has no updatable fields (all system/FK)
@@ -140,10 +135,6 @@ type comment_likes {
   created_at: DateTime!
   user: users
   comment: comments!
-}
-
-input comment_likesCreateInput {
-  comment_id: String!
 }
 
 type comments {
@@ -170,7 +161,7 @@ input commentsCreateInput {
 }
 
 input commentsUpdateInput {
-  comment_id: String
+  comment_id: String!
   content: String
 }
 
@@ -191,7 +182,7 @@ input device_tokensCreateInput {
 }
 
 input device_tokensUpdateInput {
-  token_id: String
+  token_id: String!
   token: String
   device_type: DeviceType
   app_version: String
@@ -221,7 +212,7 @@ input follow_requestsCreateInput {
 }
 
 input follow_requestsUpdateInput {
-  id: BigInt
+  id: BigInt!
   status: FollowRequestStatus
 }
 
@@ -248,7 +239,7 @@ type comment_hashtags {
 }
 
 type countries {
-  country_id: BigInt!
+  country_id: Int!
   name: String!
   cities: [cities]!
   locations: [locations]!
@@ -260,34 +251,34 @@ input countriesCreateInput {
 }
 
 input countriesUpdateInput {
-  country_id: BigInt
+  country_id: Int!
   name: String
   cities: [citiesUpdateInput!]
 }
 
 type cities {
-  city_id: BigInt!
+  city_id: Int!
   name: String!
-  country_id: BigInt!
+  country_id: Int!
   country: countries!
   locations: [locations]!
 }
 
 input citiesCreateInput {
   name: String!
-  country_id: BigInt!
+  country_id: Int!
 }
 
 input citiesUpdateInput {
-  city_id: BigInt
+  city_id: Int!
   name: String
-  country_id: BigInt
+  country_id: Int
 }
 
 type locations {
   location_id: String!
-  country_id: BigInt!
-  city_id: BigInt
+  country_id: Int!
+  city_id: Int
   lat: Float
   lng: Float
   place_id: String
@@ -300,8 +291,8 @@ type locations {
 }
 
 input locationsCreateInput {
-  country_id: BigInt!
-  city_id: BigInt # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
+  country_id: Int!
+  city_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
   lat: Float
   lng: Float
   place_id: String
@@ -310,9 +301,9 @@ input locationsCreateInput {
 }
 
 input locationsUpdateInput {
-  location_id: String
-  country_id: BigInt
-  city_id: BigInt # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
+  location_id: String!
+  country_id: Int
+  city_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
   lat: Float
   lng: Float
   place_id: String
@@ -324,11 +315,11 @@ type contents {
   content_id: String!
   type: ContentType!
   visibility: Visibility!
+  content_map: JSON!
   created_at: DateTime!
   updated_at: DateTime!
   is_deleted: Boolean!
   user: users!
-  media: [media]!
   post: posts
   story: stories
   scan: scans
@@ -337,37 +328,34 @@ type contents {
 
 input contentsCreateInput {
   visibility: Visibility!
-  media: [mediaCreateInput!]
+  content_map: JSON!
   post: postsCreateInput
   scan: scansCreateInput
   story: storiesCreateInput
 }
 
 input contentsUpdateInput {
-  content_id: String
+  content_id: String!
   visibility: Visibility
-  media: [mediaUpdateInput!]
+  content_map: JSON
   post: postsUpdateInput
   scan: scansUpdateInput
-  story: storiesUpdateInput
+  # story: storiesUpdateInput this model has @ExcludeOnUpdate
 }
 
 type media {
   media_id: String!
   storage_path: String!
   type: MediaType!
-  content: contents
-  post_blocks: [post_blocks]!
 }
 
 input mediaCreateInput {
-  content_id: String
   storage_path: String!
   type: MediaType!
 }
 
 input mediaUpdateInput {
-  media_id: String
+  media_id: String!
   storage_path: String
   type: MediaType
 }
@@ -400,7 +388,7 @@ input messagesCreateInput {
 }
 
 input messagesUpdateInput {
-  message_id: String
+  message_id: String!
   text_content: String
 }
 
@@ -423,32 +411,6 @@ type notification_targets {
   notifications: [notifications]!
 }
 
-type post_blocks {
-  block_id: String!
-  type: BlockType!
-  position: BigInt!
-  content: JSON!
-  created_at: DateTime!
-  post: posts!
-  media: media
-}
-
-input post_blocksCreateInput {
-  post_id: String!
-  type: BlockType!
-  position: BigInt!
-  content: JSON!
-  media: mediaCreateInput
-}
-
-input post_blocksUpdateInput {
-  block_id: String
-  type: BlockType
-  position: BigInt
-  content: JSON
-  media: mediaUpdateInput
-}
-
 type post_likes {
   id: BigInt!
   created_at: DateTime!
@@ -456,25 +418,20 @@ type post_likes {
   post: posts!
 }
 
-input post_likesCreateInput {
-  post_id: String!
-}
-
 type post_tags {
   id: BigInt!
-  tag_id: BigInt!
+  tag_id: Int!
   post: posts!
   tag: tags!
 }
 
 type posts {
-  category_id: BigInt
+  category_id: Int
   text_content: String
   content: contents!
   category: categories
   location: locations
   comments: [comments]!
-  post_blocks: [post_blocks]!
   post_likes: [post_likes]!
   saved_posts: [saved_posts]!
   reportTargets: [report_targets]!
@@ -484,16 +441,14 @@ type posts {
 }
 
 input postsCreateInput {
-  category_id: BigInt # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
-  postBlocks: [post_blocksCreateInput!]
+  category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
   location: locationsCreateInput
 }
 
 input postsUpdateInput {
-  content_id: String
-  category_id: BigInt # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
+  content_id: String!
+  category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
   location: locationsUpdateInput
-  postBlocks: [post_blocksUpdateInput!]
 }
 
 type profiles {
@@ -525,7 +480,7 @@ input profilesCreateInput {
 }
 
 input profilesUpdateInput {
-  profile_id: String
+  profile_id: String!
   is_private: Boolean
   bio: String
   avatar: String
@@ -570,18 +525,9 @@ input report_targetsCreateInput {
 }
 
 type roles {
-  role_id: BigInt!
+  role_id: Int!
   role_name: Role!
   users: [users]!
-}
-
-input rolesCreateInput {
-  role_name: Role!
-}
-
-input rolesUpdateInput {
-  role_id: BigInt
-  role_name: Role
 }
 
 type saved_posts {
@@ -589,10 +535,6 @@ type saved_posts {
   saved_at: DateTime!
   user: users!
   post: posts
-}
-
-input saved_postsCreateInput {
-  post_id: String!
 }
 
 type scans {
@@ -608,7 +550,7 @@ input scansCreateInput {
 }
 
 input scansUpdateInput {
-  content_id: String
+  content_id: String!
   metadata: JSON
   location: locationsUpdateInput
 }
@@ -624,11 +566,6 @@ input storiesCreateInput {
   expires_at: DateTime
 }
 
-input storiesUpdateInput {
-  content_id: String
-  expires_at: DateTime
-}
-
 type story_views {
   id: BigInt!
   viewed_at: DateTime!
@@ -636,13 +573,8 @@ type story_views {
   story: stories!
 }
 
-input story_viewsCreateInput {
-  story_id: String!
-}
-
 type users {
   user_id: String!
-  role_id: BigInt
   username: String!
   email: String!
   is_active: Boolean!
@@ -682,7 +614,7 @@ input usersCreateInput {
 }
 
 input usersUpdateInput {
-  user_id: String
+  user_id: String!
   username: String
   email: String
   password: String
@@ -736,8 +668,6 @@ type Query {
   notification(id: ID!): notifications
   notificationTargets: [notification_targets!]!
   notificationTarget(id: ID!): notification_targets
-  postBlocks: [post_blocks!]!
-  postBlock(id: ID!): post_blocks
   postLikes: [post_likes!]!
   postLike(id: ID!): post_likes
   postTags: [post_tags!]!
@@ -778,8 +708,6 @@ type Mutation {
   createChat(data: chatsCreateInput!): chats!
   updateChat(id: ID!, data: chatsUpdateInput!): chats!
   deleteChat(id: ID!): chats!
-  createCommentLike(data: comment_likesCreateInput!): comment_likes!
-  deleteCommentLike(id: ID!): comment_likes!
   createComment(data: commentsCreateInput!): comments!
   updateComment(id: ID!, data: commentsUpdateInput!): comments!
   deleteComment(id: ID!): comments!
@@ -807,9 +735,6 @@ type Mutation {
   createMessage(data: messagesCreateInput!): messages!
   updateMessage(id: ID!, data: messagesUpdateInput!): messages!
   deleteMessage(id: ID!): messages!
-  deletePostBlock(id: ID!): post_blocks!
-  createPostLike(data: post_likesCreateInput!): post_likes!
-  deletePostLike(id: ID!): post_likes!
   deletePost(id: ID!): posts!
   createProfile(data: profilesCreateInput!): profiles!
   updateProfile(id: ID!, data: profilesUpdateInput!): profiles!
@@ -817,15 +742,8 @@ type Mutation {
   createReport(data: reportsCreateInput!): reports!
   deleteReport(id: ID!): reports!
   deleteReportTarget(id: ID!): report_targets!
-  createRole(data: rolesCreateInput!): roles!
-  updateRole(id: ID!, data: rolesUpdateInput!): roles!
-  deleteRole(id: ID!): roles!
-  createSavedPost(data: saved_postsCreateInput!): saved_posts!
-  deleteSavedPost(id: ID!): saved_posts!
   deleteScan(id: ID!): scans!
   deleteStory(id: ID!): stories!
-  createStoryView(data: story_viewsCreateInput!): story_views!
-  deleteStoryView(id: ID!): story_views!
   createUser(data: usersCreateInput!): users!
   updateUser(id: ID!, data: usersUpdateInput!): users!
   deleteUser(id: ID!): users!

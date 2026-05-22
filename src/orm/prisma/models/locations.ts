@@ -34,16 +34,16 @@ export type LocationsAvgAggregateOutputType = {
 }
 
 export type LocationsSumAggregateOutputType = {
-  country_id: bigint | null
-  city_id: bigint | null
+  country_id: number | null
+  city_id: number | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
 }
 
 export type LocationsMinAggregateOutputType = {
   location_id: string | null
-  country_id: bigint | null
-  city_id: bigint | null
+  country_id: number | null
+  city_id: number | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
   place_id: string | null
@@ -51,8 +51,8 @@ export type LocationsMinAggregateOutputType = {
 
 export type LocationsMaxAggregateOutputType = {
   location_id: string | null
-  country_id: bigint | null
-  city_id: bigint | null
+  country_id: number | null
+  city_id: number | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
   place_id: string | null
@@ -199,8 +199,8 @@ export type locationsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type LocationsGroupByOutputType = {
   location_id: string
-  country_id: bigint
-  city_id: bigint | null
+  country_id: number
+  city_id: number | null
   lat: runtime.Decimal | null
   lng: runtime.Decimal | null
   place_id: string | null
@@ -231,8 +231,8 @@ export type locationsWhereInput = {
   OR?: Prisma.locationsWhereInput[]
   NOT?: Prisma.locationsWhereInput | Prisma.locationsWhereInput[]
   location_id?: Prisma.UuidFilter<"locations"> | string
-  country_id?: Prisma.BigIntFilter<"locations"> | bigint | number
-  city_id?: Prisma.BigIntNullableFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.IntFilter<"locations"> | number
+  city_id?: Prisma.IntNullableFilter<"locations"> | number | null
   lat?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.StringNullableFilter<"locations"> | string | null
@@ -264,8 +264,8 @@ export type locationsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.locationsWhereInput | Prisma.locationsWhereInput[]
   OR?: Prisma.locationsWhereInput[]
   NOT?: Prisma.locationsWhereInput | Prisma.locationsWhereInput[]
-  country_id?: Prisma.BigIntFilter<"locations"> | bigint | number
-  city_id?: Prisma.BigIntNullableFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.IntFilter<"locations"> | number
+  city_id?: Prisma.IntNullableFilter<"locations"> | number | null
   lat?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.StringNullableFilter<"locations"> | string | null
@@ -296,8 +296,8 @@ export type locationsScalarWhereWithAggregatesInput = {
   OR?: Prisma.locationsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.locationsScalarWhereWithAggregatesInput | Prisma.locationsScalarWhereWithAggregatesInput[]
   location_id?: Prisma.UuidWithAggregatesFilter<"locations"> | string
-  country_id?: Prisma.BigIntWithAggregatesFilter<"locations"> | bigint | number
-  city_id?: Prisma.BigIntNullableWithAggregatesFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.IntWithAggregatesFilter<"locations"> | number
+  city_id?: Prisma.IntNullableWithAggregatesFilter<"locations"> | number | null
   lat?: Prisma.DecimalNullableWithAggregatesFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.DecimalNullableWithAggregatesFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.StringNullableWithAggregatesFilter<"locations"> | string | null
@@ -318,8 +318,8 @@ export type locationsCreateInput = {
 
 export type locationsUncheckedCreateInput = {
   location_id?: string
-  country_id: bigint | number
-  city_id?: bigint | number | null
+  country_id: number
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -344,8 +344,8 @@ export type locationsUpdateInput = {
 
 export type locationsUncheckedUpdateInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -357,8 +357,8 @@ export type locationsUncheckedUpdateInput = {
 
 export type locationsCreateManyInput = {
   location_id?: string
-  country_id: bigint | number
-  city_id?: bigint | number | null
+  country_id: number
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -373,8 +373,8 @@ export type locationsUpdateManyMutationInput = {
 
 export type locationsUncheckedUpdateManyInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -528,12 +528,12 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type NullableBigIntFieldUpdateOperationsInput = {
-  set?: bigint | number | null
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type locationsCreateNestedOneWithoutPostsInput = {
@@ -614,7 +614,7 @@ export type locationsCreateWithoutCountryInput = {
 
 export type locationsUncheckedCreateWithoutCountryInput = {
   location_id?: string
-  city_id?: bigint | number | null
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -655,8 +655,8 @@ export type locationsScalarWhereInput = {
   OR?: Prisma.locationsScalarWhereInput[]
   NOT?: Prisma.locationsScalarWhereInput | Prisma.locationsScalarWhereInput[]
   location_id?: Prisma.UuidFilter<"locations"> | string
-  country_id?: Prisma.BigIntFilter<"locations"> | bigint | number
-  city_id?: Prisma.BigIntNullableFilter<"locations"> | bigint | number | null
+  country_id?: Prisma.IntFilter<"locations"> | number
+  city_id?: Prisma.IntNullableFilter<"locations"> | number | null
   lat?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.DecimalNullableFilter<"locations"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.StringNullableFilter<"locations"> | string | null
@@ -676,7 +676,7 @@ export type locationsCreateWithoutCityInput = {
 
 export type locationsUncheckedCreateWithoutCityInput = {
   location_id?: string
-  country_id: bigint | number
+  country_id: number
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -726,8 +726,8 @@ export type locationsCreateWithoutPostsInput = {
 
 export type locationsUncheckedCreateWithoutPostsInput = {
   location_id?: string
-  country_id: bigint | number
-  city_id?: bigint | number | null
+  country_id: number
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -766,8 +766,8 @@ export type locationsUpdateWithoutPostsInput = {
 
 export type locationsUncheckedUpdateWithoutPostsInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -790,8 +790,8 @@ export type locationsCreateWithoutBirth_profilesInput = {
 
 export type locationsUncheckedCreateWithoutBirth_profilesInput = {
   location_id?: string
-  country_id: bigint | number
-  city_id?: bigint | number | null
+  country_id: number
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -819,8 +819,8 @@ export type locationsCreateWithoutCurrent_profilesInput = {
 
 export type locationsUncheckedCreateWithoutCurrent_profilesInput = {
   location_id?: string
-  country_id: bigint | number
-  city_id?: bigint | number | null
+  country_id: number
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -859,8 +859,8 @@ export type locationsUpdateWithoutBirth_profilesInput = {
 
 export type locationsUncheckedUpdateWithoutBirth_profilesInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -894,8 +894,8 @@ export type locationsUpdateWithoutCurrent_profilesInput = {
 
 export type locationsUncheckedUpdateWithoutCurrent_profilesInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -918,8 +918,8 @@ export type locationsCreateWithoutScansInput = {
 
 export type locationsUncheckedCreateWithoutScansInput = {
   location_id?: string
-  country_id: bigint | number
-  city_id?: bigint | number | null
+  country_id: number
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -958,8 +958,8 @@ export type locationsUpdateWithoutScansInput = {
 
 export type locationsUncheckedUpdateWithoutScansInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -970,7 +970,7 @@ export type locationsUncheckedUpdateWithoutScansInput = {
 
 export type locationsCreateManyCountryInput = {
   location_id?: string
-  city_id?: bigint | number | null
+  city_id?: number | null
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -990,7 +990,7 @@ export type locationsUpdateWithoutCountryInput = {
 
 export type locationsUncheckedUpdateWithoutCountryInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1002,7 +1002,7 @@ export type locationsUncheckedUpdateWithoutCountryInput = {
 
 export type locationsUncheckedUpdateManyWithoutCountryInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  city_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  city_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1010,7 +1010,7 @@ export type locationsUncheckedUpdateManyWithoutCountryInput = {
 
 export type locationsCreateManyCityInput = {
   location_id?: string
-  country_id: bigint | number
+  country_id: number
   lat?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: string | null
@@ -1030,7 +1030,7 @@ export type locationsUpdateWithoutCityInput = {
 
 export type locationsUncheckedUpdateWithoutCityInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1042,7 +1042,7 @@ export type locationsUncheckedUpdateWithoutCityInput = {
 
 export type locationsUncheckedUpdateManyWithoutCityInput = {
   location_id?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
   lat?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lng?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   place_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1184,8 +1184,8 @@ export type $locationsPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     location_id: string
-    country_id: bigint
-    city_id: bigint | null
+    country_id: number
+    city_id: number | null
     lat: runtime.Decimal | null
     lng: runtime.Decimal | null
     place_id: string | null
@@ -1619,8 +1619,8 @@ export interface Prisma__locationsClient<T, Null = never, ExtArgs extends runtim
  */
 export interface locationsFieldRefs {
   readonly location_id: Prisma.FieldRef<"locations", 'String'>
-  readonly country_id: Prisma.FieldRef<"locations", 'BigInt'>
-  readonly city_id: Prisma.FieldRef<"locations", 'BigInt'>
+  readonly country_id: Prisma.FieldRef<"locations", 'Int'>
+  readonly city_id: Prisma.FieldRef<"locations", 'Int'>
   readonly lat: Prisma.FieldRef<"locations", 'Decimal'>
   readonly lng: Prisma.FieldRef<"locations", 'Decimal'>
   readonly place_id: Prisma.FieldRef<"locations", 'String'>

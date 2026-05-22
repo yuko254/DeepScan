@@ -6,11 +6,11 @@ import type { Profiles } from '../graphql/graphql.js';
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
-export const GetProfileParam = z.object({
+export const GetProfileParam = z.strictObject({
   profile_id: zod.UUID,
 });
 
-export const CreateProfileSchema = z.object({
+export const CreateProfileSchema = z.strictObject({
   is_private: z.boolean().nullable(),
   bio: z.string().max(500, 'Bio can have at most 500 characters').nullable(),
   avatar: z.url("invalid URL").nullable(),
@@ -20,15 +20,9 @@ export const CreateProfileSchema = z.object({
   birth_date: z.coerce.date("invalid date").nullable(),
   birth_location: CreateLocationSchema.nullable(),
   current_location: CreateLocationSchema.nullable(),
-  
-  profile_id: z.undefined(),
-  user_id: z.undefined(),
-  created_at: z.undefined(),
-  birth_location_id: z.undefined(),
-  current_location_id: z.undefined()
 });
 
-export const UpdateProfileSchema = z.object({
+export const UpdateProfileSchema = z.strictObject({
   is_private: z.boolean().nullable().optional(),
   bio: z.string().max(500, 'Bio can have at most 500 characters').nullable().optional(),
   avatar: z.url("invalid URL").nullable().optional(),
@@ -38,17 +32,11 @@ export const UpdateProfileSchema = z.object({
   birth_date: z.coerce.date("invalid date").nullable().optional(),
   birth_location: UpsertLocationSchema.nullable().optional(),
   current_location: UpsertLocationSchema.nullable().optional(),
-
-  profile_id: z.undefined(),
-  user_id: z.undefined(),
-  created_at: z.undefined(),
-  birth_location_id: z.undefined(),
-  current_location_id: z.undefined()
 });
 
 export const UpsertProfileSchema = z.union([
   CreateProfileSchema,
-  z.object({ profile_id: zod.UUID }).and(UpdateProfileSchema.omit({ profile_id: true })),
+  z.strictObject({ profile_id: zod.UUID }).and(UpdateProfileSchema),
 ]);
 
 // ─── Inferred request types ───────────────────────────────────────────────────

@@ -15,14 +15,14 @@ export class CityRepo extends BaseRepository<typeof prisma.cities> {
     });
   }
 
-  async findByCountry(country_id: bigint) {
+  async findByCountry(country_id: number) {
     return this.model.findMany({
       where: { country_id },
       orderBy: { name: 'asc' },
     });
   }
 
-  async findByNameAndCountry(name: string, country_id: bigint) {
+  async findByNameAndCountry(name: string, country_id: number) {
     return this.model.findUnique({ where: { name_country_id: { name, country_id } } });
   }
 }

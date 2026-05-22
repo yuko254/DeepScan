@@ -25,7 +25,6 @@ export const mentionRepo = new Repos.MentionRepo();
 export const messageRepo = new Repos.MessageRepo();
 export const notificationTargetRepo = new Repos.NotificationTargetRepo();
 export const notificationRepo = new Repos.NotificationRepo();
-export const postBlockRepo = new Repos.PostBlockRepo();
 export const postLikeRepo = new Repos.PostLikeRepo();
 export const postTagRepo = new Repos.PostTagRepo();
 export const postRepo = new Repos.PostRepo();

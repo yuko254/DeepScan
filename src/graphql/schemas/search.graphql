@@ -1,0 +1,10 @@
+extend type Query {
+  search(query: String!, limit: Int): SearchResult!
+}
+
+type SearchResult {
+  posts: [posts!]
+  users: [users!]
+  tags: [tags!]
+  hashtags: [hashtags!]
+}

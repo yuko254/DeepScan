@@ -10,40 +10,36 @@ import type { cities, countries } from '@prisma/client';
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
-export const GetLocationParam = z.object({
+export const GetLocationParam = z.strictObject({
   location_id: zod.UUID,
 });
 
-export const CreateLocationSchema = z.object({
-  country_id: z.bigint(),
-  city_id: z.bigint().nullable(),
-  lat: z.number().nullable(),
-  lng: z.number().nullable(),
+export const CreateLocationSchema = z.strictObject({
+  country_id: zod.ID,
+  city_id: zod.ID.nullable(),
+  lat: z.coerce.number().nullable(),
+  lng: z.coerce.number().nullable(),
   place_id: z.string().nullable(),
-
-  location_id: z.undefined(),
 });
 
-const UpdateLocationSchema = z.object({
-  country_id: z.bigint().optional(),
-  city_id: z.bigint().nullable().optional(),
-  lat: z.number().nullable().optional(),
-  lng: z.number().nullable().optional(),
+const UpdateLocationSchema = z.strictObject({
+  country_id: zod.ID.optional(),
+  city_id: zod.ID.nullable().optional(),
+  lat: z.coerce.number().nullable().optional(),
+  lng: z.coerce.number().nullable().optional(),
   place_id: z.string().nullable().optional(),
-
-  location_id: z.undefined(),
 });
 
 export const UpsertLocationSchema = z.union([
   CreateLocationSchema,
-  z.object({ location_id: zod.UUID }).and(UpdateLocationSchema.omit({ location_id: true })),
+  z.strictObject({ location_id: zod.UUID }).and(UpdateLocationSchema),
 ])
 
-export const GetCountryParam = z.object({
-  country_id: z.coerce.bigint()
+export const GetCountryParam = z.strictObject({
+  country_id: zod.ID
 });
 
-export const GetCountriesQuerySchema = z.object({
+export const GetCountriesQuerySchema = z.strictObject({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
   search: z.string().optional(),
@@ -52,40 +48,36 @@ export const GetCountriesQuerySchema = z.object({
   filters: { search } as CountryFiltersDto,
 }));
 
-export const CreateCountrySchema = z.object({
+export const CreateCountrySchema = z.strictObject({
   name: z.string().max(255, 'Name must be at most 255 characters'),
-  country_id: z.undefined(),
 });
 
-export const UpdateCountrySchema = z.object({
+export const UpdateCountrySchema = z.strictObject({
   name: z.string().max(255, 'Name must be at most 255 characters').optional(),
-  country_id: z.undefined(),
 });
 
-export const GetCityParam = z.object({
-  city_id: z.coerce.bigint()
+export const GetCityParam = z.strictObject({
+  city_id: zod.ID
 });
 
-export const GetCitiesQuerySchema = z.object({
+export const GetCitiesQuerySchema = z.strictObject({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
   search: z.string().optional(),
-  country_id: z.coerce.bigint().optional(),
+  country_id: zod.ID.optional(),
 }).transform(({ search, country_id, ...rest }) => ({
   ...rest,
   filters: { search, country_id } as CityFiltersDto,
 }));
 
-export const CreateCitySchema = z.object({
+export const CreateCitySchema = z.strictObject({
   name: z.string().max(255, 'Name must be at most 255 characters'),
-  country_id: z.bigint({ message: 'country_id must be a valid bigint' }),
-  city_id: z.undefined(),
+  country_id: zod.ID,
 });
 
-export const UpdateCitySchema = z.object({
+export const UpdateCitySchema = z.strictObject({
   name: z.string().max(255, 'Name must be at most 255 characters').optional(),
-  country_id: z.bigint({ message: 'country_id must be a valid bigint' }).optional(),
-  city_id: z.undefined(),
+  country_id: zod.ID.optional(),
 });
 
 // ─── Inferred request types ───────────────────────────────────────────────────
@@ -107,7 +99,7 @@ export type UpdateCityBody = z.infer<typeof UpdateCitySchema>;
 export type CountryDto = Pick<Countries, 'country_id' | 'name'>;
 export function toCountryDto(country: countries): CountryDto {
   return {
-    country_id: country.country_id.toString(),
+    country_id: country.country_id,
     name: country.name
   };
 }
@@ -115,9 +107,9 @@ export function toCountryDto(country: countries): CountryDto {
 export type CityDto = Pick<Cities, 'city_id' | 'name' | 'country_id'>;
 export function toCityDto(city: cities): CityDto {
   return {
-    city_id: city.city_id.toString(),
+    city_id: city.city_id,
     name: city.name,
-    country_id: city.country_id.toString()
+    country_id: city.country_id
   };
 }
 

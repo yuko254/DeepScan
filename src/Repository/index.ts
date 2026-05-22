@@ -25,7 +25,6 @@ export * from './Repos/mentionRepo.repo.js';
 export * from './Repos/messageRepo.repo.js';
 export * from './Repos/notification-targetRepo.repo.js';
 export * from './Repos/notificationRepo.repo.js';
-export * from './Repos/post-blockRepo.repo.js';
 export * from './Repos/post-likeRepo.repo.js';
 export * from './Repos/post-tagRepo.repo.js';
 export * from './Repos/postRepo.repo.js';

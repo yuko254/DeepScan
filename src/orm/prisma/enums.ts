@@ -67,14 +67,6 @@ export const FollowRequestStatus = {
 export type FollowRequestStatus = (typeof FollowRequestStatus)[keyof typeof FollowRequestStatus]
 
 
-export const BlockType = {
-  text: 'text',
-  media: 'media'
-} as const
-
-export type BlockType = (typeof BlockType)[keyof typeof BlockType]
-
-
 export const MediaType = {
   image: 'image',
   video: 'video'

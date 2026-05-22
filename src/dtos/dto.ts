@@ -1,4 +1,5 @@
 import type { PrismaClient } from '@prisma/client';
+import type { Request } from "express"
 import { Decimal } from "@prisma/client/runtime/client";
 import type { accessPayload } from './jwt.dto.js';
 
@@ -10,6 +11,7 @@ export interface PageDto {
   totalPages: number
 }
 export interface GraphqlContext {
+  req: Request;
   user: accessPayload | undefined | null;
   prisma: PrismaClient;
 }

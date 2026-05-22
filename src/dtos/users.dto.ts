@@ -10,11 +10,11 @@ import type { Roles, Users } from '../graphql/graphql.js';
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
-export const GetUserParam = z.object({
+export const GetUserParam = z.strictObject({
   user_id: zod.UUID,
 });
 
-export const GetUsersQuerySchema = z.object({
+export const GetUsersQuerySchema = z.strictObject({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
   search: z.string().optional(),
@@ -26,14 +26,10 @@ export const GetUsersQuerySchema = z.object({
   filters: { role_id: role, username: search, is_active: isActive, is_banned: isBanned } as UserFiltersDto,
 }));
 
-export const UserAccountSchema = z.object({ 
+export const UserAccountSchema = z.strictObject({ 
   username: user.usernameField,
   email: user.emailField,
   password: user.passwordField,
-
-  user_id: z.undefined(),
-  role_id: z.undefined(),
-  created_at: z.undefined()
 });
 
 export const AdminCreateUserAccountSchema = UserAccountSchema.extend({ 
@@ -44,14 +40,9 @@ export const AdminCreateUserSchema = AdminCreateUserAccountSchema.extend({
   profile: CreateProfileSchema.nullable().optional()
 });
 
-export const UpdateUserAccountSchema = z.object({ 
+export const UpdateUserAccountSchema = z.strictObject({ 
   username: user.usernameField.optional(),
   email: user.emailField.optional(),
-
-  password: z.undefined(),
-  user_id: z.undefined(),
-  role_id: z.undefined(),
-  created_at: z.undefined(),
 });
 
 export const AdminUpdateUserAccountSchema = UpdateUserAccountSchema.extend({
@@ -65,12 +56,12 @@ export const AdminUpdateUserSchema = AdminUpdateUserAccountSchema.extend({
   profile: UpsertProfileSchema.nullable().optional(), 
 });
 
-export const ChangePasswordSchema = z.object({ 
+export const ChangePasswordSchema = z.strictObject({ 
   oldPass: user.passwordField, 
   newPass: user.passwordField
 });
 
-export const RoleSchema = z.object({
+export const RoleSchema = z.strictObject({
   role_id: zod.ID,
   role_name: z.string().min(1),
 });
@@ -94,7 +85,7 @@ export type ChangePasswordBody = z.infer<typeof ChangePasswordSchema>;
 export type RoleDto = Pick<Roles, 'role_id' | 'role_name'>;
 export function toRoleDto(role: prisma.PrismaRole): RoleDto {
   return {
-    role_id: role.role_id.toString(),
+    role_id: role.role_id,
     role_name: role.role_name as RoleDto['role_name'],
   };
 }

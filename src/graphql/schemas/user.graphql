@@ -1,0 +1,27 @@
+extend type Query {
+  me: users!
+  userPosts(userId: ID!, page: Int, limit: Int): UserPostsResult!
+  userSavedPosts(page: Int, limit: Int): SavedPostsResult!
+  userFollowers(userId: ID!, page: Int, limit: Int): FollowersResult!
+  userFollowing(userId: ID!, page: Int, limit: Int): FollowingResult!
+}
+
+type UserPostsResult {
+  posts: [posts!]!
+  total: Int!
+}
+
+type SavedPostsResult {
+  savedPosts: [saved_posts!]!
+  total: Int!
+}
+
+type FollowersResult {
+  followers: [users!]!
+  total: Int!
+}
+
+type FollowingResult {
+  following: [users!]!
+  total: Int!
+}

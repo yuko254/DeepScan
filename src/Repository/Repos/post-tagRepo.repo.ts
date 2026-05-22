@@ -18,14 +18,14 @@ export class PostTagRepo extends BaseRepository<typeof prisma.post_tags> {
     });
   }
 
-  async findByTag(tag_id: bigint) {
+  async findByTag(tag_id: number) {
     return this.model.findMany({
       where: { tag_id },
       include: { post: true },
     });
   }
 
-  async attach(post_id: string, tag_id: bigint) {
+  async attach(post_id: string, tag_id: number) {
     return this.model.create({
       data: {
         post: { connect: { content_id: post_id } },
@@ -34,13 +34,13 @@ export class PostTagRepo extends BaseRepository<typeof prisma.post_tags> {
     });
   }
 
-  async detach(post_id: string, tag_id: bigint) {
+  async detach(post_id: string, tag_id: number) {
     return this.model.delete({
       where: { post_id_tag_id: { post_id, tag_id } },
     });
   }
 
-  async sync(post_id: string, tag_ids: bigint[]) {
+  async sync(post_id: string, tag_ids: number[]) {
     await this.model.deleteMany({ where: { post_id } });
     if (tag_ids.length > 0) {
       await this.model.createMany({

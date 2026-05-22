@@ -12,18 +12,16 @@ import * as AppError from '../types/appErrors.types.js';
 
 import { NotificationService } from "./notification.service.js";
 import { AuthService } from "./auth.service.js";
-import { ProfileService } from "./profile.service.js";
-import { UserService } from "./userAccount.service.js";
-import * as env from "../config/env.js"
+import { ProfileService } from "./users/profile.service.js";
+import { UserService } from "./users/userAccount.service.js";
+import * as env from "../config/env.js";
 
-const profileService = new ProfileService();
-const userService = new UserService();
-const authService = new AuthService();
-const notificationService = new NotificationService();
-
-const SALT_ROUNDS = env.SALT_ROUNDS
 export class AdminService {
-  constructor() { }
+  private profileService = new ProfileService();
+  private userService = new UserService();
+  private authService = new AuthService();
+  private notificationService = new NotificationService();
+  private SALT_ROUNDS = env.SALT_ROUNDS
 
   // ─── Users ────────────────────────────────────────────────────────────────────
 
@@ -56,7 +54,7 @@ export class AdminService {
     return await prisma.$transaction(async (tx) => {
       const createdAccount = await this.createUserAccount(account, tx);
       const createdProfile = profile
-        ? await profileService.createProfile(createdAccount.user_id, profile, tx)
+        ? await this.profileService.createProfile(createdAccount.user_id, profile, tx)
         : null;
 
       const result = { ...createdAccount, profile: createdProfile };
@@ -65,7 +63,7 @@ export class AdminService {
       await adminAuditRepo.withTx(tx).log(admin.username, 'create_user', 'users', createdAccount.user_id, null, result);
 
       // notification
-      await notificationService.send(
+      await this.notificationService.send(
         { user_id: createdAccount.user_id, actor_id: admin.user_id, type: 'system', message: 'An administrator created your account' },
         tx
       );
@@ -81,7 +79,7 @@ export class AdminService {
 
   async createUserAccount(input: user.AdminCreateUserAccountBody, tx?: Prisma.TransactionClient) {
     const { password, ...rest } = deepClean(input);
-    const hashed = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashed = await bcrypt.hash(password, this.SALT_ROUNDS);
 
     return await userRepo.withTx(tx).create({
       data: { ...rest, password: hashed },
@@ -104,21 +102,28 @@ export class AdminService {
 
     return await prisma.$transaction(async (tx) => {
       const [updatedAccount, updatedProfile] = await Promise.all([
-        userService.updateAccount(userID, account, tx),
+        this.userService.updateAccount(userID, account, tx),
         profile
           ? 'profile_id' in profile
-            ? profileService.updateProfile(profile as profile.UpdateProfileBody, { userID: userID, profileID: profile.profile_id }, tx)
-            : profileService.createProfile(userID, profile as profile.CreateProfileBody, tx)
+            ? this.profileService.updateProfile(profile as profile.UpdateProfileBody, { userID: userID, profileID: profile.profile_id }, tx)
+            : this.profileService.createProfile(userID, profile as profile.CreateProfileBody, tx)
           : Promise.resolve(null),
       ]);
 
       const result = { ...updatedAccount, profile: updatedProfile };
 
       if (updatedAccount.is_banned)
-        authService.revokeAllUserTokens(userID, "refresh");
+        this.authService.revokeAllUserTokens(userID, "refresh");
 
       // audit
-      await adminAuditRepo.withTx(tx).log(admin.username, 'update_user', 'users', userID, oldSnapshot, result);
+      await adminAuditRepo.withTx(tx).log(
+        admin.username,
+        'update_user',
+        'users',
+        userID,
+        oldSnapshot,
+        result
+      );
 
       // notification
       const changes = Object.keys(account || {});
@@ -134,7 +139,7 @@ export class AdminService {
       }
 
       if (message && oldSnapshot?.user_id) {
-        await notificationService.send(
+        await this.notificationService.send(
           { user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message },
           tx
         );
@@ -152,7 +157,7 @@ export class AdminService {
 
   async deleteUser(admin: accessPayload, userID: string, tx?: Prisma.TransactionClient) {
     const oldSnapshot = await userRepo.findUser(userID);
-    await userRepo.withTx(tx).delete({ where: { user_id: userID } })
+    await userRepo.withTx(tx).deleteById(userID)
       .catch((e) => {
         if (e instanceof Prisma.PrismaClientKnownRequestError)
           if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
@@ -161,7 +166,7 @@ export class AdminService {
 
     await adminAuditRepo.log(admin.username, 'delete_user', 'users', userID, oldSnapshot, null);
 
-    await authService.revokeAllUserTokens(userID, "refresh");
+    await this.authService.revokeAllUserTokens(userID, "refresh");
   }
 
   // ─── Roles ────────────────────────────────────────────────────────────────────
@@ -170,8 +175,8 @@ export class AdminService {
     return roleRepo.findAll();
   }
 
-  async deleteRole(roleID: bigint) {
-    await roleRepo.delete({ where: { role_id: roleID } }).catch((e) => {
+  async deleteRole(roleID: number) {
+    await roleRepo.deleteById(roleID).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') throw new AppError.NotFoundError('Role not found');
         if (e.code === 'P2003') throw new AppError.ConflictError('Cannot delete role that is still assigned to users');
@@ -242,11 +247,11 @@ export class AdminService {
         const rt = fullReport!.report_target;
         const msg = 'Your report was resolved by staff';
         if (rt?.post?.content_id)
-          await notificationService.sendForPostSafe({ user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg }, rt.post.content_id);
+          await this.notificationService.sendForPostSafe({ user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg }, rt.post.content_id);
         else if (rt?.comment?.comment_id)
-          await notificationService.sendForComment({ user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg }, rt.comment.comment_id);
+          await this.notificationService.sendForComment({ user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg }, rt.comment.comment_id);
         else
-          await notificationService.send({ user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg });
+          await this.notificationService.send({ user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg });
       }
 
       return updated;
@@ -268,8 +273,17 @@ export class AdminService {
         throw e;
       });
 
+      await adminAuditRepo.withTx(tx).log(
+        admin.username,
+        'delete_post',
+        'contents',
+        postID,
+        oldSnapshot,
+        updated
+      );
+
       if (oldSnapshot?.user_id && oldSnapshot.user_id !== admin.user_id) {
-        await notificationService.sendForPostSafe(
+        await this.notificationService.sendForPostSafe(
           {
             user_id: oldSnapshot.user_id,
             actor_id: admin.user_id,
@@ -280,15 +294,6 @@ export class AdminService {
           tx
         );
       }
-
-      await adminAuditRepo.withTx(tx).log(
-        admin.username,
-        'delete_post',
-        'contents',
-        postID,
-        oldSnapshot,
-        updated
-      );
     }
 
     tx ? await run(tx) : await prisma.$transaction(run);
@@ -303,8 +308,17 @@ export class AdminService {
         throw e;
       });
 
+      await adminAuditRepo.withTx(tx).log(
+        admin.username,
+        'delete_comment',
+        'comments',
+        commentID,
+        oldSnapshot,
+        updated
+      );
+
       if (oldSnapshot?.user_id && oldSnapshot.user_id !== admin.user_id) {
-        await notificationService.sendForComment(
+        await this.notificationService.sendForComment(
           {
             user_id: oldSnapshot.user_id,
             actor_id: admin.user_id,
@@ -315,15 +329,6 @@ export class AdminService {
           tx
         );
       }
-
-      await adminAuditRepo.withTx(tx).log(
-        admin.username,
-        'delete_comment',
-        'comments',
-        commentID,
-        oldSnapshot,
-        updated
-      );
     };
 
     tx ? await run(tx) : await prisma.$transaction(run);
@@ -338,8 +343,17 @@ export class AdminService {
         throw e;
       });
 
+      await adminAuditRepo.withTx(tx).log(
+        admin.username,
+        'delete_story',
+        'contents',
+        storyID,
+        oldSnapshot,
+        updated
+      );
+
       if (oldSnapshot?.user_id && oldSnapshot.user_id !== admin.user_id) {
-        await notificationService.send(
+        await this.notificationService.send(
           {
             user_id: oldSnapshot.user_id,
             actor_id: admin.user_id,
@@ -349,15 +363,6 @@ export class AdminService {
           tx
         );
       }
-
-      await adminAuditRepo.withTx(tx).log(
-        admin.username,
-        'delete_story',
-        'contents',
-        storyID,
-        oldSnapshot,
-        updated
-      );
     };
 
     tx ? await run(tx) : await prisma.$transaction(run);

@@ -7,13 +7,51 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
     super(prisma.stories, 'stories', 'content_id'); // fix: PK is content_id
   }
 
+  async findByIdWithDetails(storyId: string, currentUserId?: string) {
+    const story = await this.model.findUnique({
+      where: { content_id: storyId },
+      include: {
+        content: {
+          include: {
+            user: {
+              include: { profile: true }
+            }
+          }
+        }
+      }
+    });
+
+    if (!story) return null;
+
+    // Run both queries in parallel
+    const [viewCount, view] = await Promise.all([
+      prisma.story_views.count({
+        where: { story_id: storyId }
+      }),
+      currentUserId ? prisma.story_views.findUnique({
+        where: {
+          viewer_id_story_id: {
+            viewer_id: currentUserId,
+            story_id: storyId
+          }
+        }
+      }) : Promise.resolve(null)
+    ]);
+
+    return {
+      ...story,
+      viewCount,
+      hasViewed: !!view
+    };
+  }
+
   async findActiveByUser(user_id: string) {
     return this.model.findMany({
       where: {
         content: { user_id },
         expires_at: { gt: new Date() },
       },
-      include: { content: { include: { media: true } } },
+      include: { content: true },
       orderBy: { expires_at: 'asc' },
     });
   }
@@ -25,27 +63,9 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
         expires_at: { gt: new Date() },
       },
       include: {
-        content: { include: { media: true, user: { include: { profile: true } } } },
+        content: { include: { user: { include: { profile: true } } } },
       },
       orderBy: { expires_at: 'asc' },
-    });
-  }
-
-  async findWithViews(content_id: string) {
-    return this.model.findUnique({
-      where: { content_id },
-      include: { story_views: true },
-    });
-  }
-
-  async expireOld() {
-    // Stories past expiry can be cleaned up — delete their parent content to cascade
-    const expired = await this.model.findMany({
-      where: { expires_at: { lt: new Date() } },
-      select: { content_id: true },
-    });
-    await this.model.deleteMany({
-      where: { content_id: { in: expired.map((s) => s.content_id) } },
     });
   }
 }

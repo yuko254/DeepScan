@@ -364,6 +364,11 @@ function computeFieldVisibility(models: Model[]) {
         }
       }
 
+      if (field.isPk) {
+        showUpdate = true;
+        field.requiredOnUpdate = true;
+      }
+
       field.showInCreate = showCreate;
       field.showInUpdate = showUpdate;
       field.showInType = showType;
@@ -718,7 +723,7 @@ precomputeInputFlags(models, composableChildren);
 const graphqlSDL = generateSDL(models, composableChildren, enums);
 
 // const outputDir = 'src/graphql';
-const outputDir = 'src/graphql';
+const outputDir = 'src/graphql/generated';
 mkdirSync(outputDir, { recursive: true });
 writeFileSync(`${outputDir}/schema.graphql`, graphqlSDL);
 console.log(`✅ GraphQL schema generated: ${outputDir}/schema.graphql`);

@@ -1,0 +1,9 @@
+type Feed {
+  posts: [posts!]!
+  stories: [stories!]!
+  nextCursor: DateTime
+}
+
+extend type Query {
+  feed(cursor: DateTime, limit: Int = 50): Feed!
+}

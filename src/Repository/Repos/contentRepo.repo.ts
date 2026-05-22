@@ -10,7 +10,6 @@ export class ContentRepo extends BaseRepository<typeof prisma.contents> {
   async findByUser(user_id: string, type?: ContentType) {
     return this.model.findMany({
       where: { user_id, ...(type && { type }) },
-      include: { media: true },
       orderBy: { created_at: 'desc' },
     });
   }
@@ -18,32 +17,28 @@ export class ContentRepo extends BaseRepository<typeof prisma.contents> {
   async findByType(type: ContentType, visibility?: Visibility) {
     return this.model.findMany({
       where: { type, ...(visibility && { visibility }) },
-      include: { media: true },
       orderBy: { created_at: 'desc' },
     });
   }
 
   async findPost(post_id: string) {
-    return this.model.findMany({
+    return this.model.findUnique({
       where: { content_id: post_id },
-      include: { post: { include: { post_blocks: true } } },
-      orderBy: { created_at: 'desc' },
+      include: { post: true },
     });
   }
 
   async findStory(story_id: string) {
-    return this.model.findMany({
+    return this.model.findUnique({
       where: { content_id: story_id },
       include: { story: true, media: true },
-      orderBy: { created_at: 'desc' },
     });
   }
 
   async findScan(scan_id: string) {
-    return this.model.findMany({
+    return this.model.findUnique({
       where: { content_id: scan_id },
       include: { scan: true, media: true },
-      orderBy: { created_at: 'desc' },
     });
   }
 

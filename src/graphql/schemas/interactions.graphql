@@ -1,0 +1,72 @@
+extend type Mutation {
+  likePost(postId: ID!): PostLikePayload!
+  unlikePost(postId: ID!): Boolean!
+  savePost(postId: ID!): SavedPostPayload!
+  unsavePost(postId: ID!): Boolean!
+}
+
+type PostLikePayload {
+  liked: Boolean!
+  postId: ID!
+  likesCount: Int!
+}
+
+type SavedPostPayload {
+  saved: Boolean!
+  postId: ID!
+}
+
+extend type Mutation {
+  likeComment(commentId: ID!): CommentLikePayload!
+  unlikeComment(commentId: ID!): Boolean!
+}
+
+type CommentLikePayload {
+  liked: Boolean!
+  commentId: ID!
+  likesCount: Int!
+}
+
+extend type Mutation {
+  followUser(userId: ID!): FollowPayload!
+  unfollowUser(userId: ID!): Boolean!
+  acceptFollowRequest(requesterId: ID!): FollowRequestPayload!
+  rejectFollowRequest(requesterId: ID!): Boolean!
+  cancelFollowRequest(userId: ID!): Boolean!
+}
+
+type FollowPayload {
+  success: Boolean!
+  status: String!
+}
+
+type FollowRequestPayload {
+  success: Boolean!
+  follow: follows!
+}
+
+extend type Mutation {
+  blockUser(userId: ID!): BlockPayload!
+  unblockUser(userId: ID!): Boolean!
+}
+
+type BlockPayload {
+  success: Boolean!
+  blocked: Boolean!
+}
+
+extend type Mutation {
+  markNotificationRead(notificationId: ID!): Boolean!
+  markAllNotificationsRead: Boolean!
+}
+
+extend type Mutation {
+  reportPost(postId: ID!, reason: String): ReportPayload!
+  reportComment(commentId: ID!, reason: String): ReportPayload!
+  reportUser(userId: ID!, reason: String): ReportPayload!
+}
+
+type ReportPayload {
+  success: Boolean!
+  reportId: ID!
+}

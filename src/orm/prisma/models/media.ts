@@ -26,21 +26,18 @@ export type AggregateMedia = {
 
 export type MediaMinAggregateOutputType = {
   media_id: string | null
-  content_id: string | null
   storage_path: string | null
   type: $Enums.MediaType | null
 }
 
 export type MediaMaxAggregateOutputType = {
   media_id: string | null
-  content_id: string | null
   storage_path: string | null
   type: $Enums.MediaType | null
 }
 
 export type MediaCountAggregateOutputType = {
   media_id: number
-  content_id: number
   storage_path: number
   type: number
   _all: number
@@ -49,21 +46,18 @@ export type MediaCountAggregateOutputType = {
 
 export type MediaMinAggregateInputType = {
   media_id?: true
-  content_id?: true
   storage_path?: true
   type?: true
 }
 
 export type MediaMaxAggregateInputType = {
   media_id?: true
-  content_id?: true
   storage_path?: true
   type?: true
 }
 
 export type MediaCountAggregateInputType = {
   media_id?: true
-  content_id?: true
   storage_path?: true
   type?: true
   _all?: true
@@ -143,7 +137,6 @@ export type mediaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type MediaGroupByOutputType = {
   media_id: string
-  content_id: string | null
   storage_path: string
   type: $Enums.MediaType
   _count: MediaCountAggregateOutputType | null
@@ -171,20 +164,14 @@ export type mediaWhereInput = {
   OR?: Prisma.mediaWhereInput[]
   NOT?: Prisma.mediaWhereInput | Prisma.mediaWhereInput[]
   media_id?: Prisma.UuidFilter<"media"> | string
-  content_id?: Prisma.UuidNullableFilter<"media"> | string | null
   storage_path?: Prisma.StringFilter<"media"> | string
   type?: Prisma.EnumMediaTypeFilter<"media"> | $Enums.MediaType
-  content?: Prisma.XOR<Prisma.ContentsNullableScalarRelationFilter, Prisma.contentsWhereInput> | null
-  post_blocks?: Prisma.Post_blocksListRelationFilter
 }
 
 export type mediaOrderByWithRelationInput = {
   media_id?: Prisma.SortOrder
-  content_id?: Prisma.SortOrderInput | Prisma.SortOrder
   storage_path?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  content?: Prisma.contentsOrderByWithRelationInput
-  post_blocks?: Prisma.post_blocksOrderByRelationAggregateInput
 }
 
 export type mediaWhereUniqueInput = Prisma.AtLeast<{
@@ -192,16 +179,12 @@ export type mediaWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.mediaWhereInput | Prisma.mediaWhereInput[]
   OR?: Prisma.mediaWhereInput[]
   NOT?: Prisma.mediaWhereInput | Prisma.mediaWhereInput[]
-  content_id?: Prisma.UuidNullableFilter<"media"> | string | null
   storage_path?: Prisma.StringFilter<"media"> | string
   type?: Prisma.EnumMediaTypeFilter<"media"> | $Enums.MediaType
-  content?: Prisma.XOR<Prisma.ContentsNullableScalarRelationFilter, Prisma.contentsWhereInput> | null
-  post_blocks?: Prisma.Post_blocksListRelationFilter
 }, "media_id">
 
 export type mediaOrderByWithAggregationInput = {
   media_id?: Prisma.SortOrder
-  content_id?: Prisma.SortOrderInput | Prisma.SortOrder
   storage_path?: Prisma.SortOrder
   type?: Prisma.SortOrder
   _count?: Prisma.mediaCountOrderByAggregateInput
@@ -214,7 +197,6 @@ export type mediaScalarWhereWithAggregatesInput = {
   OR?: Prisma.mediaScalarWhereWithAggregatesInput[]
   NOT?: Prisma.mediaScalarWhereWithAggregatesInput | Prisma.mediaScalarWhereWithAggregatesInput[]
   media_id?: Prisma.UuidWithAggregatesFilter<"media"> | string
-  content_id?: Prisma.UuidNullableWithAggregatesFilter<"media"> | string | null
   storage_path?: Prisma.StringWithAggregatesFilter<"media"> | string
   type?: Prisma.EnumMediaTypeWithAggregatesFilter<"media"> | $Enums.MediaType
 }
@@ -223,37 +205,28 @@ export type mediaCreateInput = {
   media_id?: string
   storage_path: string
   type: $Enums.MediaType
-  content?: Prisma.contentsCreateNestedOneWithoutMediaInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutMediaInput
 }
 
 export type mediaUncheckedCreateInput = {
   media_id?: string
-  content_id?: string | null
   storage_path: string
   type: $Enums.MediaType
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutMediaInput
 }
 
 export type mediaUpdateInput = {
   media_id?: Prisma.StringFieldUpdateOperationsInput | string
   storage_path?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
-  content?: Prisma.contentsUpdateOneWithoutMediaNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutMediaNestedInput
 }
 
 export type mediaUncheckedUpdateInput = {
   media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  content_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storage_path?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutMediaNestedInput
 }
 
 export type mediaCreateManyInput = {
   media_id?: string
-  content_id?: string | null
   storage_path: string
   type: $Enums.MediaType
 }
@@ -266,315 +239,65 @@ export type mediaUpdateManyMutationInput = {
 
 export type mediaUncheckedUpdateManyInput = {
   media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  content_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   storage_path?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
 }
 
-export type MediaListRelationFilter = {
-  every?: Prisma.mediaWhereInput
-  some?: Prisma.mediaWhereInput
-  none?: Prisma.mediaWhereInput
-}
-
-export type mediaOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type mediaCountOrderByAggregateInput = {
   media_id?: Prisma.SortOrder
-  content_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
   type?: Prisma.SortOrder
 }
 
 export type mediaMaxOrderByAggregateInput = {
   media_id?: Prisma.SortOrder
-  content_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
   type?: Prisma.SortOrder
 }
 
 export type mediaMinOrderByAggregateInput = {
   media_id?: Prisma.SortOrder
-  content_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
   type?: Prisma.SortOrder
-}
-
-export type MediaNullableScalarRelationFilter = {
-  is?: Prisma.mediaWhereInput | null
-  isNot?: Prisma.mediaWhereInput | null
-}
-
-export type mediaCreateNestedManyWithoutContentInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutContentInput, Prisma.mediaUncheckedCreateWithoutContentInput> | Prisma.mediaCreateWithoutContentInput[] | Prisma.mediaUncheckedCreateWithoutContentInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutContentInput | Prisma.mediaCreateOrConnectWithoutContentInput[]
-  createMany?: Prisma.mediaCreateManyContentInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUncheckedCreateNestedManyWithoutContentInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutContentInput, Prisma.mediaUncheckedCreateWithoutContentInput> | Prisma.mediaCreateWithoutContentInput[] | Prisma.mediaUncheckedCreateWithoutContentInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutContentInput | Prisma.mediaCreateOrConnectWithoutContentInput[]
-  createMany?: Prisma.mediaCreateManyContentInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUpdateManyWithoutContentNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutContentInput, Prisma.mediaUncheckedCreateWithoutContentInput> | Prisma.mediaCreateWithoutContentInput[] | Prisma.mediaUncheckedCreateWithoutContentInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutContentInput | Prisma.mediaCreateOrConnectWithoutContentInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutContentInput | Prisma.mediaUpsertWithWhereUniqueWithoutContentInput[]
-  createMany?: Prisma.mediaCreateManyContentInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutContentInput | Prisma.mediaUpdateWithWhereUniqueWithoutContentInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutContentInput | Prisma.mediaUpdateManyWithWhereWithoutContentInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-}
-
-export type mediaUncheckedUpdateManyWithoutContentNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutContentInput, Prisma.mediaUncheckedCreateWithoutContentInput> | Prisma.mediaCreateWithoutContentInput[] | Prisma.mediaUncheckedCreateWithoutContentInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutContentInput | Prisma.mediaCreateOrConnectWithoutContentInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutContentInput | Prisma.mediaUpsertWithWhereUniqueWithoutContentInput[]
-  createMany?: Prisma.mediaCreateManyContentInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutContentInput | Prisma.mediaUpdateWithWhereUniqueWithoutContentInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutContentInput | Prisma.mediaUpdateManyWithWhereWithoutContentInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
 }
 
 export type EnumMediaTypeFieldUpdateOperationsInput = {
   set?: $Enums.MediaType
 }
 
-export type mediaCreateNestedOneWithoutPost_blocksInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPost_blocksInput
-  connect?: Prisma.mediaWhereUniqueInput
-}
-
-export type mediaUpdateOneWithoutPost_blocksNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPost_blocksInput
-  upsert?: Prisma.mediaUpsertWithoutPost_blocksInput
-  disconnect?: Prisma.mediaWhereInput | boolean
-  delete?: Prisma.mediaWhereInput | boolean
-  connect?: Prisma.mediaWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.mediaUpdateToOneWithWhereWithoutPost_blocksInput, Prisma.mediaUpdateWithoutPost_blocksInput>, Prisma.mediaUncheckedUpdateWithoutPost_blocksInput>
-}
-
-export type mediaCreateWithoutContentInput = {
-  media_id?: string
-  storage_path: string
-  type: $Enums.MediaType
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutMediaInput
-}
-
-export type mediaUncheckedCreateWithoutContentInput = {
-  media_id?: string
-  storage_path: string
-  type: $Enums.MediaType
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutMediaInput
-}
-
-export type mediaCreateOrConnectWithoutContentInput = {
-  where: Prisma.mediaWhereUniqueInput
-  create: Prisma.XOR<Prisma.mediaCreateWithoutContentInput, Prisma.mediaUncheckedCreateWithoutContentInput>
-}
-
-export type mediaCreateManyContentInputEnvelope = {
-  data: Prisma.mediaCreateManyContentInput | Prisma.mediaCreateManyContentInput[]
-  skipDuplicates?: boolean
-}
-
-export type mediaUpsertWithWhereUniqueWithoutContentInput = {
-  where: Prisma.mediaWhereUniqueInput
-  update: Prisma.XOR<Prisma.mediaUpdateWithoutContentInput, Prisma.mediaUncheckedUpdateWithoutContentInput>
-  create: Prisma.XOR<Prisma.mediaCreateWithoutContentInput, Prisma.mediaUncheckedCreateWithoutContentInput>
-}
-
-export type mediaUpdateWithWhereUniqueWithoutContentInput = {
-  where: Prisma.mediaWhereUniqueInput
-  data: Prisma.XOR<Prisma.mediaUpdateWithoutContentInput, Prisma.mediaUncheckedUpdateWithoutContentInput>
-}
-
-export type mediaUpdateManyWithWhereWithoutContentInput = {
-  where: Prisma.mediaScalarWhereInput
-  data: Prisma.XOR<Prisma.mediaUpdateManyMutationInput, Prisma.mediaUncheckedUpdateManyWithoutContentInput>
-}
-
-export type mediaScalarWhereInput = {
-  AND?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-  OR?: Prisma.mediaScalarWhereInput[]
-  NOT?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-  media_id?: Prisma.UuidFilter<"media"> | string
-  content_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  storage_path?: Prisma.StringFilter<"media"> | string
-  type?: Prisma.EnumMediaTypeFilter<"media"> | $Enums.MediaType
-}
-
-export type mediaCreateWithoutPost_blocksInput = {
-  media_id?: string
-  storage_path: string
-  type: $Enums.MediaType
-  content?: Prisma.contentsCreateNestedOneWithoutMediaInput
-}
-
-export type mediaUncheckedCreateWithoutPost_blocksInput = {
-  media_id?: string
-  content_id?: string | null
-  storage_path: string
-  type: $Enums.MediaType
-}
-
-export type mediaCreateOrConnectWithoutPost_blocksInput = {
-  where: Prisma.mediaWhereUniqueInput
-  create: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-}
-
-export type mediaUpsertWithoutPost_blocksInput = {
-  update: Prisma.XOR<Prisma.mediaUpdateWithoutPost_blocksInput, Prisma.mediaUncheckedUpdateWithoutPost_blocksInput>
-  create: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-  where?: Prisma.mediaWhereInput
-}
-
-export type mediaUpdateToOneWithWhereWithoutPost_blocksInput = {
-  where?: Prisma.mediaWhereInput
-  data: Prisma.XOR<Prisma.mediaUpdateWithoutPost_blocksInput, Prisma.mediaUncheckedUpdateWithoutPost_blocksInput>
-}
-
-export type mediaUpdateWithoutPost_blocksInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
-  content?: Prisma.contentsUpdateOneWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateWithoutPost_blocksInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  content_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
-}
-
-export type mediaCreateManyContentInput = {
-  media_id?: string
-  storage_path: string
-  type: $Enums.MediaType
-}
-
-export type mediaUpdateWithoutContentInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateWithoutContentInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateManyWithoutContentInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
-}
-
-
-/**
- * Count Type MediaCountOutputType
- */
-
-export type MediaCountOutputType = {
-  post_blocks: number
-}
-
-export type MediaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post_blocks?: boolean | MediaCountOutputTypeCountPost_blocksArgs
-}
-
-/**
- * MediaCountOutputType without action
- */
-export type MediaCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MediaCountOutputType
-   */
-  select?: Prisma.MediaCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * MediaCountOutputType without action
- */
-export type MediaCountOutputTypeCountPost_blocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.post_blocksWhereInput
-}
 
 
 export type mediaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   media_id?: boolean
-  content_id?: boolean
   storage_path?: boolean
   type?: boolean
-  content?: boolean | Prisma.media$contentArgs<ExtArgs>
-  post_blocks?: boolean | Prisma.media$post_blocksArgs<ExtArgs>
-  _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
 
 export type mediaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   media_id?: boolean
-  content_id?: boolean
   storage_path?: boolean
   type?: boolean
-  content?: boolean | Prisma.media$contentArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
 
 export type mediaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   media_id?: boolean
-  content_id?: boolean
   storage_path?: boolean
   type?: boolean
-  content?: boolean | Prisma.media$contentArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
 
 export type mediaSelectScalar = {
   media_id?: boolean
-  content_id?: boolean
   storage_path?: boolean
   type?: boolean
 }
 
-export type mediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"media_id" | "content_id" | "storage_path" | "type", ExtArgs["result"]["media"]>
-export type mediaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  content?: boolean | Prisma.media$contentArgs<ExtArgs>
-  post_blocks?: boolean | Prisma.media$post_blocksArgs<ExtArgs>
-  _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type mediaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  content?: boolean | Prisma.media$contentArgs<ExtArgs>
-}
-export type mediaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  content?: boolean | Prisma.media$contentArgs<ExtArgs>
-}
+export type mediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"media_id" | "storage_path" | "type", ExtArgs["result"]["media"]>
 
 export type $mediaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "media"
-  objects: {
-    content: Prisma.$contentsPayload<ExtArgs> | null
-    post_blocks: Prisma.$post_blocksPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     media_id: string
-    content_id: string | null
     storage_path: string
     type: $Enums.MediaType
   }, ExtArgs["result"]["media"]>
@@ -971,8 +694,6 @@ readonly fields: mediaFieldRefs;
  */
 export interface Prisma__mediaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  content<T extends Prisma.media$contentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.media$contentArgs<ExtArgs>>): Prisma.Prisma__contentsClient<runtime.Types.Result.GetResult<Prisma.$contentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  post_blocks<T extends Prisma.media$post_blocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.media$post_blocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1003,7 +724,6 @@ export interface Prisma__mediaClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface mediaFieldRefs {
   readonly media_id: Prisma.FieldRef<"media", 'String'>
-  readonly content_id: Prisma.FieldRef<"media", 'String'>
   readonly storage_path: Prisma.FieldRef<"media", 'String'>
   readonly type: Prisma.FieldRef<"media", 'MediaType'>
 }
@@ -1023,10 +743,6 @@ export type mediaFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * Filter, which media to fetch.
    */
   where: Prisma.mediaWhereUniqueInput
@@ -1045,10 +761,6 @@ export type mediaFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * Filter, which media to fetch.
    */
   where: Prisma.mediaWhereUniqueInput
@@ -1066,10 +778,6 @@ export type mediaFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * Filter, which media to fetch.
    */
@@ -1119,10 +827,6 @@ export type mediaFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * Filter, which media to fetch.
    */
   where?: Prisma.mediaWhereInput
@@ -1170,10 +874,6 @@ export type mediaFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * Filter, which media to fetch.
    */
@@ -1223,10 +923,6 @@ export type mediaCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * The data needed to create a media.
    */
   data: Prisma.XOR<Prisma.mediaCreateInput, Prisma.mediaUncheckedCreateInput>
@@ -1260,10 +956,6 @@ export type mediaCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.mediaCreateManyInput | Prisma.mediaCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1278,10 +970,6 @@ export type mediaUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * The data needed to update a media.
    */
@@ -1334,10 +1022,6 @@ export type mediaUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many media to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1352,10 +1036,6 @@ export type mediaUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * The filter to search for the media to update in case it exists.
    */
@@ -1383,10 +1063,6 @@ export type mediaDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * Filter which media to delete.
    */
   where: Prisma.mediaWhereUniqueInput
@@ -1407,49 +1083,6 @@ export type mediaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * media.content
- */
-export type media$contentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the contents
-   */
-  select?: Prisma.contentsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the contents
-   */
-  omit?: Prisma.contentsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.contentsInclude<ExtArgs> | null
-  where?: Prisma.contentsWhereInput
-}
-
-/**
- * media.post_blocks
- */
-export type media$post_blocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the post_blocks
-   */
-  select?: Prisma.post_blocksSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the post_blocks
-   */
-  omit?: Prisma.post_blocksOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.post_blocksInclude<ExtArgs> | null
-  where?: Prisma.post_blocksWhereInput
-  orderBy?: Prisma.post_blocksOrderByWithRelationInput | Prisma.post_blocksOrderByWithRelationInput[]
-  cursor?: Prisma.post_blocksWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Post_blocksScalarFieldEnum | Prisma.Post_blocksScalarFieldEnum[]
-}
-
-/**
  * media without action
  */
 export type mediaDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1461,8 +1094,4 @@ export type mediaDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
 }

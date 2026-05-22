@@ -7,8 +7,8 @@ import { deepClean } from "../dtos/dto.js";
 import * as user from "../dtos/users.dto.js"
 import * as AppError from '../types/appErrors.types.js';
 import * as env from "../config/env.js"
+
 export class UserService {
-  constructor() { }
 
   async getAccount(userID: string, tx?: Prisma.TransactionClient) {
     const user = await userRepo.withTx(tx).findAccount(userID);

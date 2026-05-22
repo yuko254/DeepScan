@@ -19,7 +19,7 @@ export class CountryRepo extends BaseRepository<typeof prisma.countries> {
     return this.model.findMany({ orderBy: { name: 'asc' } });
   }
 
-  async findWithCities(country_id: bigint) {
+  async findWithCities(country_id: number) {
     return this.model.findUnique({
       where: { country_id },
       include: { cities: { orderBy: { name: 'asc' } } },

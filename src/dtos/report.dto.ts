@@ -7,11 +7,11 @@ import  { type UserAccountDto, toUserAccountDto } from './users.dto.js';
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
-export const GetReportParam = z.object({
+export const GetReportParam = z.strictObject({
   report_id: zod.UUID,
 });
 
-export const GetReportsQuerySchema = z.object({
+export const GetReportsQuerySchema = z.strictObject({
   page: zod.pageQuery,
   limit: zod.pageLimitQuery,
   status: z.string().optional(),
@@ -23,18 +23,18 @@ export const GetReportsQuerySchema = z.object({
   filters: { status, reporter_id: reporter, resolver_id: resolver, report_target_id: reported } as ReportFiltersDto,
 }));
 
-export const ReportSchema = z.object({ 
+export const ReportSchema = z.strictObject({ 
     report_target_id: zod.UUID,
     reason: z.string().min(20),
 });
 
-export const UpdateReportSchema = z.object({ 
+export const UpdateReportSchema = z.strictObject({ 
     report_id: zod.UUID,
     reason: z.string().min(20).optional(),
 });
 
-export const AdminUpdateReportSchema = UpdateReportSchema.extend({ 
-    reason: z.undefined(),
+export const AdminUpdateReportSchema = z.strictObject({ 
+    report_id: zod.UUID,
     resolver_id: zod.UUID,
     status: z.string(),
 });
@@ -60,18 +60,18 @@ export type ReportListItem = Pick<
   Reports,
   'report_id' | 'reason' | 'status' | 'created_at' | 'resolved_at'
 > & {
-  reporter: UserAccountDto;               // full account summary
-  resolver: UserAccountDto | null;        // full account summary, nullable
-  target: TargetSummary;                  // lightweight polymorphic target
+  reporter: UserAccountDto;
+  resolver: UserAccountDto | null;
+  target: TargetSummary;
 };
 
 export type ReportDto = Pick<
   Reports,
   'report_id' | 'reason' | 'status' | 'created_at' | 'resolved_at'
 > & {
-  reporter: UserAccountDto;                           // full reporter account
-  resolver: UserAccountDto | null;                    // full resolver account (if resolved)
-  reported: Posts | Comments | Stories | Profiles | null; // the actual reported content
+  reporter: UserAccountDto;
+  resolver: UserAccountDto | null;
+  reported: Posts | Comments | Stories | Profiles | null;
 };
 
 export interface ReportsPageDto {

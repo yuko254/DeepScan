@@ -11,10 +11,6 @@ export class TagRepo extends BaseRepository<typeof prisma.tags> {
     return this.model.findUnique({ where: { name } });
   }
 
-  async findOrCreateByName(name: string) {
-    return this.model.upsert({ where: { name }, update: {}, create: { name } });
-  }
-
   async findAll() {
     return this.model.findMany({ orderBy: { name: 'asc' } });
   }

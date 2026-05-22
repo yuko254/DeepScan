@@ -3,6 +3,7 @@ import type { Prisma } from '@prisma/client';
 export class BaseRepository<
   Model extends {
     create: (args: any) => any;
+    createMany: (args: any) => any;
     findUnique: (args: any) => any;
     findFirst: (args: any) => any;
     findMany: (args: any) => any;
@@ -10,6 +11,7 @@ export class BaseRepository<
     update: (args: any) => any;
     upsert: (args: any) => any;
     delete: (args: any) => any;
+    deleteMany: (args: any) => any;
   }
 > {
   constructor(
@@ -17,7 +19,7 @@ export class BaseRepository<
     private modelName: keyof Prisma.TransactionClient,
     private pkField: string = 'id'
   ) { }
-  
+
   protected filterMapping: Record<string, (value: any) => any> = {};
   protected buildWhere<F extends Record<string, any>>(filters?: F): any {
     if (!filters) return {};
@@ -29,7 +31,7 @@ export class BaseRepository<
     }
     return where;
   }
-  
+
   withTx(tx?: Prisma.TransactionClient): this {
     if (!tx) return this;
     const scoped = Object.create(this) as this;
@@ -47,6 +49,14 @@ export class BaseRepository<
     args: A
   ): Promise<Prisma.Result<Model, A, 'upsert'>> {
     return this.model.upsert(args as any) as any;
+  }
+
+  async createMany(data: any[], options?: { skipDuplicates?: boolean }): Promise<number> {
+    const result = await this.model.createMany({
+      data,
+      skipDuplicates: options?.skipDuplicates ?? false,
+    });
+    return result.count;
   }
 
   async findUnique<A extends Parameters<Model['findUnique']>[0]>(
@@ -85,13 +95,25 @@ export class BaseRepository<
     return this.model.delete(args as any) as any;
   }
 
+  async deleteMany(where: any): Promise<number> {
+    const result = await this.model.deleteMany({ where });
+    return result.count;
+  }
+
   // ── Convenience methods ────────────────────────────
 
   async findById<A extends Parameters<Model['findUnique']>[0]>(
-    id: string | bigint,
+    id: string | bigint | number,
     options?: Omit<A, 'where'>
   ): Promise<Prisma.Result<Model, A, 'findUnique'>> {
     return this.model.findUnique({ where: { [this.pkField]: id }, ...(options as any) } as any) as any;
+  }
+
+  async deleteById<A extends Parameters<Model['delete']>[0]>(
+    id: string | bigint | number,
+    options?: Omit<A, 'where'>
+  ): Promise<Prisma.Result<Model, A, 'delete'>> {
+    return this.model.delete({ where: { [this.pkField]: id }, ...(options as any) } as any) as any;
   }
 
   async findOne<A extends Parameters<Model['findUnique']>[0]>(

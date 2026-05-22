@@ -5,7 +5,7 @@ import * as token from "../validations/tokens.validation.js"
 
 // ─── Request schemas ──────────────────────────────────────────────────────────
 
-export const RegisterSchema = z.object({
+export const RegisterSchema = z.strictObject({
   username: user.usernameField,
   email: user.emailField,
   password: user.passwordField,
@@ -15,21 +15,21 @@ export const RegisterSchema = z.object({
 export const LoginSchema = z.object({
   username: user.usernameField.optional(),
   email: user.emailField.optional(),
-  password: z.string().min(1, 'Password is required'), // weaker on purpose — no length hint on login
+  password: z.string().min(1), // weaker on purpose — no length hint on login
   stayLoggedIn: z.boolean().optional()
 });
 
-export const ForgotPasswordSchema = z.object({
+export const ForgotPasswordSchema = z.strictObject({
   email: user.emailField,
 });
 
-export const ResetPasswordSchema = z.object({
+export const ResetPasswordSchema = z.strictObject({
   email: user.emailField,
   token: token.TokenField,
   new_password: user.passwordField,
 });
 
-export const RefreshTokenSchema = z.object({ refresh_token: token.TokenField });
+export const RefreshTokenSchema = z.strictObject({ refresh_token: token.TokenField });
 
 // ─── Inferred request types ───────────────────────────────────────────────────
 

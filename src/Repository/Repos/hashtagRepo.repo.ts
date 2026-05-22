@@ -28,14 +28,25 @@ export class HashtagRepo extends BaseRepository<typeof prisma.hashtags> {
 
   /** Trending via the hashtag_usage view, joined back to hashtags */
   async getTrending(take = 10) {
-    const usages = await this.model.findMany({
+    // 1. Get top hashtag IDs + counts from the view
+    const trending = await prisma.hashtag_usage.findMany({
       orderBy: { usage_count: 'desc' },
       take,
     });
-    const ids = usages.map((u) => u.hashtag_id);
-    const rows = await this.model.findMany({ where: { hashtag_id: { in: ids } } });
-    // Preserve ranking order
-    const map = new Map(rows.map((h) => [h.hashtag_id, h]));
-    return ids.map((id) => map.get(id)!).filter(Boolean);
+
+    if (trending.length === 0) return [];
+
+    const hashtagIds = trending.map(t => t.hashtag_id);
+
+    // 2. Fetch the full hashtag records
+    const hashtags = await this.model.findMany({
+      where: { hashtag_id: { in: hashtagIds } },
+    });
+
+    // 3. Re‑order to match the view’s ranking
+    const hashtagMap = new Map(hashtags.map(h => [h.hashtag_id, h]));
+    return hashtagIds
+      .map(id => hashtagMap.get(id))
+      .filter((h): h is typeof hashtags[0] => h !== undefined);
   }
 }

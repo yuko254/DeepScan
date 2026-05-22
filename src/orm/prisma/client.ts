@@ -157,11 +157,6 @@ export type notifications = Prisma.notificationsModel
  */
 export type notification_targets = Prisma.notification_targetsModel
 /**
- * Model post_blocks
- * 
- */
-export type post_blocks = Prisma.post_blocksModel
-/**
  * Model post_likes
  * 
  */

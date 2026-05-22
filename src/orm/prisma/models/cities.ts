@@ -32,20 +32,20 @@ export type CitiesAvgAggregateOutputType = {
 }
 
 export type CitiesSumAggregateOutputType = {
-  city_id: bigint | null
-  country_id: bigint | null
+  city_id: number | null
+  country_id: number | null
 }
 
 export type CitiesMinAggregateOutputType = {
-  city_id: bigint | null
+  city_id: number | null
   name: string | null
-  country_id: bigint | null
+  country_id: number | null
 }
 
 export type CitiesMaxAggregateOutputType = {
-  city_id: bigint | null
+  city_id: number | null
   name: string | null
-  country_id: bigint | null
+  country_id: number | null
 }
 
 export type CitiesCountAggregateOutputType = {
@@ -172,9 +172,9 @@ export type citiesGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 export type CitiesGroupByOutputType = {
-  city_id: bigint
+  city_id: number
   name: string
-  country_id: bigint
+  country_id: number
   _count: CitiesCountAggregateOutputType | null
   _avg: CitiesAvgAggregateOutputType | null
   _sum: CitiesSumAggregateOutputType | null
@@ -201,9 +201,9 @@ export type citiesWhereInput = {
   AND?: Prisma.citiesWhereInput | Prisma.citiesWhereInput[]
   OR?: Prisma.citiesWhereInput[]
   NOT?: Prisma.citiesWhereInput | Prisma.citiesWhereInput[]
-  city_id?: Prisma.BigIntFilter<"cities"> | bigint | number
+  city_id?: Prisma.IntFilter<"cities"> | number
   name?: Prisma.StringFilter<"cities"> | string
-  country_id?: Prisma.BigIntFilter<"cities"> | bigint | number
+  country_id?: Prisma.IntFilter<"cities"> | number
   country?: Prisma.XOR<Prisma.CountriesScalarRelationFilter, Prisma.countriesWhereInput>
   locations?: Prisma.LocationsListRelationFilter
 }
@@ -217,13 +217,13 @@ export type citiesOrderByWithRelationInput = {
 }
 
 export type citiesWhereUniqueInput = Prisma.AtLeast<{
-  city_id?: bigint | number
+  city_id?: number
   name_country_id?: Prisma.citiesNameCountry_idCompoundUniqueInput
   AND?: Prisma.citiesWhereInput | Prisma.citiesWhereInput[]
   OR?: Prisma.citiesWhereInput[]
   NOT?: Prisma.citiesWhereInput | Prisma.citiesWhereInput[]
   name?: Prisma.StringFilter<"cities"> | string
-  country_id?: Prisma.BigIntFilter<"cities"> | bigint | number
+  country_id?: Prisma.IntFilter<"cities"> | number
   country?: Prisma.XOR<Prisma.CountriesScalarRelationFilter, Prisma.countriesWhereInput>
   locations?: Prisma.LocationsListRelationFilter
 }, "city_id" | "name_country_id">
@@ -243,54 +243,51 @@ export type citiesScalarWhereWithAggregatesInput = {
   AND?: Prisma.citiesScalarWhereWithAggregatesInput | Prisma.citiesScalarWhereWithAggregatesInput[]
   OR?: Prisma.citiesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.citiesScalarWhereWithAggregatesInput | Prisma.citiesScalarWhereWithAggregatesInput[]
-  city_id?: Prisma.BigIntWithAggregatesFilter<"cities"> | bigint | number
+  city_id?: Prisma.IntWithAggregatesFilter<"cities"> | number
   name?: Prisma.StringWithAggregatesFilter<"cities"> | string
-  country_id?: Prisma.BigIntWithAggregatesFilter<"cities"> | bigint | number
+  country_id?: Prisma.IntWithAggregatesFilter<"cities"> | number
 }
 
 export type citiesCreateInput = {
-  city_id?: bigint | number
   name: string
   country: Prisma.countriesCreateNestedOneWithoutCitiesInput
   locations?: Prisma.locationsCreateNestedManyWithoutCityInput
 }
 
 export type citiesUncheckedCreateInput = {
-  city_id?: bigint | number
+  city_id?: number
   name: string
-  country_id: bigint | number
+  country_id: number
   locations?: Prisma.locationsUncheckedCreateNestedManyWithoutCityInput
 }
 
 export type citiesUpdateInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
   locations?: Prisma.locationsUpdateManyWithoutCityNestedInput
 }
 
 export type citiesUncheckedUpdateInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  city_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
   locations?: Prisma.locationsUncheckedUpdateManyWithoutCityNestedInput
 }
 
 export type citiesCreateManyInput = {
-  city_id?: bigint | number
+  city_id?: number
   name: string
-  country_id: bigint | number
+  country_id: number
 }
 
 export type citiesUpdateManyMutationInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type citiesUncheckedUpdateManyInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  city_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type CitiesListRelationFilter = {
@@ -305,7 +302,7 @@ export type citiesOrderByRelationAggregateInput = {
 
 export type citiesNameCountry_idCompoundUniqueInput = {
   name: string
-  country_id: bigint | number
+  country_id: number
 }
 
 export type citiesCountOrderByAggregateInput = {
@@ -400,13 +397,12 @@ export type citiesUpdateOneWithoutLocationsNestedInput = {
 }
 
 export type citiesCreateWithoutCountryInput = {
-  city_id?: bigint | number
   name: string
   locations?: Prisma.locationsCreateNestedManyWithoutCityInput
 }
 
 export type citiesUncheckedCreateWithoutCountryInput = {
-  city_id?: bigint | number
+  city_id?: number
   name: string
   locations?: Prisma.locationsUncheckedCreateNestedManyWithoutCityInput
 }
@@ -441,21 +437,20 @@ export type citiesScalarWhereInput = {
   AND?: Prisma.citiesScalarWhereInput | Prisma.citiesScalarWhereInput[]
   OR?: Prisma.citiesScalarWhereInput[]
   NOT?: Prisma.citiesScalarWhereInput | Prisma.citiesScalarWhereInput[]
-  city_id?: Prisma.BigIntFilter<"cities"> | bigint | number
+  city_id?: Prisma.IntFilter<"cities"> | number
   name?: Prisma.StringFilter<"cities"> | string
-  country_id?: Prisma.BigIntFilter<"cities"> | bigint | number
+  country_id?: Prisma.IntFilter<"cities"> | number
 }
 
 export type citiesCreateWithoutLocationsInput = {
-  city_id?: bigint | number
   name: string
   country: Prisma.countriesCreateNestedOneWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutLocationsInput = {
-  city_id?: bigint | number
+  city_id?: number
   name: string
-  country_id: bigint | number
+  country_id: number
 }
 
 export type citiesCreateOrConnectWithoutLocationsInput = {
@@ -475,36 +470,34 @@ export type citiesUpdateToOneWithWhereWithoutLocationsInput = {
 }
 
 export type citiesUpdateWithoutLocationsInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutLocationsInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  city_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  country_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type citiesCreateManyCountryInput = {
-  city_id?: bigint | number
+  city_id?: number
   name: string
 }
 
 export type citiesUpdateWithoutCountryInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   locations?: Prisma.locationsUpdateManyWithoutCityNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutCountryInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  city_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   locations?: Prisma.locationsUncheckedUpdateManyWithoutCityNestedInput
 }
 
 export type citiesUncheckedUpdateManyWithoutCountryInput = {
-  city_id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  city_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -588,9 +581,9 @@ export type $citiesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     locations: Prisma.$locationsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    city_id: bigint
+    city_id: number
     name: string
-    country_id: bigint
+    country_id: number
   }, ExtArgs["result"]["cities"]>
   composites: {}
 }
@@ -1016,9 +1009,9 @@ export interface Prisma__citiesClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the cities model
  */
 export interface citiesFieldRefs {
-  readonly city_id: Prisma.FieldRef<"cities", 'BigInt'>
+  readonly city_id: Prisma.FieldRef<"cities", 'Int'>
   readonly name: Prisma.FieldRef<"cities", 'String'>
-  readonly country_id: Prisma.FieldRef<"cities", 'BigInt'>
+  readonly country_id: Prisma.FieldRef<"cities", 'Int'>
 }
     
 

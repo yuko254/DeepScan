@@ -8,12 +8,12 @@ function eq<W extends Record<string, any>, K extends keyof W>(
 
 export interface UserFiltersDto {
   username?: string;
-  role_id?: bigint;
+  role_id?: number;
   is_active?: boolean;
   is_banned?: boolean;
 }
 export const userFilterMapping = {
-  role_id:   (roleId: bigint) => ({ role: { role_id: roleId } }),
+  role_id:   (roleId: number) => ({ role: { role_id: roleId } }),
   username:  (username: string) => ({ username: { contains: username, mode: 'insensitive' } }),
   is_active: eq<Prisma.usersWhereInput, 'is_active'>('is_active'),
   is_banned: eq<Prisma.usersWhereInput, 'is_banned'>('is_banned'),
@@ -38,5 +38,5 @@ export interface CountryFiltersDto {
 
 export interface CityFiltersDto {
   search?: string;
-  country_id?: bigint;
+  country_id?: number;
 }

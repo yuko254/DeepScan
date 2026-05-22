@@ -1,16 +1,13 @@
-import { Prisma, prisma } from "../config/prisma.js";
-import { profileRepo } from '../Repository/instances.js';
-import * as profile from "../dtos/profile.dto.js";
-import * as location from "../dtos/location.dto.js"
-import * as AppError from '../types/appErrors.types.js';
-import { deepClean } from "../dtos/dto.js";
+import { Prisma, prisma } from "../../config/prisma.js";
+import { profileRepo } from '../../Repository/instances.js';
+import * as profile from "../../dtos/profile.dto.js";
+import * as location from "../../dtos/location.dto.js"
+import * as AppError from '../../types/appErrors.types.js';
+import { deepClean } from "../../dtos/dto.js";
 import { LocationService } from "./location.service.js";
 
-
-const locationService = new LocationService()
-
 export class ProfileService {
-  constructor() { }
+  private locationService = new LocationService()
 
   async getProfile(ids: { userID?: string; profileID?: string }, tx?: Prisma.TransactionClient) {
     const { userID, profileID } = this.resolveID(ids);
@@ -123,13 +120,13 @@ export class ProfileService {
 
   // ─── Helpers ─────────────────────────────────────────────────────────────────────
 
-  private resolveLocation(input: location.UpsertLocationBody | null | undefined, tx?: Prisma.TransactionClient) {
+  private async resolveLocation(input: location.UpsertLocationBody | null | undefined, tx?: Prisma.TransactionClient) {
     if (!input) return Promise.resolve(undefined);
     if ("location_id" in input && input.location_id) {
       const { location_id, ...rest } = input;
-      return locationService.updateLocation(location_id, rest as location.UpdateLocationBody, tx).then(l => l.location_id);
+      return await this.locationService.updateLocation(location_id, rest as location.UpdateLocationBody, tx).then(l => l.location_id);
     }
-    return locationService.createLocation(input as location.CreateLocationBody, tx).then(l => l.location_id);
+    return await this.locationService.createLocation(input as location.CreateLocationBody, tx).then(l => l.location_id);
   }
 
   private resolveID(ids: { userID?: string; profileID?: string }) {

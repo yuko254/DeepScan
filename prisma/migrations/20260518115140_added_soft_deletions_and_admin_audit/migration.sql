@@ -4,9 +4,6 @@ ALTER TABLE "comments" DROP CONSTRAINT "comments_comment_parent_id_fkey";
 -- AlterTable
 ALTER TABLE "contents" ADD COLUMN     "is_deleted" BOOLEAN NOT NULL DEFAULT false;
 
--- AlterTable
-ALTER TABLE "report_targets" ADD COLUMN     "profile_id" UUID;
-
 -- CreateTable
 CREATE TABLE "admin_audits" (
     "audit_id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -29,9 +26,6 @@ CREATE INDEX "admin_audits_created_at_idx" ON "admin_audits"("created_at");
 
 -- AddForeignKey
 ALTER TABLE "comments" ADD CONSTRAINT "comments_comment_parent_id_fkey" FOREIGN KEY ("comment_parent_id") REFERENCES "comments"("comment_id") ON DELETE CASCADE ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE "report_targets" ADD CONSTRAINT "report_targets_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "profiles"("profile_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "admin_audits" ADD CONSTRAINT "admin_audits_admin_username_fkey" FOREIGN KEY ("admin_username") REFERENCES "users"("username") ON DELETE SET NULL ON UPDATE CASCADE;
