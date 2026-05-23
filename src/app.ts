@@ -25,10 +25,8 @@ await initBucket()
 await graphqlServer.start();
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
-app.use(cors({
-  origin: env.ClientOrigin,
-  credentials: true,
-}));
+app.set('trust proxy', 1);
+app.use(cors({ origin: env.ClientOrigin,credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(nodox(app))
