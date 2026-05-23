@@ -1316,12 +1316,14 @@ export type Posts = {
 export type PostsCreateInput = {
   category_id?: InputMaybe<Scalars['Int']['input']>;
   location?: InputMaybe<LocationsCreateInput>;
+  tagsIDs?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type PostsUpdateInput = {
   category_id?: InputMaybe<Scalars['Int']['input']>;
   content_id: Scalars['String']['input'];
   location?: InputMaybe<LocationsUpdateInput>;
+  tagsIDs?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Profiles = {

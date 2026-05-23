@@ -452,12 +452,14 @@ type posts {
 input postsCreateInput {
   category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
   location: locationsCreateInput
+  tagsIDs: [String!]
 }
 
 input postsUpdateInput {
   content_id: String!
   category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
   location: locationsUpdateInput
+  tagsIDs: [String!]
 }
 
 type profiles {

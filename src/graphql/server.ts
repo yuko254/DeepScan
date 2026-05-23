@@ -2,7 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { loadSchemaSync } from '@graphql-tools/load';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs } from '@graphql-tools/merge';
-import { resolvers } from './resolvers/index.js';
+// import { resolvers } from './resolvers/index.js';
 import { BigIntResolver, DateTimeResolver, JSONResolver } from 'graphql-scalars';
 import { mapErrorToResponse } from '../utils/errorMapper.util.js';
 import { GraphQLError, type GraphQLFormattedError } from 'graphql';
@@ -26,7 +26,7 @@ export const graphqlServer = new ApolloServer<GraphqlContext>({
     BigInt: BigIntResolver,
     DateTime: DateTimeResolver,
     JSON: JSONResolver,
-    ...resolvers,
+    // ...resolvers,
   },
   formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
     // The original thrown error is available in `error` (Apollo Server 4)

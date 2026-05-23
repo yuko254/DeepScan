@@ -14,7 +14,6 @@ async function cleanDatabase() {
   await prisma.post_tags.deleteMany();
   await prisma.content_hashtags.deleteMany();
   await prisma.hashtags.deleteMany();
-  await prisma.post_blocks.deleteMany();
   await prisma.posts.deleteMany();
   await prisma.stories.deleteMany();
   await prisma.scans.deleteMany();
@@ -305,12 +304,13 @@ async function seed() {
   const catQA = categories.find(c => c.name === "Questions & Help")!;
   const catShow = categories.find(c => c.name === "Show & Tell")!;
 
-  async function createPost(userId: string, categoryId: bigint, locationId: string | null, text: string) {
+  async function createPost(userId: string, categoryId: number, locationId: string | null, text: string) {
     const content = await prisma.contents.create({
       data: {
         user_id: userId,
         type: 'post',
         visibility: 'public',
+        content_map: {'': ''}
       },
     });
     return prisma.posts.create({

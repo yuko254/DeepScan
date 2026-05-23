@@ -28,13 +28,13 @@ export const interactionResolver = {
     likePost: async (_: any, { postId }: { postId: string }, context: GraphqlContext) => {
       const validated = LikePostSchema.parse({ postId });
       const result = await postService.likeUnlikePost(context.user!.user_id, validated.postId);
-      return { liked: true, postId: validated.postId, likesCount: result.likesCount };
+      return { liked: result.liked, postId: validated.postId, likesCount: result.likesCount };
     },
 
     unlikePost: async (_: any, { postId }: { postId: string }, context: GraphqlContext) => {
       const validated = UnlikePostSchema.parse({ postId });
-      const result = await postService.unlikePost(context.user!.user_id, validated.postId);
-      return result;
+      const result = await postService.likeUnlikePost(context.user!.user_id, validated.postId);
+      return result.liked;
     },
 
     savePost: async (_: any, { postId }: { postId: string }, context: GraphqlContext) => {

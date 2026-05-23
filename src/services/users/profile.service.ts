@@ -4,7 +4,7 @@ import * as profile from "../../dtos/profile.dto.js";
 import * as location from "../../dtos/location.dto.js"
 import * as AppError from '../../types/appErrors.types.js';
 import { deepClean } from "../../dtos/dto.js";
-import { LocationService } from "./location.service.js";
+import { LocationService } from "../references/location.service.js";
 
 export class ProfileService {
   private locationService = new LocationService()

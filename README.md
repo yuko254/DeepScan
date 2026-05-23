@@ -4,15 +4,15 @@ A modern, scalable backend for an Instagram‑like social media platform built w
 
 ## 🚀 Tech Stack
 
-| Technology   | Purpose                    |
-| ------------ | -------------------------- |
-| Node.js      | JavaScript runtime         |
-| TypeScript   | Type‑safe development      |
-| Express      | REST API framework         |
-| graphQL      | graphQL API framework      |
-| Prisma       | Type‑safe database ORM     |
-| PostgreSQL   | Relational database        |
-| JWT          | Authentication             |
+| Technology | Purpose                 |
+| ---------- | ----------------------- |
+| Node.js    | JavaScript runtime      |
+| TypeScript | Type‑safe development  |
+| Express    | REST API framework      |
+| graphQL    | graphQL API framework   |
+| Prisma     | Type‑safe database ORM |
+| PostgreSQL | Relational database     |
+| JWT        | Authentication          |
 
 ## 📋 Prerequisites
 
@@ -90,14 +90,15 @@ Using `prisma`:
 
 ```bash
 npx prisma migrate reset
-npx prisma db pull
+npx prisma migrate dev
 npx prisma generate
 npx prisma db seed
 ```
 
-### 5. Start the development server
+### 5. Generate essentials and start the development server
 
 ```bash
+npm run generate
 npm run dev
 ```
 
@@ -108,7 +109,7 @@ The server will be available at `http://localhost:PORT`.
 ```
 src/
 ├── config/          # app config singletons
-├── dao/             # Data Access Objects
+├── repository/      # Data Access methods
 ├── graphql/         # graphQL configs
 ├── dtos/            # Zod validation schemas & types
 ├── middlewares/     # Express middlewares (auth, error, rate‑limit)
@@ -138,12 +139,12 @@ Protected routes require a `Bearer` token in the `Authorization` header.
 
 | Method | Path                      | Description                        |
 | ------ | ------------------------- | ---------------------------------- |
-| POST   | `/auth/register`          | Register a new user                |
-| POST   | `/auth/login`             | Login                              |
-| POST   | `/auth/refresh`           | Refresh tokens                     |
-| POST   | `/auth/logout`            | Logout                             |
-| POST   | `/auth/reset-password`    | Reset password using emailed token |
-| POST   | `/auth/forgot-password`   | Request reset password token email |
+| POST   | `/auth/register`        | Register a new user                |
+| POST   | `/auth/login`           | Login                              |
+| POST   | `/auth/refresh`         | Refresh tokens                     |
+| POST   | `/auth/logout`          | Logout                             |
+| POST   | `/auth/reset-password`  | Reset password using emailed token |
+| POST   | `/auth/forgot-password` | Request reset password token email |
 
 ## 🤝 Contributing
 

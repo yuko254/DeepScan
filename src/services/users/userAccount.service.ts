@@ -1,12 +1,12 @@
-import { Prisma } from "../config/prisma.js";
+import { Prisma } from "../../config/prisma.js";
 import bcrypt from "bcrypt"
 
-import { userRepo } from '../Repository/instances.js';
-import { deepClean } from "../dtos/dto.js";
+import { userRepo } from '../../Repository/instances.js';
+import { deepClean } from "../../dtos/dto.js";
 
-import * as user from "../dtos/users.dto.js"
-import * as AppError from '../types/appErrors.types.js';
-import * as env from "../config/env.js"
+import * as user from "../../dtos/users.dto.js"
+import * as AppError from '../../types/appErrors.types.js';
+import * as env from "../../config/env.js"
 
 export class UserService {
 

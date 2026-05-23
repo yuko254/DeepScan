@@ -1,4 +1,4 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 
 // A stricter limiter for sensitive auth endpoints
 export const authLimiter = rateLimit({
@@ -22,8 +22,14 @@ export const loginLimiter = rateLimit({
 
 export const passwordResetLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 3, // 3 attempts per email per hour
-  keyGenerator: (req) => req.body.email || req.ip, // fallback to IP if no email
+  max: 3,
+  keyGenerator: (req) => {
+    // Use email if provided
+    if (req.body?.email) return req.body.email;
+    // Fallback to IP with safe handling of undefined
+    const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    return ipKeyGenerator(ip);
+  },
   message: { error: 'Too many attempts, try again later' },
   standardHeaders: true,
   legacyHeaders: false,

@@ -45,6 +45,7 @@ export class AuthService {
       user = await userRepo.findAccountByEmail(input.email);
     else if (input.username)
       user = await userRepo.findAccountByUsername(input.username)
+    
     else throw new AppError.BadRequestError('Either username or email is needed to login');
     if (!user) throw new AppError.UnauthorizedError('Invalid email or password');
 
