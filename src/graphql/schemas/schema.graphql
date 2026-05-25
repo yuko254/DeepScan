@@ -55,411 +55,64 @@ enum Role {
   user
 }
 
-type blocks {
-  id: BigInt!
+type users {
+  user_id: String!
+  username: String!
+  email: String!
+  is_active: Boolean!
+  is_banned: Boolean!
+  updated_at: DateTime!
   created_at: DateTime!
-  blocker: users!
-  blocked: users!
-}
-
-input blocksCreateInput {
-  blocked_id: String!
-}
-
-type categories {
-  category_id: Int!
-  name: String!
-  posts: [posts]!
-}
-
-input categoriesCreateInput {
-  name: String!
-}
-
-input categoriesUpdateInput {
-  category_id: Int!
-  name: String
-}
-
-type tags {
-  tag_id: Int!
-  name: String!
-  post_tags: [post_tags]!
-}
-
-input tagsCreateInput {
-  name: String!
-}
-
-input tagsUpdateInput {
-  tag_id: Int!
-  name: String
-}
-
-type chat_participants {
-  id: BigInt!
-  joined_at: DateTime!
-  user: users
-  chat: chats!
-}
-
-input chat_participantsCreateInput {
-  chat_id: String!
-}
-
-type chats {
-  chat_id: String!
-  title: String
-  is_group_chat: Boolean!
-  created_at: DateTime!
+  role: roles
+  blocked_users: [blocks]!
+  blocked_bys: [blocks]!
+  following: [follows]!
+  followers: [follows]!
+  follow_Requesters: [follow_requests]!
+  follow_requests_targets: [follow_requests]!
+  notification_actors: [notifications]!
+  report_resolvers: [reports]!
+  # adminAudits: [admin_audits]!  // this model has a @Exclude / @ExcludeOnType
   chat_participants: [chat_participants]!
-  messages: [messages]!
-  notificationTargets: [notification_targets]!
-}
-
-input chatsCreateInput {
-  title: String
-  is_group_chat: Boolean!
-  chatParticipants: [chat_participantsCreateInput!]
-}
-
-input chatsUpdateInput {
-  chat_id: String!
-  title: String
-  is_group_chat: Boolean
-  # chatParticipants: [chat_participantsUpdateInput!] this model has no updatable fields (all system/FK)
-}
-
-type comment_likes {
-  id: BigInt!
-  created_at: DateTime!
-  user: users
-  comment: comments!
-}
-
-type comments {
-  comment_id: String!
-  content: String!
-  created_at: DateTime!
-  updated_at: DateTime!
-  is_deleted: Boolean!
-  user: users
-  post: posts!
-  comment: comments
-  replies: [comments]!
-  reportTargets: [report_targets]!
-  notificationTargets: [notification_targets]!
-  comment_likes: [comment_likes]!
-  mentionTargets: [mention_targets]!
-  commentHashtags: [comment_hashtags]!
-
-  isLiked: Boolean!
-  likesCount: Int!
-}
-
-input commentsCreateInput {
-  content: String!
-  post_id: String!
-  comment_parent_id: String
-}
-
-input commentsUpdateInput {
-  comment_id: String!
-  content: String
-}
-
-type device_tokens {
-  token_id: String!
-  token: String!
-  device_type: DeviceType!
-  app_version: String
-  last_used: DateTime!
-  created_at: DateTime!
-  user: users!
-}
-
-input device_tokensCreateInput {
-  token: String!
-  device_type: DeviceType!
-  app_version: String
-}
-
-input device_tokensUpdateInput {
-  token_id: String!
-  token: String
-  device_type: DeviceType
-  app_version: String
-}
-
-type follows {
-  id: BigInt!
-  created_at: DateTime!
-  follower: users!
-  following: users!
-}
-
-input followsCreateInput {
-  following_id: String!
-}
-
-type follow_requests {
-  id: BigInt!
-  status: FollowRequestStatus!
-  created_at: DateTime!
-  requester: users!
-  target: users!
-}
-
-input follow_requestsCreateInput {
-  target_id: String!
-}
-
-input follow_requestsUpdateInput {
-  id: BigInt!
-  status: FollowRequestStatus
-}
-
-type hashtags {
-  hashtag_id: String!
-  name: String!
-  created_at: DateTime!
-  contentHashtags: [content_hashtags]!
-  commentHashtags: [comment_hashtags]!
-}
-
-type content_hashtags {
-  id: BigInt!
-  created_at: DateTime!
-  content: contents!
-  hashtag: hashtags!
-}
-
-type comment_hashtags {
-  id: BigInt!
-  created_at: DateTime!
-  comment: comments!
-  hashtag: hashtags!
-}
-
-type countries {
-  country_id: Int!
-  name: String!
-  cities: [cities]!
-  locations: [locations]!
-}
-
-input countriesCreateInput {
-  name: String!
-  cities: [citiesCreateInput!]
-}
-
-input countriesUpdateInput {
-  country_id: Int!
-  name: String
-  cities: [citiesUpdateInput!]
-}
-
-type cities {
-  city_id: Int!
-  name: String!
-  country_id: Int!
-  country: countries!
-  locations: [locations]!
-}
-
-input citiesCreateInput {
-  name: String!
-  country_id: Int!
-}
-
-input citiesUpdateInput {
-  city_id: Int!
-  name: String
-  country_id: Int
-}
-
-type locations {
-  location_id: String!
-  country_id: Int!
-  city_id: Int
-  lat: Float
-  lng: Float
-  place_id: String
-  country: countries!
-  city: cities
-  birth_profiles: [profiles]!
-  current_profiles: [profiles]!
-  posts: [posts]!
-  scans: [scans]!
-}
-
-input locationsCreateInput {
-  country_id: Int!
-  city_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
-  lat: Float
-  lng: Float
-  place_id: String
-  country: countriesCreateInput
-  city: citiesCreateInput
-}
-
-input locationsUpdateInput {
-  location_id: String!
-  country_id: Int
-  city_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
-  lat: Float
-  lng: Float
-  place_id: String
-  country: countriesUpdateInput
-  city: citiesUpdateInput
-}
-
-type contents {
-  content_id: String!
-  type: ContentType!
-  visibility: Visibility!
-  content_map: JSON!
-  created_at: DateTime!
-  updated_at: DateTime!
-  is_deleted: Boolean!
-  user: users!
-  post: posts
-  story: stories
-  scan: scans
-  contentHashtags: [content_hashtags]!
-}
-
-input contentsCreateInput {
-  visibility: Visibility!
-  content_map: JSON!
-  post: postsCreateInput
-  scan: scansCreateInput
-  story: storiesCreateInput
-}
-
-input contentsUpdateInput {
-  content_id: String!
-  visibility: Visibility
-  content_map: JSON
-  post: postsUpdateInput
-  scan: scansUpdateInput
-  # story: storiesUpdateInput this model has @ExcludeOnUpdate
-}
-
-type media {
-  media_id: String!
-  storage_path: String!
-  type: MediaType!
-}
-
-input mediaCreateInput {
-  storage_path: String!
-  type: MediaType!
-}
-
-input mediaUpdateInput {
-  media_id: String!
-  storage_path: String
-  type: MediaType
-}
-
-type mentions {
-  mention_id: String!
-  created_at: DateTime!
-  user: users!
-  mention_target: mention_targets
-}
-
-type mention_targets {
-  target_id: String!
-  post: posts
-  comment: comments
-  mentions: [mentions]!
-}
-
-type messages {
-  message_id: String!
-  text_content: String
-  sent_at: DateTime!
-  chat: chats!
-  user: users
-}
-
-input messagesCreateInput {
-  chat_id: String!
-  text_content: String
-}
-
-input messagesUpdateInput {
-  message_id: String!
-  text_content: String
-}
-
-type notifications {
-  notification_id: String!
-  type: NotificationType
-  message: String
-  delivered_at: DateTime!
-  read_at: DateTime
-  user: users!
-  actor: users
-  notification_target: notification_targets
-}
-
-type notification_targets {
-  target_id: String!
-  post: posts
-  comment: comments
-  chat: chats
-  notifications: [notifications]!
-}
-
-type post_likes {
-  id: BigInt!
-  created_at: DateTime!
-  user: users
-  post: posts!
-}
-
-type post_tags {
-  id: BigInt!
-  tag_id: Int!
-  post: posts!
-  tag: tags!
-}
-
-type posts {
-  category_id: Int
-  text_content: String
-  content: contents!
-  category: categories
-  location: locations
+  # comment_likes: [comment_likes]!  // this model has a @Exclude / @ExcludeOnType
   comments: [comments]!
-  post_likes: [post_likes]!
-  saved_posts: [saved_posts]!
-  reportTargets: [report_targets]!
-  notificationTargets: [notification_targets]!
-  mentionTargets: [mention_targets]!
-  postTags: [post_tags]!
+  device_tokens: [device_tokens]!
+  mentions: [mentions]!
+  messages: [messages]!
+  notifications: [notifications]!
+  # post_likes: [post_likes]!  // this model has a @Exclude / @ExcludeOnType
+  profile: profiles
+  reports: [reports]!
+  # saved_posts: [saved_posts]!  // this model has a @Exclude / @ExcludeOnType
+  # story_views: [story_views]!  // this model has a @Exclude / @ExcludeOnType
+  contents: [contents]!
 
-  isLiked: Boolean!
-  isSaved: Boolean!
-  likesCount: Int!
-  commentsCount: Int!
-  savesCount: Int!
+  isMe: Boolean!
+  isFollowing: Boolean!
+  isBlocked: Boolean!
+  followersCount: Int!
+  followingCount: Int!
 }
 
-input postsCreateInput {
-  category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
-  location: locationsCreateInput
-  tagsIDs: [String!]
+input usersCreateInput {
+  username: String!
+  email: String!
+  password: String!
+  profile: profilesCreateInput
 }
 
-input postsUpdateInput {
-  content_id: String!
-  category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
-  location: locationsUpdateInput
-  tagsIDs: [String!]
+input usersUpdateInput {
+  user_id: String!
+  username: String
+  email: String
+  password: String
+  profile: profilesUpdateInput
+}
+
+type roles {
+  role_id: Int!
+  role_name: Role!
+  users: [users]!
 }
 
 type profiles {
@@ -505,6 +158,17 @@ input profilesUpdateInput {
   current_location_details: locationsUpdateInput
 }
 
+type notifications {
+  notification_id: String!
+  type: NotificationType
+  message: String
+  delivered_at: DateTime!
+  read_at: DateTime
+  user: users!
+  actor: users
+  notification_target: notification_targets
+}
+
 type reports {
   report_id: String!
   reason: String
@@ -521,33 +185,96 @@ input reportsCreateInput {
   report_target: report_targetsCreateInput
 }
 
-type report_targets {
-  target_id: String!
-  post: posts
-  comment: comments
-  story: stories
-  profile: profiles
-  reports: [reports]!
+type device_tokens {
+  token_id: String!
+  token: String!
+  device_type: DeviceType!
+  app_version: String
+  last_used: DateTime!
+  created_at: DateTime!
+  user: users!
 }
 
-input report_targetsCreateInput {
-  post_id: String
-  comment_id: String
-  story_id: String
-  profile_id: String
+input device_tokensCreateInput {
+  token: String!
+  device_type: DeviceType!
+  app_version: String
 }
 
-type roles {
-  role_id: Int!
-  role_name: Role!
-  users: [users]!
+input device_tokensUpdateInput {
+  token_id: String!
+  token: String
+  device_type: DeviceType
+  app_version: String
 }
 
-type saved_posts {
-  saved_id: String!
-  saved_at: DateTime!
+type contents {
+  content_id: String!
+  type: ContentType!
+  visibility: Visibility!
+  content_map: JSON!
+  created_at: DateTime!
+  updated_at: DateTime!
+  is_deleted: Boolean!
   user: users!
   post: posts
+  story: stories
+  scan: scans
+  # contentHashtags: [content_hashtags]!  // this model has a @Exclude / @ExcludeOnType
+}
+
+input contentsCreateInput {
+  type: ContentType!
+  visibility: Visibility!
+  content_map: JSON!
+  post: postsCreateInput
+  scan: scansCreateInput
+  story: storiesCreateInput
+}
+
+input contentsUpdateInput {
+  content_id: String!
+  type: ContentType
+  visibility: Visibility
+  content_map: JSON
+  post: postsUpdateInput
+  scan: scansUpdateInput
+  # story: storiesUpdateInput this model has @ExcludeOnUpdate
+}
+
+type posts {
+  category_id: Int
+  text_content: String
+  content: contents!
+  category: categories
+  location: locations
+  comments: [comments]!
+  # post_likes: [post_likes]!  // this model has a @Exclude / @ExcludeOnType
+  # saved_posts: [saved_posts]!  // this model has a @Exclude / @ExcludeOnType
+  reportTargets: [report_targets]!
+  # notificationTargets: [notification_targets]!  // this model has a @Exclude / @ExcludeOnType
+  # mentionTargets: [mention_targets]!  // this model has a @Exclude / @ExcludeOnType
+  # postTags: [post_tags]!  // this model has a @Exclude / @ExcludeOnType
+
+  tags: [tags!]
+  isLiked: Boolean!
+  isSaved: Boolean!
+  likesCount: Int!
+  commentsCount: Int!
+  savesCount: Int!
+}
+
+input postsCreateInput {
+  category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
+  location: locationsCreateInput
+  tagsIDs: [String!]
+}
+
+input postsUpdateInput {
+  content_id: String!
+  category_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
+  location: locationsUpdateInput
+  tagsIDs: [String!]
 }
 
 type scans {
@@ -571,7 +298,7 @@ input scansUpdateInput {
 type stories {
   expires_at: DateTime
   content: contents!
-  story_views: [story_views]!
+  # story_views: [story_views]!  // this model has a @Exclude / @ExcludeOnType
   reportTargets: [report_targets]!
 
   viewCount: Int!
@@ -582,191 +309,381 @@ input storiesCreateInput {
   expires_at: DateTime
 }
 
-type story_views {
-  id: BigInt!
-  viewed_at: DateTime!
-  user: users
-  story: stories!
+type media {
+  media_id: String!
+  storage_path: String!
+  type: MediaType!
 }
 
-type users {
-  user_id: String!
-  username: String!
-  email: String!
-  is_active: Boolean!
-  is_banned: Boolean!
-  updated_at: DateTime!
+type blocks {
+  id: BigInt!
   created_at: DateTime!
-  role: roles
-  blocked_users: [blocks]!
-  blocked_bys: [blocks]!
-  following: [follows]!
-  followers: [follows]!
-  follow_Requesters: [follow_requests]!
-  follow_requests_targets: [follow_requests]!
-  notification_actors: [notifications]!
-  report_resolvers: [reports]!
+  blocker: users!
+  blocked: users!
+}
+
+input blocksCreateInput {
+  blocked_id: String!
+}
+
+type follows {
+  id: BigInt!
+  created_at: DateTime!
+  follower: users!
+  following: users!
+}
+
+input followsCreateInput {
+  following_id: String!
+}
+
+type follow_requests {
+  id: BigInt!
+  status: FollowRequestStatus!
+  created_at: DateTime!
+  requester: users!
+  target: users!
+}
+
+input follow_requestsCreateInput {
+  target_id: String!
+}
+
+input follow_requestsUpdateInput {
+  id: BigInt!
+  status: FollowRequestStatus
+}
+
+type comments {
+  comment_id: String!
+  content: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  is_deleted: Boolean!
+  user: users
+  post: posts!
+  comment: comments
+  replies: [comments]!
+  reportTargets: [report_targets]!
+  # notificationTargets: [notification_targets]!  // this model has a @Exclude / @ExcludeOnType
+  # comment_likes: [comment_likes]!  // this model has a @Exclude / @ExcludeOnType
+  # mentionTargets: [mention_targets]!  // this model has a @Exclude / @ExcludeOnType
+  # commentHashtags: [comment_hashtags]!  // this model has a @Exclude / @ExcludeOnType
+
+  isLiked: Boolean!
+  likesCount: Int!
+}
+
+input commentsCreateInput {
+  content: String!
+  post_id: String!
+  comment_parent_id: String
+}
+
+input commentsUpdateInput {
+  comment_id: String!
+  content: String
+}
+
+type locations {
+  location_id: String!
+  country_id: Int!
+  city_id: Int
+  lat: Float
+  lng: Float
+  place_id: String
+  country: countries!
+  city: cities
+  birth_profiles: [profiles]!
+  current_profiles: [profiles]!
+  posts: [posts]!
+  scans: [scans]!
+}
+
+input locationsCreateInput {
+  country_id: Int!
+  city_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnCreate
+  lat: Float
+  lng: Float
+  place_id: String
+  country: countriesCreateInput
+  city: citiesCreateInput
+}
+
+input locationsUpdateInput {
+  location_id: String!
+  country_id: Int
+  city_id: Int # FK (SetNull) – optional in DB, can be required via @RequiredOnUpdate
+  lat: Float
+  lng: Float
+  place_id: String
+  country: countriesUpdateInput
+  city: citiesUpdateInput
+}
+
+type countries {
+  country_id: Int!
+  name: String!
+  cities: [cities]!
+  locations: [locations]!
+}
+
+input countriesCreateInput {
+  name: String!
+  cities: [citiesCreateInput!]
+}
+
+input countriesUpdateInput {
+  country_id: Int!
+  name: String
+  cities: [citiesUpdateInput!]
+}
+
+type cities {
+  city_id: Int!
+  name: String!
+  country_id: Int!
+  country: countries!
+  locations: [locations]!
+}
+
+input citiesCreateInput {
+  name: String!
+  country_id: Int!
+}
+
+input citiesUpdateInput {
+  city_id: Int!
+  name: String
+  country_id: Int
+}
+
+type chats {
+  chat_id: String!
+  title: String
+  is_group_chat: Boolean!
+  created_at: DateTime!
   chat_participants: [chat_participants]!
-  comment_likes: [comment_likes]!
-  comments: [comments]!
-  device_tokens: [device_tokens]!
-  mentions: [mentions]!
   messages: [messages]!
+  # notificationTargets: [notification_targets]!  // this model has a @Exclude / @ExcludeOnType
+}
+
+input chatsCreateInput {
+  title: String
+  is_group_chat: Boolean!
+  chatParticipants: [chat_participantsCreateInput!]
+}
+
+input chatsUpdateInput {
+  chat_id: String!
+  title: String
+  is_group_chat: Boolean
+  # chatParticipants: [chat_participantsUpdateInput!] this model has no updatable fields (all system/FK)
+}
+
+type chat_participants {
+  id: BigInt!
+  joined_at: DateTime!
+  user: users
+  chat: chats!
+}
+
+input chat_participantsCreateInput {
+  chat_id: String!
+}
+
+type messages {
+  message_id: String!
+  text_content: String
+  sent_at: DateTime!
+  chat: chats!
+  user: users
+}
+
+input messagesCreateInput {
+  chat_id: String!
+  text_content: String
+}
+
+input messagesUpdateInput {
+  message_id: String!
+  text_content: String
+}
+
+type categories {
+  category_id: Int!
+  name: String!
+  posts: [posts]!
+}
+
+input categoriesCreateInput {
+  name: String!
+}
+
+input categoriesUpdateInput {
+  category_id: Int!
+  name: String
+}
+
+type tags {
+  tag_id: Int!
+  name: String!
+  # post_tags: [post_tags]!  // this model has a @Exclude / @ExcludeOnType
+}
+
+input tagsCreateInput {
+  name: String!
+}
+
+input tagsUpdateInput {
+  tag_id: Int!
+  name: String
+}
+
+type hashtags {
+  hashtag_id: String!
+  name: String!
+  created_at: DateTime!
+  # contentHashtags: [content_hashtags]!  // this model has a @Exclude / @ExcludeOnType
+  # commentHashtags: [comment_hashtags]!  // this model has a @Exclude / @ExcludeOnType
+}
+
+type mentions {
+  mention_id: String!
+  created_at: DateTime!
+  user: users!
+  # mention_target: mention_targets  // this model has a @Exclude / @ExcludeOnType
+}
+
+type notification_targets {
+  target_id: String!
+  post: posts
+  comment: comments
+  chat: chats
   notifications: [notifications]!
-  post_likes: [post_likes]!
+}
+
+type report_targets {
+  target_id: String!
+  post: posts
+  comment: comments
+  story: stories
   profile: profiles
   reports: [reports]!
-  saved_posts: [saved_posts]!
-  story_views: [story_views]!
-  contents: [contents]!
-  # adminAudits: [admin_audits]!  // this model has a @Exclude / @ExcludeOnType
-
-  isFollowing: Boolean!
-  isBlocked: Boolean!
-  isMe: Boolean!
-  followersCount: Int!
-  followingCount: Int!
 }
 
-input usersCreateInput {
-  username: String!
-  email: String!
-  password: String!
-  profile: profilesCreateInput
-}
-
-input usersUpdateInput {
-  user_id: String!
-  username: String
-  email: String
-  password: String
-  profile: profilesUpdateInput
+input report_targetsCreateInput {
+  post_id: String
+  comment_id: String
+  story_id: String
+  profile_id: String
 }
 
 type Query {
-  blocks: [blocks!]!
-  block(id: ID!): blocks
-  categories: [categories!]!
-  category(id: ID!): categories
-  tags: [tags!]!
-  tag(id: ID!): tags
-  chatParticipants: [chat_participants!]!
-  chatParticipant(id: ID!): chat_participants
-  chats: [chats!]!
-  chat(id: ID!): chats
-  commentLikes: [comment_likes!]!
-  commentLike(id: ID!): comment_likes
-  comments: [comments!]!
-  comment(id: ID!): comments
-  deviceTokens: [device_tokens!]!
-  deviceToken(id: ID!): device_tokens
-  follows: [follows!]!
-  follow(id: ID!): follows
-  followRequests: [follow_requests!]!
-  followRequest(id: ID!): follow_requests
-  hashtags: [hashtags!]!
-  hashtag(id: ID!): hashtags
-  contentHashtags: [content_hashtags!]!
-  contentHashtag(id: ID!): content_hashtags
-  commentHashtags: [comment_hashtags!]!
-  commentHashtag(id: ID!): comment_hashtags
-  countries: [countries!]!
-  country(id: ID!): countries
-  cities: [cities!]!
-  city(id: ID!): cities
-  locations: [locations!]!
-  location(id: ID!): locations
-  contents: [contents!]!
-  content(id: ID!): contents
-  mediaList: [media!]!
-  media(id: ID!): media
-  mentions: [mentions!]!
-  mention(id: ID!): mentions
-  mentionTargets: [mention_targets!]!
-  mentionTarget(id: ID!): mention_targets
-  messages: [messages!]!
-  message(id: ID!): messages
-  notifications: [notifications!]!
-  notification(id: ID!): notifications
-  notificationTargets: [notification_targets!]!
-  notificationTarget(id: ID!): notification_targets
-  postLikes: [post_likes!]!
-  postLike(id: ID!): post_likes
-  postTags: [post_tags!]!
-  postTag(id: ID!): post_tags
-  posts: [posts!]!
-  post(id: ID!): posts
-  profiles: [profiles!]!
-  profile(id: ID!): profiles
-  reports: [reports!]!
-  report(id: ID!): reports
-  reportTargets: [report_targets!]!
-  reportTarget(id: ID!): report_targets
+  users: [users!]!
+  user(id: ID!): users
   roles: [roles!]!
   role(id: ID!): roles
-  savedPosts: [saved_posts!]!
-  savedPost(id: ID!): saved_posts
+  profiles: [profiles!]!
+  profile(id: ID!): profiles
+  notifications: [notifications!]!
+  notification(id: ID!): notifications
+  reports: [reports!]!
+  report(id: ID!): reports
+  deviceTokens: [device_tokens!]!
+  deviceToken(id: ID!): device_tokens
+  contents: [contents!]!
+  content(id: ID!): contents
+  posts: [posts!]!
+  post(id: ID!): posts
   scans: [scans!]!
   scan(id: ID!): scans
   stories: [stories!]!
   story(id: ID!): stories
-  storyViews: [story_views!]!
-  storyView(id: ID!): story_views
-  users: [users!]!
-  user(id: ID!): users
+  mediaList: [media!]!
+  media(id: ID!): media
+  blocks: [blocks!]!
+  block(id: ID!): blocks
+  follows: [follows!]!
+  follow(id: ID!): follows
+  followRequests: [follow_requests!]!
+  followRequest(id: ID!): follow_requests
+  comments: [comments!]!
+  comment(id: ID!): comments
+  locations: [locations!]!
+  location(id: ID!): locations
+  countries: [countries!]!
+  country(id: ID!): countries
+  cities: [cities!]!
+  city(id: ID!): cities
+  chats: [chats!]!
+  chat(id: ID!): chats
+  chatParticipants: [chat_participants!]!
+  chatParticipant(id: ID!): chat_participants
+  messages: [messages!]!
+  message(id: ID!): messages
+  categories: [categories!]!
+  category(id: ID!): categories
+  tags: [tags!]!
+  tag(id: ID!): tags
+  hashtags: [hashtags!]!
+  hashtag(id: ID!): hashtags
+  mentions: [mentions!]!
+  mention(id: ID!): mentions
+  reportTargets: [report_targets!]!
+  reportTarget(id: ID!): report_targets
 }
 
 type Mutation {
-  createBlock(data: blocksCreateInput!): blocks!
-  deleteBlock(id: ID!): blocks!
-  createCategory(data: categoriesCreateInput!): categories!
-  updateCategory(id: ID!, data: categoriesUpdateInput!): categories!
-  deleteCategory(id: ID!): categories!
-  createTag(data: tagsCreateInput!): tags!
-  updateTag(id: ID!, data: tagsUpdateInput!): tags!
-  deleteTag(id: ID!): tags!
-  createChatParticipant(data: chat_participantsCreateInput!): chat_participants!
-  deleteChatParticipant(id: ID!): chat_participants!
-  createChat(data: chatsCreateInput!): chats!
-  updateChat(id: ID!, data: chatsUpdateInput!): chats!
-  deleteChat(id: ID!): chats!
-  createComment(data: commentsCreateInput!): comments!
-  updateComment(id: ID!, data: commentsUpdateInput!): comments!
-  deleteComment(id: ID!): comments!
+  createUser(data: usersCreateInput!): users!
+  updateUser(id: ID!, data: usersUpdateInput!): users!
+  deleteUser(id: ID!): users!
+  createProfile(data: profilesCreateInput!): profiles!
+  updateProfile(id: ID!, data: profilesUpdateInput!): profiles!
+  deleteProfile(id: ID!): profiles!
+  createReport(data: reportsCreateInput!): reports!
+  deleteReport(id: ID!): reports!
   createDeviceToken(data: device_tokensCreateInput!): device_tokens!
   updateDeviceToken(id: ID!, data: device_tokensUpdateInput!): device_tokens!
   deleteDeviceToken(id: ID!): device_tokens!
+  createContent(data: contentsCreateInput!): contents!
+  updateContent(id: ID!, data: contentsUpdateInput!): contents!
+  deleteContent(id: ID!): contents!
+  deletePost(id: ID!): posts!
+  deleteScan(id: ID!): scans!
+  deleteStory(id: ID!): stories!
+  createBlock(data: blocksCreateInput!): blocks!
+  deleteBlock(id: ID!): blocks!
   createFollow(data: followsCreateInput!): follows!
   deleteFollow(id: ID!): follows!
   createFollowRequest(data: follow_requestsCreateInput!): follow_requests!
   updateFollowRequest(id: ID!, data: follow_requestsUpdateInput!): follow_requests!
   deleteFollowRequest(id: ID!): follow_requests!
+  createComment(data: commentsCreateInput!): comments!
+  updateComment(id: ID!, data: commentsUpdateInput!): comments!
+  deleteComment(id: ID!): comments!
+  createLocation(data: locationsCreateInput!): locations!
+  updateLocation(id: ID!, data: locationsUpdateInput!): locations!
+  deleteLocation(id: ID!): locations!
   createCountry(data: countriesCreateInput!): countries!
   updateCountry(id: ID!, data: countriesUpdateInput!): countries!
   deleteCountry(id: ID!): countries!
   createCity(data: citiesCreateInput!): cities!
   updateCity(id: ID!, data: citiesUpdateInput!): cities!
   deleteCity(id: ID!): cities!
-  createLocation(data: locationsCreateInput!): locations!
-  updateLocation(id: ID!, data: locationsUpdateInput!): locations!
-  deleteLocation(id: ID!): locations!
-  createContent(data: contentsCreateInput!): contents!
-  updateContent(id: ID!, data: contentsUpdateInput!): contents!
-  deleteContent(id: ID!): contents!
-  deleteMedia(id: ID!): media!
+  createChat(data: chatsCreateInput!): chats!
+  updateChat(id: ID!, data: chatsUpdateInput!): chats!
+  deleteChat(id: ID!): chats!
+  createChatParticipant(data: chat_participantsCreateInput!): chat_participants!
+  deleteChatParticipant(id: ID!): chat_participants!
   createMessage(data: messagesCreateInput!): messages!
   updateMessage(id: ID!, data: messagesUpdateInput!): messages!
   deleteMessage(id: ID!): messages!
-  deletePost(id: ID!): posts!
-  createProfile(data: profilesCreateInput!): profiles!
-  updateProfile(id: ID!, data: profilesUpdateInput!): profiles!
-  deleteProfile(id: ID!): profiles!
-  createReport(data: reportsCreateInput!): reports!
-  deleteReport(id: ID!): reports!
+  createCategory(data: categoriesCreateInput!): categories!
+  updateCategory(id: ID!, data: categoriesUpdateInput!): categories!
+  deleteCategory(id: ID!): categories!
+  createTag(data: tagsCreateInput!): tags!
+  updateTag(id: ID!, data: tagsUpdateInput!): tags!
+  deleteTag(id: ID!): tags!
   deleteReportTarget(id: ID!): report_targets!
-  deleteScan(id: ID!): scans!
-  deleteStory(id: ID!): stories!
-  createUser(data: usersCreateInput!): users!
-  updateUser(id: ID!, data: usersUpdateInput!): users!
-  deleteUser(id: ID!): users!
 }

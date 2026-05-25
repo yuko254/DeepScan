@@ -264,6 +264,11 @@ export type rolesUncheckedUpdateManyInput = {
   role_name?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
 }
 
+export type RolesNullableScalarRelationFilter = {
+  is?: Prisma.rolesWhereInput | null
+  isNot?: Prisma.rolesWhereInput | null
+}
+
 export type rolesCountOrderByAggregateInput = {
   role_id?: Prisma.SortOrder
   role_name?: Prisma.SortOrder
@@ -287,15 +292,6 @@ export type rolesSumOrderByAggregateInput = {
   role_id?: Prisma.SortOrder
 }
 
-export type RolesNullableScalarRelationFilter = {
-  is?: Prisma.rolesWhereInput | null
-  isNot?: Prisma.rolesWhereInput | null
-}
-
-export type EnumRoleFieldUpdateOperationsInput = {
-  set?: $Enums.Role
-}
-
 export type rolesCreateNestedOneWithoutUsersInput = {
   create?: Prisma.XOR<Prisma.rolesCreateWithoutUsersInput, Prisma.rolesUncheckedCreateWithoutUsersInput>
   connectOrCreate?: Prisma.rolesCreateOrConnectWithoutUsersInput
@@ -310,6 +306,18 @@ export type rolesUpdateOneWithoutUsersNestedInput = {
   delete?: Prisma.rolesWhereInput | boolean
   connect?: Prisma.rolesWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.rolesUpdateToOneWithWhereWithoutUsersInput, Prisma.rolesUpdateWithoutUsersInput>, Prisma.rolesUncheckedUpdateWithoutUsersInput>
+}
+
+export type EnumRoleFieldUpdateOperationsInput = {
+  set?: $Enums.Role
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type rolesCreateWithoutUsersInput = {

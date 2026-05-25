@@ -1,5 +1,5 @@
 import { Prisma, prisma } from '../../config/prisma.js';
-import type { ScansCreateInput, ScansUpdateInput, ContentsCreateInput } from '../../graphql/graphql.js';
+import type { ScansCreateInput, ScansUpdateInput, ContentsCreateInput } from '../../graphql/generated/graphql.js';
 import { scanRepo } from '../../Repository/instances.js';
 import { locationService } from '../references/location.service.js';
 import { contentService } from './content.service.js';

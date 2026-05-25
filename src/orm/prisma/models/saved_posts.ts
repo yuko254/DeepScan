@@ -303,48 +303,6 @@ export type saved_postsMinOrderByAggregateInput = {
   saved_at?: Prisma.SortOrder
 }
 
-export type saved_postsCreateNestedManyWithoutPostInput = {
-  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
-  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
-  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-}
-
-export type saved_postsUncheckedCreateNestedManyWithoutPostInput = {
-  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
-  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
-  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-}
-
-export type saved_postsUpdateManyWithoutPostNestedInput = {
-  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
-  upsert?: Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput[]
-  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
-  set?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  disconnect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  delete?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  update?: Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput[]
-  updateMany?: Prisma.saved_postsUpdateManyWithWhereWithoutPostInput | Prisma.saved_postsUpdateManyWithWhereWithoutPostInput[]
-  deleteMany?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
-}
-
-export type saved_postsUncheckedUpdateManyWithoutPostNestedInput = {
-  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
-  upsert?: Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput[]
-  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
-  set?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  disconnect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  delete?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
-  update?: Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput[]
-  updateMany?: Prisma.saved_postsUpdateManyWithWhereWithoutPostInput | Prisma.saved_postsUpdateManyWithWhereWithoutPostInput[]
-  deleteMany?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
-}
-
 export type saved_postsCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.saved_postsCreateWithoutUserInput, Prisma.saved_postsUncheckedCreateWithoutUserInput> | Prisma.saved_postsCreateWithoutUserInput[] | Prisma.saved_postsUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutUserInput | Prisma.saved_postsCreateOrConnectWithoutUserInput[]
@@ -387,52 +345,46 @@ export type saved_postsUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
 }
 
-export type saved_postsCreateWithoutPostInput = {
-  saved_id?: string
-  saved_at?: Date | string
-  user: Prisma.usersCreateNestedOneWithoutSaved_postsInput
+export type saved_postsCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
+  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
 }
 
-export type saved_postsUncheckedCreateWithoutPostInput = {
-  saved_id?: string
-  user_id: string
-  saved_at?: Date | string
+export type saved_postsUncheckedCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
+  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
 }
 
-export type saved_postsCreateOrConnectWithoutPostInput = {
-  where: Prisma.saved_postsWhereUniqueInput
-  create: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput>
+export type saved_postsUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
+  set?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  disconnect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  delete?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  update?: Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.saved_postsUpdateManyWithWhereWithoutPostInput | Prisma.saved_postsUpdateManyWithWhereWithoutPostInput[]
+  deleteMany?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
 }
 
-export type saved_postsCreateManyPostInputEnvelope = {
-  data: Prisma.saved_postsCreateManyPostInput | Prisma.saved_postsCreateManyPostInput[]
-  skipDuplicates?: boolean
-}
-
-export type saved_postsUpsertWithWhereUniqueWithoutPostInput = {
-  where: Prisma.saved_postsWhereUniqueInput
-  update: Prisma.XOR<Prisma.saved_postsUpdateWithoutPostInput, Prisma.saved_postsUncheckedUpdateWithoutPostInput>
-  create: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput>
-}
-
-export type saved_postsUpdateWithWhereUniqueWithoutPostInput = {
-  where: Prisma.saved_postsWhereUniqueInput
-  data: Prisma.XOR<Prisma.saved_postsUpdateWithoutPostInput, Prisma.saved_postsUncheckedUpdateWithoutPostInput>
-}
-
-export type saved_postsUpdateManyWithWhereWithoutPostInput = {
-  where: Prisma.saved_postsScalarWhereInput
-  data: Prisma.XOR<Prisma.saved_postsUpdateManyMutationInput, Prisma.saved_postsUncheckedUpdateManyWithoutPostInput>
-}
-
-export type saved_postsScalarWhereInput = {
-  AND?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
-  OR?: Prisma.saved_postsScalarWhereInput[]
-  NOT?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
-  saved_id?: Prisma.UuidFilter<"saved_posts"> | string
-  user_id?: Prisma.UuidFilter<"saved_posts"> | string
-  post_id?: Prisma.UuidNullableFilter<"saved_posts"> | string | null
-  saved_at?: Prisma.DateTimeFilter<"saved_posts"> | Date | string
+export type saved_postsUncheckedUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput> | Prisma.saved_postsCreateWithoutPostInput[] | Prisma.saved_postsUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.saved_postsCreateOrConnectWithoutPostInput | Prisma.saved_postsCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.saved_postsCreateManyPostInputEnvelope
+  set?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  disconnect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  delete?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  connect?: Prisma.saved_postsWhereUniqueInput | Prisma.saved_postsWhereUniqueInput[]
+  update?: Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput | Prisma.saved_postsUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.saved_postsUpdateManyWithWhereWithoutPostInput | Prisma.saved_postsUpdateManyWithWhereWithoutPostInput[]
+  deleteMany?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
 }
 
 export type saved_postsCreateWithoutUserInput = {
@@ -473,28 +425,52 @@ export type saved_postsUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.saved_postsUpdateManyMutationInput, Prisma.saved_postsUncheckedUpdateManyWithoutUserInput>
 }
 
-export type saved_postsCreateManyPostInput = {
+export type saved_postsScalarWhereInput = {
+  AND?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
+  OR?: Prisma.saved_postsScalarWhereInput[]
+  NOT?: Prisma.saved_postsScalarWhereInput | Prisma.saved_postsScalarWhereInput[]
+  saved_id?: Prisma.UuidFilter<"saved_posts"> | string
+  user_id?: Prisma.UuidFilter<"saved_posts"> | string
+  post_id?: Prisma.UuidNullableFilter<"saved_posts"> | string | null
+  saved_at?: Prisma.DateTimeFilter<"saved_posts"> | Date | string
+}
+
+export type saved_postsCreateWithoutPostInput = {
+  saved_id?: string
+  saved_at?: Date | string
+  user: Prisma.usersCreateNestedOneWithoutSaved_postsInput
+}
+
+export type saved_postsUncheckedCreateWithoutPostInput = {
   saved_id?: string
   user_id: string
   saved_at?: Date | string
 }
 
-export type saved_postsUpdateWithoutPostInput = {
-  saved_id?: Prisma.StringFieldUpdateOperationsInput | string
-  saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.usersUpdateOneRequiredWithoutSaved_postsNestedInput
+export type saved_postsCreateOrConnectWithoutPostInput = {
+  where: Prisma.saved_postsWhereUniqueInput
+  create: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput>
 }
 
-export type saved_postsUncheckedUpdateWithoutPostInput = {
-  saved_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type saved_postsCreateManyPostInputEnvelope = {
+  data: Prisma.saved_postsCreateManyPostInput | Prisma.saved_postsCreateManyPostInput[]
+  skipDuplicates?: boolean
 }
 
-export type saved_postsUncheckedUpdateManyWithoutPostInput = {
-  saved_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type saved_postsUpsertWithWhereUniqueWithoutPostInput = {
+  where: Prisma.saved_postsWhereUniqueInput
+  update: Prisma.XOR<Prisma.saved_postsUpdateWithoutPostInput, Prisma.saved_postsUncheckedUpdateWithoutPostInput>
+  create: Prisma.XOR<Prisma.saved_postsCreateWithoutPostInput, Prisma.saved_postsUncheckedCreateWithoutPostInput>
+}
+
+export type saved_postsUpdateWithWhereUniqueWithoutPostInput = {
+  where: Prisma.saved_postsWhereUniqueInput
+  data: Prisma.XOR<Prisma.saved_postsUpdateWithoutPostInput, Prisma.saved_postsUncheckedUpdateWithoutPostInput>
+}
+
+export type saved_postsUpdateManyWithWhereWithoutPostInput = {
+  where: Prisma.saved_postsScalarWhereInput
+  data: Prisma.XOR<Prisma.saved_postsUpdateManyMutationInput, Prisma.saved_postsUncheckedUpdateManyWithoutPostInput>
 }
 
 export type saved_postsCreateManyUserInput = {
@@ -518,6 +494,30 @@ export type saved_postsUncheckedUpdateWithoutUserInput = {
 export type saved_postsUncheckedUpdateManyWithoutUserInput = {
   saved_id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type saved_postsCreateManyPostInput = {
+  saved_id?: string
+  user_id: string
+  saved_at?: Date | string
+}
+
+export type saved_postsUpdateWithoutPostInput = {
+  saved_id?: Prisma.StringFieldUpdateOperationsInput | string
+  saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneRequiredWithoutSaved_postsNestedInput
+}
+
+export type saved_postsUncheckedUpdateWithoutPostInput = {
+  saved_id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type saved_postsUncheckedUpdateManyWithoutPostInput = {
+  saved_id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
   saved_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 

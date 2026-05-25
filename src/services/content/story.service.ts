@@ -1,5 +1,5 @@
 import { Prisma, prisma } from '../../config/prisma.js';
-import type { StoriesCreateInput } from '../../graphql/graphql.js';
+import type { StoriesCreateInput } from '../../graphql/generated/graphql.js';
 import { storyRepo, contentRepo } from '../../Repository/instances.js';
 import * as AppError from '../../types/appErrors.types.js';
 

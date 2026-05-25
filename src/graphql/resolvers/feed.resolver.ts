@@ -2,17 +2,18 @@ import { prisma } from '../../config/prisma.js';
 import type { GraphqlContext } from '../../dtos/dto.js';
 import { feedService } from '../../services/feed.service.js';
 import { blockService } from '../../services/interactions/block.service.js';
+import type { Resolvers, QueryFeedArgs, Feed } from '../generated/graphql.js';
 
-export const feedResolver = {
+export const feedResolver: Resolvers = {
   Query: {
-    feed: async (_: any, { cursor, limit = 50 }: { cursor?: Date; limit?: number }, context: GraphqlContext) => {
+    feed: async (_, args: QueryFeedArgs, context: GraphqlContext): Promise<Feed> => {
       const userId = context.user?.user_id;
-      
+
       // Get feed data (already has counts, viewCount)
       const { posts, stories, nextCursor } = await feedService.getHomeFeed(
         userId || undefined,
-        cursor || new Date(),
-        limit
+        args.cursor ?? undefined,
+        args.limit ?? undefined
       );
       
       // Filter blocked users
@@ -36,7 +37,7 @@ export const feedResolver = {
       return {
         posts: enrichedPosts,
         stories: enrichedStories,
-        nextCursor
+        nextCursor,
       };
     }
   }

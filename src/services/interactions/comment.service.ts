@@ -1,5 +1,5 @@
 import { Prisma, prisma } from '../../config/prisma.js';
-import type { CommentsCreateInput, CommentsUpdateInput } from '../../graphql/graphql.js';
+import type { CommentsCreateInput, CommentsUpdateInput } from '../../graphql/generated/graphql.js';
 import { commentRepo, commentHashtagRepo, mentionRepo } from '../../Repository/instances.js';
 import * as AppError from '../../types/appErrors.types.js';
 import { hashtagService } from '../references/hashtag.service.js';

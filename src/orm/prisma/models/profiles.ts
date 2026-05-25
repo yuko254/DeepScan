@@ -427,14 +427,9 @@ export type profilesUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ProfilesListRelationFilter = {
-  every?: Prisma.profilesWhereInput
-  some?: Prisma.profilesWhereInput
-  none?: Prisma.profilesWhereInput
-}
-
-export type profilesOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type ProfilesNullableScalarRelationFilter = {
+  is?: Prisma.profilesWhereInput | null
+  isNot?: Prisma.profilesWhereInput | null
 }
 
 export type profilesCountOrderByAggregateInput = {
@@ -482,9 +477,54 @@ export type profilesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
-export type ProfilesNullableScalarRelationFilter = {
-  is?: Prisma.profilesWhereInput | null
-  isNot?: Prisma.profilesWhereInput | null
+export type ProfilesListRelationFilter = {
+  every?: Prisma.profilesWhereInput
+  some?: Prisma.profilesWhereInput
+  none?: Prisma.profilesWhereInput
+}
+
+export type profilesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type profilesCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
+  connect?: Prisma.profilesWhereUniqueInput
+}
+
+export type profilesUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
+  connect?: Prisma.profilesWhereUniqueInput
+}
+
+export type profilesUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
+  upsert?: Prisma.profilesUpsertWithoutUserInput
+  disconnect?: Prisma.profilesWhereInput | boolean
+  delete?: Prisma.profilesWhereInput | boolean
+  connect?: Prisma.profilesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.profilesUpdateToOneWithWhereWithoutUserInput, Prisma.profilesUpdateWithoutUserInput>, Prisma.profilesUncheckedUpdateWithoutUserInput>
+}
+
+export type profilesUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
+  upsert?: Prisma.profilesUpsertWithoutUserInput
+  disconnect?: Prisma.profilesWhereInput | boolean
+  delete?: Prisma.profilesWhereInput | boolean
+  connect?: Prisma.profilesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.profilesUpdateToOneWithWhereWithoutUserInput, Prisma.profilesUpdateWithoutUserInput>, Prisma.profilesUncheckedUpdateWithoutUserInput>
+}
+
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type profilesCreateNestedManyWithoutBirth_location_detailsInput = {
@@ -571,10 +611,6 @@ export type profilesUncheckedUpdateManyWithoutCurrent_location_detailsNestedInpu
   deleteMany?: Prisma.profilesScalarWhereInput | Prisma.profilesScalarWhereInput[]
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
 export type profilesCreateNestedOneWithoutReportTargetsInput = {
   create?: Prisma.XOR<Prisma.profilesCreateWithoutReportTargetsInput, Prisma.profilesUncheckedCreateWithoutReportTargetsInput>
   connectOrCreate?: Prisma.profilesCreateOrConnectWithoutReportTargetsInput
@@ -591,36 +627,80 @@ export type profilesUpdateOneWithoutReportTargetsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.profilesUpdateToOneWithWhereWithoutReportTargetsInput, Prisma.profilesUpdateWithoutReportTargetsInput>, Prisma.profilesUncheckedUpdateWithoutReportTargetsInput>
 }
 
-export type profilesCreateNestedOneWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
-  connect?: Prisma.profilesWhereUniqueInput
+export type profilesCreateWithoutUserInput = {
+  profile_id?: string
+  is_private?: boolean | null
+  bio?: string | null
+  avatar?: string | null
+  first_name: string
+  last_name: string
+  phone_number?: string | null
+  birth_date?: Date | string | null
+  created_at?: Date | string
+  birth_location_details?: Prisma.locationsCreateNestedOneWithoutBirth_profilesInput
+  current_location_details?: Prisma.locationsCreateNestedOneWithoutCurrent_profilesInput
+  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutProfileInput
 }
 
-export type profilesUncheckedCreateNestedOneWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
-  connect?: Prisma.profilesWhereUniqueInput
+export type profilesUncheckedCreateWithoutUserInput = {
+  profile_id?: string
+  is_private?: boolean | null
+  bio?: string | null
+  avatar?: string | null
+  birth_location_id?: string | null
+  current_location_id?: string | null
+  first_name: string
+  last_name: string
+  phone_number?: string | null
+  birth_date?: Date | string | null
+  created_at?: Date | string
+  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutProfileInput
 }
 
-export type profilesUpdateOneWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
-  upsert?: Prisma.profilesUpsertWithoutUserInput
-  disconnect?: Prisma.profilesWhereInput | boolean
-  delete?: Prisma.profilesWhereInput | boolean
-  connect?: Prisma.profilesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.profilesUpdateToOneWithWhereWithoutUserInput, Prisma.profilesUpdateWithoutUserInput>, Prisma.profilesUncheckedUpdateWithoutUserInput>
+export type profilesCreateOrConnectWithoutUserInput = {
+  where: Prisma.profilesWhereUniqueInput
+  create: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
 }
 
-export type profilesUncheckedUpdateOneWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.profilesCreateOrConnectWithoutUserInput
-  upsert?: Prisma.profilesUpsertWithoutUserInput
-  disconnect?: Prisma.profilesWhereInput | boolean
-  delete?: Prisma.profilesWhereInput | boolean
-  connect?: Prisma.profilesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.profilesUpdateToOneWithWhereWithoutUserInput, Prisma.profilesUpdateWithoutUserInput>, Prisma.profilesUncheckedUpdateWithoutUserInput>
+export type profilesUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.profilesUpdateWithoutUserInput, Prisma.profilesUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
+  where?: Prisma.profilesWhereInput
+}
+
+export type profilesUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.profilesWhereInput
+  data: Prisma.XOR<Prisma.profilesUpdateWithoutUserInput, Prisma.profilesUncheckedUpdateWithoutUserInput>
+}
+
+export type profilesUpdateWithoutUserInput = {
+  profile_id?: Prisma.StringFieldUpdateOperationsInput | string
+  is_private?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birth_location_details?: Prisma.locationsUpdateOneWithoutBirth_profilesNestedInput
+  current_location_details?: Prisma.locationsUpdateOneWithoutCurrent_profilesNestedInput
+  reportTargets?: Prisma.report_targetsUpdateManyWithoutProfileNestedInput
+}
+
+export type profilesUncheckedUpdateWithoutUserInput = {
+  profile_id?: Prisma.StringFieldUpdateOperationsInput | string
+  is_private?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birth_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type profilesCreateWithoutBirth_location_detailsInput = {
@@ -827,82 +907,6 @@ export type profilesUncheckedUpdateWithoutReportTargetsInput = {
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type profilesCreateWithoutUserInput = {
-  profile_id?: string
-  is_private?: boolean | null
-  bio?: string | null
-  avatar?: string | null
-  first_name: string
-  last_name: string
-  phone_number?: string | null
-  birth_date?: Date | string | null
-  created_at?: Date | string
-  birth_location_details?: Prisma.locationsCreateNestedOneWithoutBirth_profilesInput
-  current_location_details?: Prisma.locationsCreateNestedOneWithoutCurrent_profilesInput
-  reportTargets?: Prisma.report_targetsCreateNestedManyWithoutProfileInput
-}
-
-export type profilesUncheckedCreateWithoutUserInput = {
-  profile_id?: string
-  is_private?: boolean | null
-  bio?: string | null
-  avatar?: string | null
-  birth_location_id?: string | null
-  current_location_id?: string | null
-  first_name: string
-  last_name: string
-  phone_number?: string | null
-  birth_date?: Date | string | null
-  created_at?: Date | string
-  reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutProfileInput
-}
-
-export type profilesCreateOrConnectWithoutUserInput = {
-  where: Prisma.profilesWhereUniqueInput
-  create: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
-}
-
-export type profilesUpsertWithoutUserInput = {
-  update: Prisma.XOR<Prisma.profilesUpdateWithoutUserInput, Prisma.profilesUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.profilesCreateWithoutUserInput, Prisma.profilesUncheckedCreateWithoutUserInput>
-  where?: Prisma.profilesWhereInput
-}
-
-export type profilesUpdateToOneWithWhereWithoutUserInput = {
-  where?: Prisma.profilesWhereInput
-  data: Prisma.XOR<Prisma.profilesUpdateWithoutUserInput, Prisma.profilesUncheckedUpdateWithoutUserInput>
-}
-
-export type profilesUpdateWithoutUserInput = {
-  profile_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_private?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  birth_location_details?: Prisma.locationsUpdateOneWithoutBirth_profilesNestedInput
-  current_location_details?: Prisma.locationsUpdateOneWithoutCurrent_profilesNestedInput
-  reportTargets?: Prisma.report_targetsUpdateManyWithoutProfileNestedInput
-}
-
-export type profilesUncheckedUpdateWithoutUserInput = {
-  profile_id?: Prisma.StringFieldUpdateOperationsInput | string
-  is_private?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  birth_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  current_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  birth_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutProfileNestedInput
 }
 
 export type profilesCreateManyBirth_location_detailsInput = {

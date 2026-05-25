@@ -29,16 +29,15 @@ export const graphqlServer = new ApolloServer<GraphqlContext>({
     // ...resolvers,
   },
   formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
-    // The original thrown error is available in `error` (Apollo Server 4)
     const originalError = (error as any)?.originalError ?? error;
     const mapped = mapErrorToResponse(originalError);
 
-    // Return a GraphQL error with the same message and extensions
     return new GraphQLError(mapped.message, {
       extensions: {
-        code: mapped.extensions?.code,
+        success: mapped.success,
+        code: mapped.code,
         statusCode: mapped.statusCode,
-        details: mapped.details,
+        ...(mapped.details && { details: mapped.details }),
       },
     });
   },

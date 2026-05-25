@@ -1,54 +1,6 @@
-import { z } from 'zod';
-import * as zod from "../validations/validation.js";
-import type * as Dto from "./dto.js";
-import type { ReportFiltersDto } from "./searchFilters.dto.js";
-import type { Reports, Posts, Comments, Stories, Profiles } from '../graphql/graphql.js';
-import  { type UserAccountDto, toUserAccountDto } from './users.dto.js';
-
-// ─── Request schemas ──────────────────────────────────────────────────────────
-
-export const GetReportParam = z.strictObject({
-  report_id: zod.byId.uuid('reportId'),
-});
-
-export const GetReportsQuerySchema = z.strictObject({
-  page: zod.pageQuery,
-  limit: zod.pageLimitQuery,
-  status: z.string().optional(),
-  reporter: zod.byId.uuid('reporterId').optional(),
-  resolver: zod.byId.uuid('resolverId').optional(),
-  reported: zod.byId.uuid('reporetedId').optional(),
-}).transform(({ status, reporter, resolver, reported, ...rest }) => ({
-  ...rest,
-  filters: { status, reporter_id: reporter, resolver_id: resolver, report_target_id: reported } as ReportFiltersDto,
-}));
-
-export const ReportSchema = z.strictObject({ 
-    report_target_id: zod.byId.uuid('report_target_id'),
-    reason: z.string().min(20),
-});
-
-export const UpdateReportSchema = z.strictObject({ 
-    report_id: zod.byId.uuid('reportId'),
-    reason: z.string().min(20).optional(),
-});
-
-export const AdminUpdateReportSchema = z.strictObject({ 
-    report_id: zod.byId.uuid('reportId'),
-    resolver_id: zod.byId.uuid('resolverId'),
-    status: z.string(),
-});
-
-// ─── Inferred types ───────────────────────────────────────────────────
-
-export type GetReportsQuery = z.infer<typeof GetReportsQuerySchema>;
-
-export type ReportBody = z.infer<typeof ReportSchema>;
-
-export type UpdateReportBody = z.infer<typeof UpdateReportSchema>;
-export type AdminUpdateReportBody = z.infer<typeof AdminUpdateReportSchema>;
-
-// ─── Response DTOs ────────────────────────────────────────────────────────────
+import * as Dto from "./dto.js";
+import { Reports, Posts, Comments, Stories, Profiles } from '../graphql/generated/graphql.js';
+import  { UserAccountDto, toUserAccountDto } from './user.dto.js';
 
 export interface TargetSummary {
   target_id: string | null;

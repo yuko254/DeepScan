@@ -30,8 +30,8 @@ type CommentLikePayload {
 extend type Mutation {
   followUser(userId: ID!): FollowPayload!
   unfollowUser(userId: ID!): Boolean!
-  acceptFollowRequest(requesterId: ID!): FollowRequestPayload!
-  rejectFollowRequest(requesterId: ID!): Boolean!
+  acceptFollowRequest(userId: ID!): FollowRequestPayload!
+  rejectFollowRequest(userId: ID!): Boolean!
   cancelFollowRequest(userId: ID!): Boolean!
 }
 

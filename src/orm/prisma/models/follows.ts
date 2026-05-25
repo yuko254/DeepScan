@@ -303,6 +303,16 @@ export type followsUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type FollowsListRelationFilter = {
+  every?: Prisma.followsWhereInput
+  some?: Prisma.followsWhereInput
+  none?: Prisma.followsWhereInput
+}
+
+export type followsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type followsFollower_idFollowing_idCompoundUniqueInput = {
   follower_id: string
   following_id: string
@@ -335,16 +345,6 @@ export type followsMinOrderByAggregateInput = {
 
 export type followsSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-}
-
-export type FollowsListRelationFilter = {
-  every?: Prisma.followsWhereInput
-  some?: Prisma.followsWhereInput
-  none?: Prisma.followsWhereInput
-}
-
-export type followsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type followsCreateNestedManyWithoutFollowerInput = {

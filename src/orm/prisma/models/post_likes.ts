@@ -303,6 +303,16 @@ export type post_likesUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type Post_likesListRelationFilter = {
+  every?: Prisma.post_likesWhereInput
+  some?: Prisma.post_likesWhereInput
+  none?: Prisma.post_likesWhereInput
+}
+
+export type post_likesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type post_likesUser_idPost_idCompoundUniqueInput = {
   user_id: string
   post_id: string
@@ -335,58 +345,6 @@ export type post_likesMinOrderByAggregateInput = {
 
 export type post_likesSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-}
-
-export type Post_likesListRelationFilter = {
-  every?: Prisma.post_likesWhereInput
-  some?: Prisma.post_likesWhereInput
-  none?: Prisma.post_likesWhereInput
-}
-
-export type post_likesOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type post_likesCreateNestedManyWithoutPostInput = {
-  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
-  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
-  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-}
-
-export type post_likesUncheckedCreateNestedManyWithoutPostInput = {
-  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
-  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
-  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-}
-
-export type post_likesUpdateManyWithoutPostNestedInput = {
-  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
-  upsert?: Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput | Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput[]
-  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
-  set?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  disconnect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  delete?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  update?: Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput | Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput[]
-  updateMany?: Prisma.post_likesUpdateManyWithWhereWithoutPostInput | Prisma.post_likesUpdateManyWithWhereWithoutPostInput[]
-  deleteMany?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
-}
-
-export type post_likesUncheckedUpdateManyWithoutPostNestedInput = {
-  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
-  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
-  upsert?: Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput | Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput[]
-  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
-  set?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  disconnect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  delete?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
-  update?: Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput | Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput[]
-  updateMany?: Prisma.post_likesUpdateManyWithWhereWithoutPostInput | Prisma.post_likesUpdateManyWithWhereWithoutPostInput[]
-  deleteMany?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
 }
 
 export type post_likesCreateNestedManyWithoutUserInput = {
@@ -431,52 +389,46 @@ export type post_likesUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
 }
 
-export type post_likesCreateWithoutPostInput = {
-  id?: bigint | number
-  created_at?: Date | string
-  user?: Prisma.usersCreateNestedOneWithoutPost_likesInput
+export type post_likesCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
+  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
 }
 
-export type post_likesUncheckedCreateWithoutPostInput = {
-  id?: bigint | number
-  user_id?: string | null
-  created_at?: Date | string
+export type post_likesUncheckedCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
+  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
 }
 
-export type post_likesCreateOrConnectWithoutPostInput = {
-  where: Prisma.post_likesWhereUniqueInput
-  create: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput>
+export type post_likesUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput | Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
+  set?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  disconnect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  delete?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  update?: Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput | Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.post_likesUpdateManyWithWhereWithoutPostInput | Prisma.post_likesUpdateManyWithWhereWithoutPostInput[]
+  deleteMany?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
 }
 
-export type post_likesCreateManyPostInputEnvelope = {
-  data: Prisma.post_likesCreateManyPostInput | Prisma.post_likesCreateManyPostInput[]
-  skipDuplicates?: boolean
-}
-
-export type post_likesUpsertWithWhereUniqueWithoutPostInput = {
-  where: Prisma.post_likesWhereUniqueInput
-  update: Prisma.XOR<Prisma.post_likesUpdateWithoutPostInput, Prisma.post_likesUncheckedUpdateWithoutPostInput>
-  create: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput>
-}
-
-export type post_likesUpdateWithWhereUniqueWithoutPostInput = {
-  where: Prisma.post_likesWhereUniqueInput
-  data: Prisma.XOR<Prisma.post_likesUpdateWithoutPostInput, Prisma.post_likesUncheckedUpdateWithoutPostInput>
-}
-
-export type post_likesUpdateManyWithWhereWithoutPostInput = {
-  where: Prisma.post_likesScalarWhereInput
-  data: Prisma.XOR<Prisma.post_likesUpdateManyMutationInput, Prisma.post_likesUncheckedUpdateManyWithoutPostInput>
-}
-
-export type post_likesScalarWhereInput = {
-  AND?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
-  OR?: Prisma.post_likesScalarWhereInput[]
-  NOT?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"post_likes"> | bigint | number
-  user_id?: Prisma.UuidNullableFilter<"post_likes"> | string | null
-  post_id?: Prisma.UuidFilter<"post_likes"> | string
-  created_at?: Prisma.DateTimeFilter<"post_likes"> | Date | string
+export type post_likesUncheckedUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput> | Prisma.post_likesCreateWithoutPostInput[] | Prisma.post_likesUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.post_likesCreateOrConnectWithoutPostInput | Prisma.post_likesCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput | Prisma.post_likesUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.post_likesCreateManyPostInputEnvelope
+  set?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  disconnect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  delete?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  connect?: Prisma.post_likesWhereUniqueInput | Prisma.post_likesWhereUniqueInput[]
+  update?: Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput | Prisma.post_likesUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.post_likesUpdateManyWithWhereWithoutPostInput | Prisma.post_likesUpdateManyWithWhereWithoutPostInput[]
+  deleteMany?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
 }
 
 export type post_likesCreateWithoutUserInput = {
@@ -517,28 +469,52 @@ export type post_likesUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.post_likesUpdateManyMutationInput, Prisma.post_likesUncheckedUpdateManyWithoutUserInput>
 }
 
-export type post_likesCreateManyPostInput = {
+export type post_likesScalarWhereInput = {
+  AND?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
+  OR?: Prisma.post_likesScalarWhereInput[]
+  NOT?: Prisma.post_likesScalarWhereInput | Prisma.post_likesScalarWhereInput[]
+  id?: Prisma.BigIntFilter<"post_likes"> | bigint | number
+  user_id?: Prisma.UuidNullableFilter<"post_likes"> | string | null
+  post_id?: Prisma.UuidFilter<"post_likes"> | string
+  created_at?: Prisma.DateTimeFilter<"post_likes"> | Date | string
+}
+
+export type post_likesCreateWithoutPostInput = {
+  id?: bigint | number
+  created_at?: Date | string
+  user?: Prisma.usersCreateNestedOneWithoutPost_likesInput
+}
+
+export type post_likesUncheckedCreateWithoutPostInput = {
   id?: bigint | number
   user_id?: string | null
   created_at?: Date | string
 }
 
-export type post_likesUpdateWithoutPostInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.usersUpdateOneWithoutPost_likesNestedInput
+export type post_likesCreateOrConnectWithoutPostInput = {
+  where: Prisma.post_likesWhereUniqueInput
+  create: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput>
 }
 
-export type post_likesUncheckedUpdateWithoutPostInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type post_likesCreateManyPostInputEnvelope = {
+  data: Prisma.post_likesCreateManyPostInput | Prisma.post_likesCreateManyPostInput[]
+  skipDuplicates?: boolean
 }
 
-export type post_likesUncheckedUpdateManyWithoutPostInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type post_likesUpsertWithWhereUniqueWithoutPostInput = {
+  where: Prisma.post_likesWhereUniqueInput
+  update: Prisma.XOR<Prisma.post_likesUpdateWithoutPostInput, Prisma.post_likesUncheckedUpdateWithoutPostInput>
+  create: Prisma.XOR<Prisma.post_likesCreateWithoutPostInput, Prisma.post_likesUncheckedCreateWithoutPostInput>
+}
+
+export type post_likesUpdateWithWhereUniqueWithoutPostInput = {
+  where: Prisma.post_likesWhereUniqueInput
+  data: Prisma.XOR<Prisma.post_likesUpdateWithoutPostInput, Prisma.post_likesUncheckedUpdateWithoutPostInput>
+}
+
+export type post_likesUpdateManyWithWhereWithoutPostInput = {
+  where: Prisma.post_likesScalarWhereInput
+  data: Prisma.XOR<Prisma.post_likesUpdateManyMutationInput, Prisma.post_likesUncheckedUpdateManyWithoutPostInput>
 }
 
 export type post_likesCreateManyUserInput = {
@@ -562,6 +538,30 @@ export type post_likesUncheckedUpdateWithoutUserInput = {
 export type post_likesUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type post_likesCreateManyPostInput = {
+  id?: bigint | number
+  user_id?: string | null
+  created_at?: Date | string
+}
+
+export type post_likesUpdateWithoutPostInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneWithoutPost_likesNestedInput
+}
+
+export type post_likesUncheckedUpdateWithoutPostInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type post_likesUncheckedUpdateManyWithoutPostInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 

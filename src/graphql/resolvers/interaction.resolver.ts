@@ -4,29 +4,29 @@ import { commentService } from '../../services/interactions/comment.service.js';
 import { followService } from '../../services/interactions/follow.service.js';
 import { blockService } from '../../services/interactions/block.service.js';
 import { notificationService } from '../../services/notification.service.js';
-import * as AppError from '../../types/appErrors.types.js';
+
 import {
-  LikePostSchema,
+  PostIdSchema,
   UnlikePostSchema,
   SavePostSchema,
   UnsavePostSchema,
-  LikeCommentSchema,
+  CommentIdSchema,
   UnlikeCommentSchema,
-  FollowUserSchema,
+  UserIdSchema,
   UnfollowUserSchema,
   AcceptFollowRequestSchema,
   RejectFollowRequestSchema,
   CancelFollowRequestSchema,
   BlockUserSchema,
   UnblockUserSchema,
-  MarkNotificationReadSchema,
+  NotificationIdSchema,
   MarkAllNotificationsReadSchema
-} from '../../validations/interaction.validation.js';
+} from '../../zod/id.validation.js';
 
 export const interactionResolver = {
   Mutation: {
     likePost: async (_: any, { postId }: { postId: string }, context: GraphqlContext) => {
-      const validated = LikePostSchema.parse({ postId });
+      const validated = PostIdSchema.parse({ postId });
       const result = await postService.likeUnlikePost(context.user!.user_id, validated.postId);
       return { liked: result.liked, postId: validated.postId, likesCount: result.likesCount };
     },
@@ -50,7 +50,7 @@ export const interactionResolver = {
     },
 
     likeComment: async (_: any, { commentId }: { commentId: string }, context: GraphqlContext) => {
-      const validated = LikeCommentSchema.parse({ commentId });
+      const validated = CommentIdSchema.parse({ commentId });
       const result = await commentService.likeUnlikeComment(context.user!.user_id, validated.commentId);
       return { liked: true, commentId: validated.commentId, likesCount: result.likesCount };
     },
@@ -62,7 +62,7 @@ export const interactionResolver = {
     },
 
     followUser: async (_: any, { userId }: { userId: string }, context: GraphqlContext) => {
-      const validated = FollowUserSchema.parse({ userId });
+      const validated = UserIdSchema.parse({ userId });
       const result = await followService.followUser(context.user!.user_id, validated.userId);
       return { success: true, status: result.status };
     },
@@ -104,7 +104,7 @@ export const interactionResolver = {
     },
 
     markNotificationRead: async (_: any, { notificationId }: { notificationId: string }, context: GraphqlContext) => {
-      const validated = MarkNotificationReadSchema.parse({ notificationId });
+      const validated = NotificationIdSchema.parse({ notificationId });
       await notificationService.markAsRead(validated.notificationId, context.user!.user_id);
       return true;
     },

@@ -1,5 +1,5 @@
 import { Prisma, prisma } from '../../config/prisma.js';
-import type { ContentsCreateInput, ContentsUpdateInput } from '../../graphql/graphql.js';
+import type { ContentsCreateInput, ContentsUpdateInput } from '../../graphql/generated/graphql.js';
 import { contentRepo } from '../../Repository/instances.js';
 import { postService } from './post.service.js';
 import { storyService } from './story.service.js';

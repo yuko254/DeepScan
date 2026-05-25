@@ -12,7 +12,7 @@ type UserPostsResult {
 }
 
 type SavedPostsResult {
-  savedPosts: [saved_posts!]!
+  savedPosts: [posts!]!
   total: Int!
 }
 

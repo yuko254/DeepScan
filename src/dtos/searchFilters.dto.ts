@@ -33,10 +33,10 @@ export const reportFilterMapping = {
 };
 
 export interface CountryFiltersDto {
-  search?: string;
+  name?: string;
 }
 
 export interface CityFiltersDto {
-  search?: string;
+  name?: string;
   country_id?: number;
 }

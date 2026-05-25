@@ -297,6 +297,20 @@ export type storiesUncheckedUpdateOneWithoutContentNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.storiesUpdateToOneWithWhereWithoutContentInput, Prisma.storiesUpdateWithoutContentInput>, Prisma.storiesUncheckedUpdateWithoutContentInput>
 }
 
+export type storiesCreateNestedOneWithoutStory_viewsInput = {
+  create?: Prisma.XOR<Prisma.storiesCreateWithoutStory_viewsInput, Prisma.storiesUncheckedCreateWithoutStory_viewsInput>
+  connectOrCreate?: Prisma.storiesCreateOrConnectWithoutStory_viewsInput
+  connect?: Prisma.storiesWhereUniqueInput
+}
+
+export type storiesUpdateOneRequiredWithoutStory_viewsNestedInput = {
+  create?: Prisma.XOR<Prisma.storiesCreateWithoutStory_viewsInput, Prisma.storiesUncheckedCreateWithoutStory_viewsInput>
+  connectOrCreate?: Prisma.storiesCreateOrConnectWithoutStory_viewsInput
+  upsert?: Prisma.storiesUpsertWithoutStory_viewsInput
+  connect?: Prisma.storiesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.storiesUpdateToOneWithWhereWithoutStory_viewsInput, Prisma.storiesUpdateWithoutStory_viewsInput>, Prisma.storiesUncheckedUpdateWithoutStory_viewsInput>
+}
+
 export type storiesCreateNestedOneWithoutReportTargetsInput = {
   create?: Prisma.XOR<Prisma.storiesCreateWithoutReportTargetsInput, Prisma.storiesUncheckedCreateWithoutReportTargetsInput>
   connectOrCreate?: Prisma.storiesCreateOrConnectWithoutReportTargetsInput
@@ -311,20 +325,6 @@ export type storiesUpdateOneWithoutReportTargetsNestedInput = {
   delete?: Prisma.storiesWhereInput | boolean
   connect?: Prisma.storiesWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.storiesUpdateToOneWithWhereWithoutReportTargetsInput, Prisma.storiesUpdateWithoutReportTargetsInput>, Prisma.storiesUncheckedUpdateWithoutReportTargetsInput>
-}
-
-export type storiesCreateNestedOneWithoutStory_viewsInput = {
-  create?: Prisma.XOR<Prisma.storiesCreateWithoutStory_viewsInput, Prisma.storiesUncheckedCreateWithoutStory_viewsInput>
-  connectOrCreate?: Prisma.storiesCreateOrConnectWithoutStory_viewsInput
-  connect?: Prisma.storiesWhereUniqueInput
-}
-
-export type storiesUpdateOneRequiredWithoutStory_viewsNestedInput = {
-  create?: Prisma.XOR<Prisma.storiesCreateWithoutStory_viewsInput, Prisma.storiesUncheckedCreateWithoutStory_viewsInput>
-  connectOrCreate?: Prisma.storiesCreateOrConnectWithoutStory_viewsInput
-  upsert?: Prisma.storiesUpsertWithoutStory_viewsInput
-  connect?: Prisma.storiesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.storiesUpdateToOneWithWhereWithoutStory_viewsInput, Prisma.storiesUpdateWithoutStory_viewsInput>, Prisma.storiesUncheckedUpdateWithoutStory_viewsInput>
 }
 
 export type storiesCreateWithoutContentInput = {
@@ -367,46 +367,6 @@ export type storiesUncheckedUpdateWithoutContentInput = {
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutStoryNestedInput
 }
 
-export type storiesCreateWithoutReportTargetsInput = {
-  expires_at?: Date | string | null
-  content: Prisma.contentsCreateNestedOneWithoutStoryInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutStoryInput
-}
-
-export type storiesUncheckedCreateWithoutReportTargetsInput = {
-  content_id: string
-  expires_at?: Date | string | null
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutStoryInput
-}
-
-export type storiesCreateOrConnectWithoutReportTargetsInput = {
-  where: Prisma.storiesWhereUniqueInput
-  create: Prisma.XOR<Prisma.storiesCreateWithoutReportTargetsInput, Prisma.storiesUncheckedCreateWithoutReportTargetsInput>
-}
-
-export type storiesUpsertWithoutReportTargetsInput = {
-  update: Prisma.XOR<Prisma.storiesUpdateWithoutReportTargetsInput, Prisma.storiesUncheckedUpdateWithoutReportTargetsInput>
-  create: Prisma.XOR<Prisma.storiesCreateWithoutReportTargetsInput, Prisma.storiesUncheckedCreateWithoutReportTargetsInput>
-  where?: Prisma.storiesWhereInput
-}
-
-export type storiesUpdateToOneWithWhereWithoutReportTargetsInput = {
-  where?: Prisma.storiesWhereInput
-  data: Prisma.XOR<Prisma.storiesUpdateWithoutReportTargetsInput, Prisma.storiesUncheckedUpdateWithoutReportTargetsInput>
-}
-
-export type storiesUpdateWithoutReportTargetsInput = {
-  expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  content?: Prisma.contentsUpdateOneRequiredWithoutStoryNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutStoryNestedInput
-}
-
-export type storiesUncheckedUpdateWithoutReportTargetsInput = {
-  content_id?: Prisma.StringFieldUpdateOperationsInput | string
-  expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutStoryNestedInput
-}
-
 export type storiesCreateWithoutStory_viewsInput = {
   expires_at?: Date | string | null
   content: Prisma.contentsCreateNestedOneWithoutStoryInput
@@ -445,6 +405,46 @@ export type storiesUncheckedUpdateWithoutStory_viewsInput = {
   content_id?: Prisma.StringFieldUpdateOperationsInput | string
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutStoryNestedInput
+}
+
+export type storiesCreateWithoutReportTargetsInput = {
+  expires_at?: Date | string | null
+  content: Prisma.contentsCreateNestedOneWithoutStoryInput
+  story_views?: Prisma.story_viewsCreateNestedManyWithoutStoryInput
+}
+
+export type storiesUncheckedCreateWithoutReportTargetsInput = {
+  content_id: string
+  expires_at?: Date | string | null
+  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutStoryInput
+}
+
+export type storiesCreateOrConnectWithoutReportTargetsInput = {
+  where: Prisma.storiesWhereUniqueInput
+  create: Prisma.XOR<Prisma.storiesCreateWithoutReportTargetsInput, Prisma.storiesUncheckedCreateWithoutReportTargetsInput>
+}
+
+export type storiesUpsertWithoutReportTargetsInput = {
+  update: Prisma.XOR<Prisma.storiesUpdateWithoutReportTargetsInput, Prisma.storiesUncheckedUpdateWithoutReportTargetsInput>
+  create: Prisma.XOR<Prisma.storiesCreateWithoutReportTargetsInput, Prisma.storiesUncheckedCreateWithoutReportTargetsInput>
+  where?: Prisma.storiesWhereInput
+}
+
+export type storiesUpdateToOneWithWhereWithoutReportTargetsInput = {
+  where?: Prisma.storiesWhereInput
+  data: Prisma.XOR<Prisma.storiesUpdateWithoutReportTargetsInput, Prisma.storiesUncheckedUpdateWithoutReportTargetsInput>
+}
+
+export type storiesUpdateWithoutReportTargetsInput = {
+  expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  content?: Prisma.contentsUpdateOneRequiredWithoutStoryNestedInput
+  story_views?: Prisma.story_viewsUpdateManyWithoutStoryNestedInput
+}
+
+export type storiesUncheckedUpdateWithoutReportTargetsInput = {
+  content_id?: Prisma.StringFieldUpdateOperationsInput | string
+  expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutStoryNestedInput
 }
 
 

@@ -264,6 +264,11 @@ export type categoriesUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
+export type CategoriesNullableScalarRelationFilter = {
+  is?: Prisma.categoriesWhereInput | null
+  isNot?: Prisma.categoriesWhereInput | null
+}
+
 export type categoriesCountOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -285,19 +290,6 @@ export type categoriesMinOrderByAggregateInput = {
 
 export type categoriesSumOrderByAggregateInput = {
   category_id?: Prisma.SortOrder
-}
-
-export type CategoriesNullableScalarRelationFilter = {
-  is?: Prisma.categoriesWhereInput | null
-  isNot?: Prisma.categoriesWhereInput | null
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type categoriesCreateNestedOneWithoutPostsInput = {

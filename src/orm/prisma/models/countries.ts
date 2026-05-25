@@ -271,6 +271,11 @@ export type countriesUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
+export type CountriesScalarRelationFilter = {
+  is?: Prisma.countriesWhereInput
+  isNot?: Prisma.countriesWhereInput
+}
+
 export type countriesCountOrderByAggregateInput = {
   country_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -294,25 +299,6 @@ export type countriesSumOrderByAggregateInput = {
   country_id?: Prisma.SortOrder
 }
 
-export type CountriesScalarRelationFilter = {
-  is?: Prisma.countriesWhereInput
-  isNot?: Prisma.countriesWhereInput
-}
-
-export type countriesCreateNestedOneWithoutCitiesInput = {
-  create?: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
-  connectOrCreate?: Prisma.countriesCreateOrConnectWithoutCitiesInput
-  connect?: Prisma.countriesWhereUniqueInput
-}
-
-export type countriesUpdateOneRequiredWithoutCitiesNestedInput = {
-  create?: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
-  connectOrCreate?: Prisma.countriesCreateOrConnectWithoutCitiesInput
-  upsert?: Prisma.countriesUpsertWithoutCitiesInput
-  connect?: Prisma.countriesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.countriesUpdateToOneWithWhereWithoutCitiesInput, Prisma.countriesUpdateWithoutCitiesInput>, Prisma.countriesUncheckedUpdateWithoutCitiesInput>
-}
-
 export type countriesCreateNestedOneWithoutLocationsInput = {
   create?: Prisma.XOR<Prisma.countriesCreateWithoutLocationsInput, Prisma.countriesUncheckedCreateWithoutLocationsInput>
   connectOrCreate?: Prisma.countriesCreateOrConnectWithoutLocationsInput
@@ -327,42 +313,18 @@ export type countriesUpdateOneRequiredWithoutLocationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.countriesUpdateToOneWithWhereWithoutLocationsInput, Prisma.countriesUpdateWithoutLocationsInput>, Prisma.countriesUncheckedUpdateWithoutLocationsInput>
 }
 
-export type countriesCreateWithoutCitiesInput = {
-  name: string
-  locations?: Prisma.locationsCreateNestedManyWithoutCountryInput
+export type countriesCreateNestedOneWithoutCitiesInput = {
+  create?: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
+  connectOrCreate?: Prisma.countriesCreateOrConnectWithoutCitiesInput
+  connect?: Prisma.countriesWhereUniqueInput
 }
 
-export type countriesUncheckedCreateWithoutCitiesInput = {
-  country_id?: number
-  name: string
-  locations?: Prisma.locationsUncheckedCreateNestedManyWithoutCountryInput
-}
-
-export type countriesCreateOrConnectWithoutCitiesInput = {
-  where: Prisma.countriesWhereUniqueInput
-  create: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
-}
-
-export type countriesUpsertWithoutCitiesInput = {
-  update: Prisma.XOR<Prisma.countriesUpdateWithoutCitiesInput, Prisma.countriesUncheckedUpdateWithoutCitiesInput>
-  create: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
-  where?: Prisma.countriesWhereInput
-}
-
-export type countriesUpdateToOneWithWhereWithoutCitiesInput = {
-  where?: Prisma.countriesWhereInput
-  data: Prisma.XOR<Prisma.countriesUpdateWithoutCitiesInput, Prisma.countriesUncheckedUpdateWithoutCitiesInput>
-}
-
-export type countriesUpdateWithoutCitiesInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  locations?: Prisma.locationsUpdateManyWithoutCountryNestedInput
-}
-
-export type countriesUncheckedUpdateWithoutCitiesInput = {
-  country_id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  locations?: Prisma.locationsUncheckedUpdateManyWithoutCountryNestedInput
+export type countriesUpdateOneRequiredWithoutCitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
+  connectOrCreate?: Prisma.countriesCreateOrConnectWithoutCitiesInput
+  upsert?: Prisma.countriesUpsertWithoutCitiesInput
+  connect?: Prisma.countriesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.countriesUpdateToOneWithWhereWithoutCitiesInput, Prisma.countriesUpdateWithoutCitiesInput>, Prisma.countriesUncheckedUpdateWithoutCitiesInput>
 }
 
 export type countriesCreateWithoutLocationsInput = {
@@ -401,6 +363,44 @@ export type countriesUncheckedUpdateWithoutLocationsInput = {
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cities?: Prisma.citiesUncheckedUpdateManyWithoutCountryNestedInput
+}
+
+export type countriesCreateWithoutCitiesInput = {
+  name: string
+  locations?: Prisma.locationsCreateNestedManyWithoutCountryInput
+}
+
+export type countriesUncheckedCreateWithoutCitiesInput = {
+  country_id?: number
+  name: string
+  locations?: Prisma.locationsUncheckedCreateNestedManyWithoutCountryInput
+}
+
+export type countriesCreateOrConnectWithoutCitiesInput = {
+  where: Prisma.countriesWhereUniqueInput
+  create: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
+}
+
+export type countriesUpsertWithoutCitiesInput = {
+  update: Prisma.XOR<Prisma.countriesUpdateWithoutCitiesInput, Prisma.countriesUncheckedUpdateWithoutCitiesInput>
+  create: Prisma.XOR<Prisma.countriesCreateWithoutCitiesInput, Prisma.countriesUncheckedCreateWithoutCitiesInput>
+  where?: Prisma.countriesWhereInput
+}
+
+export type countriesUpdateToOneWithWhereWithoutCitiesInput = {
+  where?: Prisma.countriesWhereInput
+  data: Prisma.XOR<Prisma.countriesUpdateWithoutCitiesInput, Prisma.countriesUncheckedUpdateWithoutCitiesInput>
+}
+
+export type countriesUpdateWithoutCitiesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  locations?: Prisma.locationsUpdateManyWithoutCountryNestedInput
+}
+
+export type countriesUncheckedUpdateWithoutCitiesInput = {
+  country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  locations?: Prisma.locationsUncheckedUpdateManyWithoutCountryNestedInput
 }
 
 

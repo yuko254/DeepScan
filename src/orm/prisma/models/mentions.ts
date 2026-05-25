@@ -175,7 +175,6 @@ export type mentionsWhereInput = {
   mention_target_id?: Prisma.UuidFilter<"mentions"> | string
   created_at?: Prisma.DateTimeFilter<"mentions"> | Date | string
   user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-  mention_target?: Prisma.XOR<Prisma.Mention_targetsNullableScalarRelationFilter, Prisma.mention_targetsWhereInput> | null
 }
 
 export type mentionsOrderByWithRelationInput = {
@@ -184,7 +183,6 @@ export type mentionsOrderByWithRelationInput = {
   mention_target_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   user?: Prisma.usersOrderByWithRelationInput
-  mention_target?: Prisma.mention_targetsOrderByWithRelationInput
 }
 
 export type mentionsWhereUniqueInput = Prisma.AtLeast<{
@@ -196,7 +194,6 @@ export type mentionsWhereUniqueInput = Prisma.AtLeast<{
   mention_target_id?: Prisma.UuidFilter<"mentions"> | string
   created_at?: Prisma.DateTimeFilter<"mentions"> | Date | string
   user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-  mention_target?: Prisma.XOR<Prisma.Mention_targetsNullableScalarRelationFilter, Prisma.mention_targetsWhereInput> | null
 }, "mention_id">
 
 export type mentionsOrderByWithAggregationInput = {
@@ -221,9 +218,9 @@ export type mentionsScalarWhereWithAggregatesInput = {
 
 export type mentionsCreateInput = {
   mention_id?: string
+  mention_target_id: string
   created_at?: Date | string
   user: Prisma.usersCreateNestedOneWithoutMentionsInput
-  mention_target?: Prisma.mention_targetsCreateNestedOneWithoutMentionsInput
 }
 
 export type mentionsUncheckedCreateInput = {
@@ -235,9 +232,9 @@ export type mentionsUncheckedCreateInput = {
 
 export type mentionsUpdateInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
+  mention_target_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
-  mention_target?: Prisma.mention_targetsUpdateOneWithoutMentionsNestedInput
 }
 
 export type mentionsUncheckedUpdateInput = {
@@ -256,6 +253,7 @@ export type mentionsCreateManyInput = {
 
 export type mentionsUpdateManyMutationInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
+  mention_target_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -264,6 +262,16 @@ export type mentionsUncheckedUpdateManyInput = {
   mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   mention_target_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MentionsListRelationFilter = {
+  every?: Prisma.mentionsWhereInput
+  some?: Prisma.mentionsWhereInput
+  none?: Prisma.mentionsWhereInput
+}
+
+export type mentionsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type mentionsCountOrderByAggregateInput = {
@@ -285,58 +293,6 @@ export type mentionsMinOrderByAggregateInput = {
   mentioned_user_id?: Prisma.SortOrder
   mention_target_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-}
-
-export type MentionsListRelationFilter = {
-  every?: Prisma.mentionsWhereInput
-  some?: Prisma.mentionsWhereInput
-  none?: Prisma.mentionsWhereInput
-}
-
-export type mentionsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type mentionsCreateNestedManyWithoutMention_targetInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutMention_targetInput, Prisma.mentionsUncheckedCreateWithoutMention_targetInput> | Prisma.mentionsCreateWithoutMention_targetInput[] | Prisma.mentionsUncheckedCreateWithoutMention_targetInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutMention_targetInput | Prisma.mentionsCreateOrConnectWithoutMention_targetInput[]
-  createMany?: Prisma.mentionsCreateManyMention_targetInputEnvelope
-  connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-}
-
-export type mentionsUncheckedCreateNestedManyWithoutMention_targetInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutMention_targetInput, Prisma.mentionsUncheckedCreateWithoutMention_targetInput> | Prisma.mentionsCreateWithoutMention_targetInput[] | Prisma.mentionsUncheckedCreateWithoutMention_targetInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutMention_targetInput | Prisma.mentionsCreateOrConnectWithoutMention_targetInput[]
-  createMany?: Prisma.mentionsCreateManyMention_targetInputEnvelope
-  connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-}
-
-export type mentionsUpdateManyWithoutMention_targetNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutMention_targetInput, Prisma.mentionsUncheckedCreateWithoutMention_targetInput> | Prisma.mentionsCreateWithoutMention_targetInput[] | Prisma.mentionsUncheckedCreateWithoutMention_targetInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutMention_targetInput | Prisma.mentionsCreateOrConnectWithoutMention_targetInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutMention_targetInput | Prisma.mentionsUpsertWithWhereUniqueWithoutMention_targetInput[]
-  createMany?: Prisma.mentionsCreateManyMention_targetInputEnvelope
-  set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutMention_targetInput | Prisma.mentionsUpdateWithWhereUniqueWithoutMention_targetInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutMention_targetInput | Prisma.mentionsUpdateManyWithWhereWithoutMention_targetInput[]
-  deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
-}
-
-export type mentionsUncheckedUpdateManyWithoutMention_targetNestedInput = {
-  create?: Prisma.XOR<Prisma.mentionsCreateWithoutMention_targetInput, Prisma.mentionsUncheckedCreateWithoutMention_targetInput> | Prisma.mentionsCreateWithoutMention_targetInput[] | Prisma.mentionsUncheckedCreateWithoutMention_targetInput[]
-  connectOrCreate?: Prisma.mentionsCreateOrConnectWithoutMention_targetInput | Prisma.mentionsCreateOrConnectWithoutMention_targetInput[]
-  upsert?: Prisma.mentionsUpsertWithWhereUniqueWithoutMention_targetInput | Prisma.mentionsUpsertWithWhereUniqueWithoutMention_targetInput[]
-  createMany?: Prisma.mentionsCreateManyMention_targetInputEnvelope
-  set?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  disconnect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  delete?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  connect?: Prisma.mentionsWhereUniqueInput | Prisma.mentionsWhereUniqueInput[]
-  update?: Prisma.mentionsUpdateWithWhereUniqueWithoutMention_targetInput | Prisma.mentionsUpdateWithWhereUniqueWithoutMention_targetInput[]
-  updateMany?: Prisma.mentionsUpdateManyWithWhereWithoutMention_targetInput | Prisma.mentionsUpdateManyWithWhereWithoutMention_targetInput[]
-  deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
 export type mentionsCreateNestedManyWithoutUserInput = {
@@ -381,58 +337,10 @@ export type mentionsUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
 }
 
-export type mentionsCreateWithoutMention_targetInput = {
-  mention_id?: string
-  created_at?: Date | string
-  user: Prisma.usersCreateNestedOneWithoutMentionsInput
-}
-
-export type mentionsUncheckedCreateWithoutMention_targetInput = {
-  mention_id?: string
-  mentioned_user_id: string
-  created_at?: Date | string
-}
-
-export type mentionsCreateOrConnectWithoutMention_targetInput = {
-  where: Prisma.mentionsWhereUniqueInput
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutMention_targetInput, Prisma.mentionsUncheckedCreateWithoutMention_targetInput>
-}
-
-export type mentionsCreateManyMention_targetInputEnvelope = {
-  data: Prisma.mentionsCreateManyMention_targetInput | Prisma.mentionsCreateManyMention_targetInput[]
-  skipDuplicates?: boolean
-}
-
-export type mentionsUpsertWithWhereUniqueWithoutMention_targetInput = {
-  where: Prisma.mentionsWhereUniqueInput
-  update: Prisma.XOR<Prisma.mentionsUpdateWithoutMention_targetInput, Prisma.mentionsUncheckedUpdateWithoutMention_targetInput>
-  create: Prisma.XOR<Prisma.mentionsCreateWithoutMention_targetInput, Prisma.mentionsUncheckedCreateWithoutMention_targetInput>
-}
-
-export type mentionsUpdateWithWhereUniqueWithoutMention_targetInput = {
-  where: Prisma.mentionsWhereUniqueInput
-  data: Prisma.XOR<Prisma.mentionsUpdateWithoutMention_targetInput, Prisma.mentionsUncheckedUpdateWithoutMention_targetInput>
-}
-
-export type mentionsUpdateManyWithWhereWithoutMention_targetInput = {
-  where: Prisma.mentionsScalarWhereInput
-  data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutMention_targetInput>
-}
-
-export type mentionsScalarWhereInput = {
-  AND?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
-  OR?: Prisma.mentionsScalarWhereInput[]
-  NOT?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
-  mention_id?: Prisma.UuidFilter<"mentions"> | string
-  mentioned_user_id?: Prisma.UuidFilter<"mentions"> | string
-  mention_target_id?: Prisma.UuidFilter<"mentions"> | string
-  created_at?: Prisma.DateTimeFilter<"mentions"> | Date | string
-}
-
 export type mentionsCreateWithoutUserInput = {
   mention_id?: string
+  mention_target_id: string
   created_at?: Date | string
-  mention_target?: Prisma.mention_targetsCreateNestedOneWithoutMentionsInput
 }
 
 export type mentionsUncheckedCreateWithoutUserInput = {
@@ -467,28 +375,14 @@ export type mentionsUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.mentionsUpdateManyMutationInput, Prisma.mentionsUncheckedUpdateManyWithoutUserInput>
 }
 
-export type mentionsCreateManyMention_targetInput = {
-  mention_id?: string
-  mentioned_user_id: string
-  created_at?: Date | string
-}
-
-export type mentionsUpdateWithoutMention_targetInput = {
-  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.usersUpdateOneRequiredWithoutMentionsNestedInput
-}
-
-export type mentionsUncheckedUpdateWithoutMention_targetInput = {
-  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type mentionsUncheckedUpdateManyWithoutMention_targetInput = {
-  mention_id?: Prisma.StringFieldUpdateOperationsInput | string
-  mentioned_user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type mentionsScalarWhereInput = {
+  AND?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
+  OR?: Prisma.mentionsScalarWhereInput[]
+  NOT?: Prisma.mentionsScalarWhereInput | Prisma.mentionsScalarWhereInput[]
+  mention_id?: Prisma.UuidFilter<"mentions"> | string
+  mentioned_user_id?: Prisma.UuidFilter<"mentions"> | string
+  mention_target_id?: Prisma.UuidFilter<"mentions"> | string
+  created_at?: Prisma.DateTimeFilter<"mentions"> | Date | string
 }
 
 export type mentionsCreateManyUserInput = {
@@ -499,8 +393,8 @@ export type mentionsCreateManyUserInput = {
 
 export type mentionsUpdateWithoutUserInput = {
   mention_id?: Prisma.StringFieldUpdateOperationsInput | string
+  mention_target_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mention_target?: Prisma.mention_targetsUpdateOneWithoutMentionsNestedInput
 }
 
 export type mentionsUncheckedUpdateWithoutUserInput = {
@@ -523,7 +417,6 @@ export type mentionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   mention_target_id?: boolean
   created_at?: boolean
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  mention_target?: boolean | Prisma.mentions$mention_targetArgs<ExtArgs>
 }, ExtArgs["result"]["mentions"]>
 
 export type mentionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -532,7 +425,6 @@ export type mentionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   mention_target_id?: boolean
   created_at?: boolean
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  mention_target?: boolean | Prisma.mentions$mention_targetArgs<ExtArgs>
 }, ExtArgs["result"]["mentions"]>
 
 export type mentionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -541,7 +433,6 @@ export type mentionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   mention_target_id?: boolean
   created_at?: boolean
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  mention_target?: boolean | Prisma.mentions$mention_targetArgs<ExtArgs>
 }, ExtArgs["result"]["mentions"]>
 
 export type mentionsSelectScalar = {
@@ -554,22 +445,18 @@ export type mentionsSelectScalar = {
 export type mentionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"mention_id" | "mentioned_user_id" | "mention_target_id" | "created_at", ExtArgs["result"]["mentions"]>
 export type mentionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  mention_target?: boolean | Prisma.mentions$mention_targetArgs<ExtArgs>
 }
 export type mentionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  mention_target?: boolean | Prisma.mentions$mention_targetArgs<ExtArgs>
 }
 export type mentionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
-  mention_target?: boolean | Prisma.mentions$mention_targetArgs<ExtArgs>
 }
 
 export type $mentionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "mentions"
   objects: {
     user: Prisma.$usersPayload<ExtArgs>
-    mention_target: Prisma.$mention_targetsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     mention_id: string
@@ -971,7 +858,6 @@ readonly fields: mentionsFieldRefs;
 export interface Prisma__mentionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  mention_target<T extends Prisma.mentions$mention_targetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mentions$mention_targetArgs<ExtArgs>>): Prisma.Prisma__mention_targetsClient<runtime.Types.Result.GetResult<Prisma.$mention_targetsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1403,25 +1289,6 @@ export type mentionsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many mentions to delete.
    */
   limit?: number
-}
-
-/**
- * mentions.mention_target
- */
-export type mentions$mention_targetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the mention_targets
-   */
-  select?: Prisma.mention_targetsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the mention_targets
-   */
-  omit?: Prisma.mention_targetsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mention_targetsInclude<ExtArgs> | null
-  where?: Prisma.mention_targetsWhereInput
 }
 
 /**

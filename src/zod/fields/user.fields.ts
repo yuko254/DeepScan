@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const roleField = z
+export const roleNameField = z
   .string()
   .min(3, 'Role must be at least 3 characters')
   .max(30, 'Role must be at most 30 characters')

@@ -1,5 +1,5 @@
 import { Prisma, prisma } from '../../config/prisma.js';
-import type { PostsCreateInput, PostsUpdateInput } from '../../graphql/graphql.js';
+import type { PostsCreateInput, PostsUpdateInput } from '../../graphql/generated/graphql.js';
 import { postRepo, contentRepo } from '../../Repository/instances.js';
 import { hashtagService } from '../references/hashtag.service.js';
 import { mentionService } from '../references/mention.service.js';

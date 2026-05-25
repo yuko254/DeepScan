@@ -283,11 +283,6 @@ export type chatsUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ChatsScalarRelationFilter = {
-  is?: Prisma.chatsWhereInput
-  isNot?: Prisma.chatsWhereInput
-}
-
 export type chatsCountOrderByAggregateInput = {
   chat_id?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -309,6 +304,11 @@ export type chatsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
+export type ChatsScalarRelationFilter = {
+  is?: Prisma.chatsWhereInput
+  isNot?: Prisma.chatsWhereInput
+}
+
 export type ChatsNullableScalarRelationFilter = {
   is?: Prisma.chatsWhereInput | null
   isNot?: Prisma.chatsWhereInput | null
@@ -326,10 +326,6 @@ export type chatsUpdateOneRequiredWithoutChat_participantsNestedInput = {
   upsert?: Prisma.chatsUpsertWithoutChat_participantsInput
   connect?: Prisma.chatsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.chatsUpdateToOneWithWhereWithoutChat_participantsInput, Prisma.chatsUpdateWithoutChat_participantsInput>, Prisma.chatsUncheckedUpdateWithoutChat_participantsInput>
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type chatsCreateNestedOneWithoutMessagesInput = {

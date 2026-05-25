@@ -345,6 +345,16 @@ export type reportsUncheckedUpdateManyInput = {
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type ReportsListRelationFilter = {
+  every?: Prisma.reportsWhereInput
+  some?: Prisma.reportsWhereInput
+  none?: Prisma.reportsWhereInput
+}
+
+export type reportsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type reportsReporter_idReport_target_idCompoundUniqueInput = {
   reporter_id: string
   report_target_id: string
@@ -381,62 +391,6 @@ export type reportsMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   resolved_at?: Prisma.SortOrder
-}
-
-export type ReportsListRelationFilter = {
-  every?: Prisma.reportsWhereInput
-  some?: Prisma.reportsWhereInput
-  none?: Prisma.reportsWhereInput
-}
-
-export type reportsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type EnumReportStatusFieldUpdateOperationsInput = {
-  set?: $Enums.ReportStatus
-}
-
-export type reportsCreateNestedManyWithoutReport_targetInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
-  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
-  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-}
-
-export type reportsUncheckedCreateNestedManyWithoutReport_targetInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
-  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
-  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-}
-
-export type reportsUpdateManyWithoutReport_targetNestedInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
-  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput[]
-  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
-  set?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  disconnect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  delete?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  update?: Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput[]
-  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput | Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput[]
-  deleteMany?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
-}
-
-export type reportsUncheckedUpdateManyWithoutReport_targetNestedInput = {
-  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
-  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
-  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput[]
-  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
-  set?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  disconnect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  delete?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
-  update?: Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput[]
-  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput | Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput[]
-  deleteMany?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
 }
 
 export type reportsCreateNestedManyWithoutResolverInput = {
@@ -523,64 +477,50 @@ export type reportsUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
 }
 
-export type reportsCreateWithoutReport_targetInput = {
-  report_id?: string
-  reason?: string | null
-  status?: $Enums.ReportStatus
-  created_at?: Date | string
-  resolved_at?: Date | string | null
-  user?: Prisma.usersCreateNestedOneWithoutReportsInput
-  resolver?: Prisma.usersCreateNestedOneWithoutReport_resolversInput
+export type EnumReportStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ReportStatus
 }
 
-export type reportsUncheckedCreateWithoutReport_targetInput = {
-  report_id?: string
-  reporter_id?: string | null
-  resolver_id?: string | null
-  reason?: string | null
-  status?: $Enums.ReportStatus
-  created_at?: Date | string
-  resolved_at?: Date | string | null
+export type reportsCreateNestedManyWithoutReport_targetInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
+  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
+  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
 }
 
-export type reportsCreateOrConnectWithoutReport_targetInput = {
-  where: Prisma.reportsWhereUniqueInput
-  create: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput>
+export type reportsUncheckedCreateNestedManyWithoutReport_targetInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
+  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
+  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
 }
 
-export type reportsCreateManyReport_targetInputEnvelope = {
-  data: Prisma.reportsCreateManyReport_targetInput | Prisma.reportsCreateManyReport_targetInput[]
-  skipDuplicates?: boolean
+export type reportsUpdateManyWithoutReport_targetNestedInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
+  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput[]
+  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
+  set?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  disconnect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  delete?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  update?: Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput[]
+  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput | Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput[]
+  deleteMany?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
 }
 
-export type reportsUpsertWithWhereUniqueWithoutReport_targetInput = {
-  where: Prisma.reportsWhereUniqueInput
-  update: Prisma.XOR<Prisma.reportsUpdateWithoutReport_targetInput, Prisma.reportsUncheckedUpdateWithoutReport_targetInput>
-  create: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput>
-}
-
-export type reportsUpdateWithWhereUniqueWithoutReport_targetInput = {
-  where: Prisma.reportsWhereUniqueInput
-  data: Prisma.XOR<Prisma.reportsUpdateWithoutReport_targetInput, Prisma.reportsUncheckedUpdateWithoutReport_targetInput>
-}
-
-export type reportsUpdateManyWithWhereWithoutReport_targetInput = {
-  where: Prisma.reportsScalarWhereInput
-  data: Prisma.XOR<Prisma.reportsUpdateManyMutationInput, Prisma.reportsUncheckedUpdateManyWithoutReport_targetInput>
-}
-
-export type reportsScalarWhereInput = {
-  AND?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
-  OR?: Prisma.reportsScalarWhereInput[]
-  NOT?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
-  report_id?: Prisma.UuidFilter<"reports"> | string
-  reporter_id?: Prisma.UuidNullableFilter<"reports"> | string | null
-  resolver_id?: Prisma.UuidNullableFilter<"reports"> | string | null
-  report_target_id?: Prisma.UuidFilter<"reports"> | string
-  reason?: Prisma.StringNullableFilter<"reports"> | string | null
-  status?: Prisma.EnumReportStatusFilter<"reports"> | $Enums.ReportStatus
-  created_at?: Prisma.DateTimeFilter<"reports"> | Date | string
-  resolved_at?: Prisma.DateTimeNullableFilter<"reports"> | Date | string | null
+export type reportsUncheckedUpdateManyWithoutReport_targetNestedInput = {
+  create?: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput> | Prisma.reportsCreateWithoutReport_targetInput[] | Prisma.reportsUncheckedCreateWithoutReport_targetInput[]
+  connectOrCreate?: Prisma.reportsCreateOrConnectWithoutReport_targetInput | Prisma.reportsCreateOrConnectWithoutReport_targetInput[]
+  upsert?: Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpsertWithWhereUniqueWithoutReport_targetInput[]
+  createMany?: Prisma.reportsCreateManyReport_targetInputEnvelope
+  set?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  disconnect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  delete?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  connect?: Prisma.reportsWhereUniqueInput | Prisma.reportsWhereUniqueInput[]
+  update?: Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput | Prisma.reportsUpdateWithWhereUniqueWithoutReport_targetInput[]
+  updateMany?: Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput | Prisma.reportsUpdateManyWithWhereWithoutReport_targetInput[]
+  deleteMany?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
 }
 
 export type reportsCreateWithoutResolverInput = {
@@ -659,6 +599,20 @@ export type reportsUpdateManyWithWhereWithoutResolverInput = {
   data: Prisma.XOR<Prisma.reportsUpdateManyMutationInput, Prisma.reportsUncheckedUpdateManyWithoutResolverInput>
 }
 
+export type reportsScalarWhereInput = {
+  AND?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
+  OR?: Prisma.reportsScalarWhereInput[]
+  NOT?: Prisma.reportsScalarWhereInput | Prisma.reportsScalarWhereInput[]
+  report_id?: Prisma.UuidFilter<"reports"> | string
+  reporter_id?: Prisma.UuidNullableFilter<"reports"> | string | null
+  resolver_id?: Prisma.UuidNullableFilter<"reports"> | string | null
+  report_target_id?: Prisma.UuidFilter<"reports"> | string
+  reason?: Prisma.StringNullableFilter<"reports"> | string | null
+  status?: Prisma.EnumReportStatusFilter<"reports"> | $Enums.ReportStatus
+  created_at?: Prisma.DateTimeFilter<"reports"> | Date | string
+  resolved_at?: Prisma.DateTimeNullableFilter<"reports"> | Date | string | null
+}
+
 export type reportsUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.reportsWhereUniqueInput
   update: Prisma.XOR<Prisma.reportsUpdateWithoutUserInput, Prisma.reportsUncheckedUpdateWithoutUserInput>
@@ -675,7 +629,17 @@ export type reportsUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.reportsUpdateManyMutationInput, Prisma.reportsUncheckedUpdateManyWithoutUserInput>
 }
 
-export type reportsCreateManyReport_targetInput = {
+export type reportsCreateWithoutReport_targetInput = {
+  report_id?: string
+  reason?: string | null
+  status?: $Enums.ReportStatus
+  created_at?: Date | string
+  resolved_at?: Date | string | null
+  user?: Prisma.usersCreateNestedOneWithoutReportsInput
+  resolver?: Prisma.usersCreateNestedOneWithoutReport_resolversInput
+}
+
+export type reportsUncheckedCreateWithoutReport_targetInput = {
   report_id?: string
   reporter_id?: string | null
   resolver_id?: string | null
@@ -685,34 +649,30 @@ export type reportsCreateManyReport_targetInput = {
   resolved_at?: Date | string | null
 }
 
-export type reportsUpdateWithoutReport_targetInput = {
-  report_id?: Prisma.StringFieldUpdateOperationsInput | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.usersUpdateOneWithoutReportsNestedInput
-  resolver?: Prisma.usersUpdateOneWithoutReport_resolversNestedInput
+export type reportsCreateOrConnectWithoutReport_targetInput = {
+  where: Prisma.reportsWhereUniqueInput
+  create: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput>
 }
 
-export type reportsUncheckedUpdateWithoutReport_targetInput = {
-  report_id?: Prisma.StringFieldUpdateOperationsInput | string
-  reporter_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resolver_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+export type reportsCreateManyReport_targetInputEnvelope = {
+  data: Prisma.reportsCreateManyReport_targetInput | Prisma.reportsCreateManyReport_targetInput[]
+  skipDuplicates?: boolean
 }
 
-export type reportsUncheckedUpdateManyWithoutReport_targetInput = {
-  report_id?: Prisma.StringFieldUpdateOperationsInput | string
-  reporter_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resolver_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+export type reportsUpsertWithWhereUniqueWithoutReport_targetInput = {
+  where: Prisma.reportsWhereUniqueInput
+  update: Prisma.XOR<Prisma.reportsUpdateWithoutReport_targetInput, Prisma.reportsUncheckedUpdateWithoutReport_targetInput>
+  create: Prisma.XOR<Prisma.reportsCreateWithoutReport_targetInput, Prisma.reportsUncheckedCreateWithoutReport_targetInput>
+}
+
+export type reportsUpdateWithWhereUniqueWithoutReport_targetInput = {
+  where: Prisma.reportsWhereUniqueInput
+  data: Prisma.XOR<Prisma.reportsUpdateWithoutReport_targetInput, Prisma.reportsUncheckedUpdateWithoutReport_targetInput>
+}
+
+export type reportsUpdateManyWithWhereWithoutReport_targetInput = {
+  where: Prisma.reportsScalarWhereInput
+  data: Prisma.XOR<Prisma.reportsUpdateManyMutationInput, Prisma.reportsUncheckedUpdateManyWithoutReport_targetInput>
 }
 
 export type reportsCreateManyResolverInput = {
@@ -789,6 +749,46 @@ export type reportsUncheckedUpdateManyWithoutUserInput = {
   report_id?: Prisma.StringFieldUpdateOperationsInput | string
   resolver_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   report_target_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type reportsCreateManyReport_targetInput = {
+  report_id?: string
+  reporter_id?: string | null
+  resolver_id?: string | null
+  reason?: string | null
+  status?: $Enums.ReportStatus
+  created_at?: Date | string
+  resolved_at?: Date | string | null
+}
+
+export type reportsUpdateWithoutReport_targetInput = {
+  report_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.usersUpdateOneWithoutReportsNestedInput
+  resolver?: Prisma.usersUpdateOneWithoutReport_resolversNestedInput
+}
+
+export type reportsUncheckedUpdateWithoutReport_targetInput = {
+  report_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reporter_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolver_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type reportsUncheckedUpdateManyWithoutReport_targetInput = {
+  report_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reporter_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolver_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string

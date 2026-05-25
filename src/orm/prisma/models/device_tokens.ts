@@ -322,6 +322,16 @@ export type device_tokensUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type Device_tokensListRelationFilter = {
+  every?: Prisma.device_tokensWhereInput
+  some?: Prisma.device_tokensWhereInput
+  none?: Prisma.device_tokensWhereInput
+}
+
+export type device_tokensOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type device_tokensUser_idTokenCompoundUniqueInput = {
   user_id: string
   token: string
@@ -355,20 +365,6 @@ export type device_tokensMinOrderByAggregateInput = {
   app_version?: Prisma.SortOrder
   last_used?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-}
-
-export type Device_tokensListRelationFilter = {
-  every?: Prisma.device_tokensWhereInput
-  some?: Prisma.device_tokensWhereInput
-  none?: Prisma.device_tokensWhereInput
-}
-
-export type device_tokensOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type EnumDeviceTypeFieldUpdateOperationsInput = {
-  set?: $Enums.DeviceType
 }
 
 export type device_tokensCreateNestedManyWithoutUserInput = {
@@ -411,6 +407,10 @@ export type device_tokensUncheckedUpdateManyWithoutUserNestedInput = {
   update?: Prisma.device_tokensUpdateWithWhereUniqueWithoutUserInput | Prisma.device_tokensUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: Prisma.device_tokensUpdateManyWithWhereWithoutUserInput | Prisma.device_tokensUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.device_tokensScalarWhereInput | Prisma.device_tokensScalarWhereInput[]
+}
+
+export type EnumDeviceTypeFieldUpdateOperationsInput = {
+  set?: $Enums.DeviceType
 }
 
 export type device_tokensCreateWithoutUserInput = {

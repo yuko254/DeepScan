@@ -303,6 +303,16 @@ export type blocksUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type BlocksListRelationFilter = {
+  every?: Prisma.blocksWhereInput
+  some?: Prisma.blocksWhereInput
+  none?: Prisma.blocksWhereInput
+}
+
+export type blocksOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type blocksBlocker_idBlocked_idCompoundUniqueInput = {
   blocker_id: string
   blocked_id: string
@@ -335,32 +345,6 @@ export type blocksMinOrderByAggregateInput = {
 
 export type blocksSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-}
-
-export type BlocksListRelationFilter = {
-  every?: Prisma.blocksWhereInput
-  some?: Prisma.blocksWhereInput
-  none?: Prisma.blocksWhereInput
-}
-
-export type blocksOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type BigIntFieldUpdateOperationsInput = {
-  set?: bigint | number
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
-export type StringFieldUpdateOperationsInput = {
-  set?: string
 }
 
 export type blocksCreateNestedManyWithoutBlockerInput = {
@@ -445,6 +429,14 @@ export type blocksUncheckedUpdateManyWithoutBlockedNestedInput = {
   update?: Prisma.blocksUpdateWithWhereUniqueWithoutBlockedInput | Prisma.blocksUpdateWithWhereUniqueWithoutBlockedInput[]
   updateMany?: Prisma.blocksUpdateManyWithWhereWithoutBlockedInput | Prisma.blocksUpdateManyWithWhereWithoutBlockedInput[]
   deleteMany?: Prisma.blocksScalarWhereInput | Prisma.blocksScalarWhereInput[]
+}
+
+export type BigIntFieldUpdateOperationsInput = {
+  set?: bigint | number
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
 }
 
 export type blocksCreateWithoutBlockerInput = {

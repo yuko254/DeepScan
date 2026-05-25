@@ -2,33 +2,44 @@ import { ZodError } from 'zod';
 import { AppError } from '../types/appErrors.types.js';
 import { Prisma } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import { GraphQLError, type GraphQLFormattedError } from 'graphql';
 
 export function mapErrorToResponse(err: unknown): {
-  statusCode: number;
+  success: false;
   message: string;
-  details?: any;
-  extensions?: Record<string, any>;
+  code: string;
+  details?: Array<{ field: string; message: string }>;
+  statusCode: number;
 } {
   // Zod validation errors
   if (err instanceof ZodError) {
     return {
+      success: false,
       statusCode: 422,
-      message: 'Validation error',
+      message: 'Validation failed',
+      code: 'VALIDATION_ERROR',
       details: err.issues.map(e => ({
         field: e.path.join('.'),
         message: e.message,
       })),
-      extensions: { code: 'BAD_USER_INPUT', details: err.issues },
     };
   }
 
   // Known app errors
   if (err instanceof AppError) {
+    const codeMap: Record<number, string> = {
+      400: 'BAD_REQUEST',
+      401: 'UNAUTHORIZED',
+      403: 'FORBIDDEN',
+      404: 'NOT_FOUND',
+      409: 'CONFLICT',
+      422: 'VALIDATION_ERROR',
+    };
+
     return {
+      success: false,
       statusCode: err.statusCode,
       message: err.message,
-      extensions: { statusCode: err.statusCode },
+      code: codeMap[err.statusCode] || 'APP_ERROR',
     };
   }
 
@@ -36,34 +47,47 @@ export function mapErrorToResponse(err: unknown): {
   if (err instanceof jwt.JsonWebTokenError) {
     const message = err instanceof jwt.TokenExpiredError ? 'Token expired' : 'Invalid token';
     return {
+      success: false,
       statusCode: 401,
       message,
-      extensions: { code: 'UNAUTHENTICATED' },
+      code: 'UNAUTHENTICATED',
     };
   }
 
   // Prisma known errors
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === 'P2025') {
-      return { statusCode: 404, message: 'Record not found', extensions: { code: 'NOT_FOUND' } };
+      return {
+        success: false,
+        statusCode: 404,
+        message: 'Record not found',
+        code: 'NOT_FOUND',
+      };
     }
     if (err.code === 'P2002') {
-      return { statusCode: 409, message: 'Record already exists', extensions: { code: 'CONFLICT' } };
+      return {
+        success: false,
+        statusCode: 409,
+        message: 'Record already exists',
+        code: 'CONFLICT',
+      };
     }
     if (err.code === 'P2003') {
       return {
+        success: false,
         statusCode: 409,
-        message: 'Operation failed because record has dependent data',
-        extensions: { code: 'CONFLICT' },
+        message: 'Foreign key constraint failed',
+        code: 'CONFLICT',
       };
     }
   }
 
-  // Unknown errors – log but return generic message for clients
+  // Unknown errors
   console.error(err);
   return {
+    success: false,
     statusCode: 500,
     message: 'Internal server error',
-    extensions: { code: 'INTERNAL_SERVER_ERROR' },
+    code: 'INTERNAL_SERVER_ERROR',
   };
 }
