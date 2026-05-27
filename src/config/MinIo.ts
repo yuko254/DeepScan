@@ -3,14 +3,14 @@ import { CreateBucketCommand, HeadBucketCommand } from '@aws-sdk/client-s3';
 
 export async function initBucket() {
   try {
-    await s3Client.send(new HeadBucketCommand({ Bucket: S3_BUCKET }));
-    console.log(`✅ Bucket '${S3_BUCKET}' already exists`);
+    await s3Client.send(new CreateBucketCommand({ Bucket: S3_BUCKET }));
+    console.log(`✅ Bucket '${S3_BUCKET}' created`);
   } catch (error: any) {
-    if (error.name === 'NotFound') {
-      await s3Client.send(new CreateBucketCommand({ Bucket: S3_BUCKET }));
-      console.log(`✅ Bucket '${S3_BUCKET}' created`);
+    // Bucket already exists or other error
+    if (error.name === 'BucketAlreadyOwnedByYou' || error.$metadata?.httpStatusCode === 409) {
+      console.log(`✅ Bucket '${S3_BUCKET}' already exists`);
     } else {
-      console.error('Failed to check/create bucket:', error);
+      console.warn(`⚠️ Could not ensure bucket exists: ${error.message}`);
     }
   }
 }

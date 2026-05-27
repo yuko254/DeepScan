@@ -51,7 +51,6 @@ function parseDurationToSeconds(duration: string): number | null {
   }
 }
 
-
 // Security
 export const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS, 10) : 12;
-export const PASSWORD_RESET_TOKEN_IN_MIN = process.env.PASSWORD_RESET_TOKEN_IN_MIN ? parseInt(process.env.PASSWORD_RESET_TOKEN_IN_MIN, 10) : 30;
+export const PASSWORD_RESET_TOKEN_IN_SECONDS = process.env.PASSWORD_RESET_TOKEN_IN_SECONDS ? parseInt(process.env.PASSWORD_RESET_TOKEN_IN_SECONDS, 10) : 1800;
