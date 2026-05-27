@@ -152,7 +152,7 @@ type reports {
   status: ReportStatus!
   created_at: DateTime!
   resolved_at: DateTime
-  user: users
+  reporter: users
   resolver: users
   report_target: report_targets!
 }
@@ -226,11 +226,11 @@ type posts {
   category: categories
   location: locations
   comments: [comments]!
+  # postTags: [post_tags]!  // this model has a @Exclude / @ExcludeOnType
   # post_likes: [post_likes]!  // this model has a @Exclude / @ExcludeOnType
   # saved_posts: [saved_posts]!  // this model has a @Exclude / @ExcludeOnType
   reportTargets: [report_targets]!
   notificationTargets: [notification_targets]!
-  # postTags: [post_tags]!  // this model has a @Exclude / @ExcludeOnType
 }
 
 input postsCreateInput {

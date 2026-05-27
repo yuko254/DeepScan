@@ -10,7 +10,8 @@
     "start:prod": "node dist/server.js",
     "generate:repo": "tsx scripts/generate-repo-index.ts",
     "generate:graphql": "tsx scripts/generate-graphql-schema.ts",
-    "generate": "prisma generate && tsx scripts/custom.ts && npm run generate:repo && npm run generate:graphql && npm run codegen",
+    "generate:resolvers": "tsx scripts/generate-resolvers-index.ts",
+    "generate": "prisma generate && tsx scripts/remove_dart_stores.ts && npm run generate:repo && npm run generate:graphql && npm run generate:resolvers && npm run codegen",
     "codegen": "graphql-codegen --config codegen.config.ts"
   },
   "keywords": [],

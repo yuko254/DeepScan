@@ -11,7 +11,7 @@ import { BigIntResolver, DateTimeResolver, JSONResolver } from 'graphql-scalars'
 
 import { mapErrorToResponse } from '../utils/errorMapper.util.js';
 import { createDataLoaders, DataLoaders } from './dataloaders/index.js';
-// import { resolvers } from './resolvers/index.js';
+import { resolvers } from './resolvers/index.js';
 import { accessPayload } from '../validations/jwt.schema.js';
 
 
@@ -31,7 +31,7 @@ export const graphqlServer = new ApolloServer<GraphqlContext>({
     BigInt: BigIntResolver,
     DateTime: DateTimeResolver,
     JSON: JSONResolver,
-    // ...resolvers,
+    ...resolvers,
   },
   formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
     const originalError = (error as any)?.originalError ?? error;
@@ -62,6 +62,7 @@ export const createContext = async ({ req, res }: { req: Request; res: Response 
   res.on('finish', () => {
     Object.values(loaders.post).forEach(loader => loader.clearAll());
     Object.values(loaders.story).forEach(loader => loader.clearAll());
+    Object.values(loaders.comment).forEach(loader => loader.clearAll());
   });
 
   return { user, loaders, req, res };

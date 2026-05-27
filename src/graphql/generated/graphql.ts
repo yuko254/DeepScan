@@ -88,6 +88,7 @@ export type MessagesResult = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  _empty?: Maybe<Scalars['String']['output']>;
   acceptFollowRequest: Scalars['Boolean']['output'];
   addChatParticipants: Chat_Participants;
   blockUser: Scalars['Boolean']['output'];
@@ -412,6 +413,7 @@ export type ProfilePreview = {
 
 export type Query = {
   __typename?: 'Query';
+  _empty?: Maybe<Scalars['String']['output']>;
   blockedUsers: BlockedUsersResult;
   categories: Array<Categories>;
   chat?: Maybe<Chats>;
@@ -1403,6 +1405,7 @@ export type MessagesResultResolvers<ContextType = any, ParentType extends Resolv
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   acceptFollowRequest?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAcceptFollowRequestArgs, 'requesterId'>>;
   addChatParticipants?: Resolver<ResolversTypes['chat_participants'], ParentType, ContextType, RequireFields<MutationAddChatParticipantsArgs, 'chatId' | 'userIds'>>;
   blockUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationBlockUserArgs, 'userId'>>;
@@ -1466,6 +1469,7 @@ export type ProfilePreviewResolvers<ContextType = any, ParentType extends Resolv
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   blockedUsers?: Resolver<ResolversTypes['BlockedUsersResult'], ParentType, ContextType, RequireFields<QueryBlockedUsersArgs, 'limit'>>;
   categories?: Resolver<Array<ResolversTypes['categories']>, ParentType, ContextType, Partial<QueryCategoriesArgs>>;
   chat?: Resolver<Maybe<ResolversTypes['chats']>, ParentType, ContextType, RequireFields<QueryChatArgs, 'id'>>;
