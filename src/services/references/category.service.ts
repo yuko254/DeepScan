@@ -1,7 +1,8 @@
 import { Prisma } from '../../config/prisma.js';
 import { categoryRepo } from '../../Repository/instances.js';
+import * as refrences from "../../validations/references.schema.js";
 
-export class CategoryService {
+class CategoryService {
   
   async getAll(tx?: Prisma.TransactionClient) {
     return categoryRepo.withTx(tx).findAll();
@@ -15,16 +16,16 @@ export class CategoryService {
     return categoryRepo.withTx(tx).findById(categoryId);
   }
 
-  async create(name: string, tx?: Prisma.TransactionClient) {
+  async create(input: refrences.CategoryCreate, tx?: Prisma.TransactionClient) {
     return categoryRepo.withTx(tx).create({
-      data: { name },
+      data: { name: input.name },
     });
   }
 
-  async update(categoryID: number, name: string, tx?: Prisma.TransactionClient) {
+  async update(input: refrences.CategoryUpdate, tx?: Prisma.TransactionClient) {
     return categoryRepo.withTx(tx).update({
-      where: { category_id: categoryID },
-      data: { name },
+      where: { category_id: input.category_id },
+      data: { name: input.name },
     });
   }
 

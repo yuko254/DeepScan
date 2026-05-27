@@ -1,7 +1,6 @@
-// src/middlewares/auth.middleware.ts
 import type { Request, Response, NextFunction } from 'express';
 import { verifyAccessToken } from '../utils/jwt.utils.js';
-import type { accessPayload } from '../dtos/jwt.dto.js';
+import { accessPayload } from '../validations/jwt.schema.js';
 import { UnauthorizedError, ForbiddenError } from '../types/appErrors.types.js';
 import { userRepo } from '../Repository/instances.js';
 
@@ -84,7 +83,7 @@ export function requireRole(...allowedRoles: string[]) {
     if (!req.user) {
       return next(new UnauthorizedError('Authentication required'));
     }
-    if (!allowedRoles.includes(req.user.role?.role_name ?? "user")) {
+    if (!allowedRoles.includes(req.user.role ?? "user")) {
       return next(new ForbiddenError('Insufficient permissions'));
     }
     next();

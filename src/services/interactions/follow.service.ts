@@ -1,23 +1,118 @@
 import { Prisma, prisma } from '../../config/prisma.js';
 import * as AppError from '../../types/appErrors.types.js';
 
-export class FollowService {
+class FollowService {
+
+  private async isBlocked(tx: Prisma.TransactionClient, user1: string, user2: string): Promise<boolean> {
+    const block = await tx.blocks.findUnique({
+      where: {
+        blocker_id_blocked_id: {
+          blocker_id: user1,
+          blocked_id: user2
+        }
+      }
+    });
+    return !!block;
+  }
+
+  async getFollowers(userId: string, limit: number, cursor?: Date) {
+    const follows = await prisma.follows.findMany({
+      where: {
+        following_id: userId,
+        ...(cursor && { created_at: { lt: cursor } })
+      },
+      include: { follower: { include: { profile: true } } },
+      orderBy: { created_at: 'desc' },
+      take: limit
+    });
+
+    const nextCursor = follows.length === limit
+      ? follows[follows.length - 1]?.created_at
+      : null;
+
+    return { users: follows.map(f => f.follower), nextCursor };
+  }
+
+  async getFollowing(userId: string, limit: number, cursor?: Date) {
+    const follows = await prisma.follows.findMany({
+      where: {
+        follower_id: userId,
+        ...(cursor && { created_at: { lt: cursor } })
+      },
+      include: { following: { include: { profile: true } } },
+      orderBy: { created_at: 'desc' },
+      take: limit
+    });
+
+    const nextCursor = follows.length === limit
+      ? follows[follows.length - 1]?.created_at
+      : null;
+
+    return { users: follows.map(f => f.following), nextCursor };
+  }
+
+  async getMyFollowRequests(userId: string, limit: number, cursor?: Date) {
+    const requests = await prisma.follow_requests.findMany({
+      where: {
+        target_id: userId,
+        status: 'pending',
+        ...(cursor && { created_at: { lt: cursor } })
+      },
+      include: { requester: { include: { profile: true } } },
+      orderBy: { created_at: 'desc' },
+      take: limit
+    });
+
+    const nextCursor = requests.length === limit
+      ? requests[requests.length - 1]?.created_at
+      : null;
+
+    return { requests, nextCursor };
+  }
+
+  async getFollowRequestStatus(userId: string, targetId: string) {
+    const request = await prisma.follow_requests.findUnique({
+      where: {
+        requester_id_target_id: {
+          requester_id: userId,
+          target_id: targetId
+        }
+      }
+    });
+
+    if (request) return request.status;
+
+    const isFollowing = await this.checkIfFollowing(userId, targetId);
+    if (isFollowing) return 'accepted';
+
+    return null;
+  }
 
   async followUser(followerId: string, followingId: string, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
-      // Check if trying to follow yourself
       if (followerId === followingId) {
         throw new AppError.BadRequestError('You cannot follow yourself');
       }
 
-      // Check if user exists
+      // Check if blocked (either direction)
+      const [blockedByTarget, blockedByFollower] = await Promise.all([
+        this.isBlocked(tx, followingId, followerId),
+        this.isBlocked(tx, followerId, followingId)
+      ]);
+
+      if (blockedByTarget) {
+        throw new AppError.ForbiddenError('Cannot follow user who has blocked you');
+      }
+      if (blockedByFollower) {
+        throw new AppError.ForbiddenError('You have blocked this user');
+      }
+
       const targetUser = await tx.users.findUnique({
         where: { user_id: followingId },
         include: { profile: true }
       });
       if (!targetUser) throw new AppError.NotFoundError('User not found');
 
-      // Check if already following
       const existingFollow = await tx.follows.findUnique({
         where: {
           follower_id_following_id: {
@@ -31,11 +126,9 @@ export class FollowService {
         throw new AppError.ConflictError('Already following this user');
       }
 
-      // Check if account is private
       const isPrivate = targetUser.profile?.is_private || false;
 
       if (isPrivate) {
-        // Send follow request instead
         const existingRequest = await tx.follow_requests.findUnique({
           where: {
             requester_id_target_id: {
@@ -57,13 +150,12 @@ export class FollowService {
           }
         });
 
-        return { 
-          success: true, 
+        return {
+          success: true,
           status: 'request_sent',
-          followRequest: request 
+          followRequest: request
         };
       } else {
-        // Direct follow
         const follow = await tx.follows.create({
           data: {
             follower_id: followerId,
@@ -71,10 +163,10 @@ export class FollowService {
           }
         });
 
-        return { 
-          success: true, 
+        return {
+          success: true,
           status: 'following',
-          follow 
+          follow
         };
       }
     });
@@ -112,7 +204,12 @@ export class FollowService {
 
   async acceptFollowRequest(ownerId: string, requesterId: string, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
-      // Check if request exists
+      // Check if blocked
+      const blocked = await this.isBlocked(tx, ownerId, requesterId);
+      if (blocked) {
+        throw new AppError.ForbiddenError('Cannot accept follow request from a blocked user');
+      }
+
       const request = await tx.follow_requests.findUnique({
         where: {
           requester_id_target_id: {
@@ -130,7 +227,6 @@ export class FollowService {
         throw new AppError.BadRequestError(`Request already ${request.status}`);
       }
 
-      // Update request status
       await tx.follow_requests.update({
         where: {
           requester_id_target_id: {
@@ -141,7 +237,6 @@ export class FollowService {
         data: { status: 'accepted' }
       });
 
-      // Create the follow relationship
       const follow = await tx.follows.create({
         data: {
           follower_id: requesterId,
@@ -202,78 +297,6 @@ export class FollowService {
 
       return { success: true, cancelled: true };
     });
-  }
-
-  async getFollowers(userId: string, page = 1, limit = 20) {
-    const skip = (page - 1) * limit;
-    
-    const followers = await prisma.follows.findMany({
-      where: { following_id: userId },
-      include: {
-        follower: {
-          include: { profile: true }
-        }
-      },
-      skip,
-      take: limit,
-      orderBy: { created_at: 'desc' }
-    });
-
-    const total = await prisma.follows.count({
-      where: { following_id: userId }
-    });
-
-    return { followers, total };
-  }
-
-  async getFollowing(userId: string, page = 1, limit = 20) {
-    const skip = (page - 1) * limit;
-    
-    const following = await prisma.follows.findMany({
-      where: { follower_id: userId },
-      include: {
-        following: {
-          include: { profile: true }
-        }
-      },
-      skip,
-      take: limit,
-      orderBy: { created_at: 'desc' }
-    });
-
-    const total = await prisma.follows.count({
-      where: { follower_id: userId }
-    });
-
-    return { following, total };
-  }
-
-  async getPendingFollowRequests(userId: string, page = 1, limit = 20) {
-    const skip = (page - 1) * limit;
-    
-    const requests = await prisma.follow_requests.findMany({
-      where: {
-        target_id: userId,
-        status: 'pending'
-      },
-      include: {
-        requester: {
-          include: { profile: true }
-        }
-      },
-      skip,
-      take: limit,
-      orderBy: { created_at: 'desc' }
-    });
-
-    const total = await prisma.follow_requests.count({
-      where: {
-        target_id: userId,
-        status: 'pending'
-      }
-    });
-
-    return { requests, total };
   }
 
   async checkIfFollowing(followerId: string, followingId: string): Promise<boolean> {

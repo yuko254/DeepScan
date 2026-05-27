@@ -262,7 +262,6 @@ export type usersWhereInput = {
   comment_likes?: Prisma.Comment_likesListRelationFilter
   comments?: Prisma.CommentsListRelationFilter
   device_tokens?: Prisma.Device_tokensListRelationFilter
-  mentions?: Prisma.MentionsListRelationFilter
   messages?: Prisma.MessagesListRelationFilter
   notifications?: Prisma.NotificationsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
@@ -297,7 +296,6 @@ export type usersOrderByWithRelationInput = {
   comment_likes?: Prisma.comment_likesOrderByRelationAggregateInput
   comments?: Prisma.commentsOrderByRelationAggregateInput
   device_tokens?: Prisma.device_tokensOrderByRelationAggregateInput
-  mentions?: Prisma.mentionsOrderByRelationAggregateInput
   messages?: Prisma.messagesOrderByRelationAggregateInput
   notifications?: Prisma.notificationsOrderByRelationAggregateInput
   post_likes?: Prisma.post_likesOrderByRelationAggregateInput
@@ -335,7 +333,6 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   comment_likes?: Prisma.Comment_likesListRelationFilter
   comments?: Prisma.CommentsListRelationFilter
   device_tokens?: Prisma.Device_tokensListRelationFilter
-  mentions?: Prisma.MentionsListRelationFilter
   messages?: Prisma.MessagesListRelationFilter
   notifications?: Prisma.NotificationsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
@@ -401,12 +398,11 @@ export type usersCreateInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -435,12 +431,11 @@ export type usersUncheckedCreateInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -469,12 +464,11 @@ export type usersUpdateInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -503,12 +497,11 @@ export type usersUncheckedUpdateInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -919,20 +912,6 @@ export type usersUpdateOneWithoutMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutMessagesInput, Prisma.usersUpdateWithoutMessagesInput>, Prisma.usersUncheckedUpdateWithoutMessagesInput>
 }
 
-export type usersCreateNestedOneWithoutMentionsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutMentionsInput, Prisma.usersUncheckedCreateWithoutMentionsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutMentionsInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneRequiredWithoutMentionsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutMentionsInput, Prisma.usersUncheckedCreateWithoutMentionsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutMentionsInput
-  upsert?: Prisma.usersUpsertWithoutMentionsInput
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutMentionsInput, Prisma.usersUpdateWithoutMentionsInput>, Prisma.usersUncheckedUpdateWithoutMentionsInput>
-}
-
 export type usersCreateNestedOneWithoutSaved_postsInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutSaved_postsInput, Prisma.usersUncheckedCreateWithoutSaved_postsInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutSaved_postsInput
@@ -1017,12 +996,11 @@ export type usersCreateWithoutAdminAuditsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -1050,12 +1028,11 @@ export type usersUncheckedCreateWithoutAdminAuditsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -1099,12 +1076,11 @@ export type usersUpdateWithoutAdminAuditsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -1132,12 +1108,11 @@ export type usersUncheckedUpdateWithoutAdminAuditsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -1165,12 +1140,11 @@ export type usersCreateWithoutRoleInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -1198,12 +1172,11 @@ export type usersUncheckedCreateWithoutRoleInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -1273,11 +1246,10 @@ export type usersCreateWithoutProfileInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -1306,11 +1278,10 @@ export type usersUncheckedCreateWithoutProfileInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -1355,11 +1326,10 @@ export type usersUpdateWithoutProfileInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -1388,11 +1358,10 @@ export type usersUncheckedUpdateWithoutProfileInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -1421,11 +1390,10 @@ export type usersCreateWithoutNotificationsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -1454,11 +1422,10 @@ export type usersUncheckedCreateWithoutNotificationsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -1491,12 +1458,11 @@ export type usersCreateWithoutNotification_actorsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -1524,12 +1490,11 @@ export type usersUncheckedCreateWithoutNotification_actorsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -1574,11 +1539,10 @@ export type usersUpdateWithoutNotificationsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -1607,11 +1571,10 @@ export type usersUncheckedUpdateWithoutNotificationsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -1650,12 +1613,11 @@ export type usersUpdateWithoutNotification_actorsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -1683,12 +1645,11 @@ export type usersUncheckedUpdateWithoutNotification_actorsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -1717,7 +1678,6 @@ export type usersCreateWithoutReportsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
@@ -1750,7 +1710,6 @@ export type usersUncheckedCreateWithoutReportsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
@@ -1787,12 +1746,11 @@ export type usersCreateWithoutReport_resolversInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -1820,12 +1778,11 @@ export type usersUncheckedCreateWithoutReport_resolversInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -1870,7 +1827,6 @@ export type usersUpdateWithoutReportsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
@@ -1903,7 +1859,6 @@ export type usersUncheckedUpdateWithoutReportsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
@@ -1946,12 +1901,11 @@ export type usersUpdateWithoutReport_resolversInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -1979,12 +1933,11 @@ export type usersUncheckedUpdateWithoutReport_resolversInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -2012,12 +1965,11 @@ export type usersCreateWithoutDevice_tokensInput = {
   chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -2045,12 +1997,11 @@ export type usersUncheckedCreateWithoutDevice_tokensInput = {
   chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -2094,12 +2045,11 @@ export type usersUpdateWithoutDevice_tokensInput = {
   chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -2127,12 +2077,11 @@ export type usersUncheckedUpdateWithoutDevice_tokensInput = {
   chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -2161,12 +2110,11 @@ export type usersCreateWithoutContentsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
 }
@@ -2194,12 +2142,11 @@ export type usersUncheckedCreateWithoutContentsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
 }
@@ -2243,12 +2190,11 @@ export type usersUpdateWithoutContentsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
 }
@@ -2276,12 +2222,11 @@ export type usersUncheckedUpdateWithoutContentsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -2308,12 +2253,11 @@ export type usersCreateWithoutBlocked_usersInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -2341,12 +2285,11 @@ export type usersUncheckedCreateWithoutBlocked_usersInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -2379,12 +2322,11 @@ export type usersCreateWithoutBlocked_bysInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -2412,12 +2354,11 @@ export type usersUncheckedCreateWithoutBlocked_bysInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -2461,12 +2402,11 @@ export type usersUpdateWithoutBlocked_usersInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -2494,12 +2434,11 @@ export type usersUncheckedUpdateWithoutBlocked_usersInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -2538,12 +2477,11 @@ export type usersUpdateWithoutBlocked_bysInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -2571,12 +2509,11 @@ export type usersUncheckedUpdateWithoutBlocked_bysInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -2604,12 +2541,11 @@ export type usersCreateWithoutFollowingInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -2637,12 +2573,11 @@ export type usersUncheckedCreateWithoutFollowingInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -2675,12 +2610,11 @@ export type usersCreateWithoutFollowersInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -2708,12 +2642,11 @@ export type usersUncheckedCreateWithoutFollowersInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -2757,12 +2690,11 @@ export type usersUpdateWithoutFollowingInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -2790,12 +2722,11 @@ export type usersUncheckedUpdateWithoutFollowingInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -2834,12 +2765,11 @@ export type usersUpdateWithoutFollowersInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -2867,12 +2797,11 @@ export type usersUncheckedUpdateWithoutFollowersInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -2900,12 +2829,11 @@ export type usersCreateWithoutFollow_RequestersInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -2933,12 +2861,11 @@ export type usersUncheckedCreateWithoutFollow_RequestersInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -2971,12 +2898,11 @@ export type usersCreateWithoutFollow_requests_targetsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -3004,12 +2930,11 @@ export type usersUncheckedCreateWithoutFollow_requests_targetsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -3053,12 +2978,11 @@ export type usersUpdateWithoutFollow_RequestersInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -3086,12 +3010,11 @@ export type usersUncheckedUpdateWithoutFollow_RequestersInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -3130,12 +3053,11 @@ export type usersUpdateWithoutFollow_requests_targetsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -3163,12 +3085,11 @@ export type usersUncheckedUpdateWithoutFollow_requests_targetsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -3196,12 +3117,11 @@ export type usersCreateWithoutCommentsInput = {
   chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -3229,12 +3149,11 @@ export type usersUncheckedCreateWithoutCommentsInput = {
   chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -3278,12 +3197,11 @@ export type usersUpdateWithoutCommentsInput = {
   chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -3311,12 +3229,11 @@ export type usersUncheckedUpdateWithoutCommentsInput = {
   chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -3344,12 +3261,11 @@ export type usersCreateWithoutChat_participantsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -3377,12 +3293,11 @@ export type usersUncheckedCreateWithoutChat_participantsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -3426,12 +3341,11 @@ export type usersUpdateWithoutChat_participantsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -3459,12 +3373,11 @@ export type usersUncheckedUpdateWithoutChat_participantsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -3493,11 +3406,10 @@ export type usersCreateWithoutMessagesInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -3526,11 +3438,10 @@ export type usersUncheckedCreateWithoutMessagesInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -3575,11 +3486,10 @@ export type usersUpdateWithoutMessagesInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -3608,159 +3518,10 @@ export type usersUncheckedUpdateWithoutMessagesInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
-  saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
-  story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
-  contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type usersCreateWithoutMentionsInput = {
-  user_id?: string
-  username: string
-  email: string
-  password: string
-  is_active?: boolean
-  is_banned?: boolean
-  updated_at?: Date | string
-  created_at?: Date | string
-  role?: Prisma.rolesCreateNestedOneWithoutUsersInput
-  blocked_users?: Prisma.blocksCreateNestedManyWithoutBlockerInput
-  blocked_bys?: Prisma.blocksCreateNestedManyWithoutBlockedInput
-  following?: Prisma.followsCreateNestedManyWithoutFollowerInput
-  followers?: Prisma.followsCreateNestedManyWithoutFollowingInput
-  follow_Requesters?: Prisma.follow_requestsCreateNestedManyWithoutRequesterInput
-  follow_requests_targets?: Prisma.follow_requestsCreateNestedManyWithoutTargetInput
-  notification_actors?: Prisma.notificationsCreateNestedManyWithoutActorInput
-  report_resolvers?: Prisma.reportsCreateNestedManyWithoutResolverInput
-  adminAudits?: Prisma.admin_auditsCreateNestedManyWithoutAdminInput
-  chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
-  comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
-  comments?: Prisma.commentsCreateNestedManyWithoutUserInput
-  device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  messages?: Prisma.messagesCreateNestedManyWithoutUserInput
-  notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
-  saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
-  story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
-  contents?: Prisma.contentsCreateNestedManyWithoutUserInput
-}
-
-export type usersUncheckedCreateWithoutMentionsInput = {
-  user_id?: string
-  role_id?: number | null
-  username: string
-  email: string
-  password: string
-  is_active?: boolean
-  is_banned?: boolean
-  updated_at?: Date | string
-  created_at?: Date | string
-  blocked_users?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockerInput
-  blocked_bys?: Prisma.blocksUncheckedCreateNestedManyWithoutBlockedInput
-  following?: Prisma.followsUncheckedCreateNestedManyWithoutFollowerInput
-  followers?: Prisma.followsUncheckedCreateNestedManyWithoutFollowingInput
-  follow_Requesters?: Prisma.follow_requestsUncheckedCreateNestedManyWithoutRequesterInput
-  follow_requests_targets?: Prisma.follow_requestsUncheckedCreateNestedManyWithoutTargetInput
-  notification_actors?: Prisma.notificationsUncheckedCreateNestedManyWithoutActorInput
-  report_resolvers?: Prisma.reportsUncheckedCreateNestedManyWithoutResolverInput
-  adminAudits?: Prisma.admin_auditsUncheckedCreateNestedManyWithoutAdminInput
-  chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
-  comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
-  comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
-  device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
-  saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
-  story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
-  contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type usersCreateOrConnectWithoutMentionsInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutMentionsInput, Prisma.usersUncheckedCreateWithoutMentionsInput>
-}
-
-export type usersUpsertWithoutMentionsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutMentionsInput, Prisma.usersUncheckedUpdateWithoutMentionsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutMentionsInput, Prisma.usersUncheckedCreateWithoutMentionsInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutMentionsInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutMentionsInput, Prisma.usersUncheckedUpdateWithoutMentionsInput>
-}
-
-export type usersUpdateWithoutMentionsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.rolesUpdateOneWithoutUsersNestedInput
-  blocked_users?: Prisma.blocksUpdateManyWithoutBlockerNestedInput
-  blocked_bys?: Prisma.blocksUpdateManyWithoutBlockedNestedInput
-  following?: Prisma.followsUpdateManyWithoutFollowerNestedInput
-  followers?: Prisma.followsUpdateManyWithoutFollowingNestedInput
-  follow_Requesters?: Prisma.follow_requestsUpdateManyWithoutRequesterNestedInput
-  follow_requests_targets?: Prisma.follow_requestsUpdateManyWithoutTargetNestedInput
-  notification_actors?: Prisma.notificationsUpdateManyWithoutActorNestedInput
-  report_resolvers?: Prisma.reportsUpdateManyWithoutResolverNestedInput
-  adminAudits?: Prisma.admin_auditsUpdateManyWithoutAdminNestedInput
-  chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
-  comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
-  comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
-  device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
-  saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
-  story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
-  contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
-}
-
-export type usersUncheckedUpdateWithoutMentionsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  blocked_users?: Prisma.blocksUncheckedUpdateManyWithoutBlockerNestedInput
-  blocked_bys?: Prisma.blocksUncheckedUpdateManyWithoutBlockedNestedInput
-  following?: Prisma.followsUncheckedUpdateManyWithoutFollowerNestedInput
-  followers?: Prisma.followsUncheckedUpdateManyWithoutFollowingNestedInput
-  follow_Requesters?: Prisma.follow_requestsUncheckedUpdateManyWithoutRequesterNestedInput
-  follow_requests_targets?: Prisma.follow_requestsUncheckedUpdateManyWithoutTargetNestedInput
-  notification_actors?: Prisma.notificationsUncheckedUpdateManyWithoutActorNestedInput
-  report_resolvers?: Prisma.reportsUncheckedUpdateManyWithoutResolverNestedInput
-  adminAudits?: Prisma.admin_auditsUncheckedUpdateManyWithoutAdminNestedInput
-  chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
-  comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
-  comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
-  device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -3789,12 +3550,11 @@ export type usersCreateWithoutSaved_postsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
 }
@@ -3822,12 +3582,11 @@ export type usersUncheckedCreateWithoutSaved_postsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
 }
@@ -3871,12 +3630,11 @@ export type usersUpdateWithoutSaved_postsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
 }
@@ -3904,12 +3662,11 @@ export type usersUncheckedUpdateWithoutSaved_postsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -3937,11 +3694,10 @@ export type usersCreateWithoutPost_likesInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -3970,11 +3726,10 @@ export type usersUncheckedCreateWithoutPost_likesInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -4019,11 +3774,10 @@ export type usersUpdateWithoutPost_likesInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -4052,11 +3806,10 @@ export type usersUncheckedUpdateWithoutPost_likesInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -4084,12 +3837,11 @@ export type usersCreateWithoutComment_likesInput = {
   chat_participants?: Prisma.chat_participantsCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
@@ -4117,12 +3869,11 @@ export type usersUncheckedCreateWithoutComment_likesInput = {
   chat_participants?: Prisma.chat_participantsUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   story_views?: Prisma.story_viewsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
@@ -4166,12 +3917,11 @@ export type usersUpdateWithoutComment_likesInput = {
   chat_participants?: Prisma.chat_participantsUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -4199,12 +3949,11 @@ export type usersUncheckedUpdateWithoutComment_likesInput = {
   chat_participants?: Prisma.chat_participantsUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -4233,12 +3982,11 @@ export type usersCreateWithoutStory_viewsInput = {
   comment_likes?: Prisma.comment_likesCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsCreateNestedManyWithoutUserInput
 }
@@ -4266,12 +4014,11 @@ export type usersUncheckedCreateWithoutStory_viewsInput = {
   comment_likes?: Prisma.comment_likesUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutUserInput
   device_tokens?: Prisma.device_tokensUncheckedCreateNestedManyWithoutUserInput
-  mentions?: Prisma.mentionsUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.messagesUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUserInput
   profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUserInput
-  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.reportsUncheckedCreateNestedManyWithoutReporterInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.contentsUncheckedCreateNestedManyWithoutUserInput
 }
@@ -4315,12 +4062,11 @@ export type usersUpdateWithoutStory_viewsInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
 }
@@ -4348,12 +4094,11 @@ export type usersUncheckedUpdateWithoutStory_viewsInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -4391,12 +4136,11 @@ export type usersUpdateWithoutRoleInput = {
   comment_likes?: Prisma.comment_likesUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUpdateManyWithoutUserNestedInput
@@ -4424,12 +4168,11 @@ export type usersUncheckedUpdateWithoutRoleInput = {
   comment_likes?: Prisma.comment_likesUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.commentsUncheckedUpdateManyWithoutUserNestedInput
   device_tokens?: Prisma.device_tokensUncheckedUpdateManyWithoutUserNestedInput
-  mentions?: Prisma.mentionsUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.messagesUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUserNestedInput
   profile?: Prisma.profilesUncheckedUpdateOneWithoutUserNestedInput
-  reports?: Prisma.reportsUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.reportsUncheckedUpdateManyWithoutReporterNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutUserNestedInput
   story_views?: Prisma.story_viewsUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.contentsUncheckedUpdateManyWithoutUserNestedInput
@@ -4465,7 +4208,6 @@ export type UsersCountOutputType = {
   comment_likes: number
   comments: number
   device_tokens: number
-  mentions: number
   messages: number
   notifications: number
   post_likes: number
@@ -4489,7 +4231,6 @@ export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   comment_likes?: boolean | UsersCountOutputTypeCountComment_likesArgs
   comments?: boolean | UsersCountOutputTypeCountCommentsArgs
   device_tokens?: boolean | UsersCountOutputTypeCountDevice_tokensArgs
-  mentions?: boolean | UsersCountOutputTypeCountMentionsArgs
   messages?: boolean | UsersCountOutputTypeCountMessagesArgs
   notifications?: boolean | UsersCountOutputTypeCountNotificationsArgs
   post_likes?: boolean | UsersCountOutputTypeCountPost_likesArgs
@@ -4603,13 +4344,6 @@ export type UsersCountOutputTypeCountDevice_tokensArgs<ExtArgs extends runtime.T
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.mentionsWhereInput
-}
-
-/**
- * UsersCountOutputType without action
- */
 export type UsersCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.messagesWhereInput
 }
@@ -4681,7 +4415,6 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   comment_likes?: boolean | Prisma.users$comment_likesArgs<ExtArgs>
   comments?: boolean | Prisma.users$commentsArgs<ExtArgs>
   device_tokens?: boolean | Prisma.users$device_tokensArgs<ExtArgs>
-  mentions?: boolean | Prisma.users$mentionsArgs<ExtArgs>
   messages?: boolean | Prisma.users$messagesArgs<ExtArgs>
   notifications?: boolean | Prisma.users$notificationsArgs<ExtArgs>
   post_likes?: boolean | Prisma.users$post_likesArgs<ExtArgs>
@@ -4747,7 +4480,6 @@ export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   comment_likes?: boolean | Prisma.users$comment_likesArgs<ExtArgs>
   comments?: boolean | Prisma.users$commentsArgs<ExtArgs>
   device_tokens?: boolean | Prisma.users$device_tokensArgs<ExtArgs>
-  mentions?: boolean | Prisma.users$mentionsArgs<ExtArgs>
   messages?: boolean | Prisma.users$messagesArgs<ExtArgs>
   notifications?: boolean | Prisma.users$notificationsArgs<ExtArgs>
   post_likes?: boolean | Prisma.users$post_likesArgs<ExtArgs>
@@ -4782,7 +4514,6 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     comment_likes: Prisma.$comment_likesPayload<ExtArgs>[]
     comments: Prisma.$commentsPayload<ExtArgs>[]
     device_tokens: Prisma.$device_tokensPayload<ExtArgs>[]
-    mentions: Prisma.$mentionsPayload<ExtArgs>[]
     messages: Prisma.$messagesPayload<ExtArgs>[]
     notifications: Prisma.$notificationsPayload<ExtArgs>[]
     post_likes: Prisma.$post_likesPayload<ExtArgs>[]
@@ -5210,7 +4941,6 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
   comment_likes<T extends Prisma.users$comment_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$comment_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$comment_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.users$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   device_tokens<T extends Prisma.users$device_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$device_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$device_tokensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  mentions<T extends Prisma.users$mentionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$mentionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mentionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messages<T extends Prisma.users$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.users$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_likes<T extends Prisma.users$post_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5986,30 +5716,6 @@ export type users$device_tokensArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.Device_tokensScalarFieldEnum | Prisma.Device_tokensScalarFieldEnum[]
-}
-
-/**
- * users.mentions
- */
-export type users$mentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the mentions
-   */
-  select?: Prisma.mentionsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the mentions
-   */
-  omit?: Prisma.mentionsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mentionsInclude<ExtArgs> | null
-  where?: Prisma.mentionsWhereInput
-  orderBy?: Prisma.mentionsOrderByWithRelationInput | Prisma.mentionsOrderByWithRelationInput[]
-  cursor?: Prisma.mentionsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MentionsScalarFieldEnum | Prisma.MentionsScalarFieldEnum[]
 }
 
 /**

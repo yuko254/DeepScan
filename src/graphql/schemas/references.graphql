@@ -1,0 +1,135 @@
+# Location
+type locations {
+  location_id: String!
+  lat: Float
+  lng: Float
+  place_id: String
+  country: countries!
+  city: cities
+}
+
+input locationsCreateInput {
+  country_id: Int!
+  city_id: Int
+  lat: Float
+  lng: Float
+  place_id: String
+}
+
+input locationsUpdateInput {
+  location_id: String!
+  country_id: Int
+  city_id: Int
+  lat: Float
+  lng: Float
+  place_id: String
+}
+
+# Country
+type countries {
+  country_id: Int!
+  name: String!
+  cities: [cities]!
+}
+
+input countriesCreateInput {
+  name: String!
+  cities: [citiesCreateInput!]
+}
+
+input countriesUpdateInput {
+  country_id: Int!
+  name: String
+  cities: [citiesUpdateInput!]
+}
+
+# City
+type cities {
+  city_id: Int!
+  country_id: Int!
+  name: String!
+}
+
+input citiesCreateInput {
+  name: String!
+  country_id: Int!
+}
+
+input citiesUpdateInput {
+  city_id: Int!
+  name: String
+  country_id: Int
+}
+
+# Category
+type categories {
+  category_id: Int!
+  name: String!
+}
+
+input categoriesCreateInput {
+  name: String!
+}
+
+input categoriesUpdateInput {
+  category_id: Int!
+  name: String
+}
+
+# Tag
+type tags {
+  tag_id: Int!
+  name: String!
+}
+
+input tagsCreateInput {
+  name: String!
+}
+
+input tagsUpdateInput {
+  tag_id: Int!
+  name: String
+}
+
+# Hashtag
+type hashtags {
+  hashtag_id: String!
+  name: String!
+  created_at: DateTime!
+}
+
+extend type Query {
+  location(id: ID!): locations
+  countries(search: String): [countries!]!
+  cities(search: String, countryId: Int): [cities!]!
+  categories(search: String): [categories!]!
+  tags(search: String): [tags!]!
+  hashtags(search: String): [hashtags!]!
+}
+
+extend type Mutation {
+  # Location mutations
+  createLocation(data: locationsCreateInput!): locations!
+  updateLocation(id: ID!, data: locationsUpdateInput!): locations!
+  deleteLocation(id: ID!): Boolean!
+
+  # Country mutations
+  createCountry(data: countriesCreateInput!): countries!
+  updateCountry(id: ID!, data: countriesUpdateInput!): countries!
+  deleteCountry(id: ID!): Boolean!
+  
+  # City mutations
+  createCity(data: citiesCreateInput!): cities!
+  updateCity(id: ID!, data: citiesUpdateInput!): cities!
+  deleteCity(id: ID!): Boolean!
+  
+  # Category mutations
+  createCategory(data: categoriesCreateInput!): categories!
+  updateCategory(id: ID!, data: categoriesUpdateInput!): categories!
+  deleteCategory(id: ID!): Boolean!
+  
+  # Tag mutations
+  createTag(data: tagsCreateInput!): tags!
+  updateTag(id: ID!, data: tagsUpdateInput!): tags!
+  deleteTag(id: ID!): Boolean!
+}

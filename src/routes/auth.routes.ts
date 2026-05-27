@@ -1,16 +1,14 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
-import { AuthService } from '../services/auth.service.js';
-import { RegisterSchema, LoginSchema, RefreshTokenSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../dtos/auth.dto.js';
-import type { AuthDto } from '../dtos/auth.dto.js';
+import { authService } from '../services/auth.service.js';
+import { RegisterSchema, LoginSchema, RefreshTokenSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../validations/auth.schema.js';
+import type { AuthDto, TokensDto } from '../dtos/auth.dto.js';
 import { authLimiter, loginLimiter, passwordResetLimiter } from '../middlewares/rateLimit.middleware.js';
 import * as env from '../config/env.js';
-import { toUserAccountDto } from '../dtos/users.dto.js';
+import { toUserAccountDto } from '../dtos/user.dto.js';
 
 const router = Router();
 
 router.use(authLimiter);
-
-const authService = new AuthService();
 
 // ─── Cookie config ────────────────────────────────────────
 const ACCESS_COOKIE_OPTIONS = {
@@ -32,7 +30,7 @@ const REFRESH_COOKIE_OPTIONS = {
 /**
  * POST /auth/register
  * Body: { RegisterBody }
- * Response: { user: UserAccountDto, tokens: TokensDto }
+ * Response: { AuthDto }
  */
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -61,12 +59,12 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 /**
  * POST /auth/login
  * Body: { LoginBody }
- * Response: { user: UserAccountDto, tokens: TokensDto }
+ * Response: { AuthDto }
  */
 router.post('/login', loginLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = LoginSchema.parse(req.body);
-    const { user, tokens } = await authService.login(input);
+    const { user, tokens } = await authService.login(input, req);
 
     if (input.stayLoggedIn)
       REFRESH_COOKIE_OPTIONS.maxAge = 365 * 24 * 60 * 60 * 1000
@@ -105,13 +103,11 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
     res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
 
     const Res = {
-      tokens: {
         refresh_token: tokens.refresh_token,
         access_token: tokens.access_token
-      }
-    } as AuthDto
+    } as TokensDto
 
-    res.json(Res.tokens);
+    res.json(Res);
   } catch (err) {
     next(err);
   }
@@ -146,7 +142,7 @@ router.post('/logout', async (req: Request, res: Response, next: NextFunction) =
 router.post('/forgot-password', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email } = ForgotPasswordSchema.parse(req.body);
-    await authService.forgotPassword(email);
+    await authService.forgotPassword(email, req);
     // always 200 regardless of whether email exists
     res.json({ message: 'If that email exists, a reset link has been sent' });
   } catch (err) {

@@ -3,8 +3,8 @@ import {toLocationDto, LocationDto } from './location.dto.js';
 import { Profiles } from '../graphql/generated/graphql.js';
 
 export type ProfileDto  = Pick<Profiles, 'profile_id' | 'is_private' | 'bio' | 'avatar' | 'first_name' | 'last_name' | 'phone_number' | 'birth_date' | 'created_at'> & {
-  birth_location_details: LocationDto | null;
-  current_location_details: LocationDto | null;
+  birth_location: LocationDto | null;
+  current_location: LocationDto | null;
 };
 export function toProfileDto(profile: prisma.PrismaProfile): ProfileDto {
   return {
@@ -17,11 +17,11 @@ export function toProfileDto(profile: prisma.PrismaProfile): ProfileDto {
     phone_number: profile.phone_number,
     birth_date: profile.birth_date,
     created_at: profile.created_at,
-    birth_location_details: profile.birth_location_details
-      ? toLocationDto(profile.birth_location_details)
+    birth_location: profile.birth_location
+      ? toLocationDto(profile.birth_location)
       : null,
-    current_location_details: profile.current_location_details
-      ? toLocationDto(profile.current_location_details)
+    current_location: profile.current_location
+      ? toLocationDto(profile.current_location)
       : null,
   };
 }

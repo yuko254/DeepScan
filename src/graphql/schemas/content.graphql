@@ -1,24 +1,141 @@
+# Content
+type contents {
+  content_id: String!
+  type: ContentType!
+  visibility: Visibility!
+  content_map: JSON!
+  created_at: DateTime!
+  updated_at: DateTime!
+  is_deleted: Boolean!
+  user: users!
+  post: posts
+  story: stories
+  scan: scans
+}
+
+input contentsCreateInput {
+  type: ContentType!
+  visibility: Visibility!
+  content_map: JSON!
+  post: postsCreateInput
+  scan: scansCreateInput
+  story: storiesCreateInput
+}
+
+input contentsUpdateInput {
+  content_id: String!
+  type: ContentType
+  visibility: Visibility
+  content_map: JSON
+  post: postsUpdateInput
+  scan: scansUpdateInput
+}
+
+# Post
+type posts {
+  category_id: Int
+  content: contents!
+  category: categories
+  location: locations
+
+  tags: [tags!]
+  isLiked: Boolean!
+  isSaved: Boolean!
+  likesCount: Int!
+  commentsCount: Int!
+  savesCount: Int!
+}
+
+input postsCreateInput {
+  category_id: Int
+  location: locationsCreateInput
+  tagsIDs: [String!]
+}
+
+input postsUpdateInput {
+  content_id: String!
+  category_id: Int
+  location: locationsUpdateInput
+  tagsIDs: [String!]
+}
+
+# scan
+type scans {
+  metadata: JSON
+  timestamp: DateTime!
+  content: contents!
+  location: locations
+}
+
+input scansCreateInput {
+  metadata: JSON
+  location: locationsCreateInput
+}
+
+input scansUpdateInput {
+  content_id: String!
+  metadata: JSON
+  location: locationsUpdateInput
+}
+
+# Story
+type stories {
+  expires_at: DateTime
+  content: contents!
+
+  viewCount: Int!
+  hasViewed: Boolean!
+}
+
+input storiesCreateInput {
+  expires_at: DateTime
+}
+
+# media
+# type media {
+#   media_id: String!
+#   storage_path: String!
+#   type: MediaType!
+# }
+
+#################################
 extend type Query {
-  storyViewers(storyId: ID!): [users!]!
-  activeStories: [stories!]!
+  post(id: ID!): posts
+  userPosts(userId: ID!, cursor: DateTime, limit: Int = 20): UserPostsResult!
+  userSavedPosts(userId: ID!, cursor: DateTime, limit: Int = 20): UserPostsResult!
+  
+  scan(id: ID!): scans
+  userScans(userId: ID!, cursor: DateTime, limit: Int = 20): UserScansResult!
+
+  # media(id: ID!): media
+}
+
+type UserPostsResult {
+  posts: [posts!]!
+  nextCursor: DateTime
+}
+
+type UserScansResult {
+  scans: [scans!]!
+  nextCursor: DateTime
 }
 
 extend type Mutation {
-  viewStory(storyId: ID!): StoryViewPayload!
+  # Content mutations
+  createContent(data: contentsCreateInput!): contents!
+  updateContent(data: contentsUpdateInput!): contents!
+  deleteContent(id: ID!): Boolean!
+
+  # Post mutations
+  toggleLikePost(postId: ID!): Boolean!
+  toggleSavePost(postId: ID!): Boolean!
+
+  # Story mutations
+  viewStory(storyId: ID!): StoryViewResult!
 }
 
-type StoryViewPayload {
+type StoryViewResult {
   viewed: Boolean!
   storyId: ID!
   viewCount: Int!
-}
-
-extend type Query {
-  postComments(postId: ID!, cursor: String, limit: Int): CommentsResult!
-}
-
-type CommentsResult {
-  comments: [comments!]!
-  nextCursor: String
-  hasMore: Boolean!
 }

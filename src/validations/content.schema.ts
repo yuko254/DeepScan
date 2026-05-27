@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { IdSchema, JsonSchema } from './fields/common.fields.js';
-import { LocationCreateSchema } from './location.schema.js';
+import { LocationCreateSchema, LocationUpsertSchema } from './location.schema.js';
 
 // ─── Enums ───
 const ContentTypeSchema = z.enum(['post', 'story', 'scan']);
@@ -14,7 +14,8 @@ const PostCreateSchema = z.strictObject({
 });
 
 export const PostUpdateSchema = PostCreateSchema.partial().extend({
-  content_id: IdSchema.uuid('contentId')
+  content_id: IdSchema.uuid('contentId'),
+  location: LocationUpsertSchema.nullish(),
 });
 
 // ─── Story ───
@@ -29,7 +30,8 @@ export const ScanCreateSchema = z.strictObject({
 });
 
 export const ScanUpdateSchema = ScanCreateSchema.partial().extend({
-  content_id: IdSchema.uuid('contentId')
+  content_id: IdSchema.uuid('contentId'),
+  location: LocationUpsertSchema.nullish(),
 });
 
 // ─── Main Content ───

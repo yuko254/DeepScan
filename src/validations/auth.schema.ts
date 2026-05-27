@@ -1,10 +1,12 @@
 import { z } from 'zod';
-import * as user from "../zod/fields/user.fields.js"
+import * as user from "./fields/user.fields.js"
 
 export const RegisterSchema = z.strictObject({
   username: user.usernameField,
   email: user.emailField,
   password: user.passwordField,
+  first_name: z.string().max(50, 'First name must be at most 50 characters'),
+  last_name: z.string().max(50, 'Last name must be at most 50 characters'),
   stayLoggedIn: z.boolean().optional()
 });
 
@@ -21,7 +23,7 @@ export const ForgotPasswordSchema = z.strictObject({
 
 export const ResetPasswordSchema = z.strictObject({
   email: user.emailField,
-  token: z.string().min(1, 'Token is required'),
+  token: z.string().min(1, 'Reset token is required'),
   newPassword: user.passwordField,
 });
 

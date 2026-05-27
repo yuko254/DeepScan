@@ -409,7 +409,6 @@ export const ModelName = {
   categories: 'categories',
   tags: 'tags',
   hashtags: 'hashtags',
-  mentions: 'mentions',
   saved_posts: 'saved_posts',
   post_tags: 'post_tags',
   post_likes: 'post_likes',
@@ -437,7 +436,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "admin_audits" | "users" | "roles" | "profiles" | "notifications" | "reports" | "device_tokens" | "contents" | "posts" | "scans" | "stories" | "media" | "blocks" | "follows" | "follow_requests" | "comments" | "locations" | "countries" | "cities" | "chats" | "chat_participants" | "messages" | "categories" | "tags" | "hashtags" | "mentions" | "saved_posts" | "post_tags" | "post_likes" | "comment_likes" | "story_views" | "content_hashtags" | "comment_hashtags" | "notification_targets" | "report_targets" | "hashtag_usage" | "post_like_counts" | "comment_like_counts"
+    modelProps: "admin_audits" | "users" | "roles" | "profiles" | "notifications" | "reports" | "device_tokens" | "contents" | "posts" | "scans" | "stories" | "media" | "blocks" | "follows" | "follow_requests" | "comments" | "locations" | "countries" | "cities" | "chats" | "chat_participants" | "messages" | "categories" | "tags" | "hashtags" | "saved_posts" | "post_tags" | "post_likes" | "comment_likes" | "story_views" | "content_hashtags" | "comment_hashtags" | "notification_targets" | "report_targets" | "hashtag_usage" | "post_like_counts" | "comment_like_counts"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2291,80 +2290,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    mentions: {
-      payload: Prisma.$mentionsPayload<ExtArgs>
-      fields: Prisma.mentionsFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.mentionsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.mentionsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>
-        }
-        findFirst: {
-          args: Prisma.mentionsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.mentionsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>
-        }
-        findMany: {
-          args: Prisma.mentionsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>[]
-        }
-        create: {
-          args: Prisma.mentionsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>
-        }
-        createMany: {
-          args: Prisma.mentionsCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.mentionsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>[]
-        }
-        delete: {
-          args: Prisma.mentionsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>
-        }
-        update: {
-          args: Prisma.mentionsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>
-        }
-        deleteMany: {
-          args: Prisma.mentionsDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.mentionsUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.mentionsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>[]
-        }
-        upsert: {
-          args: Prisma.mentionsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mentionsPayload>
-        }
-        aggregate: {
-          args: Prisma.MentionsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMentions>
-        }
-        groupBy: {
-          args: Prisma.mentionsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MentionsGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.mentionsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MentionsCountAggregateOutputType> | number
-        }
-      }
-    }
     saved_posts: {
       payload: Prisma.$saved_postsPayload<ExtArgs>
       fields: Prisma.saved_postsFieldRefs
@@ -3461,16 +3386,6 @@ export const HashtagsScalarFieldEnum = {
 export type HashtagsScalarFieldEnum = (typeof HashtagsScalarFieldEnum)[keyof typeof HashtagsScalarFieldEnum]
 
 
-export const MentionsScalarFieldEnum = {
-  mention_id: 'mention_id',
-  mentioned_user_id: 'mentioned_user_id',
-  mention_target_id: 'mention_target_id',
-  created_at: 'created_at'
-} as const
-
-export type MentionsScalarFieldEnum = (typeof MentionsScalarFieldEnum)[keyof typeof MentionsScalarFieldEnum]
-
-
 export const Saved_postsScalarFieldEnum = {
   saved_id: 'saved_id',
   user_id: 'user_id',
@@ -3990,7 +3905,6 @@ export type GlobalOmitConfig = {
   categories?: Prisma.categoriesOmit
   tags?: Prisma.tagsOmit
   hashtags?: Prisma.hashtagsOmit
-  mentions?: Prisma.mentionsOmit
   saved_posts?: Prisma.saved_postsOmit
   post_tags?: Prisma.post_tagsOmit
   post_likes?: Prisma.post_likesOmit

@@ -19,18 +19,6 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
             orderBy: { created_at: 'asc' },
             include: { user: { include: { profile: true } } },
           },
-          mentionTargets: {
-            include: {
-              mentions: {
-                include: { user: true },
-                orderBy: { created_at: 'desc' },
-              },
-            },
-          },
-          commentHashtags: {
-            include: { hashtag: true },
-            orderBy: { created_at: 'asc' },
-          },
         },
       }),
       this.getLikeCount(comment_id),
@@ -40,50 +28,27 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
     return { ...comment, likes: likeCount };
   }
 
-  async findByPost(post_id: string) {
-    return this.model.findMany({
-      where: { post_id, comment_parent_id: null },
-      orderBy: { created_at: 'asc' },
-    });
-  }
-
-  async findByPostCursor(post_id: string, cursor?: string, limit: number = 20) {
-    const cursorCondition = cursor
-      ? { created_at: { lt: new Date(cursor) } }
-      : {};
+  async findByPost(post_id: string, limit: number, cursor?: Date) {
     const comments = await this.model.findMany({
-      where: { post_id, comment_parent_id: null, ...cursorCondition },
-      orderBy: { created_at: 'desc' },
-      take: limit + 1,
+      where: {
+        post_id,
+        comment_parent_id: null,
+        is_deleted: false,
+        ...(cursor && { created_at: { lt: cursor } })
+      },
       include: {
         user: { include: { profile: true } },
-        replies: {
-          orderBy: { created_at: 'asc' },
-          include: { user: { include: { profile: true } } },
-        },
+        _count: { select: { comment_likes: true, replies: true } }
       },
+      orderBy: { created_at: 'desc' },
+      take: limit
     });
-    let nextCursor = null;
-    let pageComments = comments;
-    if (comments.length > limit) {
-      const last = comments[limit]!;
-      nextCursor = last.created_at.toISOString();
-      pageComments = comments.slice(0, limit);
-    }
-    // Attach likeCount for each comment (including replies)
-    const withLikes = await Promise.all(
-      comments.map(async (comment) => ({
-        ...comment,
-        likes: await this.getLikeCount(comment.comment_id),
-        replies: await Promise.all(
-          comment.replies.map(async (reply) => ({
-            ...reply,
-            likes: await this.getLikeCount(reply.comment_id),
-          }))
-        ),
-      }))
-    );
-    return { comments: withLikes, nextCursor };
+
+    const nextCursor = comments.length === limit
+      ? comments[comments.length - 1]?.created_at
+      : null;
+
+    return { comments, nextCursor };
   }
 
   async findReplies(comment_parent_id: string) {
@@ -112,6 +77,19 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
   async getLikeCount(comment_id: string) {
     const view = await prisma.comment_like_counts.findUnique({ where: { comment_id } });
     return view?.likes_count ? Number(view.likes_count) : 0;
+  }
+
+  async getCommentCountForPost(post_id: string) {
+    return this.model.count({ where: { post_id } });
+  }
+
+  async getCommentCountsForPostBatch(postIds: string[]) {
+    const counts = await this.model.groupBy({
+      by: ['post_id'],
+      where: { post_id: { in: postIds }, is_deleted: false },
+      _count: true
+    });
+    return new Map(counts.map(c => [c.post_id, c._count]));
   }
 
   async softDelete(comment_id: string, deletor: string) {

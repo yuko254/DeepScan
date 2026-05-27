@@ -16,7 +16,7 @@ export const ReportUpdateSchema = ReportCreateSchema.partial().extend({
 });
 
 export const ReportResolveSchema = z.strictObject({
-  report_id: IdSchema.uuid('reportId'),
+  report_id: IdSchema.uuid('reportId').optional(),
   resolver_id: IdSchema.uuid('resolverId'),
   status: StatusSchema,
 });
@@ -25,7 +25,7 @@ export const ReportResolveSchema = z.strictObject({
 export const CommentCreateSchema = z.strictObject({
   content: z.string().min(1, 'Comment cannot be empty').max(5000, 'Comment too long'),
   post_id: IdSchema.uuid('postId'),
-  parent_comment_id: IdSchema.uuid('parentCommentId').nullish(),
+  comment_parent_id: IdSchema.uuid('parentCommentId').nullish(),
 });
 
 export const CommentUpdateSchema = z.strictObject({

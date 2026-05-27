@@ -15,7 +15,7 @@ export class DeviceTokenRepo extends BaseRepository<typeof prisma.device_tokens>
     user_id: string,
     token: string,
     device_type: DeviceType,
-    app_version?: string,
+    app_version?: string | null,
   ) {
     return this.model.upsert({
       where: { user_id_token: { user_id, token } },

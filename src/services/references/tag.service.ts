@@ -1,7 +1,8 @@
 import { Prisma } from '../../config/prisma.js';
 import { tagRepo, postTagRepo } from '../../Repository/instances.js';
+import * as refrences from "../../validations/references.schema.js";
 
-export class TagService {
+class TagService {
 
   async getAll(tx?: Prisma.TransactionClient) {
     return tagRepo.withTx(tx).findAll();
@@ -15,16 +16,16 @@ export class TagService {
     return tagRepo.withTx(tx).findById(tagID);
   }
 
-  async create(name: string, tx?: Prisma.TransactionClient) {
+  async create(input: refrences.TagCreate, tx?: Prisma.TransactionClient) {
     return tagRepo.withTx(tx).create({
-      data: { name },
+      data: { name: input.name },
     });
   }
 
-  async update(tagID: number, name: string, tx?: Prisma.TransactionClient) {
+  async update(input: refrences.TagUpdate, tx?: Prisma.TransactionClient) {
     return tagRepo.withTx(tx).update({
-      where: { tag_id: tagID },
-      data: { name },
+      where: { tag_id: input.tag_id },
+      data: { name: input.name },
     });
   }
 

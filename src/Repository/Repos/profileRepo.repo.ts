@@ -1,39 +1,41 @@
-import { type profiles } from "@prisma/client";
-import { prisma } from '../../config/prisma.js';
+import { profiles } from "@prisma/client";
+import { Prisma, prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
 export class ProfileRepo extends BaseRepository<typeof prisma.profiles> {
   constructor() {
     super(prisma.profiles, 'profiles', 'profile_id');
   }
-
-  async findByUserId(user_id: string) {
-    return this.model.findUnique({ where: { user_id } });
+  private includeLocations = {
+    birth_location: { include: { city: true, country: true } },
+    current_location: { include: { city: true, country: true } },
   }
 
-  async findWithLocations(user_id: string) {
+  async findProfile(where: Prisma.profilesWhereUniqueInput) {
     return this.model.findUnique({
-      where: { user_id },
-      include: {
-        birth_location_details: { include: { city: true, country: true } },
-        current_location_details: { include: { city: true, country: true } },
-      },
+      where,
+      include: this.includeLocations
     });
   }
 
-  async updateAvatar(user_id: string, avatar: string) {
-    return this.model.update({ where: { user_id }, data: { avatar } });
+  async createProfile(data: Prisma.profilesUncheckedCreateInput) {
+    return this.model.create({
+      data,
+      include: this.includeLocations
+    });
   }
 
-  async search(query: string) {
-    return this.model.findMany({
-      where: {
-        OR: [
-          { first_name: { contains: query, mode: 'insensitive' } },
-          { last_name: { contains: query, mode: 'insensitive' } },
-        ],
-      },
-      take: 20,
+  async updateProfile(user_id: string, data: Prisma.profilesUncheckedUpdateInput) {
+    return this.model.update({
+      where: { user_id },
+      data,
+      include: this.includeLocations
+    });
+  }
+
+  async deleteProfile(where: Prisma.profilesWhereUniqueInput) {
+    return this.model.delete({
+      where
     });
   }
 }

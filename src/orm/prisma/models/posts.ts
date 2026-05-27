@@ -212,11 +212,11 @@ export type postsWhereInput = {
   category?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   location?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
   comments?: Prisma.CommentsListRelationFilter
+  postTags?: Prisma.Post_tagsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   saved_posts?: Prisma.Saved_postsListRelationFilter
   reportTargets?: Prisma.Report_targetsListRelationFilter
   notificationTargets?: Prisma.Notification_targetsListRelationFilter
-  postTags?: Prisma.Post_tagsListRelationFilter
 }
 
 export type postsOrderByWithRelationInput = {
@@ -228,11 +228,11 @@ export type postsOrderByWithRelationInput = {
   category?: Prisma.categoriesOrderByWithRelationInput
   location?: Prisma.locationsOrderByWithRelationInput
   comments?: Prisma.commentsOrderByRelationAggregateInput
+  postTags?: Prisma.post_tagsOrderByRelationAggregateInput
   post_likes?: Prisma.post_likesOrderByRelationAggregateInput
   saved_posts?: Prisma.saved_postsOrderByRelationAggregateInput
   reportTargets?: Prisma.report_targetsOrderByRelationAggregateInput
   notificationTargets?: Prisma.notification_targetsOrderByRelationAggregateInput
-  postTags?: Prisma.post_tagsOrderByRelationAggregateInput
 }
 
 export type postsWhereUniqueInput = Prisma.AtLeast<{
@@ -247,11 +247,11 @@ export type postsWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   location?: Prisma.XOR<Prisma.LocationsNullableScalarRelationFilter, Prisma.locationsWhereInput> | null
   comments?: Prisma.CommentsListRelationFilter
+  postTags?: Prisma.Post_tagsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   saved_posts?: Prisma.Saved_postsListRelationFilter
   reportTargets?: Prisma.Report_targetsListRelationFilter
   notificationTargets?: Prisma.Notification_targetsListRelationFilter
-  postTags?: Prisma.Post_tagsListRelationFilter
 }, "content_id">
 
 export type postsOrderByWithAggregationInput = {
@@ -282,11 +282,11 @@ export type postsCreateInput = {
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateInput = {
@@ -295,11 +295,11 @@ export type postsUncheckedCreateInput = {
   location_id?: string | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsUpdateInput = {
@@ -308,11 +308,11 @@ export type postsUpdateInput = {
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateInput = {
@@ -321,11 +321,11 @@ export type postsUncheckedUpdateInput = {
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateManyInput = {
@@ -606,11 +606,11 @@ export type postsCreateWithoutContentInput = {
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutContentInput = {
@@ -618,11 +618,11 @@ export type postsUncheckedCreateWithoutContentInput = {
   location_id?: string | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutContentInput = {
@@ -646,11 +646,11 @@ export type postsUpdateWithoutContentInput = {
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutContentInput = {
@@ -658,11 +658,11 @@ export type postsUncheckedUpdateWithoutContentInput = {
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutCommentsInput = {
@@ -670,11 +670,11 @@ export type postsCreateWithoutCommentsInput = {
   content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutCommentsInput = {
@@ -682,11 +682,11 @@ export type postsUncheckedCreateWithoutCommentsInput = {
   category_id?: number | null
   location_id?: string | null
   text_content?: string | null
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutCommentsInput = {
@@ -710,11 +710,11 @@ export type postsUpdateWithoutCommentsInput = {
   content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutCommentsInput = {
@@ -722,11 +722,11 @@ export type postsUncheckedUpdateWithoutCommentsInput = {
   category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutLocationInput = {
@@ -734,11 +734,11 @@ export type postsCreateWithoutLocationInput = {
   content: Prisma.contentsCreateNestedOneWithoutPostInput
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutLocationInput = {
@@ -746,11 +746,11 @@ export type postsUncheckedCreateWithoutLocationInput = {
   category_id?: number | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutLocationInput = {
@@ -794,11 +794,11 @@ export type postsCreateWithoutCategoryInput = {
   content: Prisma.contentsCreateNestedOneWithoutPostInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutCategoryInput = {
@@ -806,11 +806,11 @@ export type postsUncheckedCreateWithoutCategoryInput = {
   location_id?: string | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutCategoryInput = {
@@ -845,10 +845,10 @@ export type postsCreateWithoutSaved_postsInput = {
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutSaved_postsInput = {
@@ -857,10 +857,10 @@ export type postsUncheckedCreateWithoutSaved_postsInput = {
   location_id?: string | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutSaved_postsInput = {
@@ -885,10 +885,10 @@ export type postsUpdateWithoutSaved_postsInput = {
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutSaved_postsInput = {
@@ -897,10 +897,10 @@ export type postsUncheckedUpdateWithoutSaved_postsInput = {
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutPostTagsInput = {
@@ -973,10 +973,10 @@ export type postsCreateWithoutPost_likesInput = {
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutPost_likesInput = {
@@ -985,10 +985,10 @@ export type postsUncheckedCreateWithoutPost_likesInput = {
   location_id?: string | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutPost_likesInput = {
@@ -1013,10 +1013,10 @@ export type postsUpdateWithoutPost_likesInput = {
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutPost_likesInput = {
@@ -1025,10 +1025,10 @@ export type postsUncheckedUpdateWithoutPost_likesInput = {
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutNotificationTargetsInput = {
@@ -1037,10 +1037,10 @@ export type postsCreateWithoutNotificationTargetsInput = {
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutNotificationTargetsInput = {
@@ -1049,10 +1049,10 @@ export type postsUncheckedCreateWithoutNotificationTargetsInput = {
   location_id?: string | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   reportTargets?: Prisma.report_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutNotificationTargetsInput = {
@@ -1077,10 +1077,10 @@ export type postsUpdateWithoutNotificationTargetsInput = {
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutNotificationTargetsInput = {
@@ -1089,10 +1089,10 @@ export type postsUncheckedUpdateWithoutNotificationTargetsInput = {
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateWithoutReportTargetsInput = {
@@ -1101,10 +1101,10 @@ export type postsCreateWithoutReportTargetsInput = {
   category?: Prisma.categoriesCreateNestedOneWithoutPostsInput
   location?: Prisma.locationsCreateNestedOneWithoutPostsInput
   comments?: Prisma.commentsCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsCreateNestedManyWithoutPostInput
 }
 
 export type postsUncheckedCreateWithoutReportTargetsInput = {
@@ -1113,10 +1113,10 @@ export type postsUncheckedCreateWithoutReportTargetsInput = {
   location_id?: string | null
   text_content?: string | null
   comments?: Prisma.commentsUncheckedCreateNestedManyWithoutPostInput
+  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutPostInput
   saved_posts?: Prisma.saved_postsUncheckedCreateNestedManyWithoutPostInput
   notificationTargets?: Prisma.notification_targetsUncheckedCreateNestedManyWithoutPostInput
-  postTags?: Prisma.post_tagsUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type postsCreateOrConnectWithoutReportTargetsInput = {
@@ -1141,10 +1141,10 @@ export type postsUpdateWithoutReportTargetsInput = {
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutReportTargetsInput = {
@@ -1153,10 +1153,10 @@ export type postsUncheckedUpdateWithoutReportTargetsInput = {
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsCreateManyLocationInput = {
@@ -1170,11 +1170,11 @@ export type postsUpdateWithoutLocationInput = {
   content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   category?: Prisma.categoriesUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutLocationInput = {
@@ -1182,11 +1182,11 @@ export type postsUncheckedUpdateWithoutLocationInput = {
   category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateManyWithoutLocationInput = {
@@ -1206,11 +1206,11 @@ export type postsUpdateWithoutCategoryInput = {
   content?: Prisma.contentsUpdateOneRequiredWithoutPostNestedInput
   location?: Prisma.locationsUpdateOneWithoutPostsNestedInput
   comments?: Prisma.commentsUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateWithoutCategoryInput = {
@@ -1218,11 +1218,11 @@ export type postsUncheckedUpdateWithoutCategoryInput = {
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text_content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.commentsUncheckedUpdateManyWithoutPostNestedInput
+  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutPostNestedInput
   saved_posts?: Prisma.saved_postsUncheckedUpdateManyWithoutPostNestedInput
   reportTargets?: Prisma.report_targetsUncheckedUpdateManyWithoutPostNestedInput
   notificationTargets?: Prisma.notification_targetsUncheckedUpdateManyWithoutPostNestedInput
-  postTags?: Prisma.post_tagsUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type postsUncheckedUpdateManyWithoutCategoryInput = {
@@ -1238,20 +1238,20 @@ export type postsUncheckedUpdateManyWithoutCategoryInput = {
 
 export type PostsCountOutputType = {
   comments: number
+  postTags: number
   post_likes: number
   saved_posts: number
   reportTargets: number
   notificationTargets: number
-  postTags: number
 }
 
 export type PostsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   comments?: boolean | PostsCountOutputTypeCountCommentsArgs
+  postTags?: boolean | PostsCountOutputTypeCountPostTagsArgs
   post_likes?: boolean | PostsCountOutputTypeCountPost_likesArgs
   saved_posts?: boolean | PostsCountOutputTypeCountSaved_postsArgs
   reportTargets?: boolean | PostsCountOutputTypeCountReportTargetsArgs
   notificationTargets?: boolean | PostsCountOutputTypeCountNotificationTargetsArgs
-  postTags?: boolean | PostsCountOutputTypeCountPostTagsArgs
 }
 
 /**
@@ -1269,6 +1269,13 @@ export type PostsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
  */
 export type PostsCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.commentsWhereInput
+}
+
+/**
+ * PostsCountOutputType without action
+ */
+export type PostsCountOutputTypeCountPostTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.post_tagsWhereInput
 }
 
 /**
@@ -1299,13 +1306,6 @@ export type PostsCountOutputTypeCountNotificationTargetsArgs<ExtArgs extends run
   where?: Prisma.notification_targetsWhereInput
 }
 
-/**
- * PostsCountOutputType without action
- */
-export type PostsCountOutputTypeCountPostTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.post_tagsWhereInput
-}
-
 
 export type postsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   content_id?: boolean
@@ -1316,11 +1316,11 @@ export type postsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
   comments?: boolean | Prisma.posts$commentsArgs<ExtArgs>
+  postTags?: boolean | Prisma.posts$postTagsArgs<ExtArgs>
   post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
   saved_posts?: boolean | Prisma.posts$saved_postsArgs<ExtArgs>
   reportTargets?: boolean | Prisma.posts$reportTargetsArgs<ExtArgs>
   notificationTargets?: boolean | Prisma.posts$notificationTargetsArgs<ExtArgs>
-  postTags?: boolean | Prisma.posts$postTagsArgs<ExtArgs>
   _count?: boolean | Prisma.PostsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts"]>
 
@@ -1357,11 +1357,11 @@ export type postsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   category?: boolean | Prisma.posts$categoryArgs<ExtArgs>
   location?: boolean | Prisma.posts$locationArgs<ExtArgs>
   comments?: boolean | Prisma.posts$commentsArgs<ExtArgs>
+  postTags?: boolean | Prisma.posts$postTagsArgs<ExtArgs>
   post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
   saved_posts?: boolean | Prisma.posts$saved_postsArgs<ExtArgs>
   reportTargets?: boolean | Prisma.posts$reportTargetsArgs<ExtArgs>
   notificationTargets?: boolean | Prisma.posts$notificationTargetsArgs<ExtArgs>
-  postTags?: boolean | Prisma.posts$postTagsArgs<ExtArgs>
   _count?: boolean | Prisma.PostsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type postsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1382,11 +1382,11 @@ export type $postsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     category: Prisma.$categoriesPayload<ExtArgs> | null
     location: Prisma.$locationsPayload<ExtArgs> | null
     comments: Prisma.$commentsPayload<ExtArgs>[]
+    postTags: Prisma.$post_tagsPayload<ExtArgs>[]
     post_likes: Prisma.$post_likesPayload<ExtArgs>[]
     saved_posts: Prisma.$saved_postsPayload<ExtArgs>[]
     reportTargets: Prisma.$report_targetsPayload<ExtArgs>[]
     notificationTargets: Prisma.$notification_targetsPayload<ExtArgs>[]
-    postTags: Prisma.$post_tagsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     content_id: string
@@ -1791,11 +1791,11 @@ export interface Prisma__postsClient<T, Null = never, ExtArgs extends runtime.Ty
   category<T extends Prisma.posts$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$categoryArgs<ExtArgs>>): Prisma.Prisma__categoriesClient<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   location<T extends Prisma.posts$locationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$locationArgs<ExtArgs>>): Prisma.Prisma__locationsClient<runtime.Types.Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   comments<T extends Prisma.posts$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  postTags<T extends Prisma.posts$postTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$postTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_likes<T extends Prisma.posts$post_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   saved_posts<T extends Prisma.posts$saved_postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$saved_postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$saved_postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reportTargets<T extends Prisma.posts$reportTargetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$reportTargetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$report_targetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notificationTargets<T extends Prisma.posts$notificationTargetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$notificationTargetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notification_targetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  postTags<T extends Prisma.posts$postTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$postTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2292,6 +2292,30 @@ export type posts$commentsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * posts.postTags
+ */
+export type posts$postTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the post_tags
+   */
+  select?: Prisma.post_tagsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the post_tags
+   */
+  omit?: Prisma.post_tagsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.post_tagsInclude<ExtArgs> | null
+  where?: Prisma.post_tagsWhereInput
+  orderBy?: Prisma.post_tagsOrderByWithRelationInput | Prisma.post_tagsOrderByWithRelationInput[]
+  cursor?: Prisma.post_tagsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Post_tagsScalarFieldEnum | Prisma.Post_tagsScalarFieldEnum[]
+}
+
+/**
  * posts.post_likes
  */
 export type posts$post_likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2385,30 +2409,6 @@ export type posts$notificationTargetsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.Notification_targetsScalarFieldEnum | Prisma.Notification_targetsScalarFieldEnum[]
-}
-
-/**
- * posts.postTags
- */
-export type posts$postTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the post_tags
-   */
-  select?: Prisma.post_tagsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the post_tags
-   */
-  omit?: Prisma.post_tagsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.post_tagsInclude<ExtArgs> | null
-  where?: Prisma.post_tagsWhereInput
-  orderBy?: Prisma.post_tagsOrderByWithRelationInput | Prisma.post_tagsOrderByWithRelationInput[]
-  cursor?: Prisma.post_tagsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Post_tagsScalarFieldEnum | Prisma.Post_tagsScalarFieldEnum[]
 }
 
 /**

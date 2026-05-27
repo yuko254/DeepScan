@@ -1,14 +1,14 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
-import { UserService } from '../services/users/userAccount.service.js';
-import { UpdateUserAccountSchema, ChangePasswordSchema, UserAccountSchema, toUserAccountDto } from '../dtos/users.dto.js';
+import { userService } from '../services/users/account.service.js';
+import { UserAccountCreateSchema, UserAccountUpdateSchema, ChangePasswordSchema  } from '../validations/user.schema.js';
+import { toUserAccountDto } from '../dtos/user.dto.js';
 import { authenticate, authenticateStrict } from "../middlewares/auth.middleware.js"
 
 const router = Router();
 
-const userService = new UserService();
-
 /**
  * GET /users/me
+ * Response: { UserAccountDto }
  */
 router.get('/me', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -23,10 +23,11 @@ router.get('/me', authenticate, async (req: Request, res: Response, next: NextFu
 /**
  * PATCH /users/me
  * Body: { username, email }
+ * Response: { UserAccountDto }
  */
 router.patch('/me', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const input = UpdateUserAccountSchema.parse(req.body);
+    const input = UserAccountUpdateSchema.parse(req.body);
     const user = await userService.updateAccount(req.user!.user_id, input);
     const Res = toUserAccountDto(user)
     res.json(Res);
@@ -42,7 +43,7 @@ router.patch('/me', authenticate, async (req: Request, res: Response, next: Next
  */
 router.delete('/me', authenticateStrict, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const input = UserAccountSchema.parse(req.body);
+    const input = UserAccountCreateSchema.parse(req.body);
     await userService.deleteAccount(input);
     res.status(204).send();
   } catch (err) {

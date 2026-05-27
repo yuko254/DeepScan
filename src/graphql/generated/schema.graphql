@@ -77,7 +77,6 @@ type users {
   # comment_likes: [comment_likes]!  // this model has a @Exclude / @ExcludeOnType
   comments: [comments]!
   device_tokens: [device_tokens]!
-  mentions: [mentions]!
   messages: [messages]!
   notifications: [notifications]!
   # post_likes: [post_likes]!  // this model has a @Exclude / @ExcludeOnType
@@ -86,21 +85,6 @@ type users {
   # saved_posts: [saved_posts]!  // this model has a @Exclude / @ExcludeOnType
   # story_views: [story_views]!  // this model has a @Exclude / @ExcludeOnType
   contents: [contents]!
-}
-
-input usersCreateInput {
-  username: String!
-  email: String!
-  password: String!
-  profile: profilesCreateInput
-}
-
-input usersUpdateInput {
-  user_id: String!
-  username: String
-  email: String
-  password: String
-  profile: profilesUpdateInput
 }
 
 type roles {
@@ -120,8 +104,8 @@ type profiles {
   birth_date: DateTime
   created_at: DateTime!
   user: users!
-  birth_location_details: locations
-  current_location_details: locations
+  birth_location: locations
+  current_location: locations
   reportTargets: [report_targets]!
 }
 
@@ -133,8 +117,8 @@ input profilesCreateInput {
   last_name: String!
   phone_number: String
   birth_date: DateTime
-  birth_location_details: locationsCreateInput
-  current_location_details: locationsCreateInput
+  birth_location: locationsCreateInput
+  current_location: locationsCreateInput
 }
 
 input profilesUpdateInput {
@@ -146,8 +130,8 @@ input profilesUpdateInput {
   last_name: String
   phone_number: String
   birth_date: DateTime
-  birth_location_details: locationsUpdateInput
-  current_location_details: locationsUpdateInput
+  birth_location: locationsUpdateInput
+  current_location: locationsUpdateInput
 }
 
 type notifications {
@@ -163,6 +147,7 @@ type notifications {
 
 type reports {
   report_id: String!
+  report_target_id: String!
   reason: String
   status: ReportStatus!
   created_at: DateTime!
@@ -173,8 +158,8 @@ type reports {
 }
 
 input reportsCreateInput {
+  report_target_id: String!
   reason: String
-  report_target: report_targetsCreateInput
 }
 
 type device_tokens {
@@ -341,7 +326,7 @@ type comments {
   is_deleted: Boolean!
   user: users
   post: posts!
-  comment: comments
+  comment_parent: comments
   replies: [comments]!
   reportTargets: [report_targets]!
   notificationTargets: [notification_targets]!
@@ -381,8 +366,6 @@ input locationsCreateInput {
   lat: Float
   lng: Float
   place_id: String
-  country: countriesCreateInput
-  city: citiesCreateInput
 }
 
 input locationsUpdateInput {
@@ -392,8 +375,6 @@ input locationsUpdateInput {
   lat: Float
   lng: Float
   place_id: String
-  country: countriesUpdateInput
-  city: citiesUpdateInput
 }
 
 type countries {
@@ -523,13 +504,6 @@ type hashtags {
   # commentHashtags: [comment_hashtags]!  // this model has a @Exclude / @ExcludeOnType
 }
 
-type mentions {
-  mention_id: String!
-  mention_target_id: String!
-  created_at: DateTime!
-  user: users!
-}
-
 type notification_targets {
   target_id: String!
   post: posts
@@ -545,13 +519,6 @@ type report_targets {
   story: stories
   profile: profiles
   reports: [reports]!
-}
-
-input report_targetsCreateInput {
-  post_id: String
-  comment_id: String
-  story_id: String
-  profile_id: String
 }
 
 type Query {
@@ -603,8 +570,6 @@ type Query {
   tag(id: ID!): tags
   hashtags: [hashtags!]!
   hashtag(id: ID!): hashtags
-  mentions: [mentions!]!
-  mention(id: ID!): mentions
   notificationTargets: [notification_targets!]!
   notificationTarget(id: ID!): notification_targets
   reportTargets: [report_targets!]!
@@ -612,9 +577,6 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: usersCreateInput!): users!
-  updateUser(id: ID!, data: usersUpdateInput!): users!
-  deleteUser(id: ID!): users!
   createProfile(data: profilesCreateInput!): profiles!
   updateProfile(id: ID!, data: profilesUpdateInput!): profiles!
   deleteProfile(id: ID!): profiles!
@@ -662,5 +624,4 @@ type Mutation {
   createTag(data: tagsCreateInput!): tags!
   updateTag(id: ID!, data: tagsUpdateInput!): tags!
   deleteTag(id: ID!): tags!
-  deleteReportTarget(id: ID!): report_targets!
 }

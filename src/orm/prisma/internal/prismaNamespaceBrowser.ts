@@ -76,7 +76,6 @@ export const ModelName = {
   categories: 'categories',
   tags: 'tags',
   hashtags: 'hashtags',
-  mentions: 'mentions',
   saved_posts: 'saved_posts',
   post_tags: 'post_tags',
   post_likes: 'post_likes',
@@ -382,16 +381,6 @@ export const HashtagsScalarFieldEnum = {
 } as const
 
 export type HashtagsScalarFieldEnum = (typeof HashtagsScalarFieldEnum)[keyof typeof HashtagsScalarFieldEnum]
-
-
-export const MentionsScalarFieldEnum = {
-  mention_id: 'mention_id',
-  mentioned_user_id: 'mentioned_user_id',
-  mention_target_id: 'mention_target_id',
-  created_at: 'created_at'
-} as const
-
-export type MentionsScalarFieldEnum = (typeof MentionsScalarFieldEnum)[keyof typeof MentionsScalarFieldEnum]
 
 
 export const Saved_postsScalarFieldEnum = {

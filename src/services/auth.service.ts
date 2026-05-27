@@ -1,31 +1,27 @@
+import { Request } from "express";
 import { Prisma } from "../config/prisma.js";
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import RedisClient from '../config/redis.js';
-
 import { generateTokens, verifyRefreshToken } from '../utils/jwt.utils.js';
 import { sendPasswordResetEmail } from '../utils/email.util.js';
-
 import { userRepo } from '../Repository/instances.js';
-
-import { toUserAccountDto } from "../dtos/users.dto.js";
-import * as auth from '../dtos/auth.dto.js';
-import * as jwt from '../dtos/jwt.dto.js';
+import { toUserAccountDto } from "../dtos/user.dto.js";
+import * as auth from "../validations/auth.schema.js";
+import * as jwt from "../validations/jwt.schema.js";
 import * as AppError from '../types/appErrors.types.js';
 import * as env from '../config/env.js';
+import { notificationService } from "./notification.service.js";
+import { userService } from "./users/account.service.js";
 
-
-export class AuthService {
+class AuthService {
   private redis = RedisClient.getInstance();
   private SALT_ROUNDS = env.SALT_ROUNDS;
 
   async register(input: auth.RegisterBody) {
-    const hashed = await bcrypt.hash(input.password, this.SALT_ROUNDS);
 
-    const user = await userRepo.create({
-      data: { username: input.username, email: input.email, password: hashed, },
-      include: { role: true },
-    }).catch((e) => {
+    const { stayLoggedIn, ...data } = input
+    const user = await userService.registerUser(data).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');
       }
@@ -39,14 +35,14 @@ export class AuthService {
     return { user, tokens };
   }
 
-  async login(input: auth.LoginBody) {
+  async login(input: auth.LoginBody, req: Request) {
     let user = null
     if (input.email)
       user = await userRepo.findAccountByEmail(input.email);
     else if (input.username)
       user = await userRepo.findAccountByUsername(input.username)
-    
     else throw new AppError.BadRequestError('Either username or email is needed to login');
+
     if (!user) throw new AppError.UnauthorizedError('Invalid email or password');
 
     const valid = await bcrypt.compare(input.password, user.password);
@@ -57,6 +53,17 @@ export class AuthService {
     const tokens = generateTokens(toUserAccountDto(user), input.stayLoggedIn ?? false);
     const key = `refresh:${user.user_id}:${tokens.jti}`;
     await this.redis.set(key, "active", "EX", tokens.refreshTTLSeconds);
+
+    const userAgent = req.headers['user-agent'] || 'Unknown device';
+    const ip = req.ip || req.socket.remoteAddress || 'Unknown IP';
+    const loginTime = new Date().toISOString();
+
+    await notificationService.send({
+      user_id: user.user_id,
+      actor_id: null,
+      type: 'system',
+      message: `New login detected from ${userAgent} at ${loginTime} (IP: ${ip})`
+    });
 
     return { user, tokens };
   }
@@ -108,10 +115,9 @@ export class AuthService {
     }
   }
 
-  async forgotPassword(email: string) {
+  async forgotPassword(email: string, req: Request) {
     const user = await userRepo.findAccountByEmail(email);
     if (!user) return; // prevents user enumeration
-
 
     const token = crypto.randomBytes(4).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
@@ -120,6 +126,16 @@ export class AuthService {
     await this.redis.set(key, '1', 'EX', env.PASSWORD_RESET_TOKEN_IN_MIN);
 
     await sendPasswordResetEmail(user.email, token);
+
+    const userAgent = req.headers['user-agent'] || 'Unknown device';
+    const ip = req.ip || req.socket.remoteAddress || 'Unknown IP';
+
+    await notificationService.send({
+      user_id: user.user_id,
+      actor_id: null,
+      type: 'system',
+      message: `A password reset was requested for your account. details: ${userAgent}, IP: ${ip}`
+    });
   }
 
   async resetPassword(input: auth.ResetPasswordBody) {
@@ -136,11 +152,18 @@ export class AuthService {
     // Token is valid – delete it immediately (single‑use)
     await this.redis.del(key);
 
-    const hashedPassword = await bcrypt.hash(input.new_password, this.SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(input.newPassword, this.SALT_ROUNDS);
     await userRepo.update({ where: { user_id: user.user_id }, data: { password: hashedPassword } });
 
     // Revoke all existing refresh tokens to force re‑login on all devices
     await this.revokeAllUserTokens(user.user_id, 'refresh');
+
+    await notificationService.send({
+      user_id: user.user_id,
+      actor_id: null,
+      type: 'system',
+      message: 'Your password has been successfully changed. If you did not perform this action, please contact support immediately.'
+    });
   }
 
   async revokeAllUserTokens(userId: string, context: string) {
@@ -163,3 +186,5 @@ export class AuthService {
     }
   }
 }
+
+export const authService = new AuthService()

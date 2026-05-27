@@ -1,12 +1,10 @@
 import { Prisma } from "../../config/prisma.js";
-
 import { locationRepo, cityRepo, countryRepo } from "../../Repository/instances.js";
 import { deepClean } from "../../dtos/dto.js";
-
-import * as location from "../../dtos/location.dto.js"
+import * as location from "../../validations/location.schema.js";
 import * as AppError from '../../types/appErrors.types.js';
 
-export class LocationService {
+class LocationService {
 
   // ─── Location ──────────────────────────────────────────────────────────────────
 
@@ -16,7 +14,7 @@ export class LocationService {
     return location;
   }
 
-  async createLocation(input: location.CreateLocationBody, tx?: Prisma.TransactionClient) {
+  async createLocation(input: location.LocationCreate, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
     const { city_id, country_id, ...location } = data;
     if (city_id) await this.checkCityCountry(city_id, country_id, tx);
@@ -36,17 +34,17 @@ export class LocationService {
     })
   }
 
-  async updateLocation(locationID: string, input: location.UpdateLocationBody, tx?: Prisma.TransactionClient) {
+  async updateLocation(input: location.LocationUpdate, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
     if (Object.keys(data).length === 0)
-      return this.getLocation(locationID, tx);
+      return this.getLocation(input.location_id, tx);
 
     let { city_id, country_id, ...location } = data
 
     if (city_id) {
       if (!country_id) {
         const existingLocation = await locationRepo.withTx(tx).findUnique({
-          where: { location_id: locationID },
+          where: { location_id: input.location_id },
           select: { country_id: true }
         });
         if (!existingLocation) throw new AppError.NotFoundError('Location not found');
@@ -56,7 +54,7 @@ export class LocationService {
     }
 
     return await locationRepo.withTx(tx).update({
-      where: { location_id: locationID },
+      where: { location_id: input.location_id },
       data: {
         ...location,
         country: country_id ? { connect: { country_id: country_id } } : undefined,
@@ -82,12 +80,27 @@ export class LocationService {
     })
   }
 
+  async resolveLocation(input: location.LocationUpsert | null | undefined, existingLocationId: string | null | undefined, tx?: Prisma.TransactionClient) {
+    if (input === undefined) return undefined;
+
+    if (input === null) {
+      if (existingLocationId) await this.deleteLocation(existingLocationId, tx);
+      return null;
+    }
+
+    if (!("location_id" in input)) {
+      return await this.createLocation(input, tx).then(l => l.location_id);
+    }
+
+    return await this.updateLocation(input, tx).then(l => l.location_id);
+  }
+
   // ─── Country ──────────────────────────────────────────────────────────────────
 
-  async getCountries(query: location.GetCountriesQuery) {
+  async getCountries(query: location.CountriesQuery) {
     const skip = (query.page - 1) * query.limit;
-    const where = query.filters.search
-      ? { name: { contains: query.filters.search, mode: 'insensitive' as const } }
+    const where = query.filters.name
+      ? { name: { contains: query.filters.name, mode: 'insensitive' as const } }
       : {};
 
     const [countries, total] = await Promise.all([
@@ -107,7 +120,7 @@ export class LocationService {
     return res;
   }
 
-  async createCountry(input: location.CreateCountryBody, tx?: Prisma.TransactionClient) {
+  async createCountry(input: location.CountryCreate, tx?: Prisma.TransactionClient) {
     return await countryRepo.withTx(tx).create({ data: deepClean(input) }).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError)
         if (e.code === 'P2002') throw new AppError.ConflictError('Country already exists');
@@ -115,12 +128,12 @@ export class LocationService {
     });
   }
 
-  async updateCountry(countryID: number, input: location.UpdateCountryBody, tx?: Prisma.TransactionClient) {
+  async updateCountry(input: location.CountryUpdate, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
-    if (Object.keys(data).length === 0) return this.getCountry(countryID);
+    if (Object.keys(data).length === 0) return this.getCountry(input.country_id);
 
     return await countryRepo.withTx(tx).update({
-      where: { country_id: countryID },
+      where: { country_id: input.country_id },
       data,
     }).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -143,10 +156,10 @@ export class LocationService {
 
   // ─── City ─────────────────────────────────────────────────────────────────────
 
-  async getCities(query: location.GetCitiesQuery) {
+  async getCities(query: location.CitiesQuery) {
     const skip = (query.page - 1) * query.limit;
     const where = {
-      ...(query.filters.search ? { name: { contains: query.filters.search, mode: 'insensitive' as const } } : {}),
+      ...(query.filters.name ? { name: { contains: query.filters.name, mode: 'insensitive' as const } } : {}),
       ...(query.filters.country_id ? { country_id: query.filters.country_id } : {}),
     };
 
@@ -167,7 +180,7 @@ export class LocationService {
     return res;
   }
 
-  async createCity(input: location.CreateCityBody, tx?: Prisma.TransactionClient) {
+  async createCity(input: location.CityCreate, tx?: Prisma.TransactionClient) {
     return await cityRepo.withTx(tx).create({ data: deepClean(input) }).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2002') throw new AppError.ConflictError('City already exists in this country');
@@ -177,12 +190,12 @@ export class LocationService {
     });
   }
 
-  async updateCity(cityID: number, input: location.UpdateCityBody, tx?: Prisma.TransactionClient) {
+  async updateCity(input: location.CityUpdate, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
-    if (Object.keys(data).length === 0) return this.getCity(cityID);
+    if (Object.keys(data).length === 0) return this.getCity(input.city_id);
 
     return await cityRepo.withTx(tx).update({
-      where: { city_id: cityID },
+      where: { city_id: input.city_id },
       data,
     }).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {

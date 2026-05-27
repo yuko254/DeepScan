@@ -14,24 +14,16 @@ export type Scalars = {
   JSON: { input: Record<string, any>; output: Record<string, any>; }
 };
 
-export type BlockPayload = {
-  __typename?: 'BlockPayload';
-  blocked: Scalars['Boolean']['output'];
-  success: Scalars['Boolean']['output'];
-};
-
-export type CommentLikePayload = {
-  __typename?: 'CommentLikePayload';
-  commentId: Scalars['ID']['output'];
-  liked: Scalars['Boolean']['output'];
-  likesCount: Scalars['Int']['output'];
+export type BlockedUsersResult = {
+  __typename?: 'BlockedUsersResult';
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  users: Array<Users>;
 };
 
 export type CommentsResult = {
   __typename?: 'CommentsResult';
   comments: Array<Comments>;
-  hasMore: Scalars['Boolean']['output'];
-  nextCursor?: Maybe<Scalars['String']['output']>;
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export enum ContentType {
@@ -50,19 +42,7 @@ export type Feed = {
   __typename?: 'Feed';
   nextCursor?: Maybe<Scalars['DateTime']['output']>;
   posts: Array<Posts>;
-  stories: Array<Stories>;
-};
-
-export type FollowPayload = {
-  __typename?: 'FollowPayload';
-  status: Scalars['String']['output'];
-  success: Scalars['Boolean']['output'];
-};
-
-export type FollowRequestPayload = {
-  __typename?: 'FollowRequestPayload';
-  follow: Follows;
-  success: Scalars['Boolean']['output'];
+  stories: Array<StoryGroup>;
 };
 
 export enum FollowRequestStatus {
@@ -71,16 +51,28 @@ export enum FollowRequestStatus {
   Rejected = 'rejected'
 }
 
+export type FollowRequestsResult = {
+  __typename?: 'FollowRequestsResult';
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  requests: Array<Follow_Requests>;
+};
+
+export type FollowResult = {
+  __typename?: 'FollowResult';
+  status: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type FollowersResult = {
   __typename?: 'FollowersResult';
-  followers: Array<Users>;
-  total: Scalars['Int']['output'];
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  users: Array<Users>;
 };
 
 export type FollowingResult = {
   __typename?: 'FollowingResult';
-  following: Array<Users>;
-  total: Scalars['Int']['output'];
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  users: Array<Users>;
 };
 
 export enum MediaType {
@@ -88,64 +80,52 @@ export enum MediaType {
   Video = 'video'
 }
 
+export type MessagesResult = {
+  __typename?: 'MessagesResult';
+  messages: Array<Messages>;
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  acceptFollowRequest: FollowRequestPayload;
-  blockUser: BlockPayload;
+  acceptFollowRequest: Scalars['Boolean']['output'];
+  addChatParticipants: Chat_Participants;
+  blockUser: Scalars['Boolean']['output'];
   cancelFollowRequest: Scalars['Boolean']['output'];
-  createBlock: Blocks;
   createCategory: Categories;
-  createChat: Chats;
-  createChatParticipant: Chat_Participants;
   createCity: Cities;
   createComment: Comments;
   createContent: Contents;
   createCountry: Countries;
-  createDeviceToken: Device_Tokens;
-  createFollow: Follows;
-  createFollowRequest: Follow_Requests;
+  createDirectChat: Chats;
+  createGroupChat: Chats;
   createLocation: Locations;
-  createMessage: Messages;
-  createProfile: Profiles;
   createReport: Reports;
   createTag: Tags;
-  createUser: Users;
-  deleteBlock: Blocks;
-  deleteCategory: Categories;
-  deleteChat: Chats;
-  deleteChatParticipant: Chat_Participants;
-  deleteCity: Cities;
-  deleteComment: Comments;
-  deleteContent: Contents;
-  deleteCountry: Countries;
-  deleteDeviceToken: Device_Tokens;
-  deleteFollow: Follows;
-  deleteFollowRequest: Follow_Requests;
-  deleteLocation: Locations;
-  deleteMessage: Messages;
-  deletePost: Posts;
-  deleteProfile: Profiles;
-  deleteReport: Reports;
-  deleteReportTarget: Report_Targets;
-  deleteScan: Scans;
-  deleteStory: Stories;
-  deleteTag: Tags;
-  deleteUser: Users;
-  followUser: FollowPayload;
-  likeComment: CommentLikePayload;
-  likePost: PostLikePayload;
-  markAllNotificationsRead: Scalars['Boolean']['output'];
+  deleteCategory: Scalars['Boolean']['output'];
+  deleteChat: Scalars['Boolean']['output'];
+  deleteCity: Scalars['Boolean']['output'];
+  deleteComment: Scalars['Boolean']['output'];
+  deleteContent: Scalars['Boolean']['output'];
+  deleteCountry: Scalars['Boolean']['output'];
+  deleteLocation: Scalars['Boolean']['output'];
+  deleteMessage: Scalars['Boolean']['output'];
+  deleteReport: Scalars['Boolean']['output'];
+  deleteTag: Scalars['Boolean']['output'];
+  followUser: FollowResult;
+  leaveChat: Scalars['Boolean']['output'];
   markNotificationRead: Scalars['Boolean']['output'];
+  registerDeviceToken: Device_Tokens;
   rejectFollowRequest: Scalars['Boolean']['output'];
-  reportComment: ReportPayload;
-  reportPost: ReportPayload;
-  reportUser: ReportPayload;
-  savePost: SavedPostPayload;
+  removeChatParticipant: Scalars['Boolean']['output'];
+  sendMessage: Messages;
+  toggleLikeComment: Scalars['Boolean']['output'];
+  toggleLikePost: Scalars['Boolean']['output'];
+  toggleSavePost: Scalars['Boolean']['output'];
   unblockUser: Scalars['Boolean']['output'];
   unfollowUser: Scalars['Boolean']['output'];
-  unlikeComment: Scalars['Boolean']['output'];
-  unlikePost: Scalars['Boolean']['output'];
-  unsavePost: Scalars['Boolean']['output'];
+  unregisterAllDeviceTokens: Scalars['Boolean']['output'];
+  unregisterDeviceToken: Scalars['Boolean']['output'];
   updateCategory: Categories;
   updateChat: Chats;
   updateCity: Cities;
@@ -153,18 +133,21 @@ export type Mutation = {
   updateContent: Contents;
   updateCountry: Countries;
   updateDeviceToken: Device_Tokens;
-  updateFollowRequest: Follow_Requests;
   updateLocation: Locations;
   updateMessage: Messages;
-  updateProfile: Profiles;
   updateTag: Tags;
-  updateUser: Users;
-  viewStory: StoryViewPayload;
+  viewStory: StoryViewResult;
 };
 
 
 export type MutationAcceptFollowRequestArgs = {
-  userId: Scalars['ID']['input'];
+  requesterId: Scalars['ID']['input'];
+};
+
+
+export type MutationAddChatParticipantsArgs = {
+  chatId: Scalars['ID']['input'];
+  userIds: Array<Scalars['ID']['input']>;
 };
 
 
@@ -178,23 +161,8 @@ export type MutationCancelFollowRequestArgs = {
 };
 
 
-export type MutationCreateBlockArgs = {
-  data: BlocksCreateInput;
-};
-
-
 export type MutationCreateCategoryArgs = {
   data: CategoriesCreateInput;
-};
-
-
-export type MutationCreateChatArgs = {
-  data: ChatsCreateInput;
-};
-
-
-export type MutationCreateChatParticipantArgs = {
-  data: Chat_ParticipantsCreateInput;
 };
 
 
@@ -218,33 +186,19 @@ export type MutationCreateCountryArgs = {
 };
 
 
-export type MutationCreateDeviceTokenArgs = {
-  data: Device_TokensCreateInput;
+export type MutationCreateDirectChatArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
-export type MutationCreateFollowArgs = {
-  data: FollowsCreateInput;
-};
-
-
-export type MutationCreateFollowRequestArgs = {
-  data: Follow_RequestsCreateInput;
+export type MutationCreateGroupChatArgs = {
+  participantIds: Array<Scalars['ID']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationCreateLocationArgs = {
   data: LocationsCreateInput;
-};
-
-
-export type MutationCreateMessageArgs = {
-  data: MessagesCreateInput;
-};
-
-
-export type MutationCreateProfileArgs = {
-  data: ProfilesCreateInput;
 };
 
 
@@ -258,28 +212,13 @@ export type MutationCreateTagArgs = {
 };
 
 
-export type MutationCreateUserArgs = {
-  data: UsersCreateInput;
-};
-
-
-export type MutationDeleteBlockArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type MutationDeleteCategoryArgs = {
   id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteChatArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteChatParticipantArgs = {
-  id: Scalars['ID']['input'];
+  chatId: Scalars['ID']['input'];
 };
 
 
@@ -289,7 +228,7 @@ export type MutationDeleteCityArgs = {
 
 
 export type MutationDeleteCommentArgs = {
-  id: Scalars['ID']['input'];
+  commentId: Scalars['ID']['input'];
 };
 
 
@@ -303,67 +242,22 @@ export type MutationDeleteCountryArgs = {
 };
 
 
-export type MutationDeleteDeviceTokenArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteFollowArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteFollowRequestArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type MutationDeleteLocationArgs = {
   id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteMessageArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeletePostArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteProfileArgs = {
-  id: Scalars['ID']['input'];
+  messageId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteReportArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteReportTargetArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteScanArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteStoryArgs = {
-  id: Scalars['ID']['input'];
+  reportId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteTagArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteUserArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -373,13 +267,8 @@ export type MutationFollowUserArgs = {
 };
 
 
-export type MutationLikeCommentArgs = {
-  commentId: Scalars['ID']['input'];
-};
-
-
-export type MutationLikePostArgs = {
-  postId: Scalars['ID']['input'];
+export type MutationLeaveChatArgs = {
+  chatId: Scalars['ID']['input'];
 };
 
 
@@ -388,30 +277,39 @@ export type MutationMarkNotificationReadArgs = {
 };
 
 
+export type MutationRegisterDeviceTokenArgs = {
+  data: Device_TokensCreateInput;
+};
+
+
 export type MutationRejectFollowRequestArgs = {
+  requesterId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveChatParticipantArgs = {
+  chatId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
 };
 
 
-export type MutationReportCommentArgs = {
+export type MutationSendMessageArgs = {
+  chatId: Scalars['ID']['input'];
+  text: Scalars['String']['input'];
+};
+
+
+export type MutationToggleLikeCommentArgs = {
   commentId: Scalars['ID']['input'];
-  reason?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type MutationReportPostArgs = {
+export type MutationToggleLikePostArgs = {
   postId: Scalars['ID']['input'];
-  reason?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type MutationReportUserArgs = {
-  reason?: InputMaybe<Scalars['String']['input']>;
-  userId: Scalars['ID']['input'];
-};
-
-
-export type MutationSavePostArgs = {
+export type MutationToggleSavePostArgs = {
   postId: Scalars['ID']['input'];
 };
 
@@ -426,18 +324,8 @@ export type MutationUnfollowUserArgs = {
 };
 
 
-export type MutationUnlikeCommentArgs = {
-  commentId: Scalars['ID']['input'];
-};
-
-
-export type MutationUnlikePostArgs = {
-  postId: Scalars['ID']['input'];
-};
-
-
-export type MutationUnsavePostArgs = {
-  postId: Scalars['ID']['input'];
+export type MutationUnregisterDeviceTokenArgs = {
+  tokenId: Scalars['ID']['input'];
 };
 
 
@@ -449,7 +337,6 @@ export type MutationUpdateCategoryArgs = {
 
 export type MutationUpdateChatArgs = {
   data: ChatsUpdateInput;
-  id: Scalars['ID']['input'];
 };
 
 
@@ -461,13 +348,11 @@ export type MutationUpdateCityArgs = {
 
 export type MutationUpdateCommentArgs = {
   data: CommentsUpdateInput;
-  id: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateContentArgs = {
   data: ContentsUpdateInput;
-  id: Scalars['ID']['input'];
 };
 
 
@@ -479,13 +364,6 @@ export type MutationUpdateCountryArgs = {
 
 export type MutationUpdateDeviceTokenArgs = {
   data: Device_TokensUpdateInput;
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationUpdateFollowRequestArgs = {
-  data: Follow_RequestsUpdateInput;
-  id: Scalars['ID']['input'];
 };
 
 
@@ -497,24 +375,11 @@ export type MutationUpdateLocationArgs = {
 
 export type MutationUpdateMessageArgs = {
   data: MessagesUpdateInput;
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationUpdateProfileArgs = {
-  data: ProfilesUpdateInput;
-  id: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateTagArgs = {
   data: TagsUpdateInput;
-  id: Scalars['ID']['input'];
-};
-
-
-export type MutationUpdateUserArgs = {
-  data: UsersUpdateInput;
   id: Scalars['ID']['input'];
 };
 
@@ -532,87 +397,64 @@ export enum NotificationType {
   System = 'system'
 }
 
-export type PostLikePayload = {
-  __typename?: 'PostLikePayload';
-  liked: Scalars['Boolean']['output'];
-  likesCount: Scalars['Int']['output'];
-  postId: Scalars['ID']['output'];
+export type NotificationsResult = {
+  __typename?: 'NotificationsResult';
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  notifications: Array<Notifications>;
+};
+
+export type ProfilePreview = {
+  __typename?: 'ProfilePreview';
+  avatar?: Maybe<Scalars['String']['output']>;
+  first_name: Scalars['String']['output'];
+  last_name: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  activeStories: Array<Stories>;
-  block?: Maybe<Blocks>;
-  blocks: Array<Blocks>;
+  blockedUsers: BlockedUsersResult;
   categories: Array<Categories>;
-  category?: Maybe<Categories>;
   chat?: Maybe<Chats>;
-  chatParticipant?: Maybe<Chat_Participants>;
-  chatParticipants: Array<Chat_Participants>;
-  chats: Array<Chats>;
+  chatMessages: MessagesResult;
   cities: Array<Cities>;
-  city?: Maybe<Cities>;
   comment?: Maybe<Comments>;
-  comments: Array<Comments>;
-  content?: Maybe<Contents>;
-  contents: Array<Contents>;
+  commentReplies: CommentsResult;
   countries: Array<Countries>;
-  country?: Maybe<Countries>;
   deviceToken?: Maybe<Device_Tokens>;
-  deviceTokens: Array<Device_Tokens>;
   feed: Feed;
-  follow?: Maybe<Follows>;
-  followRequest?: Maybe<Follow_Requests>;
-  followRequests: Array<Follow_Requests>;
-  follows: Array<Follows>;
-  hashtag?: Maybe<Hashtags>;
+  followRequestStatus: FollowRequestStatus;
+  followers: FollowersResult;
+  following: FollowingResult;
   hashtags: Array<Hashtags>;
   location?: Maybe<Locations>;
-  locations: Array<Locations>;
   me: Users;
-  media?: Maybe<Media>;
-  mediaList: Array<Media>;
-  mention?: Maybe<Mentions>;
-  mentions: Array<Mentions>;
-  message?: Maybe<Messages>;
-  messages: Array<Messages>;
+  myChats: Array<Chats>;
+  myDeviceTokens: Array<Device_Tokens>;
+  myFollowRequests: FollowRequestsResult;
+  myReports: ReportsResult;
   notification?: Maybe<Notifications>;
-  notifications: Array<Notifications>;
+  notifications: NotificationsResult;
   post?: Maybe<Posts>;
   postComments: CommentsResult;
-  posts: Array<Posts>;
-  profile?: Maybe<Profiles>;
-  profiles: Array<Profiles>;
   report?: Maybe<Reports>;
-  reportTarget?: Maybe<Report_Targets>;
-  reportTargets: Array<Report_Targets>;
-  reports: Array<Reports>;
-  role?: Maybe<Roles>;
-  roles: Array<Roles>;
   scan?: Maybe<Scans>;
-  scans: Array<Scans>;
-  search: SearchResult;
-  stories: Array<Stories>;
-  story?: Maybe<Stories>;
-  storyViewers: Array<Users>;
-  tag?: Maybe<Tags>;
   tags: Array<Tags>;
-  user?: Maybe<Users>;
-  userFollowers: FollowersResult;
-  userFollowing: FollowingResult;
+  user: Users;
   userPosts: UserPostsResult;
-  userSavedPosts: SavedPostsResult;
-  users: Array<Users>;
+  userSavedPosts: UserPostsResult;
+  userScans: UserScansResult;
+  users: UsersResult;
 };
 
 
-export type QueryBlockArgs = {
-  id: Scalars['ID']['input'];
+export type QueryBlockedUsersArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type QueryCategoryArgs = {
-  id: Scalars['ID']['input'];
+export type QueryCategoriesArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -621,13 +463,16 @@ export type QueryChatArgs = {
 };
 
 
-export type QueryChatParticipantArgs = {
-  id: Scalars['ID']['input'];
+export type QueryChatMessagesArgs = {
+  chatId: Scalars['ID']['input'];
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type QueryCityArgs = {
-  id: Scalars['ID']['input'];
+export type QueryCitiesArgs = {
+  countryId?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -636,13 +481,15 @@ export type QueryCommentArgs = {
 };
 
 
-export type QueryContentArgs = {
-  id: Scalars['ID']['input'];
+export type QueryCommentRepliesArgs = {
+  commentId: Scalars['ID']['input'];
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type QueryCountryArgs = {
-  id: Scalars['ID']['input'];
+export type QueryCountriesArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -657,18 +504,27 @@ export type QueryFeedArgs = {
 };
 
 
-export type QueryFollowArgs = {
-  id: Scalars['ID']['input'];
+export type QueryFollowRequestStatusArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
-export type QueryFollowRequestArgs = {
-  id: Scalars['ID']['input'];
+export type QueryFollowersArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 
-export type QueryHashtagArgs = {
-  id: Scalars['ID']['input'];
+export type QueryFollowingArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
+
+export type QueryHashtagsArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -677,23 +533,26 @@ export type QueryLocationArgs = {
 };
 
 
-export type QueryMediaArgs = {
-  id: Scalars['ID']['input'];
+export type QueryMyFollowRequestsArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type QueryMentionArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryMessageArgs = {
-  id: Scalars['ID']['input'];
+export type QueryMyReportsArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryNotificationArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryNotificationsArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -703,28 +562,13 @@ export type QueryPostArgs = {
 
 
 export type QueryPostCommentsArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   postId: Scalars['ID']['input'];
 };
 
 
-export type QueryProfileArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type QueryReportArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryReportTargetArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryRoleArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -734,24 +578,8 @@ export type QueryScanArgs = {
 };
 
 
-export type QuerySearchArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  query: Scalars['String']['input'];
-};
-
-
-export type QueryStoryArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryStoryViewersArgs = {
-  storyId: Scalars['ID']['input'];
-};
-
-
-export type QueryTagArgs = {
-  id: Scalars['ID']['input'];
+export type QueryTagsArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -760,36 +588,31 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryUserFollowersArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  userId: Scalars['ID']['input'];
-};
-
-
-export type QueryUserFollowingArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  userId: Scalars['ID']['input'];
-};
-
-
 export type QueryUserPostsArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
   userId: Scalars['ID']['input'];
 };
 
 
 export type QueryUserSavedPostsArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
-export type ReportPayload = {
-  __typename?: 'ReportPayload';
-  reportId: Scalars['ID']['output'];
-  success: Scalars['Boolean']['output'];
+
+export type QueryUserScansArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
+
+export type QueryUsersArgs = {
+  cursor?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum ReportStatus {
@@ -799,34 +622,40 @@ export enum ReportStatus {
   Reviewed = 'reviewed'
 }
 
+export enum ReportType {
+  Comment = 'comment',
+  Post = 'post',
+  Profile = 'profile',
+  Story = 'story'
+}
+
+export type ReportsResult = {
+  __typename?: 'ReportsResult';
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  reports: Array<Reports>;
+};
+
 export enum Role {
   Admin = 'admin',
   Moderator = 'moderator',
   User = 'user'
 }
 
-export type SavedPostPayload = {
-  __typename?: 'SavedPostPayload';
-  postId: Scalars['ID']['output'];
-  saved: Scalars['Boolean']['output'];
+export type SearchUser = {
+  __typename?: 'SearchUser';
+  profile: ProfilePreview;
+  user_id: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
-export type SavedPostsResult = {
-  __typename?: 'SavedPostsResult';
-  savedPosts: Array<Posts>;
-  total: Scalars['Int']['output'];
+export type StoryGroup = {
+  __typename?: 'StoryGroup';
+  stories: Array<Stories>;
+  user: Users;
 };
 
-export type SearchResult = {
-  __typename?: 'SearchResult';
-  hashtags?: Maybe<Array<Hashtags>>;
-  posts?: Maybe<Array<Posts>>;
-  tags?: Maybe<Array<Tags>>;
-  users?: Maybe<Array<Users>>;
-};
-
-export type StoryViewPayload = {
-  __typename?: 'StoryViewPayload';
+export type StoryViewResult = {
+  __typename?: 'StoryViewResult';
   storyId: Scalars['ID']['output'];
   viewCount: Scalars['Int']['output'];
   viewed: Scalars['Boolean']['output'];
@@ -834,8 +663,20 @@ export type StoryViewPayload = {
 
 export type UserPostsResult = {
   __typename?: 'UserPostsResult';
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
   posts: Array<Posts>;
-  total: Scalars['Int']['output'];
+};
+
+export type UserScansResult = {
+  __typename?: 'UserScansResult';
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  scans: Array<Scans>;
+};
+
+export type UsersResult = {
+  __typename?: 'UsersResult';
+  nextCursor?: Maybe<Scalars['DateTime']['output']>;
+  users: Array<SearchUser>;
 };
 
 export enum Visibility {
@@ -844,23 +685,10 @@ export enum Visibility {
   Public = 'public'
 }
 
-export type Blocks = {
-  __typename?: 'blocks';
-  blocked: Users;
-  blocker: Users;
-  created_at: Scalars['DateTime']['output'];
-  id: Scalars['BigInt']['output'];
-};
-
-export type BlocksCreateInput = {
-  blocked_id: Scalars['String']['input'];
-};
-
 export type Categories = {
   __typename?: 'categories';
   category_id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  posts: Array<Maybe<Posts>>;
 };
 
 export type CategoriesCreateInput = {
@@ -909,9 +737,7 @@ export type ChatsUpdateInput = {
 export type Cities = {
   __typename?: 'cities';
   city_id: Scalars['Int']['output'];
-  country: Countries;
   country_id: Scalars['Int']['output'];
-  locations: Array<Maybe<Locations>>;
   name: Scalars['String']['output'];
 };
 
@@ -928,18 +754,18 @@ export type CitiesUpdateInput = {
 
 export type Comments = {
   __typename?: 'comments';
-  comment?: Maybe<Comments>;
   comment_id: Scalars['String']['output'];
+  comment_parent?: Maybe<Comments>;
   content: Scalars['String']['output'];
   created_at: Scalars['DateTime']['output'];
   isLiked: Scalars['Boolean']['output'];
+  isMine: Scalars['Boolean']['output'];
   is_deleted: Scalars['Boolean']['output'];
   likesCount: Scalars['Int']['output'];
   post: Posts;
   replies: Array<Maybe<Comments>>;
-  reportTargets: Array<Maybe<Report_Targets>>;
   updated_at: Scalars['DateTime']['output'];
-  user?: Maybe<Users>;
+  user: Users;
 };
 
 export type CommentsCreateInput = {
@@ -990,7 +816,6 @@ export type Countries = {
   __typename?: 'countries';
   cities: Array<Maybe<Cities>>;
   country_id: Scalars['Int']['output'];
-  locations: Array<Maybe<Locations>>;
   name: Scalars['String']['output'];
 };
 
@@ -1038,27 +863,6 @@ export type Follow_Requests = {
   target: Users;
 };
 
-export type Follow_RequestsCreateInput = {
-  target_id: Scalars['String']['input'];
-};
-
-export type Follow_RequestsUpdateInput = {
-  id: Scalars['BigInt']['input'];
-  status?: InputMaybe<FollowRequestStatus>;
-};
-
-export type Follows = {
-  __typename?: 'follows';
-  created_at: Scalars['DateTime']['output'];
-  follower: Users;
-  following: Users;
-  id: Scalars['BigInt']['output'];
-};
-
-export type FollowsCreateInput = {
-  following_id: Scalars['String']['input'];
-};
-
 export type Hashtags = {
   __typename?: 'hashtags';
   created_at: Scalars['DateTime']['output'];
@@ -1068,24 +872,16 @@ export type Hashtags = {
 
 export type Locations = {
   __typename?: 'locations';
-  birth_profiles: Array<Maybe<Profiles>>;
   city?: Maybe<Cities>;
-  city_id?: Maybe<Scalars['Int']['output']>;
   country: Countries;
-  country_id: Scalars['Int']['output'];
-  current_profiles: Array<Maybe<Profiles>>;
   lat?: Maybe<Scalars['Float']['output']>;
   lng?: Maybe<Scalars['Float']['output']>;
   location_id: Scalars['String']['output'];
   place_id?: Maybe<Scalars['String']['output']>;
-  posts: Array<Maybe<Posts>>;
-  scans: Array<Maybe<Scans>>;
 };
 
 export type LocationsCreateInput = {
-  city?: InputMaybe<CitiesCreateInput>;
   city_id?: InputMaybe<Scalars['Int']['input']>;
-  country?: InputMaybe<CountriesCreateInput>;
   country_id: Scalars['Int']['input'];
   lat?: InputMaybe<Scalars['Float']['input']>;
   lng?: InputMaybe<Scalars['Float']['input']>;
@@ -1093,28 +889,12 @@ export type LocationsCreateInput = {
 };
 
 export type LocationsUpdateInput = {
-  city?: InputMaybe<CitiesUpdateInput>;
   city_id?: InputMaybe<Scalars['Int']['input']>;
-  country?: InputMaybe<CountriesUpdateInput>;
   country_id?: InputMaybe<Scalars['Int']['input']>;
   lat?: InputMaybe<Scalars['Float']['input']>;
   lng?: InputMaybe<Scalars['Float']['input']>;
   location_id: Scalars['String']['input'];
   place_id?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Media = {
-  __typename?: 'media';
-  media_id: Scalars['String']['output'];
-  storage_path: Scalars['String']['output'];
-  type: MediaType;
-};
-
-export type Mentions = {
-  __typename?: 'mentions';
-  created_at: Scalars['DateTime']['output'];
-  mention_id: Scalars['String']['output'];
-  user: Users;
 };
 
 export type Messages = {
@@ -1161,17 +941,14 @@ export type Posts = {
   __typename?: 'posts';
   category?: Maybe<Categories>;
   category_id?: Maybe<Scalars['Int']['output']>;
-  comments: Array<Maybe<Comments>>;
   commentsCount: Scalars['Int']['output'];
   content: Contents;
   isLiked: Scalars['Boolean']['output'];
   isSaved: Scalars['Boolean']['output'];
   likesCount: Scalars['Int']['output'];
   location?: Maybe<Locations>;
-  reportTargets: Array<Maybe<Report_Targets>>;
   savesCount: Scalars['Int']['output'];
   tags?: Maybe<Array<Tags>>;
-  text_content?: Maybe<Scalars['String']['output']>;
 };
 
 export type PostsCreateInput = {
@@ -1192,25 +969,22 @@ export type Profiles = {
   avatar?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   birth_date?: Maybe<Scalars['DateTime']['output']>;
-  birth_location_details?: Maybe<Locations>;
+  birth_location?: Maybe<Locations>;
   created_at: Scalars['DateTime']['output'];
-  current_location_details?: Maybe<Locations>;
+  current_location?: Maybe<Locations>;
   first_name: Scalars['String']['output'];
-  isMyProfile: Scalars['Boolean']['output'];
   is_private?: Maybe<Scalars['Boolean']['output']>;
   last_name: Scalars['String']['output'];
   phone_number?: Maybe<Scalars['String']['output']>;
   profile_id: Scalars['String']['output'];
-  reportTargets: Array<Maybe<Report_Targets>>;
-  user: Users;
 };
 
 export type ProfilesCreateInput = {
   avatar?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   birth_date?: InputMaybe<Scalars['DateTime']['input']>;
-  birth_location_details?: InputMaybe<LocationsCreateInput>;
-  current_location_details?: InputMaybe<LocationsCreateInput>;
+  birth_location?: InputMaybe<LocationsCreateInput>;
+  current_location?: InputMaybe<LocationsCreateInput>;
   first_name: Scalars['String']['input'];
   is_private?: InputMaybe<Scalars['Boolean']['input']>;
   last_name: Scalars['String']['input'];
@@ -1221,8 +995,8 @@ export type ProfilesUpdateInput = {
   avatar?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   birth_date?: InputMaybe<Scalars['DateTime']['input']>;
-  birth_location_details?: InputMaybe<LocationsUpdateInput>;
-  current_location_details?: InputMaybe<LocationsUpdateInput>;
+  birth_location?: InputMaybe<LocationsUpdateInput>;
+  current_location?: InputMaybe<LocationsUpdateInput>;
   first_name?: InputMaybe<Scalars['String']['input']>;
   is_private?: InputMaybe<Scalars['Boolean']['input']>;
   last_name?: InputMaybe<Scalars['String']['input']>;
@@ -1240,35 +1014,29 @@ export type Report_Targets = {
   target_id: Scalars['String']['output'];
 };
 
-export type Report_TargetsCreateInput = {
-  comment_id?: InputMaybe<Scalars['String']['input']>;
-  post_id?: InputMaybe<Scalars['String']['input']>;
-  profile_id?: InputMaybe<Scalars['String']['input']>;
-  story_id?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type Reports = {
   __typename?: 'reports';
   created_at: Scalars['DateTime']['output'];
   reason?: Maybe<Scalars['String']['output']>;
   report_id: Scalars['String']['output'];
   report_target: Report_Targets;
+  report_target_id: Scalars['String']['output'];
+  reporter?: Maybe<Users>;
   resolved_at?: Maybe<Scalars['DateTime']['output']>;
   resolver?: Maybe<Users>;
   status: ReportStatus;
-  user?: Maybe<Users>;
 };
 
 export type ReportsCreateInput = {
   reason?: InputMaybe<Scalars['String']['input']>;
-  report_target?: InputMaybe<Report_TargetsCreateInput>;
+  report_target_id: Scalars['String']['input'];
+  type: ReportType;
 };
 
 export type Roles = {
   __typename?: 'roles';
   role_id: Scalars['Int']['output'];
   role_name: Role;
-  users: Array<Maybe<Users>>;
 };
 
 export type Scans = {
@@ -1295,7 +1063,6 @@ export type Stories = {
   content: Contents;
   expires_at?: Maybe<Scalars['DateTime']['output']>;
   hasViewed: Scalars['Boolean']['output'];
-  reportTargets: Array<Maybe<Report_Targets>>;
   viewCount: Scalars['Int']['output'];
 };
 
@@ -1320,51 +1087,20 @@ export type TagsUpdateInput = {
 
 export type Users = {
   __typename?: 'users';
-  blocked_bys: Array<Maybe<Blocks>>;
-  blocked_users: Array<Maybe<Blocks>>;
-  chat_participants: Array<Maybe<Chat_Participants>>;
-  comments: Array<Maybe<Comments>>;
-  contents: Array<Maybe<Contents>>;
   created_at: Scalars['DateTime']['output'];
-  device_tokens: Array<Maybe<Device_Tokens>>;
   email: Scalars['String']['output'];
-  follow_Requesters: Array<Maybe<Follow_Requests>>;
-  follow_requests_targets: Array<Maybe<Follow_Requests>>;
-  followers: Array<Maybe<Follows>>;
   followersCount: Scalars['Int']['output'];
-  following: Array<Maybe<Follows>>;
   followingCount: Scalars['Int']['output'];
   isBlocked: Scalars['Boolean']['output'];
   isFollowing: Scalars['Boolean']['output'];
   isMe: Scalars['Boolean']['output'];
   is_active: Scalars['Boolean']['output'];
   is_banned: Scalars['Boolean']['output'];
-  mentions: Array<Maybe<Mentions>>;
-  messages: Array<Maybe<Messages>>;
-  notification_actors: Array<Maybe<Notifications>>;
-  notifications: Array<Maybe<Notifications>>;
   profile?: Maybe<Profiles>;
-  report_resolvers: Array<Maybe<Reports>>;
-  reports: Array<Maybe<Reports>>;
   role?: Maybe<Roles>;
   updated_at: Scalars['DateTime']['output'];
   user_id: Scalars['String']['output'];
   username: Scalars['String']['output'];
-};
-
-export type UsersCreateInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  profile?: InputMaybe<ProfilesCreateInput>;
-  username: Scalars['String']['input'];
-};
-
-export type UsersUpdateInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  password?: InputMaybe<Scalars['String']['input']>;
-  profile?: InputMaybe<ProfilesUpdateInput>;
-  user_id: Scalars['String']['input'];
-  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1441,40 +1177,41 @@ export type DirectiveResolverFn<TResult = Record<PropertyKey, never>, TParent = 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   BigInt: ResolverTypeWrapper<Scalars['BigInt']['output']>;
-  BlockPayload: ResolverTypeWrapper<BlockPayload>;
+  BlockedUsersResult: ResolverTypeWrapper<BlockedUsersResult>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  CommentLikePayload: ResolverTypeWrapper<CommentLikePayload>;
   CommentsResult: ResolverTypeWrapper<CommentsResult>;
   ContentType: ContentType;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeviceType: DeviceType;
   Feed: ResolverTypeWrapper<Feed>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
-  FollowPayload: ResolverTypeWrapper<FollowPayload>;
-  FollowRequestPayload: ResolverTypeWrapper<FollowRequestPayload>;
   FollowRequestStatus: FollowRequestStatus;
+  FollowRequestsResult: ResolverTypeWrapper<FollowRequestsResult>;
+  FollowResult: ResolverTypeWrapper<FollowResult>;
   FollowersResult: ResolverTypeWrapper<FollowersResult>;
   FollowingResult: ResolverTypeWrapper<FollowingResult>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   MediaType: MediaType;
+  MessagesResult: ResolverTypeWrapper<MessagesResult>;
   Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
   NotificationType: NotificationType;
-  PostLikePayload: ResolverTypeWrapper<PostLikePayload>;
+  NotificationsResult: ResolverTypeWrapper<NotificationsResult>;
+  ProfilePreview: ResolverTypeWrapper<ProfilePreview>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
-  ReportPayload: ResolverTypeWrapper<ReportPayload>;
   ReportStatus: ReportStatus;
+  ReportType: ReportType;
+  ReportsResult: ResolverTypeWrapper<ReportsResult>;
   Role: Role;
-  SavedPostPayload: ResolverTypeWrapper<SavedPostPayload>;
-  SavedPostsResult: ResolverTypeWrapper<SavedPostsResult>;
-  SearchResult: ResolverTypeWrapper<SearchResult>;
-  StoryViewPayload: ResolverTypeWrapper<StoryViewPayload>;
+  SearchUser: ResolverTypeWrapper<SearchUser>;
+  StoryGroup: ResolverTypeWrapper<StoryGroup>;
+  StoryViewResult: ResolverTypeWrapper<StoryViewResult>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UserPostsResult: ResolverTypeWrapper<UserPostsResult>;
+  UserScansResult: ResolverTypeWrapper<UserScansResult>;
+  UsersResult: ResolverTypeWrapper<UsersResult>;
   Visibility: Visibility;
-  blocks: ResolverTypeWrapper<Blocks>;
-  blocksCreateInput: BlocksCreateInput;
   categories: ResolverTypeWrapper<Categories>;
   categoriesCreateInput: CategoriesCreateInput;
   categoriesUpdateInput: CategoriesUpdateInput;
@@ -1499,16 +1236,10 @@ export type ResolversTypes = {
   device_tokensCreateInput: Device_TokensCreateInput;
   device_tokensUpdateInput: Device_TokensUpdateInput;
   follow_requests: ResolverTypeWrapper<Follow_Requests>;
-  follow_requestsCreateInput: Follow_RequestsCreateInput;
-  follow_requestsUpdateInput: Follow_RequestsUpdateInput;
-  follows: ResolverTypeWrapper<Follows>;
-  followsCreateInput: FollowsCreateInput;
   hashtags: ResolverTypeWrapper<Hashtags>;
   locations: ResolverTypeWrapper<Locations>;
   locationsCreateInput: LocationsCreateInput;
   locationsUpdateInput: LocationsUpdateInput;
-  media: ResolverTypeWrapper<Media>;
-  mentions: ResolverTypeWrapper<Mentions>;
   messages: ResolverTypeWrapper<Messages>;
   messagesCreateInput: MessagesCreateInput;
   messagesUpdateInput: MessagesUpdateInput;
@@ -1521,7 +1252,6 @@ export type ResolversTypes = {
   profilesCreateInput: ProfilesCreateInput;
   profilesUpdateInput: ProfilesUpdateInput;
   report_targets: ResolverTypeWrapper<Report_Targets>;
-  report_targetsCreateInput: Report_TargetsCreateInput;
   reports: ResolverTypeWrapper<Reports>;
   reportsCreateInput: ReportsCreateInput;
   roles: ResolverTypeWrapper<Roles>;
@@ -1534,39 +1264,37 @@ export type ResolversTypes = {
   tagsCreateInput: TagsCreateInput;
   tagsUpdateInput: TagsUpdateInput;
   users: ResolverTypeWrapper<Users>;
-  usersCreateInput: UsersCreateInput;
-  usersUpdateInput: UsersUpdateInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   BigInt: Scalars['BigInt']['output'];
-  BlockPayload: BlockPayload;
+  BlockedUsersResult: BlockedUsersResult;
   Boolean: Scalars['Boolean']['output'];
-  CommentLikePayload: CommentLikePayload;
   CommentsResult: CommentsResult;
   DateTime: Scalars['DateTime']['output'];
   Feed: Feed;
   Float: Scalars['Float']['output'];
-  FollowPayload: FollowPayload;
-  FollowRequestPayload: FollowRequestPayload;
+  FollowRequestsResult: FollowRequestsResult;
+  FollowResult: FollowResult;
   FollowersResult: FollowersResult;
   FollowingResult: FollowingResult;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
+  MessagesResult: MessagesResult;
   Mutation: Record<PropertyKey, never>;
-  PostLikePayload: PostLikePayload;
+  NotificationsResult: NotificationsResult;
+  ProfilePreview: ProfilePreview;
   Query: Record<PropertyKey, never>;
-  ReportPayload: ReportPayload;
-  SavedPostPayload: SavedPostPayload;
-  SavedPostsResult: SavedPostsResult;
-  SearchResult: SearchResult;
-  StoryViewPayload: StoryViewPayload;
+  ReportsResult: ReportsResult;
+  SearchUser: SearchUser;
+  StoryGroup: StoryGroup;
+  StoryViewResult: StoryViewResult;
   String: Scalars['String']['output'];
   UserPostsResult: UserPostsResult;
-  blocks: Blocks;
-  blocksCreateInput: BlocksCreateInput;
+  UserScansResult: UserScansResult;
+  UsersResult: UsersResult;
   categories: Categories;
   categoriesCreateInput: CategoriesCreateInput;
   categoriesUpdateInput: CategoriesUpdateInput;
@@ -1591,16 +1319,10 @@ export type ResolversParentTypes = {
   device_tokensCreateInput: Device_TokensCreateInput;
   device_tokensUpdateInput: Device_TokensUpdateInput;
   follow_requests: Follow_Requests;
-  follow_requestsCreateInput: Follow_RequestsCreateInput;
-  follow_requestsUpdateInput: Follow_RequestsUpdateInput;
-  follows: Follows;
-  followsCreateInput: FollowsCreateInput;
   hashtags: Hashtags;
   locations: Locations;
   locationsCreateInput: LocationsCreateInput;
   locationsUpdateInput: LocationsUpdateInput;
-  media: Media;
-  mentions: Mentions;
   messages: Messages;
   messagesCreateInput: MessagesCreateInput;
   messagesUpdateInput: MessagesUpdateInput;
@@ -1613,7 +1335,6 @@ export type ResolversParentTypes = {
   profilesCreateInput: ProfilesCreateInput;
   profilesUpdateInput: ProfilesUpdateInput;
   report_targets: Report_Targets;
-  report_targetsCreateInput: Report_TargetsCreateInput;
   reports: Reports;
   reportsCreateInput: ReportsCreateInput;
   roles: Roles;
@@ -1626,29 +1347,20 @@ export type ResolversParentTypes = {
   tagsCreateInput: TagsCreateInput;
   tagsUpdateInput: TagsUpdateInput;
   users: Users;
-  usersCreateInput: UsersCreateInput;
-  usersUpdateInput: UsersUpdateInput;
 };
 
 export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
   name: 'BigInt';
 }
 
-export type BlockPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['BlockPayload'] = ResolversParentTypes['BlockPayload']> = {
-  blocked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-};
-
-export type CommentLikePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentLikePayload'] = ResolversParentTypes['CommentLikePayload']> = {
-  commentId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  liked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  likesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+export type BlockedUsersResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['BlockedUsersResult'] = ResolversParentTypes['BlockedUsersResult']> = {
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>;
 };
 
 export type CommentsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsResult'] = ResolversParentTypes['CommentsResult']> = {
   comments?: Resolver<Array<ResolversTypes['comments']>, ParentType, ContextType>;
-  hasMore?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  nextCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -1658,221 +1370,176 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 export type FeedResolvers<ContextType = any, ParentType extends ResolversParentTypes['Feed'] = ResolversParentTypes['Feed']> = {
   nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['posts']>, ParentType, ContextType>;
-  stories?: Resolver<Array<ResolversTypes['stories']>, ParentType, ContextType>;
+  stories?: Resolver<Array<ResolversTypes['StoryGroup']>, ParentType, ContextType>;
 };
 
-export type FollowPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowPayload'] = ResolversParentTypes['FollowPayload']> = {
+export type FollowRequestsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowRequestsResult'] = ResolversParentTypes['FollowRequestsResult']> = {
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  requests?: Resolver<Array<ResolversTypes['follow_requests']>, ParentType, ContextType>;
+};
+
+export type FollowResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowResult'] = ResolversParentTypes['FollowResult']> = {
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
-export type FollowRequestPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowRequestPayload'] = ResolversParentTypes['FollowRequestPayload']> = {
-  follow?: Resolver<ResolversTypes['follows'], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-};
-
 export type FollowersResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowersResult'] = ResolversParentTypes['FollowersResult']> = {
-  followers?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>;
-  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>;
 };
 
 export type FollowingResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowingResult'] = ResolversParentTypes['FollowingResult']> = {
-  following?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>;
-  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>;
 };
 
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
 
+export type MessagesResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['MessagesResult'] = ResolversParentTypes['MessagesResult']> = {
+  messages?: Resolver<Array<ResolversTypes['messages']>, ParentType, ContextType>;
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  acceptFollowRequest?: Resolver<ResolversTypes['FollowRequestPayload'], ParentType, ContextType, RequireFields<MutationAcceptFollowRequestArgs, 'userId'>>;
-  blockUser?: Resolver<ResolversTypes['BlockPayload'], ParentType, ContextType, RequireFields<MutationBlockUserArgs, 'userId'>>;
+  acceptFollowRequest?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAcceptFollowRequestArgs, 'requesterId'>>;
+  addChatParticipants?: Resolver<ResolversTypes['chat_participants'], ParentType, ContextType, RequireFields<MutationAddChatParticipantsArgs, 'chatId' | 'userIds'>>;
+  blockUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationBlockUserArgs, 'userId'>>;
   cancelFollowRequest?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCancelFollowRequestArgs, 'userId'>>;
-  createBlock?: Resolver<ResolversTypes['blocks'], ParentType, ContextType, RequireFields<MutationCreateBlockArgs, 'data'>>;
   createCategory?: Resolver<ResolversTypes['categories'], ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'data'>>;
-  createChat?: Resolver<ResolversTypes['chats'], ParentType, ContextType, RequireFields<MutationCreateChatArgs, 'data'>>;
-  createChatParticipant?: Resolver<ResolversTypes['chat_participants'], ParentType, ContextType, RequireFields<MutationCreateChatParticipantArgs, 'data'>>;
   createCity?: Resolver<ResolversTypes['cities'], ParentType, ContextType, RequireFields<MutationCreateCityArgs, 'data'>>;
   createComment?: Resolver<ResolversTypes['comments'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'data'>>;
   createContent?: Resolver<ResolversTypes['contents'], ParentType, ContextType, RequireFields<MutationCreateContentArgs, 'data'>>;
   createCountry?: Resolver<ResolversTypes['countries'], ParentType, ContextType, RequireFields<MutationCreateCountryArgs, 'data'>>;
-  createDeviceToken?: Resolver<ResolversTypes['device_tokens'], ParentType, ContextType, RequireFields<MutationCreateDeviceTokenArgs, 'data'>>;
-  createFollow?: Resolver<ResolversTypes['follows'], ParentType, ContextType, RequireFields<MutationCreateFollowArgs, 'data'>>;
-  createFollowRequest?: Resolver<ResolversTypes['follow_requests'], ParentType, ContextType, RequireFields<MutationCreateFollowRequestArgs, 'data'>>;
+  createDirectChat?: Resolver<ResolversTypes['chats'], ParentType, ContextType, RequireFields<MutationCreateDirectChatArgs, 'userId'>>;
+  createGroupChat?: Resolver<ResolversTypes['chats'], ParentType, ContextType, RequireFields<MutationCreateGroupChatArgs, 'participantIds'>>;
   createLocation?: Resolver<ResolversTypes['locations'], ParentType, ContextType, RequireFields<MutationCreateLocationArgs, 'data'>>;
-  createMessage?: Resolver<ResolversTypes['messages'], ParentType, ContextType, RequireFields<MutationCreateMessageArgs, 'data'>>;
-  createProfile?: Resolver<ResolversTypes['profiles'], ParentType, ContextType, RequireFields<MutationCreateProfileArgs, 'data'>>;
   createReport?: Resolver<ResolversTypes['reports'], ParentType, ContextType, RequireFields<MutationCreateReportArgs, 'data'>>;
   createTag?: Resolver<ResolversTypes['tags'], ParentType, ContextType, RequireFields<MutationCreateTagArgs, 'data'>>;
-  createUser?: Resolver<ResolversTypes['users'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'data'>>;
-  deleteBlock?: Resolver<ResolversTypes['blocks'], ParentType, ContextType, RequireFields<MutationDeleteBlockArgs, 'id'>>;
-  deleteCategory?: Resolver<ResolversTypes['categories'], ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'id'>>;
-  deleteChat?: Resolver<ResolversTypes['chats'], ParentType, ContextType, RequireFields<MutationDeleteChatArgs, 'id'>>;
-  deleteChatParticipant?: Resolver<ResolversTypes['chat_participants'], ParentType, ContextType, RequireFields<MutationDeleteChatParticipantArgs, 'id'>>;
-  deleteCity?: Resolver<ResolversTypes['cities'], ParentType, ContextType, RequireFields<MutationDeleteCityArgs, 'id'>>;
-  deleteComment?: Resolver<ResolversTypes['comments'], ParentType, ContextType, RequireFields<MutationDeleteCommentArgs, 'id'>>;
-  deleteContent?: Resolver<ResolversTypes['contents'], ParentType, ContextType, RequireFields<MutationDeleteContentArgs, 'id'>>;
-  deleteCountry?: Resolver<ResolversTypes['countries'], ParentType, ContextType, RequireFields<MutationDeleteCountryArgs, 'id'>>;
-  deleteDeviceToken?: Resolver<ResolversTypes['device_tokens'], ParentType, ContextType, RequireFields<MutationDeleteDeviceTokenArgs, 'id'>>;
-  deleteFollow?: Resolver<ResolversTypes['follows'], ParentType, ContextType, RequireFields<MutationDeleteFollowArgs, 'id'>>;
-  deleteFollowRequest?: Resolver<ResolversTypes['follow_requests'], ParentType, ContextType, RequireFields<MutationDeleteFollowRequestArgs, 'id'>>;
-  deleteLocation?: Resolver<ResolversTypes['locations'], ParentType, ContextType, RequireFields<MutationDeleteLocationArgs, 'id'>>;
-  deleteMessage?: Resolver<ResolversTypes['messages'], ParentType, ContextType, RequireFields<MutationDeleteMessageArgs, 'id'>>;
-  deletePost?: Resolver<ResolversTypes['posts'], ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'id'>>;
-  deleteProfile?: Resolver<ResolversTypes['profiles'], ParentType, ContextType, RequireFields<MutationDeleteProfileArgs, 'id'>>;
-  deleteReport?: Resolver<ResolversTypes['reports'], ParentType, ContextType, RequireFields<MutationDeleteReportArgs, 'id'>>;
-  deleteReportTarget?: Resolver<ResolversTypes['report_targets'], ParentType, ContextType, RequireFields<MutationDeleteReportTargetArgs, 'id'>>;
-  deleteScan?: Resolver<ResolversTypes['scans'], ParentType, ContextType, RequireFields<MutationDeleteScanArgs, 'id'>>;
-  deleteStory?: Resolver<ResolversTypes['stories'], ParentType, ContextType, RequireFields<MutationDeleteStoryArgs, 'id'>>;
-  deleteTag?: Resolver<ResolversTypes['tags'], ParentType, ContextType, RequireFields<MutationDeleteTagArgs, 'id'>>;
-  deleteUser?: Resolver<ResolversTypes['users'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
-  followUser?: Resolver<ResolversTypes['FollowPayload'], ParentType, ContextType, RequireFields<MutationFollowUserArgs, 'userId'>>;
-  likeComment?: Resolver<ResolversTypes['CommentLikePayload'], ParentType, ContextType, RequireFields<MutationLikeCommentArgs, 'commentId'>>;
-  likePost?: Resolver<ResolversTypes['PostLikePayload'], ParentType, ContextType, RequireFields<MutationLikePostArgs, 'postId'>>;
-  markAllNotificationsRead?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  deleteCategory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'id'>>;
+  deleteChat?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteChatArgs, 'chatId'>>;
+  deleteCity?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCityArgs, 'id'>>;
+  deleteComment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCommentArgs, 'commentId'>>;
+  deleteContent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteContentArgs, 'id'>>;
+  deleteCountry?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCountryArgs, 'id'>>;
+  deleteLocation?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteLocationArgs, 'id'>>;
+  deleteMessage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteMessageArgs, 'messageId'>>;
+  deleteReport?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteReportArgs, 'reportId'>>;
+  deleteTag?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteTagArgs, 'id'>>;
+  followUser?: Resolver<ResolversTypes['FollowResult'], ParentType, ContextType, RequireFields<MutationFollowUserArgs, 'userId'>>;
+  leaveChat?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationLeaveChatArgs, 'chatId'>>;
   markNotificationRead?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMarkNotificationReadArgs, 'notificationId'>>;
-  rejectFollowRequest?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRejectFollowRequestArgs, 'userId'>>;
-  reportComment?: Resolver<ResolversTypes['ReportPayload'], ParentType, ContextType, RequireFields<MutationReportCommentArgs, 'commentId'>>;
-  reportPost?: Resolver<ResolversTypes['ReportPayload'], ParentType, ContextType, RequireFields<MutationReportPostArgs, 'postId'>>;
-  reportUser?: Resolver<ResolversTypes['ReportPayload'], ParentType, ContextType, RequireFields<MutationReportUserArgs, 'userId'>>;
-  savePost?: Resolver<ResolversTypes['SavedPostPayload'], ParentType, ContextType, RequireFields<MutationSavePostArgs, 'postId'>>;
+  registerDeviceToken?: Resolver<ResolversTypes['device_tokens'], ParentType, ContextType, RequireFields<MutationRegisterDeviceTokenArgs, 'data'>>;
+  rejectFollowRequest?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRejectFollowRequestArgs, 'requesterId'>>;
+  removeChatParticipant?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveChatParticipantArgs, 'chatId' | 'userId'>>;
+  sendMessage?: Resolver<ResolversTypes['messages'], ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'chatId' | 'text'>>;
+  toggleLikeComment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationToggleLikeCommentArgs, 'commentId'>>;
+  toggleLikePost?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationToggleLikePostArgs, 'postId'>>;
+  toggleSavePost?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationToggleSavePostArgs, 'postId'>>;
   unblockUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUnblockUserArgs, 'userId'>>;
   unfollowUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUnfollowUserArgs, 'userId'>>;
-  unlikeComment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUnlikeCommentArgs, 'commentId'>>;
-  unlikePost?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUnlikePostArgs, 'postId'>>;
-  unsavePost?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUnsavePostArgs, 'postId'>>;
+  unregisterAllDeviceTokens?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  unregisterDeviceToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUnregisterDeviceTokenArgs, 'tokenId'>>;
   updateCategory?: Resolver<ResolversTypes['categories'], ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'data' | 'id'>>;
-  updateChat?: Resolver<ResolversTypes['chats'], ParentType, ContextType, RequireFields<MutationUpdateChatArgs, 'data' | 'id'>>;
+  updateChat?: Resolver<ResolversTypes['chats'], ParentType, ContextType, RequireFields<MutationUpdateChatArgs, 'data'>>;
   updateCity?: Resolver<ResolversTypes['cities'], ParentType, ContextType, RequireFields<MutationUpdateCityArgs, 'data' | 'id'>>;
-  updateComment?: Resolver<ResolversTypes['comments'], ParentType, ContextType, RequireFields<MutationUpdateCommentArgs, 'data' | 'id'>>;
-  updateContent?: Resolver<ResolversTypes['contents'], ParentType, ContextType, RequireFields<MutationUpdateContentArgs, 'data' | 'id'>>;
+  updateComment?: Resolver<ResolversTypes['comments'], ParentType, ContextType, RequireFields<MutationUpdateCommentArgs, 'data'>>;
+  updateContent?: Resolver<ResolversTypes['contents'], ParentType, ContextType, RequireFields<MutationUpdateContentArgs, 'data'>>;
   updateCountry?: Resolver<ResolversTypes['countries'], ParentType, ContextType, RequireFields<MutationUpdateCountryArgs, 'data' | 'id'>>;
-  updateDeviceToken?: Resolver<ResolversTypes['device_tokens'], ParentType, ContextType, RequireFields<MutationUpdateDeviceTokenArgs, 'data' | 'id'>>;
-  updateFollowRequest?: Resolver<ResolversTypes['follow_requests'], ParentType, ContextType, RequireFields<MutationUpdateFollowRequestArgs, 'data' | 'id'>>;
+  updateDeviceToken?: Resolver<ResolversTypes['device_tokens'], ParentType, ContextType, RequireFields<MutationUpdateDeviceTokenArgs, 'data'>>;
   updateLocation?: Resolver<ResolversTypes['locations'], ParentType, ContextType, RequireFields<MutationUpdateLocationArgs, 'data' | 'id'>>;
-  updateMessage?: Resolver<ResolversTypes['messages'], ParentType, ContextType, RequireFields<MutationUpdateMessageArgs, 'data' | 'id'>>;
-  updateProfile?: Resolver<ResolversTypes['profiles'], ParentType, ContextType, RequireFields<MutationUpdateProfileArgs, 'data' | 'id'>>;
+  updateMessage?: Resolver<ResolversTypes['messages'], ParentType, ContextType, RequireFields<MutationUpdateMessageArgs, 'data'>>;
   updateTag?: Resolver<ResolversTypes['tags'], ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'data' | 'id'>>;
-  updateUser?: Resolver<ResolversTypes['users'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'data' | 'id'>>;
-  viewStory?: Resolver<ResolversTypes['StoryViewPayload'], ParentType, ContextType, RequireFields<MutationViewStoryArgs, 'storyId'>>;
+  viewStory?: Resolver<ResolversTypes['StoryViewResult'], ParentType, ContextType, RequireFields<MutationViewStoryArgs, 'storyId'>>;
 };
 
-export type PostLikePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['PostLikePayload'] = ResolversParentTypes['PostLikePayload']> = {
-  liked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  likesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  postId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+export type NotificationsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['NotificationsResult'] = ResolversParentTypes['NotificationsResult']> = {
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  notifications?: Resolver<Array<ResolversTypes['notifications']>, ParentType, ContextType>;
+};
+
+export type ProfilePreviewResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProfilePreview'] = ResolversParentTypes['ProfilePreview']> = {
+  avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  activeStories?: Resolver<Array<ResolversTypes['stories']>, ParentType, ContextType>;
-  block?: Resolver<Maybe<ResolversTypes['blocks']>, ParentType, ContextType, RequireFields<QueryBlockArgs, 'id'>>;
-  blocks?: Resolver<Array<ResolversTypes['blocks']>, ParentType, ContextType>;
-  categories?: Resolver<Array<ResolversTypes['categories']>, ParentType, ContextType>;
-  category?: Resolver<Maybe<ResolversTypes['categories']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'id'>>;
+  blockedUsers?: Resolver<ResolversTypes['BlockedUsersResult'], ParentType, ContextType, RequireFields<QueryBlockedUsersArgs, 'limit'>>;
+  categories?: Resolver<Array<ResolversTypes['categories']>, ParentType, ContextType, Partial<QueryCategoriesArgs>>;
   chat?: Resolver<Maybe<ResolversTypes['chats']>, ParentType, ContextType, RequireFields<QueryChatArgs, 'id'>>;
-  chatParticipant?: Resolver<Maybe<ResolversTypes['chat_participants']>, ParentType, ContextType, RequireFields<QueryChatParticipantArgs, 'id'>>;
-  chatParticipants?: Resolver<Array<ResolversTypes['chat_participants']>, ParentType, ContextType>;
-  chats?: Resolver<Array<ResolversTypes['chats']>, ParentType, ContextType>;
-  cities?: Resolver<Array<ResolversTypes['cities']>, ParentType, ContextType>;
-  city?: Resolver<Maybe<ResolversTypes['cities']>, ParentType, ContextType, RequireFields<QueryCityArgs, 'id'>>;
+  chatMessages?: Resolver<ResolversTypes['MessagesResult'], ParentType, ContextType, RequireFields<QueryChatMessagesArgs, 'chatId'>>;
+  cities?: Resolver<Array<ResolversTypes['cities']>, ParentType, ContextType, Partial<QueryCitiesArgs>>;
   comment?: Resolver<Maybe<ResolversTypes['comments']>, ParentType, ContextType, RequireFields<QueryCommentArgs, 'id'>>;
-  comments?: Resolver<Array<ResolversTypes['comments']>, ParentType, ContextType>;
-  content?: Resolver<Maybe<ResolversTypes['contents']>, ParentType, ContextType, RequireFields<QueryContentArgs, 'id'>>;
-  contents?: Resolver<Array<ResolversTypes['contents']>, ParentType, ContextType>;
-  countries?: Resolver<Array<ResolversTypes['countries']>, ParentType, ContextType>;
-  country?: Resolver<Maybe<ResolversTypes['countries']>, ParentType, ContextType, RequireFields<QueryCountryArgs, 'id'>>;
+  commentReplies?: Resolver<ResolversTypes['CommentsResult'], ParentType, ContextType, RequireFields<QueryCommentRepliesArgs, 'commentId' | 'limit'>>;
+  countries?: Resolver<Array<ResolversTypes['countries']>, ParentType, ContextType, Partial<QueryCountriesArgs>>;
   deviceToken?: Resolver<Maybe<ResolversTypes['device_tokens']>, ParentType, ContextType, RequireFields<QueryDeviceTokenArgs, 'id'>>;
-  deviceTokens?: Resolver<Array<ResolversTypes['device_tokens']>, ParentType, ContextType>;
   feed?: Resolver<ResolversTypes['Feed'], ParentType, ContextType, RequireFields<QueryFeedArgs, 'limit'>>;
-  follow?: Resolver<Maybe<ResolversTypes['follows']>, ParentType, ContextType, RequireFields<QueryFollowArgs, 'id'>>;
-  followRequest?: Resolver<Maybe<ResolversTypes['follow_requests']>, ParentType, ContextType, RequireFields<QueryFollowRequestArgs, 'id'>>;
-  followRequests?: Resolver<Array<ResolversTypes['follow_requests']>, ParentType, ContextType>;
-  follows?: Resolver<Array<ResolversTypes['follows']>, ParentType, ContextType>;
-  hashtag?: Resolver<Maybe<ResolversTypes['hashtags']>, ParentType, ContextType, RequireFields<QueryHashtagArgs, 'id'>>;
-  hashtags?: Resolver<Array<ResolversTypes['hashtags']>, ParentType, ContextType>;
+  followRequestStatus?: Resolver<ResolversTypes['FollowRequestStatus'], ParentType, ContextType, RequireFields<QueryFollowRequestStatusArgs, 'userId'>>;
+  followers?: Resolver<ResolversTypes['FollowersResult'], ParentType, ContextType, RequireFields<QueryFollowersArgs, 'limit' | 'userId'>>;
+  following?: Resolver<ResolversTypes['FollowingResult'], ParentType, ContextType, RequireFields<QueryFollowingArgs, 'limit' | 'userId'>>;
+  hashtags?: Resolver<Array<ResolversTypes['hashtags']>, ParentType, ContextType, Partial<QueryHashtagsArgs>>;
   location?: Resolver<Maybe<ResolversTypes['locations']>, ParentType, ContextType, RequireFields<QueryLocationArgs, 'id'>>;
-  locations?: Resolver<Array<ResolversTypes['locations']>, ParentType, ContextType>;
   me?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
-  media?: Resolver<Maybe<ResolversTypes['media']>, ParentType, ContextType, RequireFields<QueryMediaArgs, 'id'>>;
-  mediaList?: Resolver<Array<ResolversTypes['media']>, ParentType, ContextType>;
-  mention?: Resolver<Maybe<ResolversTypes['mentions']>, ParentType, ContextType, RequireFields<QueryMentionArgs, 'id'>>;
-  mentions?: Resolver<Array<ResolversTypes['mentions']>, ParentType, ContextType>;
-  message?: Resolver<Maybe<ResolversTypes['messages']>, ParentType, ContextType, RequireFields<QueryMessageArgs, 'id'>>;
-  messages?: Resolver<Array<ResolversTypes['messages']>, ParentType, ContextType>;
+  myChats?: Resolver<Array<ResolversTypes['chats']>, ParentType, ContextType>;
+  myDeviceTokens?: Resolver<Array<ResolversTypes['device_tokens']>, ParentType, ContextType>;
+  myFollowRequests?: Resolver<ResolversTypes['FollowRequestsResult'], ParentType, ContextType, RequireFields<QueryMyFollowRequestsArgs, 'limit'>>;
+  myReports?: Resolver<ResolversTypes['ReportsResult'], ParentType, ContextType, RequireFields<QueryMyReportsArgs, 'limit'>>;
   notification?: Resolver<Maybe<ResolversTypes['notifications']>, ParentType, ContextType, RequireFields<QueryNotificationArgs, 'id'>>;
-  notifications?: Resolver<Array<ResolversTypes['notifications']>, ParentType, ContextType>;
+  notifications?: Resolver<ResolversTypes['NotificationsResult'], ParentType, ContextType, RequireFields<QueryNotificationsArgs, 'limit'>>;
   post?: Resolver<Maybe<ResolversTypes['posts']>, ParentType, ContextType, RequireFields<QueryPostArgs, 'id'>>;
-  postComments?: Resolver<ResolversTypes['CommentsResult'], ParentType, ContextType, RequireFields<QueryPostCommentsArgs, 'postId'>>;
-  posts?: Resolver<Array<ResolversTypes['posts']>, ParentType, ContextType>;
-  profile?: Resolver<Maybe<ResolversTypes['profiles']>, ParentType, ContextType, RequireFields<QueryProfileArgs, 'id'>>;
-  profiles?: Resolver<Array<ResolversTypes['profiles']>, ParentType, ContextType>;
+  postComments?: Resolver<ResolversTypes['CommentsResult'], ParentType, ContextType, RequireFields<QueryPostCommentsArgs, 'limit' | 'postId'>>;
   report?: Resolver<Maybe<ResolversTypes['reports']>, ParentType, ContextType, RequireFields<QueryReportArgs, 'id'>>;
-  reportTarget?: Resolver<Maybe<ResolversTypes['report_targets']>, ParentType, ContextType, RequireFields<QueryReportTargetArgs, 'id'>>;
-  reportTargets?: Resolver<Array<ResolversTypes['report_targets']>, ParentType, ContextType>;
-  reports?: Resolver<Array<ResolversTypes['reports']>, ParentType, ContextType>;
-  role?: Resolver<Maybe<ResolversTypes['roles']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;
-  roles?: Resolver<Array<ResolversTypes['roles']>, ParentType, ContextType>;
   scan?: Resolver<Maybe<ResolversTypes['scans']>, ParentType, ContextType, RequireFields<QueryScanArgs, 'id'>>;
-  scans?: Resolver<Array<ResolversTypes['scans']>, ParentType, ContextType>;
-  search?: Resolver<ResolversTypes['SearchResult'], ParentType, ContextType, RequireFields<QuerySearchArgs, 'query'>>;
+  tags?: Resolver<Array<ResolversTypes['tags']>, ParentType, ContextType, Partial<QueryTagsArgs>>;
+  user?: Resolver<ResolversTypes['users'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  userPosts?: Resolver<ResolversTypes['UserPostsResult'], ParentType, ContextType, RequireFields<QueryUserPostsArgs, 'limit' | 'userId'>>;
+  userSavedPosts?: Resolver<ResolversTypes['UserPostsResult'], ParentType, ContextType, RequireFields<QueryUserSavedPostsArgs, 'limit' | 'userId'>>;
+  userScans?: Resolver<ResolversTypes['UserScansResult'], ParentType, ContextType, RequireFields<QueryUserScansArgs, 'limit' | 'userId'>>;
+  users?: Resolver<ResolversTypes['UsersResult'], ParentType, ContextType, RequireFields<QueryUsersArgs, 'limit'>>;
+};
+
+export type ReportsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReportsResult'] = ResolversParentTypes['ReportsResult']> = {
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  reports?: Resolver<Array<ResolversTypes['reports']>, ParentType, ContextType>;
+};
+
+export type SearchUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['SearchUser'] = ResolversParentTypes['SearchUser']> = {
+  profile?: Resolver<ResolversTypes['ProfilePreview'], ParentType, ContextType>;
+  user_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type StoryGroupResolvers<ContextType = any, ParentType extends ResolversParentTypes['StoryGroup'] = ResolversParentTypes['StoryGroup']> = {
   stories?: Resolver<Array<ResolversTypes['stories']>, ParentType, ContextType>;
-  story?: Resolver<Maybe<ResolversTypes['stories']>, ParentType, ContextType, RequireFields<QueryStoryArgs, 'id'>>;
-  storyViewers?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType, RequireFields<QueryStoryViewersArgs, 'storyId'>>;
-  tag?: Resolver<Maybe<ResolversTypes['tags']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
-  tags?: Resolver<Array<ResolversTypes['tags']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['users']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  userFollowers?: Resolver<ResolversTypes['FollowersResult'], ParentType, ContextType, RequireFields<QueryUserFollowersArgs, 'userId'>>;
-  userFollowing?: Resolver<ResolversTypes['FollowingResult'], ParentType, ContextType, RequireFields<QueryUserFollowingArgs, 'userId'>>;
-  userPosts?: Resolver<ResolversTypes['UserPostsResult'], ParentType, ContextType, RequireFields<QueryUserPostsArgs, 'userId'>>;
-  userSavedPosts?: Resolver<ResolversTypes['SavedPostsResult'], ParentType, ContextType, Partial<QueryUserSavedPostsArgs>>;
-  users?: Resolver<Array<ResolversTypes['users']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
 };
 
-export type ReportPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReportPayload'] = ResolversParentTypes['ReportPayload']> = {
-  reportId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-};
-
-export type SavedPostPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SavedPostPayload'] = ResolversParentTypes['SavedPostPayload']> = {
-  postId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  saved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-};
-
-export type SavedPostsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SavedPostsResult'] = ResolversParentTypes['SavedPostsResult']> = {
-  savedPosts?: Resolver<Array<ResolversTypes['posts']>, ParentType, ContextType>;
-  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-};
-
-export type SearchResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SearchResult'] = ResolversParentTypes['SearchResult']> = {
-  hashtags?: Resolver<Maybe<Array<ResolversTypes['hashtags']>>, ParentType, ContextType>;
-  posts?: Resolver<Maybe<Array<ResolversTypes['posts']>>, ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<ResolversTypes['tags']>>, ParentType, ContextType>;
-  users?: Resolver<Maybe<Array<ResolversTypes['users']>>, ParentType, ContextType>;
-};
-
-export type StoryViewPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['StoryViewPayload'] = ResolversParentTypes['StoryViewPayload']> = {
+export type StoryViewResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['StoryViewResult'] = ResolversParentTypes['StoryViewResult']> = {
   storyId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   viewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   viewed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
 export type UserPostsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPostsResult'] = ResolversParentTypes['UserPostsResult']> = {
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['posts']>, ParentType, ContextType>;
-  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
 
-export type BlocksResolvers<ContextType = any, ParentType extends ResolversParentTypes['blocks'] = ResolversParentTypes['blocks']> = {
-  blocked?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
-  blocker?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
-  created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+export type UserScansResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserScansResult'] = ResolversParentTypes['UserScansResult']> = {
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  scans?: Resolver<Array<ResolversTypes['scans']>, ParentType, ContextType>;
+};
+
+export type UsersResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['UsersResult'] = ResolversParentTypes['UsersResult']> = {
+  nextCursor?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['SearchUser']>, ParentType, ContextType>;
 };
 
 export type CategoriesResolvers<ContextType = any, ParentType extends ResolversParentTypes['categories'] = ResolversParentTypes['categories']> = {
   category_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  posts?: Resolver<Array<Maybe<ResolversTypes['posts']>>, ParentType, ContextType>;
 };
 
 export type Chat_ParticipantsResolvers<ContextType = any, ParentType extends ResolversParentTypes['chat_participants'] = ResolversParentTypes['chat_participants']> = {
@@ -1893,25 +1560,23 @@ export type ChatsResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type CitiesResolvers<ContextType = any, ParentType extends ResolversParentTypes['cities'] = ResolversParentTypes['cities']> = {
   city_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  country?: Resolver<ResolversTypes['countries'], ParentType, ContextType>;
   country_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  locations?: Resolver<Array<Maybe<ResolversTypes['locations']>>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type CommentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['comments'] = ResolversParentTypes['comments']> = {
-  comment?: Resolver<Maybe<ResolversTypes['comments']>, ParentType, ContextType>;
   comment_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  comment_parent?: Resolver<Maybe<ResolversTypes['comments']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   isLiked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isMine?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   is_deleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   likesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   post?: Resolver<ResolversTypes['posts'], ParentType, ContextType>;
   replies?: Resolver<Array<Maybe<ResolversTypes['comments']>>, ParentType, ContextType>;
-  reportTargets?: Resolver<Array<Maybe<ResolversTypes['report_targets']>>, ParentType, ContextType>;
   updated_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['users']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
 };
 
 export type ContentsResolvers<ContextType = any, ParentType extends ResolversParentTypes['contents'] = ResolversParentTypes['contents']> = {
@@ -1931,7 +1596,6 @@ export type ContentsResolvers<ContextType = any, ParentType extends ResolversPar
 export type CountriesResolvers<ContextType = any, ParentType extends ResolversParentTypes['countries'] = ResolversParentTypes['countries']> = {
   cities?: Resolver<Array<Maybe<ResolversTypes['cities']>>, ParentType, ContextType>;
   country_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  locations?: Resolver<Array<Maybe<ResolversTypes['locations']>>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
@@ -1953,13 +1617,6 @@ export type Follow_RequestsResolvers<ContextType = any, ParentType extends Resol
   target?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
 };
 
-export type FollowsResolvers<ContextType = any, ParentType extends ResolversParentTypes['follows'] = ResolversParentTypes['follows']> = {
-  created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  follower?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
-  following?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
-};
-
 export type HashtagsResolvers<ContextType = any, ParentType extends ResolversParentTypes['hashtags'] = ResolversParentTypes['hashtags']> = {
   created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   hashtag_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1967,30 +1624,12 @@ export type HashtagsResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type LocationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['locations'] = ResolversParentTypes['locations']> = {
-  birth_profiles?: Resolver<Array<Maybe<ResolversTypes['profiles']>>, ParentType, ContextType>;
   city?: Resolver<Maybe<ResolversTypes['cities']>, ParentType, ContextType>;
-  city_id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   country?: Resolver<ResolversTypes['countries'], ParentType, ContextType>;
-  country_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  current_profiles?: Resolver<Array<Maybe<ResolversTypes['profiles']>>, ParentType, ContextType>;
   lat?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   lng?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   location_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   place_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  posts?: Resolver<Array<Maybe<ResolversTypes['posts']>>, ParentType, ContextType>;
-  scans?: Resolver<Array<Maybe<ResolversTypes['scans']>>, ParentType, ContextType>;
-};
-
-export type MediaResolvers<ContextType = any, ParentType extends ResolversParentTypes['media'] = ResolversParentTypes['media']> = {
-  media_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  storage_path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['MediaType'], ParentType, ContextType>;
-};
-
-export type MentionsResolvers<ContextType = any, ParentType extends ResolversParentTypes['mentions'] = ResolversParentTypes['mentions']> = {
-  created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  mention_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
 };
 
 export type MessagesResolvers<ContextType = any, ParentType extends ResolversParentTypes['messages'] = ResolversParentTypes['messages']> = {
@@ -2023,34 +1662,28 @@ export type NotificationsResolvers<ContextType = any, ParentType extends Resolve
 export type PostsResolvers<ContextType = any, ParentType extends ResolversParentTypes['posts'] = ResolversParentTypes['posts']> = {
   category?: Resolver<Maybe<ResolversTypes['categories']>, ParentType, ContextType>;
   category_id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  comments?: Resolver<Array<Maybe<ResolversTypes['comments']>>, ParentType, ContextType>;
   commentsCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['contents'], ParentType, ContextType>;
   isLiked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isSaved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   likesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   location?: Resolver<Maybe<ResolversTypes['locations']>, ParentType, ContextType>;
-  reportTargets?: Resolver<Array<Maybe<ResolversTypes['report_targets']>>, ParentType, ContextType>;
   savesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<ResolversTypes['tags']>>, ParentType, ContextType>;
-  text_content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type ProfilesResolvers<ContextType = any, ParentType extends ResolversParentTypes['profiles'] = ResolversParentTypes['profiles']> = {
   avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   birth_date?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  birth_location_details?: Resolver<Maybe<ResolversTypes['locations']>, ParentType, ContextType>;
+  birth_location?: Resolver<Maybe<ResolversTypes['locations']>, ParentType, ContextType>;
   created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  current_location_details?: Resolver<Maybe<ResolversTypes['locations']>, ParentType, ContextType>;
+  current_location?: Resolver<Maybe<ResolversTypes['locations']>, ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  isMyProfile?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   is_private?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone_number?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   profile_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  reportTargets?: Resolver<Array<Maybe<ResolversTypes['report_targets']>>, ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['users'], ParentType, ContextType>;
 };
 
 export type Report_TargetsResolvers<ContextType = any, ParentType extends ResolversParentTypes['report_targets'] = ResolversParentTypes['report_targets']> = {
@@ -2067,16 +1700,16 @@ export type ReportsResolvers<ContextType = any, ParentType extends ResolversPare
   reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   report_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   report_target?: Resolver<ResolversTypes['report_targets'], ParentType, ContextType>;
+  report_target_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  reporter?: Resolver<Maybe<ResolversTypes['users']>, ParentType, ContextType>;
   resolved_at?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   resolver?: Resolver<Maybe<ResolversTypes['users']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['ReportStatus'], ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['users']>, ParentType, ContextType>;
 };
 
 export type RolesResolvers<ContextType = any, ParentType extends ResolversParentTypes['roles'] = ResolversParentTypes['roles']> = {
   role_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   role_name?: Resolver<ResolversTypes['Role'], ParentType, ContextType>;
-  users?: Resolver<Array<Maybe<ResolversTypes['users']>>, ParentType, ContextType>;
 };
 
 export type ScansResolvers<ContextType = any, ParentType extends ResolversParentTypes['scans'] = ResolversParentTypes['scans']> = {
@@ -2090,7 +1723,6 @@ export type StoriesResolvers<ContextType = any, ParentType extends ResolversPare
   content?: Resolver<ResolversTypes['contents'], ParentType, ContextType>;
   expires_at?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   hasViewed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  reportTargets?: Resolver<Array<Maybe<ResolversTypes['report_targets']>>, ParentType, ContextType>;
   viewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
 
@@ -2100,32 +1732,16 @@ export type TagsResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type UsersResolvers<ContextType = any, ParentType extends ResolversParentTypes['users'] = ResolversParentTypes['users']> = {
-  blocked_bys?: Resolver<Array<Maybe<ResolversTypes['blocks']>>, ParentType, ContextType>;
-  blocked_users?: Resolver<Array<Maybe<ResolversTypes['blocks']>>, ParentType, ContextType>;
-  chat_participants?: Resolver<Array<Maybe<ResolversTypes['chat_participants']>>, ParentType, ContextType>;
-  comments?: Resolver<Array<Maybe<ResolversTypes['comments']>>, ParentType, ContextType>;
-  contents?: Resolver<Array<Maybe<ResolversTypes['contents']>>, ParentType, ContextType>;
   created_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  device_tokens?: Resolver<Array<Maybe<ResolversTypes['device_tokens']>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  follow_Requesters?: Resolver<Array<Maybe<ResolversTypes['follow_requests']>>, ParentType, ContextType>;
-  follow_requests_targets?: Resolver<Array<Maybe<ResolversTypes['follow_requests']>>, ParentType, ContextType>;
-  followers?: Resolver<Array<Maybe<ResolversTypes['follows']>>, ParentType, ContextType>;
   followersCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  following?: Resolver<Array<Maybe<ResolversTypes['follows']>>, ParentType, ContextType>;
   followingCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   isBlocked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isFollowing?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isMe?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   is_active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   is_banned?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  mentions?: Resolver<Array<Maybe<ResolversTypes['mentions']>>, ParentType, ContextType>;
-  messages?: Resolver<Array<Maybe<ResolversTypes['messages']>>, ParentType, ContextType>;
-  notification_actors?: Resolver<Array<Maybe<ResolversTypes['notifications']>>, ParentType, ContextType>;
-  notifications?: Resolver<Array<Maybe<ResolversTypes['notifications']>>, ParentType, ContextType>;
   profile?: Resolver<Maybe<ResolversTypes['profiles']>, ParentType, ContextType>;
-  report_resolvers?: Resolver<Array<Maybe<ResolversTypes['reports']>>, ParentType, ContextType>;
-  reports?: Resolver<Array<Maybe<ResolversTypes['reports']>>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['roles']>, ParentType, ContextType>;
   updated_at?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   user_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2134,26 +1750,27 @@ export type UsersResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type Resolvers<ContextType = any> = {
   BigInt?: GraphQLScalarType;
-  BlockPayload?: BlockPayloadResolvers<ContextType>;
-  CommentLikePayload?: CommentLikePayloadResolvers<ContextType>;
+  BlockedUsersResult?: BlockedUsersResultResolvers<ContextType>;
   CommentsResult?: CommentsResultResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Feed?: FeedResolvers<ContextType>;
-  FollowPayload?: FollowPayloadResolvers<ContextType>;
-  FollowRequestPayload?: FollowRequestPayloadResolvers<ContextType>;
+  FollowRequestsResult?: FollowRequestsResultResolvers<ContextType>;
+  FollowResult?: FollowResultResolvers<ContextType>;
   FollowersResult?: FollowersResultResolvers<ContextType>;
   FollowingResult?: FollowingResultResolvers<ContextType>;
   JSON?: GraphQLScalarType;
+  MessagesResult?: MessagesResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  PostLikePayload?: PostLikePayloadResolvers<ContextType>;
+  NotificationsResult?: NotificationsResultResolvers<ContextType>;
+  ProfilePreview?: ProfilePreviewResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  ReportPayload?: ReportPayloadResolvers<ContextType>;
-  SavedPostPayload?: SavedPostPayloadResolvers<ContextType>;
-  SavedPostsResult?: SavedPostsResultResolvers<ContextType>;
-  SearchResult?: SearchResultResolvers<ContextType>;
-  StoryViewPayload?: StoryViewPayloadResolvers<ContextType>;
+  ReportsResult?: ReportsResultResolvers<ContextType>;
+  SearchUser?: SearchUserResolvers<ContextType>;
+  StoryGroup?: StoryGroupResolvers<ContextType>;
+  StoryViewResult?: StoryViewResultResolvers<ContextType>;
   UserPostsResult?: UserPostsResultResolvers<ContextType>;
-  blocks?: BlocksResolvers<ContextType>;
+  UserScansResult?: UserScansResultResolvers<ContextType>;
+  UsersResult?: UsersResultResolvers<ContextType>;
   categories?: CategoriesResolvers<ContextType>;
   chat_participants?: Chat_ParticipantsResolvers<ContextType>;
   chats?: ChatsResolvers<ContextType>;
@@ -2163,11 +1780,8 @@ export type Resolvers<ContextType = any> = {
   countries?: CountriesResolvers<ContextType>;
   device_tokens?: Device_TokensResolvers<ContextType>;
   follow_requests?: Follow_RequestsResolvers<ContextType>;
-  follows?: FollowsResolvers<ContextType>;
   hashtags?: HashtagsResolvers<ContextType>;
   locations?: LocationsResolvers<ContextType>;
-  media?: MediaResolvers<ContextType>;
-  mentions?: MentionsResolvers<ContextType>;
   messages?: MessagesResolvers<ContextType>;
   notification_targets?: Notification_TargetsResolvers<ContextType>;
   notifications?: NotificationsResolvers<ContextType>;

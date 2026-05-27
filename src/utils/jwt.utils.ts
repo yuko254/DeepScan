@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid'; 
-import type { UserAccountDto } from '../dtos/users.dto.js';
-import { type accessPayload, type refreshPayload, AccessPayloadSchema, RefreshPayloadSchema } from '../dtos/jwt.dto.js';
+import { UserAccountDto } from '../dtos/user.dto.js';
+import { accessPayload, refreshPayload, AccessPayloadSchema, RefreshPayloadSchema } from '../validations/jwt.schema.js';
 import * as env from '../config/env.js';
 
 export function signAccessToken(payload: accessPayload) {
@@ -26,10 +26,9 @@ export function generateTokens(user: UserAccountDto, stayLoggedIn: boolean) {
   const jti = uuidv4(); // unique token ID
 
   const accessPayload: accessPayload = {
-    sub: user.user_id,
     user_id: user.user_id,
     username: user.username,
-    role: user.role,
+    role: user.role?.role_name,
   };
 
   const refreshPayload: refreshPayload = {

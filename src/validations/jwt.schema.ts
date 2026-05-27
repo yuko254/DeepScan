@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { IdSchema } from "./fields/common.fields.js"
-import * as user from "../zod/fields/user.fields.js"
+import * as user from "./fields/user.fields.js"
 
 // ─── JWT payloads ───
 export const AccessPayloadSchema = z.strictObject({

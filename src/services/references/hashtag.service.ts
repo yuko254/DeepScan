@@ -1,7 +1,7 @@
 import { Prisma } from '../../config/prisma.js';
 import { hashtagRepo, commentHashtagRepo, contentHashtagRepo } from '../../Repository/instances.js';
 
-export class HashtagService {
+class HashtagService {
 
   private extractHashtags(content: string): string[] {
     const matches = content.match(/#[\w\u0600-\u06FF]+/g) || [];

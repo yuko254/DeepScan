@@ -1,6 +1,4 @@
-import type { Request, Response } from "express"
 import { Decimal } from "@prisma/client/runtime/client";
-import type { accessPayload } from '../zod/jwt.schema.js';
 
 export interface PageDto {
   page: number
@@ -8,15 +6,6 @@ export interface PageDto {
   total: number
   totalPages: number
 }
-
-export interface GraphqlContext {
-  user: accessPayload | undefined | null;
-  req: Request;
-  res: Response;
-}
-
-
-
 
 type RemoveUndefined<T> = {
   [K in keyof T as T[K] extends undefined ? never : K]: T[K]

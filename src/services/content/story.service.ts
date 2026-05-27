@@ -1,12 +1,12 @@
 import { Prisma, prisma } from '../../config/prisma.js';
-import type { StoriesCreateInput } from '../../graphql/generated/graphql.js';
-import { storyRepo, contentRepo } from '../../Repository/instances.js';
+import { storyRepo, storyViewRepo } from '../../Repository/instances.js';
+import * as content from "../../validations/content.schema.js";
 import * as AppError from '../../types/appErrors.types.js';
 
-export class StoryService {
+class StoryService {
 
-  async getStory(storyId: string) {
-    const story = await storyRepo.findByIdWithDetails(storyId);
+  async getStory(storyId: string, tx?: Prisma.TransactionClient) {
+    const story = await storyRepo.withTx(tx).findStory(storyId);
     if (!story) throw new AppError.NotFoundError('Story not found');
     return story;
   }
@@ -61,12 +61,10 @@ export class StoryService {
     return { stories: storiesWithDetails };
   }
 
-  async createStory(contentId: string, userId: string, input: StoriesCreateInput, tx?: Prisma.TransactionClient) {
+  async createStory(contentId: string, userId: string, input: content.StoryCreate, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
-      // Delete expired stories first
       await this.deleteExpiredStories(userId, tx);
 
-      // Count active stories
       const activeCount = await tx.stories.count({
         where: {
           content: {
@@ -77,7 +75,6 @@ export class StoryService {
         }
       });
 
-      // Check limit (max 20 active stories)
       if (activeCount >= 20) {
         throw new AppError.BadRequestError('You have reached the limit of 20 active stories. Please delete some stories before creating new ones.');
       }
@@ -113,45 +110,27 @@ export class StoryService {
     return { deleted: deleted.count };
   }
 
+  async hasViewed(userId: string, storyId: string) {
+    return await storyViewRepo.hasViewed(storyId, userId);
+  }
+
+  async getHasViewedBatch(storyIds: string[], userId: string) {
+    return storyViewRepo.getHasViewedBatch(storyIds, userId);
+  }
+
   async viewStory(userId: string, storyId: string, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
-      // Check if story exists and is not expired
-      const story = await storyRepo.withTx(tx).findUnique({
-        where: {
-          content_id: storyId,
-          expires_at: { gt: new Date() }
-        }
-      });
-
-      if (!story) throw new AppError.NotFoundError('Story not found or expired');
-
-      // Check if already viewed
-      const existingView = await tx.story_views.findUnique({
-        where: {
-          viewer_id_story_id: {
-            viewer_id: userId,
-            story_id: storyId
-          }
-        }
-      });
-
-      let viewed = false;
-      if (!existingView) {
-        await tx.story_views.create({
-          data: {
-            viewer_id: userId,
-            story_id: storyId
-          }
-        });
-        viewed = true;
-      }
-
-      // Get updated view count
-      const viewCount = await tx.story_views.count({
+      await this.deleteExpiredStories(userId, tx);
+      await storyViewRepo.withTx(tx).view(storyId, userId);
+      const viewCount = await storyViewRepo.withTx(tx).count({
         where: { story_id: storyId }
       });
-
-      return { viewed, storyId, viewCount };
+      return { viewed: true, storyId, viewCount };
+    }).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2003') throw new AppError.NotFoundError('Story not found');
+      }
+      throw e;
     });
   }
 
@@ -169,16 +148,12 @@ export class StoryService {
     return { viewers: views };
   }
 
-  async hasUserViewedStory(userId: string, storyId: string): Promise<boolean> {
-    const view = await prisma.story_views.findUnique({
-      where: {
-        viewer_id_story_id: {
-          viewer_id: userId,
-          story_id: storyId
-        }
-      }
-    });
-    return !!view;
+  async getViewCount(storyId: string) {
+    return storyViewRepo.getViewCount(storyId);
+  }
+
+  async getViewCountsBatch(storyIds: string[]) {
+    return storyViewRepo.getViewCountsBatch(storyIds);
   }
 }
 

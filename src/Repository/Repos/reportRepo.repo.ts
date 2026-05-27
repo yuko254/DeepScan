@@ -10,21 +10,23 @@ export class ReportRepo extends BaseRepository<typeof prisma.reports> {
     super(prisma.reports, 'reports', 'report_id');
   }
 
+  private includeDetails = {
+    user: true,                     // reporter
+    resolver: true,                 // moderator
+    report_target: {
+      include: {
+        post: true,                 // full post if target is a post
+        comment: true,              // full comment
+        story: true,                // full story
+        profile: true,              // full profile
+      },
+    },
+  }
+
   async findReport(report_id: string) {
     return await this.model.findUnique({
       where: { report_id },
-      include: {
-        user: true,                     // reporter
-        resolver: true,                 // moderator
-        report_target: {
-          include: {
-            post: true,                 // full post if target is a post
-            comment: true,              // full comment
-            story: true,                // full story
-            profile: true,              // full profile
-          },
-        },
-      },
+      include: this.includeDetails
     });
   }
 
@@ -34,16 +36,12 @@ export class ReportRepo extends BaseRepository<typeof prisma.reports> {
       take,
       skip,
       where,
-      include: {
-        user: true,
-        resolver: true,
-        report_target: true
-      },
+      include: { user: true, resolver: true, report_target: true },
       orderBy: { created_at: 'desc' },
     });
   }
 
-  
+
   async countByFilter(filters?: ReportFiltersDto) {
     return this.model.count({ where: this.buildWhere(filters) });
   }
@@ -52,6 +50,7 @@ export class ReportRepo extends BaseRepository<typeof prisma.reports> {
     return this.model.update({
       where: { report_id },
       data: { status, resolver_id, resolved_at: new Date() },
+      include: this.includeDetails
     });
   }
 

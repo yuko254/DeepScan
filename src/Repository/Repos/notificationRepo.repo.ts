@@ -1,4 +1,4 @@
-import { type notifications, NotificationType, Prisma } from "@prisma/client";
+import { notifications, NotificationType } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -7,21 +7,25 @@ export class NotificationRepo extends BaseRepository<typeof prisma.notifications
     super(prisma.notifications, 'notifications', 'notification_id');
   }
 
-  async findByUser(user_id: string, take = 30) {
-    return this.model.findMany({
-      where: { user_id },
-      include: { actor: { include: { profile: true } }, notification_target: true },
+  async findUserNotificationsPage(user_id: string, limit = 30, cursor?: string) {
+    const notifications = await this.model.findMany({
+      where: {
+        user_id,
+        ...(cursor && { notification_id: { lt: cursor } })
+      },
+      include: {
+        actor: { include: { profile: true } },
+        notification_target: true
+      },
       orderBy: { delivered_at: 'desc' },
-      take,
+      take: limit + 1
     });
-  }
 
-  async findUnread(user_id: string) {
-    return this.model.findMany({
-      where: { user_id, read_at: null },
-      include: { actor: { include: { profile: true } } },
-      orderBy: { delivered_at: 'desc' },
-    });
+    const hasMore = notifications.length > limit;
+    const pageNotifications = hasMore ? notifications.slice(0, limit) : notifications;
+    const nextCursor = hasMore ? pageNotifications[pageNotifications.length - 1]?.notification_id : null;
+
+    return { notifications: pageNotifications, nextCursor, hasMore };
   }
 
   async markAsRead(notification_id: string) {
@@ -29,17 +33,6 @@ export class NotificationRepo extends BaseRepository<typeof prisma.notifications
       where: { notification_id },
       data: { read_at: new Date() },
     });
-  }
-
-  async markAllAsRead(user_id: string) {
-    return this.model.updateMany({
-      where: { user_id, read_at: null },
-      data: { read_at: new Date() },
-    });
-  }
-
-  async getUnreadCount(user_id: string) {
-    return this.model.count({ where: { user_id, read_at: null } });
   }
 
   async deleteOld(before: Date) {

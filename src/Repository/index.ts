@@ -20,8 +20,6 @@ export * from './Repos/followRepo.repo.js';
 export * from './Repos/hashtagRepo.repo.js';
 export * from './Repos/locationRepo.repo.js';
 export * from './Repos/mediaRepo.repo.js';
-export * from './Repos/mention-targetRepo.repo.js';
-export * from './Repos/mentionRepo.repo.js';
 export * from './Repos/messageRepo.repo.js';
 export * from './Repos/notification-targetRepo.repo.js';
 export * from './Repos/notificationRepo.repo.js';

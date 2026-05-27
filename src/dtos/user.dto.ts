@@ -58,7 +58,7 @@ export function toAdminUserDto(user: prisma.PrismaUser): AdminUserDto {
   };
 }
 
-export interface AdminUsersAccountsPageDto {
+export interface AdminUserAccountsPageDto {
   users: AdminUserAccountDto[];
   pagination: Dto.PageDto;
 }

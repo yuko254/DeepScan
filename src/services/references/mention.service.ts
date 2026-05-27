@@ -1,54 +1,53 @@
 import { Prisma } from '../../config/prisma.js';
-import { mentionRepo, mentionTargetRepo, userRepo } from '../../Repository/instances.js';
+import { userRepo } from '../../Repository/instances.js';
+import { notificationService } from '../notification.service.js';
 
-export class MentionService {
+class MentionService {
 
   private extractMentions(content: string): string[] {
     const matches = content.match(/@[\w\u0600-\u06FF]+/g) || [];
     return [...new Set(matches.map(m => m.slice(1)))];
   }
 
-  private async linkMentions(
-    usernames: string[],
-    targetResolver: () => Promise<string>
-  ): Promise<void> {
+  private async getUsers(usernames: string[]) {
     if (usernames.length === 0) return;
 
     // 1. Get user IDs for these usernames
-    const users = await userRepo.findMany({
+    return await userRepo.findMany({
       where: { username: { in: usernames } },
-      select: { user_id: true, username: true },
+      select: { user_id: true },
     });
-    if (users.length === 0) return;
-
-    // 2. Get the mention_target_id for the target entity (comment or post)
-    const mentionTargetId = await targetResolver();
-
-    // 3. Batch create mentions (skip duplicates)
-    const entries = users.map(user => ({
-      mentioned_user_id: user.user_id,
-      mention_target_id: mentionTargetId,
-    }));
-    await mentionRepo.createMany(entries, { skipDuplicates: true });
   }
 
-  // ─── Public methods ─────────────────────────────────────────
-
-  async scanAndLinkForComment(comment_id: string, content: string, tx?: Prisma.TransactionClient): Promise<void> {
+  async scanAndNotifyForComment(userId: string, commentId: string, content: string, tx?: Prisma.TransactionClient) {
     const usernames = this.extractMentions(content);
-    await this.linkMentions(usernames, async () => {
-      const target = await mentionTargetRepo.withTx(tx).findOrCreateForComment(comment_id);
-      return target.target_id;
-    });
+    const users = await this.getUsers(usernames);
+    if (!users || users.length === 0) return;
+
+    await Promise.all(users.map(user =>
+      notificationService.sendForComment({
+        user_id: user.user_id,
+        actor_id: userId,
+        type: "mention",
+        message: "you were mentioned in a comment"
+      }, commentId, tx)
+    ));
   }
 
-  async scanAndLinkForPost(post_id: string, textContent: string | null, tx?: Prisma.TransactionClient): Promise<void> {
+  async scanAndNotifyForPost(userId: string, postId: string, textContent: string | null, tx?: Prisma.TransactionClient) {
     if (!textContent) return;
     const usernames = this.extractMentions(textContent);
-    await this.linkMentions(usernames, async () => {
-      const target = await mentionTargetRepo.withTx(tx).findOrCreateForPost(post_id);
-      return target.target_id;
-    });
+    const users = await this.getUsers(usernames);
+    if (!users || users.length === 0) return;
+
+    await Promise.all(users.map(user =>
+      notificationService.sendForPost({
+        user_id: user.user_id,
+        actor_id: userId,
+        type: "mention",
+        message: "you were mentioned in a post"
+      }, postId, tx)
+    ));
   }
 }
 

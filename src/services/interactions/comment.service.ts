@@ -1,11 +1,11 @@
 import { Prisma, prisma } from '../../config/prisma.js';
-import type { CommentsCreateInput, CommentsUpdateInput } from '../../graphql/generated/graphql.js';
-import { commentRepo, commentHashtagRepo, mentionRepo } from '../../Repository/instances.js';
+import { commentRepo, commentHashtagRepo } from '../../Repository/instances.js';
+import * as interactions from "../../validations/interactions.schema.js";
 import * as AppError from '../../types/appErrors.types.js';
 import { hashtagService } from '../references/hashtag.service.js';
 import { mentionService } from '../references/mention.service.js';
 
-export class CommentService {
+class CommentService {
 
   async getComment(comment_id: string) {
     const comment = await commentRepo.findByIdWithDetails(comment_id);
@@ -13,17 +13,16 @@ export class CommentService {
     return comment;
   }
 
-  async getCommentsForPostCursor(post_id: string, cursor?: string, limit: number = 20) {
-    return commentRepo.findByPostCursor(post_id, cursor, limit);
+  async getCommentsForPost(post_id: string, limit: number, cursor?: Date) {
+    return commentRepo.findByPost(post_id, limit, cursor);
   }
 
-  async getCommentReplies(commentId: string, page = 1, limit = 20) {
-    const skip = (page - 1) * limit;
-
+  async getCommentReplies(commentId: string, limit: number, cursor?: Date) {
     const replies = await prisma.comments.findMany({
       where: {
         comment_parent_id: commentId,
-        is_deleted: false
+        is_deleted: false,
+        ...(cursor && { created_at: { lt: cursor } })
       },
       include: {
         user: {
@@ -36,22 +35,18 @@ export class CommentService {
           }
         }
       },
-      skip,
-      take: limit,
-      orderBy: { created_at: 'asc' }
+      orderBy: { created_at: 'asc' },
+      take: limit
     });
 
-    const total = await prisma.comments.count({
-      where: {
-        comment_parent_id: commentId,
-        is_deleted: false
-      }
-    });
+    const nextCursor = replies.length === limit
+      ? replies[replies.length - 1]?.created_at
+      : null;
 
-    return { replies, total };
+    return { replies, nextCursor };
   }
 
-  async createComment(userID: string, input: CommentsCreateInput, tx?: Prisma.TransactionClient) {
+  async createComment(userID: string, input: interactions.CommentCreate, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
       // Create the comment
       const comment = await commentRepo.withTx(tx).create({
@@ -66,7 +61,7 @@ export class CommentService {
       // Process hashtags and mentions with the same transaction
       await Promise.all([
         hashtagService.scanAndLinkForComment(comment.comment_id, input.content, tx),
-        mentionService.scanAndLinkForComment(comment.comment_id, input.content, tx),
+        mentionService.scanAndNotifyForComment(userID, comment.comment_id, input.content, tx),
       ]);
 
       // Fetch the full comment with all relations using the same transaction
@@ -77,7 +72,7 @@ export class CommentService {
     });
   }
 
-  async updateComment(userID: string, input: CommentsUpdateInput, tx?: Prisma.TransactionClient) {
+  async updateComment(userID: string, input: interactions.CommentUpdate, tx?: Prisma.TransactionClient) {
     if (input.content === undefined)
       return this.getComment(input.comment_id);
 
@@ -96,14 +91,13 @@ export class CommentService {
         throw e;
       });
 
-      // Remove all existing hashtag and mention links for this comment
+      // Remove all existing hashtag links for this comment
       await commentHashtagRepo.withTx(tx).deleteMany({ where: { comment_id: input.comment_id } });
-      await mentionRepo.withTx(tx).deleteMany({ where: { mention_target: { comment_id: input.comment_id } } });
 
       // Re‑scan and link new hashtags/mentions from the updated content
       await Promise.all([
         hashtagService.scanAndLinkForComment(input.comment_id, input.content!, tx),
-        mentionService.scanAndLinkForComment(input.comment_id, input.content!, tx),
+        mentionService.scanAndNotifyForComment(userID, input.comment_id, input.content!, tx),
       ]);
 
       // Return the full comment with all relations
@@ -117,7 +111,7 @@ export class CommentService {
     await commentRepo.softDelete(comment_id, "user");
   }
 
-  async isLiked(userID: string, commentId: string): Promise<boolean> {
+  async isLiked(userID: string, commentId: string) {
     const like = await prisma.comment_likes.findUnique({
       where: {
         user_id_comment_id: {
@@ -129,40 +123,58 @@ export class CommentService {
     return !!like;
   }
 
-  async likeUnlikeComment(userID: string, commentId: string, tx?: Prisma.TransactionClient) {
+  async getIsLikedBatch(commentIds: string[], userId: string) {
+    const likes = await prisma.comment_likes.findMany({
+      where: { comment_id: { in: commentIds }, user_id: userId },
+      select: { comment_id: true }
+    });
+    const likedSet = new Set(likes.map(l => l.comment_id));
+    return commentIds.map(id => likedSet.has(id));
+  }
+
+  async toggleLikeComment(userId: string, commentId: string, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
-      // Check if comment exists
       const comment = await commentRepo.withTx(tx).findUnique({
-        where: { comment_id: commentId }
+        where: { comment_id: commentId },
+        select: { comment_id: true }
       });
       if (!comment) throw new AppError.NotFoundError('Comment not found');
 
-      // Check if already liked
       const existing = await tx.comment_likes.findUnique({
         where: {
           user_id_comment_id: {
-            user_id: userID,
+            user_id: userId,
             comment_id: commentId
           }
         }
       });
 
-      let liked: boolean;
       if (existing) {
         await tx.comment_likes.delete({ where: { id: existing.id } });
-        liked = false;
-      } else {
-        await tx.comment_likes.create({
-          data: {
-            user_id: userID,
-            comment_id: commentId
-          }
-        });
-        liked = true;
+        return { liked: false, commentId };
       }
 
-      return { liked, commentId };
+      await tx.comment_likes.create({
+        data: {
+          user_id: userId,
+          comment_id: commentId
+        }
+      });
+      return { liked: true, commentId };
+    }).catch((e: any) => {
+      if (e.code === 'P2003') throw new AppError.NotFoundError('Comment not found');
+      throw e;
     });
+  }
+
+  async getLikeCountsBatch(commentIds: string[]) {
+    const counts = await prisma.comment_likes.groupBy({
+      by: ['comment_id'],
+      where: { comment_id: { in: commentIds } },
+      _count: true
+    });
+    const map = new Map(counts.map(c => [c.comment_id, c._count]));
+    return commentIds.map(id => map.get(id) || 0);
   }
 }
 

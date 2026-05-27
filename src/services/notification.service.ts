@@ -8,28 +8,16 @@ type SendInput = {
   message: string;
 };
 
-export class NotificationService {
+class NotificationService {
 
   // ─── User-facing queries ───────────────────────────────────────────────────
 
-  async getForUser(user_id: string, take?: number) {
-    return notificationRepo.findByUser(user_id, take);
-  }
-
-  async getUnread(user_id: string) {
-    return notificationRepo.findUnread(user_id);
-  }
-
-  async getUnreadCount(user_id: string) {
-    return notificationRepo.getUnreadCount(user_id);
+  async getUserNotificationsPage(user_id: string, cursor?: string, limit = 20) {
+    return notificationRepo.findUserNotificationsPage(user_id, limit, cursor);
   }
 
   async markAsRead(notification_id: string) {
     return notificationRepo.markAsRead(notification_id);
-  }
-
-  async markAllAsRead(user_id: string) {
-    return notificationRepo.markAllAsRead(user_id);
   }
 
   async deleteOld(before: Date) {
@@ -71,4 +59,4 @@ export class NotificationService {
   }
 }
 
-export const notificationService = new NotificationService()
+export const notificationService = new NotificationService();

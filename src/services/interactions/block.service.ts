@@ -1,7 +1,7 @@
 import { Prisma, prisma } from '../../config/prisma.js';
 import * as AppError from '../../types/appErrors.types.js';
 
-export class BlockService {
+class BlockService {
 
   async blockUser(blockerId: string, blockedId: string, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
@@ -79,26 +79,30 @@ export class BlockService {
     });
   }
 
-  async getBlockedUsers(userId: string, page = 1, limit = 20) {
-    const skip = (page - 1) * limit;
-    
+  async getBlockedUsers(userId: string, limit: number, cursor?: Date,) {
+    const blocks = await prisma.blocks.findMany({
+      where: {
+        blocker_id: userId,
+        ...(cursor && { created_at: { lt: cursor } })
+      },
+      include: { blocked: { include: { profile: true } } },
+      orderBy: { created_at: 'desc' },
+      take: limit
+    });
+
+    const nextCursor = blocks.length === limit
+      ? blocks[blocks.length - 1]?.created_at
+      : null;
+
+    return { users: blocks.map(b => b.blocked), nextCursor };
+  }
+
+  async getBlockedUserIds(userId: string): Promise<string[]> {
     const blocks = await prisma.blocks.findMany({
       where: { blocker_id: userId },
-      include: {
-        blocked: {
-          include: { profile: true }
-        }
-      },
-      skip,
-      take: limit,
-      orderBy: { created_at: 'desc' }
+      select: { blocked_id: true }
     });
-
-    const total = await prisma.blocks.count({
-      where: { blocker_id: userId }
-    });
-
-    return { blockedUsers: blocks, total };
+    return blocks.map(b => b.blocked_id);
   }
 
   async checkIfBlocked(blockerId: string, blockedId: string): Promise<boolean> {
@@ -144,7 +148,7 @@ export class BlockService {
 
   async getBlocksReceived(userId: string, page = 1, limit = 20) {
     const skip = (page - 1) * limit;
-    
+
     const blocks = await prisma.blocks.findMany({
       where: { blocked_id: userId },
       include: {

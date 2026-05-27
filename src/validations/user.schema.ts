@@ -6,21 +6,21 @@ import { LocationCreateSchema, LocationUpsertSchema } from './location.schema.js
 
 // ─── Profile ───
 export const ProfileCreateSchema = z.strictObject({
-  is_private: z.boolean().default(false),
-  bio: z.string().max(500, 'Bio can have at most 500 characters').nullable(),
-  avatar: z.url('Invalid avatar URL').nullable(),
+  is_private: z.boolean().default(false).optional(),
+  bio: z.string().max(500, 'Bio can have at most 500 characters').nullish(),
+  avatar: z.url('Invalid avatar URL').nullish(),
   first_name: z.string().max(50, 'First name must be at most 50 characters'),
   last_name: z.string().max(50, 'Last name must be at most 50 characters'),
-  phone_number: z.string().max(20, 'Phone number must be at most 20 characters').nullable(),
-  birth_date: z.coerce.date().nullable(),
-  birth_location_details: LocationCreateSchema.nullable(),
-  current_location_details: LocationCreateSchema.nullable(),
+  phone_number: z.string().max(20, 'Phone number must be at most 20 characters').nullish(),
+  birth_date: z.coerce.date().nullish(),
+  birth_location: LocationCreateSchema.nullish(),
+  current_location: LocationCreateSchema.nullish(),
 });
 
 export const ProfileUpdateSchema = ProfileCreateSchema.partial().extend({
   profile_id: IdSchema.uuid('profileId'),
-  birth_location_details: LocationUpsertSchema.nullish(),
-  current_location_details: LocationUpsertSchema.nullish(),
+  birth_location: LocationUpsertSchema.nullish(),
+  current_location: LocationUpsertSchema.nullish(),
 });
 
 export const ProfileUpsertSchema = z.union([
@@ -107,7 +107,7 @@ export type ProfileCreate = z.infer<typeof ProfileCreateSchema>;
 export type ProfileUpdate = z.infer<typeof ProfileUpdateSchema>;
 export type ProfileUpsert = z.infer<typeof ProfileUpsertSchema>;
 
-export type UserAccountCreate = z.infer<typeof UserAccountCreateSchema>;
+export type UserAccount = z.infer<typeof UserAccountCreateSchema>;
 export type UserAccountUpdate = z.infer<typeof UserAccountUpdateSchema>;
 export type UserAccountsQuery = z.infer<typeof UserAccountsQuerySchema>;
 

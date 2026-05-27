@@ -15,7 +15,7 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import uploadsRoutes from './routes/uploads.routes.js';
-import { graphqlServer } from "./graphql/server.js";
+import { graphqlServer, createContext } from "./graphql/server.js";
 
 import { errorMiddleware } from './middlewares/error.middleware.js';
 import { authenticateSoft, authenticateStrict,  requireRole } from "./middlewares/auth.middleware.js"
@@ -64,16 +64,7 @@ app.get('/health', async (req, res, next) => {
     res.status(isHealthy ? 200 : 503).json(healthStatus);
 });
 
-app.use('/graphql', authenticateSoft,
-  expressMiddleware(graphqlServer, {
-    context: async ({ req }) => ({
-      req: req,
-      user: req.user ?? null,
-      prisma,
-    }),
-  })
-);
-
+app.use('/graphql', authenticateSoft, expressMiddleware(graphqlServer, { context: createContext }));
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/admin', authenticateStrict, requireRole("admin", "moderator"), adminRoutes);

@@ -1,24 +1,24 @@
-import { Router, type Request, type Response, type NextFunction } from 'express';
-import { AdminService } from "../services/admin.service.js";
-import { GetUsersQuerySchema, GetUserParam, AdminUpdateUserSchema, AdminCreateUserSchema } from '../dtos/users.dto.js';
-import { type AdminUsersAccountsPageDto, toAdminUserAccountDto, toAdminUserDto } from '../dtos/users.dto.js';
-import { GetReportParam, GetReportsQuerySchema, AdminUpdateReportSchema, type ReportsPageDto, type ReportDto, toReportListItemDto, toReportDto } from '../dtos/report.dto.js';
-import { GetPostParam, GetCommentParam, GetStoryParam } from '../dtos/content.dto.js';
+import { Router, Request, Response, NextFunction } from 'express';
+import { adminService } from "../services/admin.service.js";
+import { UserAccountsQuerySchema, UserIdParamSchema, AdminUserCreateSchema, AdminUserUpdateSchema  } from '../validations/user.schema.js';
+import { ReportIdParamSchema, ReportsQuerySchema, ReportResolveSchema, CommentIdParamSchema } from '../validations/interactions.schema.js';
+import { PostIdParamSchema, StoryIdParamSchema } from '../validations/content.schema.js';
+import { AdminUserAccountsPageDto, toAdminUserAccountDto, toAdminUserDto } from '../dtos/user.dto.js';
+import { ReportsPageDto, ReportDto, toReportListItemDto, toReportDto } from '../dtos/report.dto.js';
+
 
 const router = Router();
 
-const adminService = new AdminService();
-
 /**
  * GET /admin/users?page=1&limit=20&search=abc&role=user&isActive=true&isBanned=true
- * Response: { users: UserAccountDto[], pagination: PageDto }
+ * Response: { AdminUserAccountsPageDto }
  */
 router.get('/users', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const query = GetUsersQuerySchema.parse(req.query);
+    const query = UserAccountsQuerySchema.parse(req.query);
     const result = await adminService.getUsers(query);
 
-    const Res: AdminUsersAccountsPageDto = {
+    const Res: AdminUserAccountsPageDto = {
       users: result.users.map(toAdminUserAccountDto),
       pagination: result.pagination
     }
@@ -31,14 +31,14 @@ router.get('/users', async (req: Request, res: Response, next: NextFunction) => 
 
 /**
  * GET /admin/users/:user_id
- * Response: { UserDto }
+ * Response: { AdminUserDto }
  */
 router.get('/users/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { user_id } = GetUserParam.parse(req.params);
+    const { user_id } = UserIdParamSchema.parse(req.params);
     const user = await adminService.getUser(user_id);
 
-    const Res = toAdminUserDto(user)
+    const Res = toAdminUserDto(user);
 
     res.json(Res);
   } catch (err) {
@@ -48,15 +48,15 @@ router.get('/users/:user_id', async (req: Request, res: Response, next: NextFunc
 
 /**
  * POST /admin/users
- * Body: { AdminCreateUserBody }
- * Response: { UserDto }
+ * Body: { AdminUserCreate }
+ * Response: { AdminUserDto }
  */
 router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const input = AdminCreateUserSchema.parse(req.body)
+    const input = AdminUserCreateSchema.parse(req.body)
     const user = await adminService.createUser(req.user!, input);
 
-    const Res = toAdminUserDto(user)
+    const Res = toAdminUserDto(user);
 
     res.json(Res);
   } catch (err) {
@@ -67,13 +67,13 @@ router.post('/users', async (req: Request, res: Response, next: NextFunction) =>
 
 /**
  * PATCH /admin/users/:user_id
- * Body: { AdminUpdateUserBody }
- * Response: { UserDto }
+ * Body: { AdminUserUpdate }
+ * Response: { AdminUserDto }
  */
 router.patch('/users/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { user_id } = GetUserParam.parse(req.params);
-    const input = AdminUpdateUserSchema.parse(req.body)
+    const { user_id } = UserIdParamSchema.parse(req.params);
+    const input = AdminUserUpdateSchema.parse(req.body)
     const user = await adminService.updateUser(req.user!, user_id, input);
 
     const Res = toAdminUserDto(user);
@@ -90,7 +90,7 @@ router.patch('/users/:user_id', async (req: Request, res: Response, next: NextFu
  */
 router.delete('/users/:user_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { user_id } = GetUserParam.parse(req.params);
+    const { user_id } = UserIdParamSchema.parse(req.params);
     await adminService.deleteUser(req.user!, user_id);
     res.status(204).send();
   } catch (err) {
@@ -102,11 +102,11 @@ router.delete('/users/:user_id', async (req: Request, res: Response, next: NextF
 
 /**
  * GET /admin/reports?page=1&limit=20&status=pending&reporter=uuid&resolver=uuid&reported=uuid
- * Response: { reports: ReportListItem[], pagination: PageDto }
+ * Response: { ReportsPageDto }
  */
 router.get('/reports', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const query = GetReportsQuerySchema.parse(req.query);
+    const query = ReportsQuerySchema.parse(req.query);
     const result = await adminService.getReports(query);
 
     const Res: ReportsPageDto = {
@@ -126,7 +126,7 @@ router.get('/reports', async (req: Request, res: Response, next: NextFunction) =
  */
 router.get('/reports/:report_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { report_id } = GetReportParam.parse(req.params);
+    const { report_id } = ReportIdParamSchema.parse(req.params);
     const report = await adminService.getReport(report_id);
 
     const Res: ReportDto = toReportDto(report);
@@ -139,13 +139,13 @@ router.get('/reports/:report_id', async (req: Request, res: Response, next: Next
 
 /**
  * PATCH /admin/reports/:report_id
- * Body: { resolver_id: UUID, status: ReportStatus }
+ * Body: { ReportResolve }
  * Response: { ReportDto }
  */
 router.patch('/reports/:report_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { report_id } = GetReportParam.parse(req.params);
-    const input = AdminUpdateReportSchema.parse(req.body);
+    const { report_id } = ReportIdParamSchema.parse(req.params);
+    const input = ReportResolveSchema.parse(req.body);
     const report = await adminService.resolveReport(req.user!, report_id, input);
 
     const Res: ReportDto = toReportDto(report);
@@ -189,7 +189,7 @@ router.get('/stats/overview', async (req: Request, res: Response, next: NextFunc
  */
 router.delete('/posts/:post_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { post_id } = GetPostParam.parse(req.params);
+    const { post_id } = PostIdParamSchema.parse(req.params);
     await adminService.deletePost(req.user!, post_id);
     res.status(204).send();
   } catch (err) {
@@ -203,7 +203,7 @@ router.delete('/posts/:post_id', async (req: Request, res: Response, next: NextF
  */
 router.delete('/comments/:comment_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { comment_id } = GetCommentParam.parse(req.params);
+    const { comment_id } = CommentIdParamSchema.parse(req.params);
     await adminService.deleteComment(req.user!, comment_id);
     res.status(204).send();
   } catch (err) {
@@ -217,7 +217,7 @@ router.delete('/comments/:comment_id', async (req: Request, res: Response, next:
  */
 router.delete('/stories/:story_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { story_id } = GetStoryParam.parse(req.params);
+    const { story_id } = StoryIdParamSchema.parse(req.params);
     await adminService.deleteStory(req.user!, story_id);
     res.status(204).send();
   } catch (err) {

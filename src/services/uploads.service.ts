@@ -3,7 +3,7 @@ import { s3Client, S3_BUCKET } from '../config/s3.js';
 import { Prisma, prisma } from '../config/prisma.js';
 import crypto from 'crypto';
 
-export class UploadService {
+class UploadService {
   private generateKey(userId: string, originalName: string): string {
     const ext = originalName.split('.').pop();
     const random = crypto.randomBytes(16).toString('hex');

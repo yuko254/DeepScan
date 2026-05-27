@@ -6,13 +6,13 @@ export type PrismaLocation = locations & {
 };
 
 export type PrismaProfile = profiles & {
-  birth_location_details: PrismaLocation | null;
-  current_location_details: PrismaLocation | null;
+  birth_location: PrismaLocation | null;
+  current_location: PrismaLocation | null;
 };
 
 export type PrismaRole = roles;
 
 export type PrismaUserAccount = users & { role: roles | null };
 
-export type PrismaUser = PrismaUserAccount & { profile: PrismaProfile | null; };
+export type PrismaUser = PrismaUserAccount & { profile: PrismaProfile | null | undefined; };
 

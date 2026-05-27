@@ -97,6 +97,7 @@ model admin_audits {
   @@index([created_at])
 }
 
+// @system
 model users {
   user_id                  String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   role_id                  Int?                @default(3) // @system
@@ -124,7 +125,6 @@ model users {
   comment_likes            comment_likes[]
   comments                 comments[]
   device_tokens            device_tokens[]
-  mentions                 mentions[]
   messages                 messages[]
   notifications            notifications[]
   post_likes               post_likes[]
@@ -136,6 +136,7 @@ model users {
 
   @@index([username(ops: raw("gin_trgm_ops"))], map: "idx_users_username_trgm", type: Gin)
   @@index([role_id])
+  @@index([created_at])
 }
 
 // @system
@@ -161,8 +162,8 @@ model profiles {
   created_at                DateTime   @default(now()) @db.Timestamptz(6)
 
   user                      users      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-  birth_location_details    locations? @relation("profiles_birth_locationTolocations", fields: [birth_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
-  current_location_details  locations? @relation("profiles_current_locationTolocations", fields: [current_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+  birth_location            locations? @relation("profiles_birth_locationTolocations", fields: [birth_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+  current_location          locations? @relation("profiles_current_locationTolocations", fields: [current_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
 
   reportTargets report_targets[]
 }
@@ -184,6 +185,7 @@ model notifications {
 
   @@index([user_id])
   @@index([notification_target_id])
+  @@index([delivered_at])
 }
 
 // @ExcludeOnUpdate
@@ -191,19 +193,20 @@ model reports {
   report_id        String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   reporter_id      String?            @db.Uuid // @system
   resolver_id      String?            @db.Uuid // @system
-  report_target_id String             @db.Uuid
+  report_target_id String             @db.Uuid // @include
   reason           String?
   status           ReportStatus       @default(pending)  // @system
   created_at       DateTime           @default(now()) @db.Timestamptz(6)
   resolved_at      DateTime?          @db.Timestamptz(6) // @system
   
-  user             users?             @relation(fields: [reporter_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  reporter         users?             @relation(fields: [reporter_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
   resolver         users?             @relation("report_resolver", fields: [resolver_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
-  report_target    report_targets     @relation(fields: [report_target_id], references: [target_id], onDelete: Cascade, onUpdate: NoAction) // @nested
+  report_target    report_targets     @relation(fields: [report_target_id], references: [target_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([reporter_id, report_target_id], where: raw("reporter_id is NOT NULL"))
   @@index([reporter_id])
   @@index([resolver_id])
+  @@index([created_at])
 }
 
 model device_tokens {
@@ -237,6 +240,8 @@ model contents {
   story               stories? // @nested
   scan                scans? // @nested
   contentHashtags     content_hashtags[]
+
+  @@index([created_at])
 }
 
 // @nestedOnly
@@ -251,11 +256,11 @@ model posts {
   location      locations?      @relation(fields: [location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
 
   comments      comments[]
+  postTags      post_tags[] 
   post_likes    post_likes[]
   saved_posts   saved_posts[]
   reportTargets report_targets[]
   notificationTargets notification_targets[]
-  postTags post_tags[] 
 }
 
 // @nestedOnly
@@ -277,6 +282,8 @@ model stories {
   content       contents      @relation(fields: [content_id], references: [content_id], onDelete: Cascade)
   story_views   story_views[]
   reportTargets report_targets[]
+
+  @@index([expires_at])
 }
 
 
@@ -332,6 +339,7 @@ model follow_requests {
 
   @@unique([requester_id, target_id])
   @@index([target_id])
+  @@index([created_at])
   // CONSTRAINT no_self_request CHECK (requester_id <> target_id)
 }
 
@@ -347,7 +355,7 @@ model comments {
 
   user                   users?          @relation(fields: [user_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
   post                   posts           @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
-  comment                comments?       @relation("commentsTocomments", fields: [comment_parent_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
+  comment_parent         comments?       @relation("commentsTocomments", fields: [comment_parent_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
 
   replies                comments[]      @relation("commentsTocomments")
 
@@ -359,6 +367,7 @@ model comments {
   @@index([comment_parent_id], map: "idx_comments_parent_id")
   @@index([post_id], map: "idx_comments_post_id")
   @@index([user_id], map: "idx_comments_user_id")
+  @@index([created_at])
 }
 
 model locations {
@@ -369,8 +378,8 @@ model locations {
   lng              Decimal?   @db.Decimal(11, 8)
   place_id         String?    @db.VarChar(255)
 
-  country          countries  @relation(fields: [country_id], references: [country_id], onDelete: Cascade, onUpdate: Cascade) // @nested
-  city             cities?    @relation(fields: [city_id], references: [city_id], onDelete: SetNull, onUpdate: Cascade) // @nested
+  country          countries  @relation(fields: [country_id], references: [country_id], onDelete: Cascade, onUpdate: Cascade)
+  city             cities?    @relation(fields: [city_id], references: [city_id], onDelete: SetNull, onUpdate: Cascade)
 
   birth_profiles   profiles[] @relation("profiles_birth_locationTolocations")
   current_profiles profiles[] @relation("profiles_current_locationTolocations")
@@ -478,22 +487,6 @@ model hashtags {
   @@index([name(ops: raw("gin_trgm_ops"))], map: "idx_hashtags_name_trgm", type: Gin)
 }
 
-// @system
-model mentions {
-  mention_id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  mentioned_user_id String           @db.Uuid
-  mention_target_id String           @db.Uuid
-  created_at        DateTime         @default(now()) @db.Timestamptz(6)
-
-  user              users            @relation(fields: [mentioned_user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@index([mentioned_user_id])
-  @@index([mention_target_id])
-}
-
-
-
-
 // @exclude
 model saved_posts {
   saved_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -507,6 +500,7 @@ model saved_posts {
   @@unique([user_id, post_id], map: "idx_unique_user_post", where: raw("(post_id IS NOT NULL)"))
   @@index([post_id], map: "idx_saved_posts_post_id")
   @@index([user_id], map: "idx_saved_posts_user_id")
+  @@index([saved_at])
 }
 
 // @exclude
@@ -619,7 +613,7 @@ model notification_targets {
   // );
 }
 
-// @nestedOnly @ExcludeOnUpdate
+// @system
 model report_targets {
   target_id   String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   post_id     String?     @db.Uuid

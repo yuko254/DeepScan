@@ -143,11 +143,6 @@ export type tags = Prisma.tagsModel
  */
 export type hashtags = Prisma.hashtagsModel
 /**
- * Model mentions
- * 
- */
-export type mentions = Prisma.mentionsModel
-/**
  * Model saved_posts
  * 
  */
