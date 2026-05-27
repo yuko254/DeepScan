@@ -1,10 +1,10 @@
 // APP configuration
+export const ClientOrigin = process.env.Client || 'http://localhost:5173';
 export const APP_NAME = process.env.APP_NAME || 'DeepScan';
 export const APP_HOST = process.env.HOST || 'localhost';
 export const APP_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
 export const APP_URL = `http://${APP_HOST}:${APP_PORT}`;
 export const NODE_ENV = process.env.NODE_ENV || 'development';
-export const ClientOrigin = process.env.Client || 'http://localhost:5173';
 
 // Database configuration
 export const DATABASE_URL = process.env.DATABASE_URL!;
@@ -13,6 +13,14 @@ export const DATABASE_URL = process.env.DATABASE_URL!;
 export const REDIS_HOST = process.env.REDIS_HOST || 'localhost';
 export const REDIS_PORT = process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT, 10) : 6379;
 export const REDIS_PASSWORD = process.env.REDIS_PASSWORD!;
+
+// MinIO configuration
+export const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT || 'localhost';
+export const MINIO_PORT = process.env.MINIO_PORT ? parseInt(process.env.MINIO_PORT, 10) : 9000;
+export const MINIO_USE_SSL = process.env.MINIO_USE_SSL === 'true';
+export const MINIO_ACCESS_KEY = process.env.MINIO_ACCESS_KEY || 'minioadmin';
+export const MINIO_SECRET_KEY = process.env.MINIO_SECRET_KEY || 'minioadmin123';
+export const MINIO_BUCKET = process.env.MINIO_BUCKET || 'deepscan';
 
 // JWT configuration
 export const ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_SECRET!;
@@ -43,6 +51,7 @@ function parseDurationToSeconds(duration: string): number | null {
   }
 }
 
-// Other
+
+// Security
 export const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS, 10) : 12;
 export const PASSWORD_RESET_TOKEN_IN_MIN = process.env.PASSWORD_RESET_TOKEN_IN_MIN ? parseInt(process.env.PASSWORD_RESET_TOKEN_IN_MIN, 10) : 30;

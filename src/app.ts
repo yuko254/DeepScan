@@ -46,7 +46,7 @@ app.get('/health', async (req, res, next) => {
     await prisma.$queryRaw`SELECT 1`;
     healthStatus.database = 'OK';
   } catch (error: any) {
-    healthStatus.database = `DOWN: ${error.code}`;
+    healthStatus.database = `DOWN: ${error}`;
   }
 
   try {
@@ -57,7 +57,7 @@ app.get('/health', async (req, res, next) => {
       healthStatus.redis = 'OK';
     }
   } catch (error: any) {
-    healthStatus.redis = `DOWN: ${error.code}`;
+    healthStatus.redis = `DOWN: ${error}`;
   }
     // Determine status code
     const isHealthy = healthStatus.database === 'OK' && healthStatus.redis === 'OK';
