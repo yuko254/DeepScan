@@ -1,7 +1,10 @@
-type Feed {
+type PostFeed {
   posts: [posts!]!
-  stories: [StoryGroup!]!
   nextCursor: DateTime
+}
+
+type StoryFeed {
+  groups: [StoryGroup!]!
 }
 
 type StoryGroup {
@@ -9,7 +12,7 @@ type StoryGroup {
   stories: [stories!]!
 }
 
-#################################
 extend type Query {
-  feed(cursor: DateTime, limit: Int = 50): Feed!
+  postFeed(cursor: DateTime, limit: Int = 50): PostFeed!
+  storyFeed: StoryFeed!
 }

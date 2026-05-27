@@ -4,7 +4,8 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import RedisClient from '../config/redis.js';
 import { generateTokens, verifyRefreshToken } from '../utils/jwt.utils.js';
-import { sendPasswordResetEmail } from '../utils/email.util.js';
+import { getLocationFromIP } from '../utils/location.util.js';
+import * as emailUtil from '../utils/email.util.js';
 import { userRepo } from '../Repository/instances.js';
 import { toUserAccountDto } from "../dtos/user.dto.js";
 import * as auth from "../validations/auth.schema.js";
@@ -56,14 +57,9 @@ class AuthService {
 
     const userAgent = req.headers['user-agent'] || 'Unknown device';
     const ip = req.ip || req.socket.remoteAddress || 'Unknown IP';
-    const loginTime = new Date().toISOString();
+    const location = getLocationFromIP(ip);
 
-    await notificationService.send({
-      user_id: user.user_id,
-      actor_id: null,
-      type: 'system',
-      message: `New login detected from ${userAgent} at ${loginTime} (IP: ${ip})`
-    });
+    await emailUtil.sendLoginAlertEmail(user.email, userAgent, ip, location);
 
     return { user, tokens };
   }
@@ -71,7 +67,7 @@ class AuthService {
   async refresh(refresh_token: string) {
     let payload;
     try {
-      payload = verifyRefreshToken(refresh_token) as jwt.DecodedRefreshPayload;
+      payload = verifyRefreshToken(refresh_token) as jwt.refreshPayload;
     } catch {
       throw new AppError.UnauthorizedError('Invalid or expired refresh token');
     }
@@ -119,13 +115,15 @@ class AuthService {
     const user = await userRepo.findAccountByEmail(email);
     if (!user) return; // prevents user enumeration
 
+    await this.revokeAllUserTokens(user.user_id, 'password_reset')
+
     const token = crypto.randomBytes(4).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const key = `password_reset:${user.user_id}:${hashedToken}`;
-    await this.redis.set(key, '1', 'EX', env.PASSWORD_RESET_TOKEN_IN_MIN);
+    await this.redis.set(key, '1', 'EX', env.PASSWORD_RESET_TOKEN_IN_SECONDS);
 
-    await sendPasswordResetEmail(user.email, token);
+    await emailUtil.sendPasswordResetEmail(user.email, token);
 
     const userAgent = req.headers['user-agent'] || 'Unknown device';
     const ip = req.ip || req.socket.remoteAddress || 'Unknown IP';
@@ -158,12 +156,7 @@ class AuthService {
     // Revoke all existing refresh tokens to force re‑login on all devices
     await this.revokeAllUserTokens(user.user_id, 'refresh');
 
-    await notificationService.send({
-      user_id: user.user_id,
-      actor_id: null,
-      type: 'system',
-      message: 'Your password has been successfully changed. If you did not perform this action, please contact support immediately.'
-    });
+    await emailUtil.sendPasswordResetSuccessEmail(user.email);
   }
 
   async revokeAllUserTokens(userId: string, context: string) {

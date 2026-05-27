@@ -2,32 +2,47 @@ import { followRepo, postRepo, storyRepo } from '../Repository/instances.js';
 import { blockService } from './interactions/block.service.js';
 
 class FeedService {
-  async getHomeFeed(user_id?: string, cursor?: Date, limit = 50) {
+  async getPostFeed(user_id?: string, cursor?: Date, limit = 50) {
     let ownerIds: string[] = [];
-    let stories: Awaited<ReturnType<typeof storyRepo.findActiveFeed>> = [];
 
     if (user_id) {
       const following = await followRepo.getFollowing(user_id);
       const followingIds = following.map((f) => f.following_id);
-      ownerIds = [user_id, ...followingIds];
-
-      const storyGroups = await storyRepo.findActiveFeed(ownerIds);
-      const blockedUserIds = await blockService.getBlockedUserIds(user_id);
-      stories = storyGroups.filter(group => !blockedUserIds.includes(group.user.user_id));
+      ownerIds = [...followingIds];
     }
 
-    let { posts, nextCursor } = await postRepo.findFeedPosts(
-      ownerIds,
-      cursor,
-      limit,
-    );
+    let { posts, nextCursor } = await postRepo.findFeedPosts(ownerIds, cursor, limit);
 
     if (user_id) {
       const blockedUserIds = await blockService.getBlockedUserIds(user_id);
-      posts = posts.filter(post => !blockedUserIds.includes(post.content.user_id)) as typeof posts;
+      posts = posts.filter(post => !blockedUserIds.includes(post.content.user_id));
     }
 
-    return { posts, stories, nextCursor };
+    return { posts, nextCursor };
+  }
+
+  async getStoryFeed(user_id: string) {
+    const following = await followRepo.getFollowing(user_id);
+    const followingIds = following.map((f) => f.following_id);
+    const ownerIds = [user_id, ...followingIds];
+
+    const storyGroups = await storyRepo.findActiveFeed(ownerIds);
+
+    return { storyGroups };
+  }
+
+  // Keep original for backward compatibility if needed
+  async getHomeFeed(user_id?: string, cursor?: Date, limit = 50) {
+    const [postFeed, storyFeed] = await Promise.all([
+      this.getPostFeed(user_id, cursor, limit),
+      user_id ? this.getStoryFeed(user_id) : Promise.resolve({ storyGroups: [] })
+    ]);
+
+    return {
+      posts: postFeed.posts,
+      stories: storyFeed.storyGroups,
+      nextCursor: postFeed.nextCursor
+    };
   }
 }
 

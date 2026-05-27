@@ -24,7 +24,7 @@ const typeResolvers = resolverFiles.flatMap(f =>
 ).join('\n');
 
 const content = `// AUTO-GENERATED - DO NOT EDIT
-// Run 'npm run generate-resolvers' to update
+// Run 'npm run generate:resolvers' to update
 
 ${imports}
 

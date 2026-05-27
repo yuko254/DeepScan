@@ -18,6 +18,7 @@ import uploadsRoutes from './routes/uploads.routes.js';
 import { graphqlServer, createContext } from "./graphql/server.js";
 
 import { errorMiddleware } from './middlewares/error.middleware.js';
+import { jsonParser } from './middlewares/jsonParser.middleware.js';
 import { authenticateSoft, authenticateStrict,  requireRole } from "./middlewares/auth.middleware.js"
 
 const app = express();
@@ -27,7 +28,7 @@ await graphqlServer.start();
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.set('trust proxy', 1);
 app.use(cors({ origin: env.ClientOrigin,credentials: true }));
-app.use(express.json());
+app.use(jsonParser);
 app.use(cookieParser());
 app.use(nodox(app))
 

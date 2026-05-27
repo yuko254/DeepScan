@@ -1,5 +1,5 @@
 // AUTO-GENERATED - DO NOT EDIT
-// Run 'npm run generate-resolvers' to update
+// Run 'npm run generate:resolvers' to update
 
 import { contentResolver } from './content.resolver.js';
 import { feedResolver } from './feed.resolver.js';
