@@ -3,7 +3,9 @@ node_modules
 .env
 
 src/generated
+src/graphql/generated
 src/orm
+
 prisma/generated
 
 .vscode
