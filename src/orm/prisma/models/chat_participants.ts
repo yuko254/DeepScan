@@ -20,23 +20,36 @@ export type chat_participantsModel = runtime.Types.Result.DefaultSelection<Prism
 
 export type AggregateChat_participants = {
   _count: Chat_participantsCountAggregateOutputType | null
+  _avg: Chat_participantsAvgAggregateOutputType | null
+  _sum: Chat_participantsSumAggregateOutputType | null
   _min: Chat_participantsMinAggregateOutputType | null
   _max: Chat_participantsMaxAggregateOutputType | null
 }
 
+export type Chat_participantsAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type Chat_participantsSumAggregateOutputType = {
+  id: bigint | null
+}
+
 export type Chat_participantsMinAggregateOutputType = {
+  id: bigint | null
   user_id: string | null
   chat_id: string | null
   joined_at: Date | null
 }
 
 export type Chat_participantsMaxAggregateOutputType = {
+  id: bigint | null
   user_id: string | null
   chat_id: string | null
   joined_at: Date | null
 }
 
 export type Chat_participantsCountAggregateOutputType = {
+  id: number
   user_id: number
   chat_id: number
   joined_at: number
@@ -44,19 +57,30 @@ export type Chat_participantsCountAggregateOutputType = {
 }
 
 
+export type Chat_participantsAvgAggregateInputType = {
+  id?: true
+}
+
+export type Chat_participantsSumAggregateInputType = {
+  id?: true
+}
+
 export type Chat_participantsMinAggregateInputType = {
+  id?: true
   user_id?: true
   chat_id?: true
   joined_at?: true
 }
 
 export type Chat_participantsMaxAggregateInputType = {
+  id?: true
   user_id?: true
   chat_id?: true
   joined_at?: true
 }
 
 export type Chat_participantsCountAggregateInputType = {
+  id?: true
   user_id?: true
   chat_id?: true
   joined_at?: true
@@ -101,6 +125,18 @@ export type Chat_participantsAggregateArgs<ExtArgs extends runtime.Types.Extensi
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: Chat_participantsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: Chat_participantsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: Chat_participantsMinAggregateInputType
@@ -131,15 +167,20 @@ export type chat_participantsGroupByArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   _count?: Chat_participantsCountAggregateInputType | true
+  _avg?: Chat_participantsAvgAggregateInputType
+  _sum?: Chat_participantsSumAggregateInputType
   _min?: Chat_participantsMinAggregateInputType
   _max?: Chat_participantsMaxAggregateInputType
 }
 
 export type Chat_participantsGroupByOutputType = {
-  user_id: string
+  id: bigint
+  user_id: string | null
   chat_id: string
-  joined_at: Date | null
+  joined_at: Date
   _count: Chat_participantsCountAggregateOutputType | null
+  _avg: Chat_participantsAvgAggregateOutputType | null
+  _sum: Chat_participantsSumAggregateOutputType | null
   _min: Chat_participantsMinAggregateOutputType | null
   _max: Chat_participantsMaxAggregateOutputType | null
 }
@@ -163,112 +204,103 @@ export type chat_participantsWhereInput = {
   AND?: Prisma.chat_participantsWhereInput | Prisma.chat_participantsWhereInput[]
   OR?: Prisma.chat_participantsWhereInput[]
   NOT?: Prisma.chat_participantsWhereInput | Prisma.chat_participantsWhereInput[]
-  user_id?: Prisma.UuidFilter<"chat_participants"> | string
+  id?: Prisma.BigIntFilter<"chat_participants"> | bigint | number
+  user_id?: Prisma.UuidNullableFilter<"chat_participants"> | string | null
   chat_id?: Prisma.UuidFilter<"chat_participants"> | string
-  joined_at?: Prisma.DateTimeNullableFilter<"chat_participants"> | Date | string | null
-  chats?: Prisma.XOR<Prisma.ChatsScalarRelationFilter, Prisma.chatsWhereInput>
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
+  joined_at?: Prisma.DateTimeFilter<"chat_participants"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  chat?: Prisma.XOR<Prisma.ChatsScalarRelationFilter, Prisma.chatsWhereInput>
 }
 
 export type chat_participantsOrderByWithRelationInput = {
-  user_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   chat_id?: Prisma.SortOrder
-  joined_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  chats?: Prisma.chatsOrderByWithRelationInput
-  users?: Prisma.usersOrderByWithRelationInput
+  joined_at?: Prisma.SortOrder
+  user?: Prisma.usersOrderByWithRelationInput
+  chat?: Prisma.chatsOrderByWithRelationInput
 }
 
 export type chat_participantsWhereUniqueInput = Prisma.AtLeast<{
+  id?: bigint | number
   user_id_chat_id?: Prisma.chat_participantsUser_idChat_idCompoundUniqueInput
   AND?: Prisma.chat_participantsWhereInput | Prisma.chat_participantsWhereInput[]
   OR?: Prisma.chat_participantsWhereInput[]
   NOT?: Prisma.chat_participantsWhereInput | Prisma.chat_participantsWhereInput[]
-  user_id?: Prisma.UuidFilter<"chat_participants"> | string
+  user_id?: Prisma.UuidNullableFilter<"chat_participants"> | string | null
   chat_id?: Prisma.UuidFilter<"chat_participants"> | string
-  joined_at?: Prisma.DateTimeNullableFilter<"chat_participants"> | Date | string | null
-  chats?: Prisma.XOR<Prisma.ChatsScalarRelationFilter, Prisma.chatsWhereInput>
-  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-}, "user_id_chat_id">
+  joined_at?: Prisma.DateTimeFilter<"chat_participants"> | Date | string
+  user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  chat?: Prisma.XOR<Prisma.ChatsScalarRelationFilter, Prisma.chatsWhereInput>
+}, "id" | "user_id_chat_id">
 
 export type chat_participantsOrderByWithAggregationInput = {
-  user_id?: Prisma.SortOrder
+  id?: Prisma.SortOrder
+  user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   chat_id?: Prisma.SortOrder
-  joined_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  joined_at?: Prisma.SortOrder
   _count?: Prisma.chat_participantsCountOrderByAggregateInput
+  _avg?: Prisma.chat_participantsAvgOrderByAggregateInput
   _max?: Prisma.chat_participantsMaxOrderByAggregateInput
   _min?: Prisma.chat_participantsMinOrderByAggregateInput
+  _sum?: Prisma.chat_participantsSumOrderByAggregateInput
 }
 
 export type chat_participantsScalarWhereWithAggregatesInput = {
   AND?: Prisma.chat_participantsScalarWhereWithAggregatesInput | Prisma.chat_participantsScalarWhereWithAggregatesInput[]
   OR?: Prisma.chat_participantsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.chat_participantsScalarWhereWithAggregatesInput | Prisma.chat_participantsScalarWhereWithAggregatesInput[]
-  user_id?: Prisma.UuidWithAggregatesFilter<"chat_participants"> | string
+  id?: Prisma.BigIntWithAggregatesFilter<"chat_participants"> | bigint | number
+  user_id?: Prisma.UuidNullableWithAggregatesFilter<"chat_participants"> | string | null
   chat_id?: Prisma.UuidWithAggregatesFilter<"chat_participants"> | string
-  joined_at?: Prisma.DateTimeNullableWithAggregatesFilter<"chat_participants"> | Date | string | null
+  joined_at?: Prisma.DateTimeWithAggregatesFilter<"chat_participants"> | Date | string
 }
 
 export type chat_participantsCreateInput = {
-  joined_at?: Date | string | null
-  chats: Prisma.chatsCreateNestedOneWithoutChat_participantsInput
-  users: Prisma.usersCreateNestedOneWithoutChat_participantsInput
+  id?: bigint | number
+  joined_at?: Date | string
+  user?: Prisma.usersCreateNestedOneWithoutChat_participantsInput
+  chat: Prisma.chatsCreateNestedOneWithoutChat_participantsInput
 }
 
 export type chat_participantsUncheckedCreateInput = {
-  user_id: string
+  id?: bigint | number
+  user_id?: string | null
   chat_id: string
-  joined_at?: Date | string | null
+  joined_at?: Date | string
 }
 
 export type chat_participantsUpdateInput = {
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  chats?: Prisma.chatsUpdateOneRequiredWithoutChat_participantsNestedInput
-  users?: Prisma.usersUpdateOneRequiredWithoutChat_participantsNestedInput
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneWithoutChat_participantsNestedInput
+  chat?: Prisma.chatsUpdateOneRequiredWithoutChat_participantsNestedInput
 }
 
 export type chat_participantsUncheckedUpdateInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   chat_id?: Prisma.StringFieldUpdateOperationsInput | string
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type chat_participantsCreateManyInput = {
-  user_id: string
+  id?: bigint | number
+  user_id?: string | null
   chat_id: string
-  joined_at?: Date | string | null
+  joined_at?: Date | string
 }
 
 export type chat_participantsUpdateManyMutationInput = {
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type chat_participantsUncheckedUpdateManyInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   chat_id?: Prisma.StringFieldUpdateOperationsInput | string
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type chat_participantsUser_idChat_idCompoundUniqueInput = {
-  user_id: string
-  chat_id: string
-}
-
-export type chat_participantsCountOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  chat_id?: Prisma.SortOrder
-  joined_at?: Prisma.SortOrder
-}
-
-export type chat_participantsMaxOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  chat_id?: Prisma.SortOrder
-  joined_at?: Prisma.SortOrder
-}
-
-export type chat_participantsMinOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  chat_id?: Prisma.SortOrder
-  joined_at?: Prisma.SortOrder
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type Chat_participantsListRelationFilter = {
@@ -281,267 +313,319 @@ export type chat_participantsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type chat_participantsCreateNestedManyWithoutChatsInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatsInput, Prisma.chat_participantsUncheckedCreateWithoutChatsInput> | Prisma.chat_participantsCreateWithoutChatsInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatsInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatsInput | Prisma.chat_participantsCreateOrConnectWithoutChatsInput[]
-  createMany?: Prisma.chat_participantsCreateManyChatsInputEnvelope
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-}
-
-export type chat_participantsUncheckedCreateNestedManyWithoutChatsInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatsInput, Prisma.chat_participantsUncheckedCreateWithoutChatsInput> | Prisma.chat_participantsCreateWithoutChatsInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatsInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatsInput | Prisma.chat_participantsCreateOrConnectWithoutChatsInput[]
-  createMany?: Prisma.chat_participantsCreateManyChatsInputEnvelope
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-}
-
-export type chat_participantsUpdateManyWithoutChatsNestedInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatsInput, Prisma.chat_participantsUncheckedCreateWithoutChatsInput> | Prisma.chat_participantsCreateWithoutChatsInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatsInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatsInput | Prisma.chat_participantsCreateOrConnectWithoutChatsInput[]
-  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatsInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatsInput[]
-  createMany?: Prisma.chat_participantsCreateManyChatsInputEnvelope
-  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatsInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatsInput[]
-  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutChatsInput | Prisma.chat_participantsUpdateManyWithWhereWithoutChatsInput[]
-  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
-}
-
-export type chat_participantsUncheckedUpdateManyWithoutChatsNestedInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatsInput, Prisma.chat_participantsUncheckedCreateWithoutChatsInput> | Prisma.chat_participantsCreateWithoutChatsInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatsInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatsInput | Prisma.chat_participantsCreateOrConnectWithoutChatsInput[]
-  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatsInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatsInput[]
-  createMany?: Prisma.chat_participantsCreateManyChatsInputEnvelope
-  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatsInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatsInput[]
-  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutChatsInput | Prisma.chat_participantsUpdateManyWithWhereWithoutChatsInput[]
-  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
-}
-
-export type chat_participantsCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUsersInput, Prisma.chat_participantsUncheckedCreateWithoutUsersInput> | Prisma.chat_participantsCreateWithoutUsersInput[] | Prisma.chat_participantsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUsersInput | Prisma.chat_participantsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.chat_participantsCreateManyUsersInputEnvelope
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-}
-
-export type chat_participantsUncheckedCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUsersInput, Prisma.chat_participantsUncheckedCreateWithoutUsersInput> | Prisma.chat_participantsCreateWithoutUsersInput[] | Prisma.chat_participantsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUsersInput | Prisma.chat_participantsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.chat_participantsCreateManyUsersInputEnvelope
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-}
-
-export type chat_participantsUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUsersInput, Prisma.chat_participantsUncheckedCreateWithoutUsersInput> | Prisma.chat_participantsCreateWithoutUsersInput[] | Prisma.chat_participantsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUsersInput | Prisma.chat_participantsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutUsersInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.chat_participantsCreateManyUsersInputEnvelope
-  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutUsersInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutUsersInput | Prisma.chat_participantsUpdateManyWithWhereWithoutUsersInput[]
-  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
-}
-
-export type chat_participantsUncheckedUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUsersInput, Prisma.chat_participantsUncheckedCreateWithoutUsersInput> | Prisma.chat_participantsCreateWithoutUsersInput[] | Prisma.chat_participantsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUsersInput | Prisma.chat_participantsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutUsersInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.chat_participantsCreateManyUsersInputEnvelope
-  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
-  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutUsersInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutUsersInput | Prisma.chat_participantsUpdateManyWithWhereWithoutUsersInput[]
-  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
-}
-
-export type chat_participantsCreateWithoutChatsInput = {
-  joined_at?: Date | string | null
-  users: Prisma.usersCreateNestedOneWithoutChat_participantsInput
-}
-
-export type chat_participantsUncheckedCreateWithoutChatsInput = {
+export type chat_participantsUser_idChat_idCompoundUniqueInput = {
   user_id: string
-  joined_at?: Date | string | null
+  chat_id: string
 }
 
-export type chat_participantsCreateOrConnectWithoutChatsInput = {
+export type chat_participantsCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  chat_id?: Prisma.SortOrder
+  joined_at?: Prisma.SortOrder
+}
+
+export type chat_participantsAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
+export type chat_participantsMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  chat_id?: Prisma.SortOrder
+  joined_at?: Prisma.SortOrder
+}
+
+export type chat_participantsMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  chat_id?: Prisma.SortOrder
+  joined_at?: Prisma.SortOrder
+}
+
+export type chat_participantsSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
+export type chat_participantsCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUserInput, Prisma.chat_participantsUncheckedCreateWithoutUserInput> | Prisma.chat_participantsCreateWithoutUserInput[] | Prisma.chat_participantsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUserInput | Prisma.chat_participantsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.chat_participantsCreateManyUserInputEnvelope
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+}
+
+export type chat_participantsUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUserInput, Prisma.chat_participantsUncheckedCreateWithoutUserInput> | Prisma.chat_participantsCreateWithoutUserInput[] | Prisma.chat_participantsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUserInput | Prisma.chat_participantsCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.chat_participantsCreateManyUserInputEnvelope
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+}
+
+export type chat_participantsUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUserInput, Prisma.chat_participantsUncheckedCreateWithoutUserInput> | Prisma.chat_participantsCreateWithoutUserInput[] | Prisma.chat_participantsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUserInput | Prisma.chat_participantsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutUserInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.chat_participantsCreateManyUserInputEnvelope
+  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutUserInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutUserInput | Prisma.chat_participantsUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
+}
+
+export type chat_participantsUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutUserInput, Prisma.chat_participantsUncheckedCreateWithoutUserInput> | Prisma.chat_participantsCreateWithoutUserInput[] | Prisma.chat_participantsUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutUserInput | Prisma.chat_participantsCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutUserInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.chat_participantsCreateManyUserInputEnvelope
+  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutUserInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutUserInput | Prisma.chat_participantsUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
+}
+
+export type chat_participantsCreateNestedManyWithoutChatInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatInput, Prisma.chat_participantsUncheckedCreateWithoutChatInput> | Prisma.chat_participantsCreateWithoutChatInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatInput | Prisma.chat_participantsCreateOrConnectWithoutChatInput[]
+  createMany?: Prisma.chat_participantsCreateManyChatInputEnvelope
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+}
+
+export type chat_participantsUncheckedCreateNestedManyWithoutChatInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatInput, Prisma.chat_participantsUncheckedCreateWithoutChatInput> | Prisma.chat_participantsCreateWithoutChatInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatInput | Prisma.chat_participantsCreateOrConnectWithoutChatInput[]
+  createMany?: Prisma.chat_participantsCreateManyChatInputEnvelope
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+}
+
+export type chat_participantsUpdateManyWithoutChatNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatInput, Prisma.chat_participantsUncheckedCreateWithoutChatInput> | Prisma.chat_participantsCreateWithoutChatInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatInput | Prisma.chat_participantsCreateOrConnectWithoutChatInput[]
+  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatInput[]
+  createMany?: Prisma.chat_participantsCreateManyChatInputEnvelope
+  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatInput[]
+  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutChatInput | Prisma.chat_participantsUpdateManyWithWhereWithoutChatInput[]
+  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
+}
+
+export type chat_participantsUncheckedUpdateManyWithoutChatNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatInput, Prisma.chat_participantsUncheckedCreateWithoutChatInput> | Prisma.chat_participantsCreateWithoutChatInput[] | Prisma.chat_participantsUncheckedCreateWithoutChatInput[]
+  connectOrCreate?: Prisma.chat_participantsCreateOrConnectWithoutChatInput | Prisma.chat_participantsCreateOrConnectWithoutChatInput[]
+  upsert?: Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatInput | Prisma.chat_participantsUpsertWithWhereUniqueWithoutChatInput[]
+  createMany?: Prisma.chat_participantsCreateManyChatInputEnvelope
+  set?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  disconnect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  delete?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  connect?: Prisma.chat_participantsWhereUniqueInput | Prisma.chat_participantsWhereUniqueInput[]
+  update?: Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatInput | Prisma.chat_participantsUpdateWithWhereUniqueWithoutChatInput[]
+  updateMany?: Prisma.chat_participantsUpdateManyWithWhereWithoutChatInput | Prisma.chat_participantsUpdateManyWithWhereWithoutChatInput[]
+  deleteMany?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
+}
+
+export type chat_participantsCreateWithoutUserInput = {
+  id?: bigint | number
+  joined_at?: Date | string
+  chat: Prisma.chatsCreateNestedOneWithoutChat_participantsInput
+}
+
+export type chat_participantsUncheckedCreateWithoutUserInput = {
+  id?: bigint | number
+  chat_id: string
+  joined_at?: Date | string
+}
+
+export type chat_participantsCreateOrConnectWithoutUserInput = {
   where: Prisma.chat_participantsWhereUniqueInput
-  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatsInput, Prisma.chat_participantsUncheckedCreateWithoutChatsInput>
+  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutUserInput, Prisma.chat_participantsUncheckedCreateWithoutUserInput>
 }
 
-export type chat_participantsCreateManyChatsInputEnvelope = {
-  data: Prisma.chat_participantsCreateManyChatsInput | Prisma.chat_participantsCreateManyChatsInput[]
+export type chat_participantsCreateManyUserInputEnvelope = {
+  data: Prisma.chat_participantsCreateManyUserInput | Prisma.chat_participantsCreateManyUserInput[]
   skipDuplicates?: boolean
 }
 
-export type chat_participantsUpsertWithWhereUniqueWithoutChatsInput = {
+export type chat_participantsUpsertWithWhereUniqueWithoutUserInput = {
   where: Prisma.chat_participantsWhereUniqueInput
-  update: Prisma.XOR<Prisma.chat_participantsUpdateWithoutChatsInput, Prisma.chat_participantsUncheckedUpdateWithoutChatsInput>
-  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatsInput, Prisma.chat_participantsUncheckedCreateWithoutChatsInput>
+  update: Prisma.XOR<Prisma.chat_participantsUpdateWithoutUserInput, Prisma.chat_participantsUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutUserInput, Prisma.chat_participantsUncheckedCreateWithoutUserInput>
 }
 
-export type chat_participantsUpdateWithWhereUniqueWithoutChatsInput = {
+export type chat_participantsUpdateWithWhereUniqueWithoutUserInput = {
   where: Prisma.chat_participantsWhereUniqueInput
-  data: Prisma.XOR<Prisma.chat_participantsUpdateWithoutChatsInput, Prisma.chat_participantsUncheckedUpdateWithoutChatsInput>
+  data: Prisma.XOR<Prisma.chat_participantsUpdateWithoutUserInput, Prisma.chat_participantsUncheckedUpdateWithoutUserInput>
 }
 
-export type chat_participantsUpdateManyWithWhereWithoutChatsInput = {
+export type chat_participantsUpdateManyWithWhereWithoutUserInput = {
   where: Prisma.chat_participantsScalarWhereInput
-  data: Prisma.XOR<Prisma.chat_participantsUpdateManyMutationInput, Prisma.chat_participantsUncheckedUpdateManyWithoutChatsInput>
+  data: Prisma.XOR<Prisma.chat_participantsUpdateManyMutationInput, Prisma.chat_participantsUncheckedUpdateManyWithoutUserInput>
 }
 
 export type chat_participantsScalarWhereInput = {
   AND?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
   OR?: Prisma.chat_participantsScalarWhereInput[]
   NOT?: Prisma.chat_participantsScalarWhereInput | Prisma.chat_participantsScalarWhereInput[]
-  user_id?: Prisma.UuidFilter<"chat_participants"> | string
+  id?: Prisma.BigIntFilter<"chat_participants"> | bigint | number
+  user_id?: Prisma.UuidNullableFilter<"chat_participants"> | string | null
   chat_id?: Prisma.UuidFilter<"chat_participants"> | string
-  joined_at?: Prisma.DateTimeNullableFilter<"chat_participants"> | Date | string | null
+  joined_at?: Prisma.DateTimeFilter<"chat_participants"> | Date | string
 }
 
-export type chat_participantsCreateWithoutUsersInput = {
-  joined_at?: Date | string | null
-  chats: Prisma.chatsCreateNestedOneWithoutChat_participantsInput
+export type chat_participantsCreateWithoutChatInput = {
+  id?: bigint | number
+  joined_at?: Date | string
+  user?: Prisma.usersCreateNestedOneWithoutChat_participantsInput
 }
 
-export type chat_participantsUncheckedCreateWithoutUsersInput = {
-  chat_id: string
-  joined_at?: Date | string | null
+export type chat_participantsUncheckedCreateWithoutChatInput = {
+  id?: bigint | number
+  user_id?: string | null
+  joined_at?: Date | string
 }
 
-export type chat_participantsCreateOrConnectWithoutUsersInput = {
+export type chat_participantsCreateOrConnectWithoutChatInput = {
   where: Prisma.chat_participantsWhereUniqueInput
-  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutUsersInput, Prisma.chat_participantsUncheckedCreateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatInput, Prisma.chat_participantsUncheckedCreateWithoutChatInput>
 }
 
-export type chat_participantsCreateManyUsersInputEnvelope = {
-  data: Prisma.chat_participantsCreateManyUsersInput | Prisma.chat_participantsCreateManyUsersInput[]
+export type chat_participantsCreateManyChatInputEnvelope = {
+  data: Prisma.chat_participantsCreateManyChatInput | Prisma.chat_participantsCreateManyChatInput[]
   skipDuplicates?: boolean
 }
 
-export type chat_participantsUpsertWithWhereUniqueWithoutUsersInput = {
+export type chat_participantsUpsertWithWhereUniqueWithoutChatInput = {
   where: Prisma.chat_participantsWhereUniqueInput
-  update: Prisma.XOR<Prisma.chat_participantsUpdateWithoutUsersInput, Prisma.chat_participantsUncheckedUpdateWithoutUsersInput>
-  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutUsersInput, Prisma.chat_participantsUncheckedCreateWithoutUsersInput>
+  update: Prisma.XOR<Prisma.chat_participantsUpdateWithoutChatInput, Prisma.chat_participantsUncheckedUpdateWithoutChatInput>
+  create: Prisma.XOR<Prisma.chat_participantsCreateWithoutChatInput, Prisma.chat_participantsUncheckedCreateWithoutChatInput>
 }
 
-export type chat_participantsUpdateWithWhereUniqueWithoutUsersInput = {
+export type chat_participantsUpdateWithWhereUniqueWithoutChatInput = {
   where: Prisma.chat_participantsWhereUniqueInput
-  data: Prisma.XOR<Prisma.chat_participantsUpdateWithoutUsersInput, Prisma.chat_participantsUncheckedUpdateWithoutUsersInput>
+  data: Prisma.XOR<Prisma.chat_participantsUpdateWithoutChatInput, Prisma.chat_participantsUncheckedUpdateWithoutChatInput>
 }
 
-export type chat_participantsUpdateManyWithWhereWithoutUsersInput = {
+export type chat_participantsUpdateManyWithWhereWithoutChatInput = {
   where: Prisma.chat_participantsScalarWhereInput
-  data: Prisma.XOR<Prisma.chat_participantsUpdateManyMutationInput, Prisma.chat_participantsUncheckedUpdateManyWithoutUsersInput>
+  data: Prisma.XOR<Prisma.chat_participantsUpdateManyMutationInput, Prisma.chat_participantsUncheckedUpdateManyWithoutChatInput>
 }
 
-export type chat_participantsCreateManyChatsInput = {
-  user_id: string
-  joined_at?: Date | string | null
-}
-
-export type chat_participantsUpdateWithoutChatsInput = {
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  users?: Prisma.usersUpdateOneRequiredWithoutChat_participantsNestedInput
-}
-
-export type chat_participantsUncheckedUpdateWithoutChatsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type chat_participantsUncheckedUpdateManyWithoutChatsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type chat_participantsCreateManyUsersInput = {
+export type chat_participantsCreateManyUserInput = {
+  id?: bigint | number
   chat_id: string
-  joined_at?: Date | string | null
+  joined_at?: Date | string
 }
 
-export type chat_participantsUpdateWithoutUsersInput = {
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  chats?: Prisma.chatsUpdateOneRequiredWithoutChat_participantsNestedInput
+export type chat_participantsUpdateWithoutUserInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chat?: Prisma.chatsUpdateOneRequiredWithoutChat_participantsNestedInput
 }
 
-export type chat_participantsUncheckedUpdateWithoutUsersInput = {
+export type chat_participantsUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   chat_id?: Prisma.StringFieldUpdateOperationsInput | string
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type chat_participantsUncheckedUpdateManyWithoutUsersInput = {
+export type chat_participantsUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   chat_id?: Prisma.StringFieldUpdateOperationsInput | string
-  joined_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type chat_participantsCreateManyChatInput = {
+  id?: bigint | number
+  user_id?: string | null
+  joined_at?: Date | string
+}
+
+export type chat_participantsUpdateWithoutChatInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.usersUpdateOneWithoutChat_participantsNestedInput
+}
+
+export type chat_participantsUncheckedUpdateWithoutChatInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type chat_participantsUncheckedUpdateManyWithoutChatInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  joined_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type chat_participantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   user_id?: boolean
   chat_id?: boolean
   joined_at?: boolean
-  chats?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.chat_participants$userArgs<ExtArgs>
+  chat?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chat_participants"]>
 
 export type chat_participantsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   user_id?: boolean
   chat_id?: boolean
   joined_at?: boolean
-  chats?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.chat_participants$userArgs<ExtArgs>
+  chat?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chat_participants"]>
 
 export type chat_participantsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   user_id?: boolean
   chat_id?: boolean
   joined_at?: boolean
-  chats?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.chat_participants$userArgs<ExtArgs>
+  chat?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chat_participants"]>
 
 export type chat_participantsSelectScalar = {
+  id?: boolean
   user_id?: boolean
   chat_id?: boolean
   joined_at?: boolean
 }
 
-export type chat_participantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "chat_id" | "joined_at", ExtArgs["result"]["chat_participants"]>
+export type chat_participantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "chat_id" | "joined_at", ExtArgs["result"]["chat_participants"]>
 export type chat_participantsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  chats?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.chat_participants$userArgs<ExtArgs>
+  chat?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
 }
 export type chat_participantsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  chats?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.chat_participants$userArgs<ExtArgs>
+  chat?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
 }
 export type chat_participantsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  chats?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
-  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.chat_participants$userArgs<ExtArgs>
+  chat?: boolean | Prisma.chatsDefaultArgs<ExtArgs>
 }
 
 export type $chat_participantsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "chat_participants"
   objects: {
-    chats: Prisma.$chatsPayload<ExtArgs>
-    users: Prisma.$usersPayload<ExtArgs>
+    user: Prisma.$usersPayload<ExtArgs> | null
+    chat: Prisma.$chatsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    user_id: string
+    id: bigint
+    user_id: string | null
     chat_id: string
-    joined_at: Date | null
+    joined_at: Date
   }, ExtArgs["result"]["chat_participants"]>
   composites: {}
 }
@@ -625,8 +709,8 @@ export interface chat_participantsDelegate<ExtArgs extends runtime.Types.Extensi
    * // Get first 10 Chat_participants
    * const chat_participants = await prisma.chat_participants.findMany({ take: 10 })
    * 
-   * // Only select the `user_id`
-   * const chat_participantsWithUser_idOnly = await prisma.chat_participants.findMany({ select: { user_id: true } })
+   * // Only select the `id`
+   * const chat_participantsWithIdOnly = await prisma.chat_participants.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends chat_participantsFindManyArgs>(args?: Prisma.SelectSubset<T, chat_participantsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$chat_participantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -670,9 +754,9 @@ export interface chat_participantsDelegate<ExtArgs extends runtime.Types.Extensi
    *   ]
    * })
    * 
-   * // Create many Chat_participants and only return the `user_id`
-   * const chat_participantsWithUser_idOnly = await prisma.chat_participants.createManyAndReturn({
-   *   select: { user_id: true },
+   * // Create many Chat_participants and only return the `id`
+   * const chat_participantsWithIdOnly = await prisma.chat_participants.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -761,9 +845,9 @@ export interface chat_participantsDelegate<ExtArgs extends runtime.Types.Extensi
    *   ]
    * })
    * 
-   * // Update zero or more Chat_participants and only return the `user_id`
-   * const chat_participantsWithUser_idOnly = await prisma.chat_participants.updateManyAndReturn({
-   *   select: { user_id: true },
+   * // Update zero or more Chat_participants and only return the `id`
+   * const chat_participantsWithIdOnly = await prisma.chat_participants.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -936,8 +1020,8 @@ readonly fields: chat_participantsFieldRefs;
  */
 export interface Prisma__chat_participantsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  chats<T extends Prisma.chatsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.chatsDefaultArgs<ExtArgs>>): Prisma.Prisma__chatsClient<runtime.Types.Result.GetResult<Prisma.$chatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  users<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.chat_participants$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.chat_participants$userArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  chat<T extends Prisma.chatsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.chatsDefaultArgs<ExtArgs>>): Prisma.Prisma__chatsClient<runtime.Types.Result.GetResult<Prisma.$chatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -967,6 +1051,7 @@ export interface Prisma__chat_participantsClient<T, Null = never, ExtArgs extend
  * Fields of the chat_participants model
  */
 export interface chat_participantsFieldRefs {
+  readonly id: Prisma.FieldRef<"chat_participants", 'BigInt'>
   readonly user_id: Prisma.FieldRef<"chat_participants", 'String'>
   readonly chat_id: Prisma.FieldRef<"chat_participants", 'String'>
   readonly joined_at: Prisma.FieldRef<"chat_participants", 'DateTime'>
@@ -1368,6 +1453,25 @@ export type chat_participantsDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many chat_participants to delete.
    */
   limit?: number
+}
+
+/**
+ * chat_participants.user
+ */
+export type chat_participants$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the users
+   */
+  select?: Prisma.usersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the users
+   */
+  omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  where?: Prisma.usersWhereInput
 }
 
 /**

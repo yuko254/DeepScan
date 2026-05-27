@@ -1,46 +1,64 @@
-import { z } from 'zod';
+import * as Dto from "../dtos/dto.js";
+import * as prisma from "../dtos/prismaRes.dto.js";
+import { toProfileDto, ProfileDto } from "./profile.dto.js";
+import type { Roles, Users } from '../graphql/generated/graphql.js';
 
-export const UpdateUserSchema = z.object({
-  username: 
-    z.string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(50, 'Username must be at most 50 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers and underscores')
-    .optional(),
-  email: z.email('Invalid email address').optional(),
-  bio: 
-    z.string()
-    .max(500, 'Bio can have at most 500 characters')
-    .optional(),
-  private:
-    z.boolean(),
-  avatar: 
-    z.url("invalid URL")
-    .optional(),
-  birth_location:
-    z.string()
-    .optional(),
-  current_location:
-    z.string()
-    .optional(),
-  first_name: 
-    z.string()
-    .max(50, "'first name must be at most 50 characters'")
-    .optional(),
-  last_name: 
-    z.string()
-    .max(50, "'last name must be at most 50 characters'")
-    .optional(),
-  phone_number: 
-    z.string()
-    .max(20, "'phone number must be at most 20 characters'")
-    .optional(),
-  birth_date: 
-    z.coerce.date("invalid date")
-    .optional(),
-});
+export type RoleDto = Pick<Roles, 'role_id' | 'role_name'>;
+export function toRoleDto(role: prisma.PrismaRole): RoleDto {
+  return {
+    role_id: role.role_id,
+    role_name: role.role_name as RoleDto['role_name'],
+  };
+}
 
-export const UserSearchSchema = z.object({
-  q: z.string().min(1),
-  limit: z.coerce.number().int().positive().max(100).default(20),
-});
+export type UserAccountDto = Pick<Users, 'user_id' | 'username' | 'email'> & { role: RoleDto | null; };
+export function toUserAccountDto(user: prisma.PrismaUserAccount): UserAccountDto {
+  return {
+    user_id: user.user_id,
+    username: user.username,
+    email: user.email,
+    role: user.role ? toRoleDto(user.role) : null
+  };
+}
+
+export type UserDto = UserAccountDto & { profile: ProfileDto | null; };
+export function toUserDto(user: prisma.PrismaUser): UserDto {
+  return {
+    ...toUserAccountDto(user),
+    profile: user.profile ? toProfileDto(user.profile) : null
+  };
+}
+
+// Admin response DTOs
+
+export type AdminUserAccountDto = UserAccountDto & {
+  is_active: boolean;
+  is_banned: boolean;
+  created_at: Date;
+  updated_at: Date;
+};
+export function toAdminUserAccountDto(user: prisma.PrismaUserAccount): AdminUserAccountDto {
+  return {
+    user_id: user.user_id,
+    username: user.username,
+    email: user.email,
+    is_active: user.is_active,
+    is_banned: user.is_banned,
+    created_at: user.created_at,
+    updated_at: user.updated_at,
+    role: user.role ? toRoleDto(user.role) : null
+  };
+};
+
+export type AdminUserDto = AdminUserAccountDto & { profile: ProfileDto | null; };
+export function toAdminUserDto(user: prisma.PrismaUser): AdminUserDto {
+  return {
+    ...toAdminUserAccountDto(user),
+    profile: user.profile ? toProfileDto(user.profile) : null
+  };
+}
+
+export interface AdminUserAccountsPageDto {
+  users: AdminUserAccountDto[];
+  pagination: Dto.PageDto;
+}

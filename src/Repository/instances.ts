@@ -1,0 +1,38 @@
+// AUTO-GENERATED
+import * as Repos from './index.js';
+
+export const adminAuditRepo = new Repos.AdminAuditRepo();
+
+export const blockRepo = new Repos.BlockRepo();
+export const categoryRepo = new Repos.CategoryRepo();
+export const chatParticipantRepo = new Repos.ChatParticipantRepo();
+export const chatRepo = new Repos.ChatRepo();
+export const cityRepo = new Repos.CityRepo();
+export const commentHashtagRepo = new Repos.CommentHashtagRepo();
+export const commentLikeRepo = new Repos.CommentLikeRepo();
+export const commentRepo = new Repos.CommentRepo();
+export const contentHashtagRepo = new Repos.ContentHashtagRepo();
+export const contentRepo = new Repos.ContentRepo();
+export const countryRepo = new Repos.CountryRepo();
+export const deviceTokenRepo = new Repos.DeviceTokenRepo();
+export const followRequestRepo = new Repos.FollowRequestRepo();
+export const followRepo = new Repos.FollowRepo();
+export const hashtagRepo = new Repos.HashtagRepo();
+export const locationRepo = new Repos.LocationRepo();
+export const mediaRepo = new Repos.MediaRepo();
+export const messageRepo = new Repos.MessageRepo();
+export const notificationTargetRepo = new Repos.NotificationTargetRepo();
+export const notificationRepo = new Repos.NotificationRepo();
+export const postLikeRepo = new Repos.PostLikeRepo();
+export const postTagRepo = new Repos.PostTagRepo();
+export const postRepo = new Repos.PostRepo();
+export const profileRepo = new Repos.ProfileRepo();
+export const reportTargetRepo = new Repos.ReportTargetRepo();
+export const reportRepo = new Repos.ReportRepo();
+export const roleRepo = new Repos.RoleRepo();
+export const savedPostRepo = new Repos.SavedPostRepo();
+export const scanRepo = new Repos.ScanRepo();
+export const storyViewRepo = new Repos.StoryViewRepo();
+export const storyRepo = new Repos.StoryRepo();
+export const tagRepo = new Repos.TagRepo();
+export const userRepo = new Repos.UserRepo();

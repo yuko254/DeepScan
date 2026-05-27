@@ -1,0 +1,70 @@
+scalar DateTime
+scalar JSON
+scalar BigInt
+
+enum ContentType {
+  post
+  story
+  scan
+}
+
+enum Visibility {
+  public
+  followers
+  private
+}
+
+enum DeviceType {
+  ios
+  android
+  web
+}
+
+enum NotificationType {
+  mention
+  like
+  comment
+  reply
+  system
+  message
+}
+
+enum ReportStatus {
+  pending
+  reviewed
+  resolved
+  dismissed
+}
+
+enum FollowRequestStatus {
+  pending
+  accepted
+  rejected
+}
+
+enum MediaType {
+  image
+  video
+}
+
+enum Role {
+  admin
+  moderator
+  user
+}
+
+enum ReportType {
+  post
+  comment
+  story
+  profile
+}
+
+
+type Query {
+  _empty: String
+}
+
+type Mutation {
+  _empty: String
+}

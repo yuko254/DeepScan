@@ -20,69 +20,45 @@ export type hashtagsModel = runtime.Types.Result.DefaultSelection<Prisma.$hashta
 
 export type AggregateHashtags = {
   _count: HashtagsCountAggregateOutputType | null
-  _avg: HashtagsAvgAggregateOutputType | null
-  _sum: HashtagsSumAggregateOutputType | null
   _min: HashtagsMinAggregateOutputType | null
   _max: HashtagsMaxAggregateOutputType | null
-}
-
-export type HashtagsAvgAggregateOutputType = {
-  post_count: number | null
-}
-
-export type HashtagsSumAggregateOutputType = {
-  post_count: number | null
 }
 
 export type HashtagsMinAggregateOutputType = {
   hashtag_id: string | null
   name: string | null
-  post_count: number | null
   created_at: Date | null
 }
 
 export type HashtagsMaxAggregateOutputType = {
   hashtag_id: string | null
   name: string | null
-  post_count: number | null
   created_at: Date | null
 }
 
 export type HashtagsCountAggregateOutputType = {
   hashtag_id: number
   name: number
-  post_count: number
   created_at: number
   _all: number
 }
 
 
-export type HashtagsAvgAggregateInputType = {
-  post_count?: true
-}
-
-export type HashtagsSumAggregateInputType = {
-  post_count?: true
-}
-
 export type HashtagsMinAggregateInputType = {
   hashtag_id?: true
   name?: true
-  post_count?: true
   created_at?: true
 }
 
 export type HashtagsMaxAggregateInputType = {
   hashtag_id?: true
   name?: true
-  post_count?: true
   created_at?: true
 }
 
 export type HashtagsCountAggregateInputType = {
   hashtag_id?: true
   name?: true
-  post_count?: true
   created_at?: true
   _all?: true
 }
@@ -125,18 +101,6 @@ export type HashtagsAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: HashtagsAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: HashtagsSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: HashtagsMinAggregateInputType
@@ -167,8 +131,6 @@ export type hashtagsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: HashtagsCountAggregateInputType | true
-  _avg?: HashtagsAvgAggregateInputType
-  _sum?: HashtagsSumAggregateInputType
   _min?: HashtagsMinAggregateInputType
   _max?: HashtagsMaxAggregateInputType
 }
@@ -176,11 +138,8 @@ export type hashtagsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type HashtagsGroupByOutputType = {
   hashtag_id: string
   name: string
-  post_count: number | null
-  created_at: Date | null
+  created_at: Date
   _count: HashtagsCountAggregateOutputType | null
-  _avg: HashtagsAvgAggregateOutputType | null
-  _sum: HashtagsSumAggregateOutputType | null
   _min: HashtagsMinAggregateOutputType | null
   _max: HashtagsMaxAggregateOutputType | null
 }
@@ -206,17 +165,17 @@ export type hashtagsWhereInput = {
   NOT?: Prisma.hashtagsWhereInput | Prisma.hashtagsWhereInput[]
   hashtag_id?: Prisma.UuidFilter<"hashtags"> | string
   name?: Prisma.StringFilter<"hashtags"> | string
-  post_count?: Prisma.IntNullableFilter<"hashtags"> | number | null
-  created_at?: Prisma.DateTimeNullableFilter<"hashtags"> | Date | string | null
-  post_hashtags?: Prisma.Post_hashtagsListRelationFilter
+  created_at?: Prisma.DateTimeFilter<"hashtags"> | Date | string
+  contentHashtags?: Prisma.Content_hashtagsListRelationFilter
+  commentHashtags?: Prisma.Comment_hashtagsListRelationFilter
 }
 
 export type hashtagsOrderByWithRelationInput = {
   hashtag_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  post_count?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  post_hashtags?: Prisma.post_hashtagsOrderByRelationAggregateInput
+  created_at?: Prisma.SortOrder
+  contentHashtags?: Prisma.content_hashtagsOrderByRelationAggregateInput
+  commentHashtags?: Prisma.comment_hashtagsOrderByRelationAggregateInput
 }
 
 export type hashtagsWhereUniqueInput = Prisma.AtLeast<{
@@ -225,21 +184,18 @@ export type hashtagsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.hashtagsWhereInput | Prisma.hashtagsWhereInput[]
   OR?: Prisma.hashtagsWhereInput[]
   NOT?: Prisma.hashtagsWhereInput | Prisma.hashtagsWhereInput[]
-  post_count?: Prisma.IntNullableFilter<"hashtags"> | number | null
-  created_at?: Prisma.DateTimeNullableFilter<"hashtags"> | Date | string | null
-  post_hashtags?: Prisma.Post_hashtagsListRelationFilter
+  created_at?: Prisma.DateTimeFilter<"hashtags"> | Date | string
+  contentHashtags?: Prisma.Content_hashtagsListRelationFilter
+  commentHashtags?: Prisma.Comment_hashtagsListRelationFilter
 }, "hashtag_id" | "name">
 
 export type hashtagsOrderByWithAggregationInput = {
   hashtag_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  post_count?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   _count?: Prisma.hashtagsCountOrderByAggregateInput
-  _avg?: Prisma.hashtagsAvgOrderByAggregateInput
   _max?: Prisma.hashtagsMaxOrderByAggregateInput
   _min?: Prisma.hashtagsMinOrderByAggregateInput
-  _sum?: Prisma.hashtagsSumOrderByAggregateInput
 }
 
 export type hashtagsScalarWhereWithAggregatesInput = {
@@ -248,90 +204,75 @@ export type hashtagsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.hashtagsScalarWhereWithAggregatesInput | Prisma.hashtagsScalarWhereWithAggregatesInput[]
   hashtag_id?: Prisma.UuidWithAggregatesFilter<"hashtags"> | string
   name?: Prisma.StringWithAggregatesFilter<"hashtags"> | string
-  post_count?: Prisma.IntNullableWithAggregatesFilter<"hashtags"> | number | null
-  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"hashtags"> | Date | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"hashtags"> | Date | string
 }
 
 export type hashtagsCreateInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
-  post_hashtags?: Prisma.post_hashtagsCreateNestedManyWithoutHashtagsInput
+  created_at?: Date | string
+  contentHashtags?: Prisma.content_hashtagsCreateNestedManyWithoutHashtagInput
+  commentHashtags?: Prisma.comment_hashtagsCreateNestedManyWithoutHashtagInput
 }
 
 export type hashtagsUncheckedCreateInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
-  post_hashtags?: Prisma.post_hashtagsUncheckedCreateNestedManyWithoutHashtagsInput
+  created_at?: Date | string
+  contentHashtags?: Prisma.content_hashtagsUncheckedCreateNestedManyWithoutHashtagInput
+  commentHashtags?: Prisma.comment_hashtagsUncheckedCreateNestedManyWithoutHashtagInput
 }
 
 export type hashtagsUpdateInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  post_hashtags?: Prisma.post_hashtagsUpdateManyWithoutHashtagsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contentHashtags?: Prisma.content_hashtagsUpdateManyWithoutHashtagNestedInput
+  commentHashtags?: Prisma.comment_hashtagsUpdateManyWithoutHashtagNestedInput
 }
 
 export type hashtagsUncheckedUpdateInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  post_hashtags?: Prisma.post_hashtagsUncheckedUpdateManyWithoutHashtagsNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contentHashtags?: Prisma.content_hashtagsUncheckedUpdateManyWithoutHashtagNestedInput
+  commentHashtags?: Prisma.comment_hashtagsUncheckedUpdateManyWithoutHashtagNestedInput
 }
 
 export type hashtagsCreateManyInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
+  created_at?: Date | string
 }
 
 export type hashtagsUpdateManyMutationInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type hashtagsUncheckedUpdateManyInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type hashtagsCountOrderByAggregateInput = {
   hashtag_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  post_count?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-}
-
-export type hashtagsAvgOrderByAggregateInput = {
-  post_count?: Prisma.SortOrder
 }
 
 export type hashtagsMaxOrderByAggregateInput = {
   hashtag_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  post_count?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
 export type hashtagsMinOrderByAggregateInput = {
   hashtag_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  post_count?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-}
-
-export type hashtagsSumOrderByAggregateInput = {
-  post_count?: Prisma.SortOrder
 }
 
 export type HashtagsScalarRelationFilter = {
@@ -339,70 +280,120 @@ export type HashtagsScalarRelationFilter = {
   isNot?: Prisma.hashtagsWhereInput
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type hashtagsCreateNestedOneWithoutPost_hashtagsInput = {
-  create?: Prisma.XOR<Prisma.hashtagsCreateWithoutPost_hashtagsInput, Prisma.hashtagsUncheckedCreateWithoutPost_hashtagsInput>
-  connectOrCreate?: Prisma.hashtagsCreateOrConnectWithoutPost_hashtagsInput
+export type hashtagsCreateNestedOneWithoutContentHashtagsInput = {
+  create?: Prisma.XOR<Prisma.hashtagsCreateWithoutContentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutContentHashtagsInput>
+  connectOrCreate?: Prisma.hashtagsCreateOrConnectWithoutContentHashtagsInput
   connect?: Prisma.hashtagsWhereUniqueInput
 }
 
-export type hashtagsUpdateOneRequiredWithoutPost_hashtagsNestedInput = {
-  create?: Prisma.XOR<Prisma.hashtagsCreateWithoutPost_hashtagsInput, Prisma.hashtagsUncheckedCreateWithoutPost_hashtagsInput>
-  connectOrCreate?: Prisma.hashtagsCreateOrConnectWithoutPost_hashtagsInput
-  upsert?: Prisma.hashtagsUpsertWithoutPost_hashtagsInput
+export type hashtagsUpdateOneRequiredWithoutContentHashtagsNestedInput = {
+  create?: Prisma.XOR<Prisma.hashtagsCreateWithoutContentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutContentHashtagsInput>
+  connectOrCreate?: Prisma.hashtagsCreateOrConnectWithoutContentHashtagsInput
+  upsert?: Prisma.hashtagsUpsertWithoutContentHashtagsInput
   connect?: Prisma.hashtagsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.hashtagsUpdateToOneWithWhereWithoutPost_hashtagsInput, Prisma.hashtagsUpdateWithoutPost_hashtagsInput>, Prisma.hashtagsUncheckedUpdateWithoutPost_hashtagsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.hashtagsUpdateToOneWithWhereWithoutContentHashtagsInput, Prisma.hashtagsUpdateWithoutContentHashtagsInput>, Prisma.hashtagsUncheckedUpdateWithoutContentHashtagsInput>
 }
 
-export type hashtagsCreateWithoutPost_hashtagsInput = {
+export type hashtagsCreateNestedOneWithoutCommentHashtagsInput = {
+  create?: Prisma.XOR<Prisma.hashtagsCreateWithoutCommentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutCommentHashtagsInput>
+  connectOrCreate?: Prisma.hashtagsCreateOrConnectWithoutCommentHashtagsInput
+  connect?: Prisma.hashtagsWhereUniqueInput
+}
+
+export type hashtagsUpdateOneRequiredWithoutCommentHashtagsNestedInput = {
+  create?: Prisma.XOR<Prisma.hashtagsCreateWithoutCommentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutCommentHashtagsInput>
+  connectOrCreate?: Prisma.hashtagsCreateOrConnectWithoutCommentHashtagsInput
+  upsert?: Prisma.hashtagsUpsertWithoutCommentHashtagsInput
+  connect?: Prisma.hashtagsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.hashtagsUpdateToOneWithWhereWithoutCommentHashtagsInput, Prisma.hashtagsUpdateWithoutCommentHashtagsInput>, Prisma.hashtagsUncheckedUpdateWithoutCommentHashtagsInput>
+}
+
+export type hashtagsCreateWithoutContentHashtagsInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
+  created_at?: Date | string
+  commentHashtags?: Prisma.comment_hashtagsCreateNestedManyWithoutHashtagInput
 }
 
-export type hashtagsUncheckedCreateWithoutPost_hashtagsInput = {
+export type hashtagsUncheckedCreateWithoutContentHashtagsInput = {
   hashtag_id?: string
   name: string
-  post_count?: number | null
-  created_at?: Date | string | null
+  created_at?: Date | string
+  commentHashtags?: Prisma.comment_hashtagsUncheckedCreateNestedManyWithoutHashtagInput
 }
 
-export type hashtagsCreateOrConnectWithoutPost_hashtagsInput = {
+export type hashtagsCreateOrConnectWithoutContentHashtagsInput = {
   where: Prisma.hashtagsWhereUniqueInput
-  create: Prisma.XOR<Prisma.hashtagsCreateWithoutPost_hashtagsInput, Prisma.hashtagsUncheckedCreateWithoutPost_hashtagsInput>
+  create: Prisma.XOR<Prisma.hashtagsCreateWithoutContentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutContentHashtagsInput>
 }
 
-export type hashtagsUpsertWithoutPost_hashtagsInput = {
-  update: Prisma.XOR<Prisma.hashtagsUpdateWithoutPost_hashtagsInput, Prisma.hashtagsUncheckedUpdateWithoutPost_hashtagsInput>
-  create: Prisma.XOR<Prisma.hashtagsCreateWithoutPost_hashtagsInput, Prisma.hashtagsUncheckedCreateWithoutPost_hashtagsInput>
+export type hashtagsUpsertWithoutContentHashtagsInput = {
+  update: Prisma.XOR<Prisma.hashtagsUpdateWithoutContentHashtagsInput, Prisma.hashtagsUncheckedUpdateWithoutContentHashtagsInput>
+  create: Prisma.XOR<Prisma.hashtagsCreateWithoutContentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutContentHashtagsInput>
   where?: Prisma.hashtagsWhereInput
 }
 
-export type hashtagsUpdateToOneWithWhereWithoutPost_hashtagsInput = {
+export type hashtagsUpdateToOneWithWhereWithoutContentHashtagsInput = {
   where?: Prisma.hashtagsWhereInput
-  data: Prisma.XOR<Prisma.hashtagsUpdateWithoutPost_hashtagsInput, Prisma.hashtagsUncheckedUpdateWithoutPost_hashtagsInput>
+  data: Prisma.XOR<Prisma.hashtagsUpdateWithoutContentHashtagsInput, Prisma.hashtagsUncheckedUpdateWithoutContentHashtagsInput>
 }
 
-export type hashtagsUpdateWithoutPost_hashtagsInput = {
+export type hashtagsUpdateWithoutContentHashtagsInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commentHashtags?: Prisma.comment_hashtagsUpdateManyWithoutHashtagNestedInput
 }
 
-export type hashtagsUncheckedUpdateWithoutPost_hashtagsInput = {
+export type hashtagsUncheckedUpdateWithoutContentHashtagsInput = {
   hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  post_count?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commentHashtags?: Prisma.comment_hashtagsUncheckedUpdateManyWithoutHashtagNestedInput
+}
+
+export type hashtagsCreateWithoutCommentHashtagsInput = {
+  hashtag_id?: string
+  name: string
+  created_at?: Date | string
+  contentHashtags?: Prisma.content_hashtagsCreateNestedManyWithoutHashtagInput
+}
+
+export type hashtagsUncheckedCreateWithoutCommentHashtagsInput = {
+  hashtag_id?: string
+  name: string
+  created_at?: Date | string
+  contentHashtags?: Prisma.content_hashtagsUncheckedCreateNestedManyWithoutHashtagInput
+}
+
+export type hashtagsCreateOrConnectWithoutCommentHashtagsInput = {
+  where: Prisma.hashtagsWhereUniqueInput
+  create: Prisma.XOR<Prisma.hashtagsCreateWithoutCommentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutCommentHashtagsInput>
+}
+
+export type hashtagsUpsertWithoutCommentHashtagsInput = {
+  update: Prisma.XOR<Prisma.hashtagsUpdateWithoutCommentHashtagsInput, Prisma.hashtagsUncheckedUpdateWithoutCommentHashtagsInput>
+  create: Prisma.XOR<Prisma.hashtagsCreateWithoutCommentHashtagsInput, Prisma.hashtagsUncheckedCreateWithoutCommentHashtagsInput>
+  where?: Prisma.hashtagsWhereInput
+}
+
+export type hashtagsUpdateToOneWithWhereWithoutCommentHashtagsInput = {
+  where?: Prisma.hashtagsWhereInput
+  data: Prisma.XOR<Prisma.hashtagsUpdateWithoutCommentHashtagsInput, Prisma.hashtagsUncheckedUpdateWithoutCommentHashtagsInput>
+}
+
+export type hashtagsUpdateWithoutCommentHashtagsInput = {
+  hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contentHashtags?: Prisma.content_hashtagsUpdateManyWithoutHashtagNestedInput
+}
+
+export type hashtagsUncheckedUpdateWithoutCommentHashtagsInput = {
+  hashtag_id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contentHashtags?: Prisma.content_hashtagsUncheckedUpdateManyWithoutHashtagNestedInput
 }
 
 
@@ -411,11 +402,13 @@ export type hashtagsUncheckedUpdateWithoutPost_hashtagsInput = {
  */
 
 export type HashtagsCountOutputType = {
-  post_hashtags: number
+  contentHashtags: number
+  commentHashtags: number
 }
 
 export type HashtagsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post_hashtags?: boolean | HashtagsCountOutputTypeCountPost_hashtagsArgs
+  contentHashtags?: boolean | HashtagsCountOutputTypeCountContentHashtagsArgs
+  commentHashtags?: boolean | HashtagsCountOutputTypeCountCommentHashtagsArgs
 }
 
 /**
@@ -431,44 +424,49 @@ export type HashtagsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * HashtagsCountOutputType without action
  */
-export type HashtagsCountOutputTypeCountPost_hashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.post_hashtagsWhereInput
+export type HashtagsCountOutputTypeCountContentHashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.content_hashtagsWhereInput
+}
+
+/**
+ * HashtagsCountOutputType without action
+ */
+export type HashtagsCountOutputTypeCountCommentHashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.comment_hashtagsWhereInput
 }
 
 
 export type hashtagsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   hashtag_id?: boolean
   name?: boolean
-  post_count?: boolean
   created_at?: boolean
-  post_hashtags?: boolean | Prisma.hashtags$post_hashtagsArgs<ExtArgs>
+  contentHashtags?: boolean | Prisma.hashtags$contentHashtagsArgs<ExtArgs>
+  commentHashtags?: boolean | Prisma.hashtags$commentHashtagsArgs<ExtArgs>
   _count?: boolean | Prisma.HashtagsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["hashtags"]>
 
 export type hashtagsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   hashtag_id?: boolean
   name?: boolean
-  post_count?: boolean
   created_at?: boolean
 }, ExtArgs["result"]["hashtags"]>
 
 export type hashtagsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   hashtag_id?: boolean
   name?: boolean
-  post_count?: boolean
   created_at?: boolean
 }, ExtArgs["result"]["hashtags"]>
 
 export type hashtagsSelectScalar = {
   hashtag_id?: boolean
   name?: boolean
-  post_count?: boolean
   created_at?: boolean
 }
 
-export type hashtagsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"hashtag_id" | "name" | "post_count" | "created_at", ExtArgs["result"]["hashtags"]>
+export type hashtagsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"hashtag_id" | "name" | "created_at", ExtArgs["result"]["hashtags"]>
 export type hashtagsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post_hashtags?: boolean | Prisma.hashtags$post_hashtagsArgs<ExtArgs>
+  contentHashtags?: boolean | Prisma.hashtags$contentHashtagsArgs<ExtArgs>
+  commentHashtags?: boolean | Prisma.hashtags$commentHashtagsArgs<ExtArgs>
   _count?: boolean | Prisma.HashtagsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type hashtagsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -477,13 +475,13 @@ export type hashtagsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $hashtagsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "hashtags"
   objects: {
-    post_hashtags: Prisma.$post_hashtagsPayload<ExtArgs>[]
+    contentHashtags: Prisma.$content_hashtagsPayload<ExtArgs>[]
+    commentHashtags: Prisma.$comment_hashtagsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     hashtag_id: string
     name: string
-    post_count: number | null
-    created_at: Date | null
+    created_at: Date
   }, ExtArgs["result"]["hashtags"]>
   composites: {}
 }
@@ -878,7 +876,8 @@ readonly fields: hashtagsFieldRefs;
  */
 export interface Prisma__hashtagsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  post_hashtags<T extends Prisma.hashtags$post_hashtagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.hashtags$post_hashtagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_hashtagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contentHashtags<T extends Prisma.hashtags$contentHashtagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.hashtags$contentHashtagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$content_hashtagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  commentHashtags<T extends Prisma.hashtags$commentHashtagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.hashtags$commentHashtagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$comment_hashtagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -910,7 +909,6 @@ export interface Prisma__hashtagsClient<T, Null = never, ExtArgs extends runtime
 export interface hashtagsFieldRefs {
   readonly hashtag_id: Prisma.FieldRef<"hashtags", 'String'>
   readonly name: Prisma.FieldRef<"hashtags", 'String'>
-  readonly post_count: Prisma.FieldRef<"hashtags", 'Int'>
   readonly created_at: Prisma.FieldRef<"hashtags", 'DateTime'>
 }
     
@@ -1305,27 +1303,51 @@ export type hashtagsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * hashtags.post_hashtags
+ * hashtags.contentHashtags
  */
-export type hashtags$post_hashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type hashtags$contentHashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the post_hashtags
+   * Select specific fields to fetch from the content_hashtags
    */
-  select?: Prisma.post_hashtagsSelect<ExtArgs> | null
+  select?: Prisma.content_hashtagsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the post_hashtags
+   * Omit specific fields from the content_hashtags
    */
-  omit?: Prisma.post_hashtagsOmit<ExtArgs> | null
+  omit?: Prisma.content_hashtagsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.post_hashtagsInclude<ExtArgs> | null
-  where?: Prisma.post_hashtagsWhereInput
-  orderBy?: Prisma.post_hashtagsOrderByWithRelationInput | Prisma.post_hashtagsOrderByWithRelationInput[]
-  cursor?: Prisma.post_hashtagsWhereUniqueInput
+  include?: Prisma.content_hashtagsInclude<ExtArgs> | null
+  where?: Prisma.content_hashtagsWhereInput
+  orderBy?: Prisma.content_hashtagsOrderByWithRelationInput | Prisma.content_hashtagsOrderByWithRelationInput[]
+  cursor?: Prisma.content_hashtagsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.Post_hashtagsScalarFieldEnum | Prisma.Post_hashtagsScalarFieldEnum[]
+  distinct?: Prisma.Content_hashtagsScalarFieldEnum | Prisma.Content_hashtagsScalarFieldEnum[]
+}
+
+/**
+ * hashtags.commentHashtags
+ */
+export type hashtags$commentHashtagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the comment_hashtags
+   */
+  select?: Prisma.comment_hashtagsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the comment_hashtags
+   */
+  omit?: Prisma.comment_hashtagsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.comment_hashtagsInclude<ExtArgs> | null
+  where?: Prisma.comment_hashtagsWhereInput
+  orderBy?: Prisma.comment_hashtagsOrderByWithRelationInput | Prisma.comment_hashtagsOrderByWithRelationInput[]
+  cursor?: Prisma.comment_hashtagsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Comment_hashtagsScalarFieldEnum | Prisma.Comment_hashtagsScalarFieldEnum[]
 }
 
 /**

@@ -1,0 +1,34 @@
+type notifications {
+  notification_id: String!
+  type: NotificationType
+  message: String
+  delivered_at: DateTime!
+  read_at: DateTime
+  user: users!
+  actor: users
+  notification_target: notification_targets
+}
+
+type notification_targets {
+  target_id: String!
+  post: posts
+  comment: comments
+  chat: chats
+  notifications: [notifications]!
+}
+
+#################################
+extend type Query {
+  notifications(cursor: DateTime, limit: Int = 20): NotificationsResult!
+  notification(id: ID!): notifications
+}
+
+type NotificationsResult {
+  notifications: [notifications!]!
+  nextCursor: DateTime
+}
+
+extend type Mutation {
+  markNotificationRead(notificationId: ID!): Boolean!
+}
+

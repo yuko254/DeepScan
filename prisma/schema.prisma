@@ -1,354 +1,729 @@
-generator client {
-  provider        = "prisma-client"
-  output          = "../src/ORM/prisma"
-  previewFeatures = ["partialIndexes"]
-}
-
 datasource db {
   provider = "postgresql"
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model blocks {
-  blocker_id              String    @db.Uuid
-  blocked_id              String    @db.Uuid
-  created_at              DateTime? @default(now()) @db.Timestamptz(6)
-  users_blocks_blocked_id users     @relation("blocks_blocked_id", fields: [blocked_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-  users_blocks_blocker_id users     @relation("blocks_blocker_id", fields: [blocker_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([blocker_id, blocked_id])
-  @@index([blocked_id], map: "idx_blocks_blocked_id")
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/ORM/prisma"
+  previewFeatures = ["partialIndexes", "views"]
 }
 
-model categories {
-  category_id   BigInt  @id @default(autoincrement())
-  category_name String  @unique @db.VarChar(50)
-  posts         posts[]
+generator openapi {
+  // https://github.com/nitzano/prisma-openapi
+  provider = "prisma-openapi"
+  output   = "./generated/openapi"
+  title    = "DeepScan API"
+  generateYaml  = true
+  generateJson  = true
+  generateJsDoc = true
 }
 
-model chat_participants {
-  user_id   String    @db.Uuid
-  chat_id   String    @db.Uuid
-  joined_at DateTime? @default(now()) @db.Timestamptz(6)
-  chats     chats     @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
-  users     users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([user_id, chat_id])
-  @@index([chat_id], map: "idx_chat_participants_chat_id")
+generator mock_data {
+  // https://github.com/kritikio/prisma-generator-fake-data
+    provider = "prisma-generator-fake-data"
+    output   = "./generated/mock_data/mock_data.ts"
 }
 
-model chats {
-  chat_id           String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title             String?             @db.VarChar(255)
-  is_group_chat     Boolean?            @default(false)
-  created_at        DateTime?           @default(now()) @db.Timestamptz(6)
-  chat_participants chat_participants[]
-  messages          messages[]
+// generator docs {
+//   provider = "node node_modules/prisma-docs-generator"
+// }
+
+generator erd {
+  // https://github.com/keonik/prisma-erd-generator
+  provider = "prisma-erd-generator"
+  output = "./generated/ERD/ERD.svg"
+  ignoreEnums  = true
+  ignoreViews  = true
 }
 
-model comment_likes {
-  user_id    String    @db.Uuid
-  comment_id String    @db.Uuid
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  comments   comments  @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
-  users      users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([user_id, comment_id])
+generator erd1 {
+  provider = "prisma-erd-generator"
+  output = "./generated/ERD/ERD_extended.svg"
+  includeRelationFromFields = true
+  ignoreEnums  = true
+  ignoreViews  = true
 }
 
-model comments {
-  comment_id     String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  content        String
-  user_id        String?         @db.Uuid
-  post_id        String          @db.Uuid
-  parent_id      String?         @db.Uuid
-  created_at     DateTime?       @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?       @db.Timestamptz(6)
-  comment_likes  comment_likes[]
-  comments       comments?       @relation("commentsTocomments", fields: [parent_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
-  other_comments comments[]      @relation("commentsTocomments")
-  posts          posts           @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: NoAction)
-  users          users?          @relation(fields: [user_id], references: [user_id], onUpdate: NoAction)
-  mentions       mentions[]
-
-  @@index([parent_id], map: "idx_comments_parent_id")
-  @@index([post_id], map: "idx_comments_post_id")
-  @@index([user_id], map: "idx_comments_user_id")
+generator erd2 {
+  provider = "prisma-erd-generator"
+  output = "./generated/ERD/ERD.png"
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+generator erd3 {
+  provider = "prisma-erd-generator"
+  output = "./generated/ERD/ERD.pdf"
+}
+
+generator erd4 {
+  provider = "prisma-erd-generator"
+  output = "./generated/ERD/ERD.md"
+}
+
+generator zod {
+  // https://github.com/omar-dulaimi/prisma-zod-generator
+  provider = "prisma-zod-generator"
+  output = "./generated/zod"
+}
+
+// generator dart {
+//   // https://github.com/FredrikBorgstrom/abcx3/blob/master/dist/prisma-generator-dart/README.md
+//   provider                = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
+//   output                  = "./generated/dart"
+//   // Optional settings
+//   FormatWithDart          = true
+//   MakeAllPropsOptional    = true
+//   UpdateStoresDefaultRecursiveDepth = 4
+//   GenerateEndpoints     = false                 // also generate a single routes file by scanning backend
+//   // BackendPath           = "../abcx3-backend" // backend root to scan for NestJS controllers
+//   // EndpointsOutputPath   = "gen_backend_routes.dart"
+// }
+
+
+
+// @exclude
+model admin_audits {
+  audit_id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  admin_username   String?
+  action           String
+  target_table     String?
+  target_id        String?
+  old_data         Json?
+  new_data         Json?
+  created_at       DateTime @default(now()) @db.Timestamptz(6)
+
+  admin            users?   @relation(fields: [admin_username], references: [username], onDelete: SetNull)
+
+  @@index([admin_username])
+  @@index([created_at])
+}
+
+// @system
+model users {
+  user_id                  String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role_id                  Int?                @default(3) // @system
+  username                 String              @unique @db.VarChar(50)
+  email                    String              @unique @db.VarChar(255)
+  password                 String              @db.VarChar(60) // @sensitive
+  is_active                Boolean             @default(true)   // @system
+  is_banned                Boolean             @default(false)  // @system
+  updated_at               DateTime            @updatedAt @db.Timestamptz(6)
+  created_at               DateTime            @default(now()) @db.Timestamptz(6)
+
+  role                     roles?              @relation(fields: [role_id], references: [role_id], onDelete: SetNull, onUpdate: Cascade)
+  
+  blocked_users            blocks[]            @relation("blocks_blocker_id")
+  blocked_bys              blocks[]            @relation("blocks_blocked_id")
+  following                follows[]           @relation("follows_follower_id")
+  followers                follows[]           @relation("follows_following_id")
+  follow_Requesters        follow_requests[]   @relation("follow_requests_requester")
+  follow_requests_targets  follow_requests[]   @relation("follow_requests_target") 
+  notification_actors      notifications[]     @relation("notification_actor")
+  report_resolvers         reports[]           @relation("report_resolver")
+
+  adminAudits              admin_audits[]
+  chat_participants        chat_participants[]
+  comment_likes            comment_likes[]
+  comments                 comments[]
+  device_tokens            device_tokens[]
+  messages                 messages[]
+  notifications            notifications[]
+  post_likes               post_likes[]
+  profile                  profiles? // @nested
+  reports                  reports[] 
+  saved_posts              saved_posts[]
+  story_views              story_views[]
+  contents                 contents[]
+
+  @@index([username(ops: raw("gin_trgm_ops"))], map: "idx_users_username_trgm", type: Gin)
+  @@index([role_id])
+  @@index([created_at])
+}
+
+// @system
+model roles {
+  role_id   Int     @id @default(autoincrement())
+  role_name Role    @unique 
+
+  users     users[]
+}
+
+model profiles {
+  profile_id                String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                   String     @unique @db.Uuid // @system
+  is_private                Boolean?   @default(false)
+  bio                       String?
+  avatar                    String?
+  birth_location_id         String?    @db.Uuid
+  current_location_id       String?    @db.Uuid
+  first_name                String     @db.VarChar(50)
+  last_name                 String     @db.VarChar(50)
+  phone_number              String?    @db.VarChar(20)
+  birth_date                DateTime?  @db.Date
+  created_at                DateTime   @default(now()) @db.Timestamptz(6)
+
+  user                      users      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  birth_location            locations? @relation("profiles_birth_locationTolocations", fields: [birth_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+  current_location          locations? @relation("profiles_current_locationTolocations", fields: [current_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+
+  reportTargets report_targets[]
+}
+
+// @system
+model notifications {
+  notification_id        String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                String                   @db.Uuid 
+  actor_id               String?                  @db.Uuid // who triggered the notification
+  notification_target_id String?                  @db.Uuid
+  type                   NotificationType?    
+  message                String?        
+  delivered_at           DateTime                 @default(now()) @db.Timestamptz(6)
+  read_at                DateTime?                @db.Timestamptz(6)
+
+  user                   users                    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  actor                  users?                   @relation("notification_actor", fields: [actor_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)  
+  notification_target    notification_targets?    @relation(fields: [notification_target_id], references: [target_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id])
+  @@index([notification_target_id])
+  @@index([delivered_at])
+}
+
+// @ExcludeOnUpdate
+model reports {
+  report_id        String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  reporter_id      String?            @db.Uuid // @system
+  resolver_id      String?            @db.Uuid // @system
+  report_target_id String             @db.Uuid // @include
+  reason           String?
+  status           ReportStatus       @default(pending)  // @system
+  created_at       DateTime           @default(now()) @db.Timestamptz(6)
+  resolved_at      DateTime?          @db.Timestamptz(6) // @system
+  
+  reporter         users?             @relation(fields: [reporter_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  resolver         users?             @relation("report_resolver", fields: [resolver_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  report_target    report_targets     @relation(fields: [report_target_id], references: [target_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([reporter_id, report_target_id], where: raw("reporter_id is NOT NULL"))
+  @@index([reporter_id])
+  @@index([resolver_id])
+  @@index([created_at])
+}
+
 model device_tokens {
   token_id    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id     String    @db.Uuid
-  token       String
-  device_type String    @db.VarChar(20)
+  user_id     String    @db.Uuid // @system
+  token       String    
+  device_type DeviceType 
   app_version String?   @db.VarChar(20)
-  last_used   DateTime? @default(now()) @db.Timestamptz(6)
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  users       users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  last_used   DateTime  @default(now()) @db.Timestamptz(6)
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+
+  user        users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([user_id, token])
   @@index([last_used], map: "idx_device_tokens_last_used")
-  @@index([user_id], map: "idx_device_tokens_user_id")
+}
+
+model contents {
+  content_id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id             String       @db.Uuid // @system
+  type                ContentType  
+  visibility          Visibility   @default(public)
+  content_map         Json
+  created_at          DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime     @updatedAt @db.Timestamptz(6)
+  is_deleted          Boolean      @default(false) // @system
+
+  user                users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  post                posts? // @nested
+  story               stories? // @nested
+  scan                scans? // @nested
+  contentHashtags     content_hashtags[]
+
+  @@index([created_at])
+}
+
+// @nestedOnly
+model posts {
+  content_id    String          @id @db.Uuid
+  category_id   Int?         
+  location_id   String?         @db.Uuid
+  text_content  String?         // @system
+
+  content       contents        @relation(fields: [content_id], references: [content_id], onDelete: Cascade)
+  category      categories?     @relation(fields: [category_id], references: [category_id], onDelete: SetNull, onUpdate: Cascade)
+  location      locations?      @relation(fields: [location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+
+  comments      comments[]
+  postTags      post_tags[] 
+  post_likes    post_likes[]
+  saved_posts   saved_posts[]
+  reportTargets report_targets[]
+  notificationTargets notification_targets[]
+}
+
+// @nestedOnly
+model scans {
+  content_id     String     @id @db.Uuid
+  location_id    String?    @db.Uuid
+  metadata       Json
+  timestamp      DateTime   @default(now()) @db.Timestamptz(6)
+
+  content        contents   @relation(fields: [content_id], references: [content_id], onDelete: Cascade)
+  location       locations? @relation(fields: [location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+}
+
+// @nestedOnly @excludeOnUpdate
+model stories {
+  content_id    String        @id @db.Uuid
+  expires_at    DateTime?     @db.Timestamptz(6)
+
+  content       contents      @relation(fields: [content_id], references: [content_id], onDelete: Cascade)
+  story_views   story_views[]
+  reportTargets report_targets[]
+
+  @@index([expires_at])
+}
+
+
+// @system
+model media {
+  media_id     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  storage_path String
+  type         MediaType        
+  
+  @@index([storage_path])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model blocks {
+  id                      BigInt    @id @default(autoincrement())
+  blocker_id              String    @db.Uuid // @system
+  blocked_id              String    @db.Uuid
+  created_at              DateTime  @default(now()) @db.Timestamptz(6)
+
+  blocker                 users     @relation("blocks_blocker_id", fields: [blocker_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  blocked                 users     @relation("blocks_blocked_id", fields: [blocked_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+ 
+  @@unique([blocker_id, blocked_id])
+  @@index([blocked_id], map: "idx_blocks_blocked_id")
+  // CONSTRAINT no_self_block CHECK (blocker_id <> blocked_id)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model follows {
-  follower_id                String    @db.Uuid
+  id                         BigInt    @id @default(autoincrement())
+  follower_id                String    @db.Uuid // @system
   following_id               String    @db.Uuid
-  created_at                 DateTime? @default(now()) @db.Timestamptz(6)
-  users_follows_follower_id  users     @relation("follows_follower_id", fields: [follower_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-  users_follows_following_id users     @relation("follows_following_id", fields: [following_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  created_at                 DateTime  @default(now()) @db.Timestamptz(6)
 
-  @@id([follower_id, following_id])
+  follower                   users     @relation("follows_follower_id", fields: [follower_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  following                  users     @relation("follows_following_id", fields: [following_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([follower_id, following_id])
   @@index([following_id], map: "idx_follows_following_id")
-}
-
-model hashtags {
-  hashtag_id    String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String          @unique @db.VarChar(100)
-  post_count    Int?            @default(0)
-  created_at    DateTime?       @default(now()) @db.Timestamptz(6)
-  post_hashtags post_hashtags[]
-
-  @@index([name(ops: raw("gin_trgm_ops"))], map: "idx_hashtags_name_trgm", type: Gin)
-}
-
-model locations {
-  location_id                                   String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                                          String     @db.VarChar(255)
-  lat                                           Decimal?   @db.Decimal(10, 8)
-  lng                                           Decimal?   @db.Decimal(11, 8)
-  place_id                                      String?    @db.VarChar(255)
-  posts                                         posts[]
-  profiles_profiles_birth_locationTolocations   profiles[] @relation("profiles_birth_locationTolocations")
-  profiles_profiles_current_locationTolocations profiles[] @relation("profiles_current_locationTolocations")
-}
-
-model media {
-  media_id     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  storage_path String
-  media_type   String?       @db.VarChar(50)
-  post_id      String?       @db.Uuid
-  story_id     String?       @db.Uuid
-  scan_id      String?       @db.Uuid
-  posts        posts?        @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: NoAction)
-  scan_history scan_history? @relation(fields: [scan_id], references: [scan_id], onDelete: Cascade, onUpdate: NoAction)
-  stories      stories?      @relation(fields: [story_id], references: [story_id], onDelete: Cascade, onUpdate: NoAction)
-  post_blocks  post_blocks[]
+  // CONSTRAINT no_self_follow CHECK (follower_id <> following_id)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model mentions {
-  mention_id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  mentioned_user_id String    @db.Uuid
-  post_id           String?   @db.Uuid
-  comment_id        String?   @db.Uuid
-  created_at        DateTime? @default(now()) @db.Timestamptz(6)
-  comments          comments? @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
-  users             users     @relation(fields: [mentioned_user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-  posts             posts?    @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: NoAction)
+model follow_requests {
+  id           BigInt                @id @default(autoincrement())
+  requester_id String                @db.Uuid // @system
+  target_id    String                @db.Uuid
+  status       FollowRequestStatus   @default(pending) // @excludeOnCreate
+  created_at   DateTime              @default(now()) @db.Timestamptz(6)
+
+  requester    users                 @relation("follow_requests_requester", fields: [requester_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  target       users                 @relation("follow_requests_target", fields: [target_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([requester_id, target_id])
+  @@index([target_id])
+  @@index([created_at])
+  // CONSTRAINT no_self_request CHECK (requester_id <> target_id)
+}
+
+model comments {
+  comment_id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content                String
+  user_id                String?         @db.Uuid // @system
+  post_id                String          @db.Uuid // @includeOnCreate
+  comment_parent_id      String?         @db.Uuid // @includeOnCreate
+  created_at             DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime        @updatedAt @db.Timestamptz(6)
+  is_deleted             Boolean         @default(false) // @system
+
+  user                   users?          @relation(fields: [user_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  post                   posts           @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
+  comment_parent         comments?       @relation("commentsTocomments", fields: [comment_parent_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
+
+  replies                comments[]      @relation("commentsTocomments")
+
+  reportTargets          report_targets[]
+  notificationTargets    notification_targets[]
+  comment_likes          comment_likes[]
+  commentHashtags        comment_hashtags[]
+
+  @@index([comment_parent_id], map: "idx_comments_parent_id")
+  @@index([post_id], map: "idx_comments_post_id")
+  @@index([user_id], map: "idx_comments_user_id")
+  @@index([created_at])
+}
+
+model locations {
+  location_id      String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  country_id       Int     
+  city_id          Int?    
+  lat              Decimal?   @db.Decimal(10, 8)
+  lng              Decimal?   @db.Decimal(11, 8)
+  place_id         String?    @db.VarChar(255)
+
+  country          countries  @relation(fields: [country_id], references: [country_id], onDelete: Cascade, onUpdate: Cascade)
+  city             cities?    @relation(fields: [city_id], references: [city_id], onDelete: SetNull, onUpdate: Cascade)
+
+  birth_profiles   profiles[] @relation("profiles_birth_locationTolocations")
+  current_profiles profiles[] @relation("profiles_current_locationTolocations")
+
+  posts            posts[]
+  scans            scans[]
+}
+
+// @reference
+model countries {
+  country_id  Int         @id @default(autoincrement())
+  name        String      @unique @db.VarChar(255)
+
+  cities      cities[] // @nested
+  locations   locations[]
+
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin)
+}
+
+// @reference
+model cities {
+  city_id     Int           @id @default(autoincrement())
+  name        String        @db.VarChar(255)
+  country_id  Int         
+
+  country     countries     @relation(fields: [country_id], references: [country_id], onDelete: Cascade, onUpdate: Cascade)
+  locations   locations[]
+
+  @@unique([name, country_id]) 
+  @@index([country_id])
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin)
+}
+
+model chats {
+  chat_id             String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title               String?             @db.VarChar(255)
+  is_group_chat       Boolean             @default(false)
+  created_at          DateTime            @default(now()) @db.Timestamptz(6)
+
+  chat_participants   chat_participants[] // @nested
+  messages            messages[]
+  notificationTargets notification_targets[]
+
+  @@index([title(ops: raw("gin_trgm_ops"))], type: Gin)
+}
+
+model chat_participants {
+  id        BigInt    @id @default(autoincrement())  
+  user_id   String?   @db.Uuid // @system
+  chat_id   String    @db.Uuid
+  joined_at DateTime  @default(now()) @db.Timestamptz(6)
+
+  user      users?    @relation(fields: [user_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  chat      chats     @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, chat_id], where: raw("user_id is NOT NULL"))
+  @@index([user_id])
+  @@index([chat_id], map: "idx_chat_participants_chat_id")
 }
 
 model messages {
   message_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   chat_id      String    @db.Uuid
-  sender_id    String?   @db.Uuid
+  sender_id    String?   @db.Uuid // @system
   text_content String?
-  sent_at      DateTime? @default(now()) @db.Timestamptz(6)
-  chats        chats     @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
-  users        users?    @relation(fields: [sender_id], references: [user_id], onUpdate: NoAction)
+  sent_at      DateTime  @default(now()) @db.Timestamptz(6)
+
+  chat         chats     @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
+  user         users?    @relation(fields: [sender_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
 
   @@index([chat_id], map: "idx_messages_chat_id")
   @@index([sent_at], map: "idx_messages_sent_at")
+  @@index([sender_id])
 }
 
-model notifications {
-  notification_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id         String    @db.Uuid
-  target_id       String    @db.Uuid
-  type            String?   @db.VarChar(20)
-  message         String?
-  delivered_at    DateTime? @default(now()) @db.Timestamptz(6)
-  read_at         DateTime? @db.Timestamptz(6)
-  users           users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+// @reference
+model categories {
+  category_id   Int      @id @default(autoincrement())
+  name          String   @unique @db.VarChar(50)
+
+  posts         posts[]
+
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model post_blocks {
-  block_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  post_id    String    @db.Uuid
-  type       String    @db.VarChar(20)
-  position   Int
-  content    Json
-  media_id   String?   @db.Uuid
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  media      media?    @relation(fields: [media_id], references: [media_id], onUpdate: NoAction)
-  posts      posts     @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: NoAction)
+// @reference
+model tags {
+  tag_id    Int         @id @default(autoincrement())
+  name      String      @unique @db.VarChar(50)
 
-  @@unique([post_id, position], map: "unique_post_block_position")
-  @@index([post_id, position], map: "idx_post_blocks_post_id_position")
-  @@index([type], map: "idx_post_blocks_type")
+  post_tags post_tags[]
+
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
-model post_hashtags {
-  post_id    String    @db.Uuid
-  hashtag_id String    @db.Uuid
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  hashtags   hashtags  @relation(fields: [hashtag_id], references: [hashtag_id], onDelete: Cascade, onUpdate: NoAction)
-  posts      posts     @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: NoAction)
+// @system
+model hashtags {
+  hashtag_id    String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String          @unique @db.VarChar(100)
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
 
-  @@id([post_id, hashtag_id])
-  @@index([hashtag_id], map: "idx_post_hashtags_hashtag_id")
+  contentHashtags content_hashtags[]
+  commentHashtags comment_hashtags[]
+
+  @@index([name(ops: raw("gin_trgm_ops"))], map: "idx_hashtags_name_trgm", type: Gin)
 }
 
-model post_likes {
-  user_id    String    @db.Uuid
-  post_id    String    @db.Uuid
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  posts      posts     @relation(fields: [post_id], references: [post_id], onDelete: Cascade, onUpdate: NoAction)
-  users      users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([user_id, post_id])
-}
-
-model posts {
-  post_id       String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id       String          @db.Uuid
-  category_id   BigInt?
-  location_id   String?         @db.Uuid
-  text_content  String?
-  created_at    DateTime?       @default(now()) @db.Timestamptz(6)
-  updated_at    DateTime?       @db.Timestamptz(6)
-  comments      comments[]
-  media         media[]
-  mentions      mentions[]
-  post_blocks   post_blocks[]
-  post_hashtags post_hashtags[]
-  post_likes    post_likes[]
-  categories    categories?     @relation(fields: [category_id], references: [category_id], onUpdate: NoAction)
-  locations     locations?      @relation(fields: [location_id], references: [location_id], onUpdate: NoAction)
-  users         users           @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-  saved_posts   saved_posts[]
-}
-
-model profiles {
-  profile_id                                     String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id                                        String     @unique @db.Uuid
-  is_private                                     Boolean?   @default(false)
-  bio                                            String?
-  avatar                                         String?
-  birth_location                                 String?    @db.Uuid
-  current_location                               String?    @db.Uuid
-  first_name                                     String?    @db.VarChar(50)
-  last_name                                      String?    @db.VarChar(50)
-  phone_number                                   String?    @db.VarChar(20)
-  birth_date                                     DateTime?  @db.Date
-  created_at                                     DateTime?  @default(now()) @db.Timestamptz(6)
-  locations_profiles_birth_locationTolocations   locations? @relation("profiles_birth_locationTolocations", fields: [birth_location], references: [location_id], onUpdate: NoAction)
-  locations_profiles_current_locationTolocations locations? @relation("profiles_current_locationTolocations", fields: [current_location], references: [location_id], onUpdate: NoAction)
-  users                                          users      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model reports {
-  report_id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  reporter_id      String?   @db.Uuid
-  reported_item_id String    @db.Uuid
-  item_type        String    @db.VarChar(50)
-  reason           String?
-  status           String?   @db.VarChar(50)
-  created_at       DateTime? @default(now()) @db.Timestamptz(6)
-  users            users?    @relation(fields: [reporter_id], references: [user_id], onUpdate: NoAction)
-}
-
-model roles {
-  role_id   BigInt  @id @default(autoincrement())
-  role_name String  @unique @db.VarChar(50)
-  users     users[]
-}
-
+// @exclude
 model saved_posts {
   saved_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_id  String    @db.Uuid
   post_id  String?   @db.Uuid
-  saved_at DateTime? @default(now()) @db.Timestamptz(6)
-  posts    posts?    @relation(fields: [post_id], references: [post_id], onUpdate: NoAction)
-  users    users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  saved_at DateTime  @default(now()) @db.Timestamptz(6)
+
+  user     users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  post     posts?    @relation(fields: [post_id], references: [content_id], onDelete: SetNull, onUpdate: NoAction)
 
   @@unique([user_id, post_id], map: "idx_unique_user_post", where: raw("(post_id IS NOT NULL)"))
   @@index([post_id], map: "idx_saved_posts_post_id")
   @@index([user_id], map: "idx_saved_posts_user_id")
-  @@index([post_id], map: "idx_saves_post_id")
+  @@index([saved_at])
 }
 
-model scan_history {
-  scan_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id   String    @db.Uuid
-  timestamp DateTime? @default(now()) @db.Timestamptz(6)
-  metadata  String?
-  media     media[]
-  users     users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+// @exclude
+model post_tags {
+  id      BigInt  @id @default(autoincrement())
+  post_id String  @db.Uuid
+  tag_id  Int
+
+  post    posts   @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
+  tag     tags    @relation(fields: [tag_id], references: [tag_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([post_id, tag_id])
+  @@index([tag_id])
 }
 
-model stories {
-  story_id    String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id     String        @db.Uuid
-  expires_at  DateTime?     @db.Timestamptz(6)
-  media       media[]
-  users       users         @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
-  story_views story_views[]
-}
+// @exclude
+model post_likes {
+  id         BigInt    @id @default(autoincrement())
+  user_id    String?   @db.Uuid // @system
+  post_id    String    @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
 
-model story_views {
-  story_id  String    @db.Uuid
-  viewer_id String    @db.Uuid
-  viewed_at DateTime? @default(now()) @db.Timestamptz(6)
-  stories   stories   @relation(fields: [story_id], references: [story_id], onDelete: Cascade, onUpdate: NoAction)
-  users     users     @relation(fields: [viewer_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  user       users?    @relation(fields: [user_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  post       posts     @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@id([story_id, viewer_id])
-}
-
-model users {
-  user_id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  role_id                BigInt?             @default(2)
-  username               String              @unique @db.VarChar(50)
-  email                  String              @unique @db.VarChar(255)
-  password               String              @db.VarChar(60)
-  blocks_blocked_ids     blocks[]            @relation("blocks_blocked_id")
-  blocks_blockers_ids    blocks[]            @relation("blocks_blocker_id")
-  chat_participants      chat_participants[]
-  comment_likes          comment_likes[]
-  comments               comments[]
-  device_tokens          device_tokens[]
-  follows_followers_ids  follows[]           @relation("follows_follower_id")
-  follows_followings_ids follows[]           @relation("follows_following_id")
-  mentions               mentions[]
-  messages               messages[]
-  notifications          notifications[]
-  post_likes             post_likes[]
-  posts                  posts[]
-  profiles               profiles?
-  reports                reports[]
-  saved_posts            saved_posts[]
-  scan_history           scan_history[]
-  stories                stories[]
-  story_views            story_views[]
-  roles                  roles?              @relation(fields: [role_id], references: [role_id], onUpdate: NoAction)
-
-  @@index([username(ops: raw("gin_trgm_ops"))], map: "idx_users_username_trgm", type: Gin)
-  refreshTokens refresh_tokens[]
-}
-
-model refresh_tokens {
-  token_id     String   @id @default(dbgenerated("gen_random_uuid()")) @map("token_id") @db.Uuid
-  user_id      String   @map("user_id") @db.Uuid
-  token        String   @unique // The hashed refresh token itself
-  expires_at   DateTime @map("expires_at") @db.Timestamptz
-  created_at   DateTime @default(now()) @map("created_at") @db.Timestamptz
-  user         users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-
+  @@unique([user_id, post_id], where: raw("user_id IS NOT NULL"))
   @@index([user_id])
-  @@index([expires_at])
-  @@map("refresh_tokens")
+  @@index([post_id])
+}
+
+// @exclude
+model comment_likes {
+  id         BigInt    @id @default(autoincrement())
+  user_id    String?   @db.Uuid
+  comment_id String    @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+
+  user       users?    @relation(fields: [user_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  comment    comments  @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, comment_id], where: raw("user_id IS NOT NULL"))
+  @@index([user_id])
+  @@index([comment_id])
+}
+
+// @exclude
+model story_views {
+  id        BigInt    @id @default(autoincrement())
+  viewer_id String?   @db.Uuid // @system
+  story_id  String    @db.Uuid 
+  viewed_at DateTime  @default(now()) @db.Timestamptz(6)
+
+  user      users?    @relation(fields: [viewer_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  story     stories   @relation(fields: [story_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([viewer_id, story_id], where: raw("viewer_id is NOT NULL"))
+  @@index([viewer_id])
+  @@index([story_id])
+}
+
+// @exclude
+model content_hashtags {
+  id         BigInt    @id @default(autoincrement())
+  content_id String    @db.Uuid
+  hashtag_id String    @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+
+  content    contents @relation(fields: [content_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
+  hashtag    hashtags @relation(fields: [hashtag_id], references: [hashtag_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([content_id, hashtag_id])
+  @@index([hashtag_id])
+}
+
+// @exclude
+model comment_hashtags {
+  id         BigInt    @id @default(autoincrement())
+  comment_id String    @db.Uuid
+  hashtag_id String    @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+
+  comment  comments @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
+  hashtag  hashtags @relation(fields: [hashtag_id], references: [hashtag_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([comment_id, hashtag_id])
+  @@index([hashtag_id])
+}
+
+// @system
+model notification_targets {
+  target_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  post_id     String?   @db.Uuid
+  comment_id  String?   @db.Uuid
+  chat_id     String?   @db.Uuid
+  
+  post        posts?    @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
+  comment     comments? @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
+  chat        chats?    @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
+
+  notifications notifications[]
+
+  @@unique([post_id],    where: raw("post_id IS NOT NULL"))
+  @@unique([comment_id], where: raw("comment_id IS NOT NULL"))
+  @@unique([chat_id],    where: raw("chat_id IS NOT NULL"))
+  // ALTER TABLE notification_targets
+  // ADD CONSTRAINT single_target_check CHECK (
+  //   (post_id IS NOT NULL)::int +
+  //   (comment_id IS NOT NULL)::int +
+  //   (chat_id IS NOT NULL)::int = 1
+  // );
+}
+
+// @system
+model report_targets {
+  target_id   String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  post_id     String?     @db.Uuid
+  comment_id  String?     @db.Uuid
+  story_id    String?     @db.Uuid
+  profile_id  String?     @db.Uuid
+
+  post         posts?     @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
+  comment      comments?  @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)
+  story        stories?   @relation(fields: [story_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
+  profile      profiles?  @relation(fields: [profile_id], references: [profile_id], onDelete: Cascade, onUpdate: NoAction)
+  reports      reports[]
+
+  @@unique([post_id], where: raw("post_id IS NOT NULL"))
+  @@unique([comment_id], where: raw("comment_id IS NOT NULL"))
+  @@unique([story_id], where: raw("story_id IS NOT NULL"))
+  @@unique([profile_id], where: raw("profile_id IS NOT NULL"))
+  // ALTER TABLE report_targets
+  // ADD CONSTRAINT single_target_check CHECK (
+  //   (post_id IS NOT NULL)::int +
+  //   (comment_id IS NOT NULL)::int +
+  //   (story_id IS NOT NULL)::int = 1
+  // );
+}
+
+
+
+
+
+// CREATE VIEW hashtag_usage AS
+// SELECT hashtag_id, COUNT(*) as usage_count
+// FROM (
+//   SELECT hashtag_id FROM content_hashtags
+//   UNION ALL
+//   SELECT hashtag_id FROM comment_hashtags
+// ) as usages
+// GROUP BY hashtag_id;
+
+// CREATE VIEW post_like_counts AS
+// SELECT post_id, COUNT(*) AS likes_count
+// FROM post_likes
+// GROUP BY post_id;
+
+// CREATE VIEW comment_like_counts AS
+// SELECT comment_id, COUNT(*) AS likes_count
+// FROM comment_likes
+// GROUP BY comment_id;
+
+view hashtag_usage  {
+  hashtag_id  String @unique @db.Uuid
+  usage_count BigInt
+}
+
+view post_like_counts {
+  post_id     String @unique @db.Uuid
+  likes_count BigInt
+}
+
+view comment_like_counts {
+  comment_id  String @unique @db.Uuid
+  likes_count BigInt
+}
+
+enum ContentType {
+  post
+  story
+  scan
+}
+
+enum Visibility {
+  public
+  followers
+  private
+}
+
+enum DeviceType {
+  ios
+  android
+  web
+}
+
+enum NotificationType {
+  mention
+  like
+  comment
+  reply
+  system
+  message
+}
+
+enum ReportStatus {
+  pending
+  reviewed
+  resolved
+  dismissed
+}
+
+enum FollowRequestStatus {
+  pending
+  accepted
+  rejected
+}
+
+enum MediaType {
+  image
+  video
+}
+
+enum Role {
+  admin
+  moderator
+  user
 }

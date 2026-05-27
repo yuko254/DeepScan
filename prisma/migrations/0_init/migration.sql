@@ -28,9 +28,10 @@ CREATE TABLE IF NOT EXISTS public.roles
 CREATE TABLE IF NOT EXISTS public.users
 (
     user_id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-	role_id BIGINT DEFAULT 2,
+	role_id BIGINT DEFAULT 3,
     username VARCHAR(50) NOT NULL UNIQUE,
 	email VARCHAR(255) NOT NULL UNIQUE,
+    created_at timestamptz DEFAULT now(),
 	password VARCHAR(60) NOT NULL,
 	FOREIGN KEY (role_id) REFERENCES public.roles(role_id) ON DELETE SET NULL
 );
@@ -205,21 +206,21 @@ CREATE TABLE IF NOT EXISTS public.media
 	FOREIGN KEY (scan_id) REFERENCES public.scan_history(scan_id) ON DELETE CASCADE
 );
 
-    CREATE TABLE IF NOT EXISTS public.post_blocks
-    (
-        block_id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-        post_id uuid NOT NULL,
-        type VARCHAR(20) NOT NULL CHECK (type IN ('text', 'image', 'video')),
-        position INT NOT NULL,
-        content JSONB NOT NULL,
-        media_id uuid, -- Only used when type = 'image' or 'video'
-        created_at timestamptz DEFAULT now(),
-        FOREIGN KEY (post_id) REFERENCES public.posts(post_id) ON DELETE CASCADE,
-        FOREIGN KEY (media_id) REFERENCES public.media(media_id) ON DELETE SET NULL,
-        CONSTRAINT unique_post_block_position UNIQUE (post_id, position)
-    );
-    CREATE INDEX idx_post_blocks_post_id_position ON public.post_blocks(post_id, position);
-    CREATE INDEX idx_post_blocks_type ON public.post_blocks(type);
+CREATE TABLE IF NOT EXISTS public.post_blocks
+(
+    block_id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    post_id uuid NOT NULL,
+    type VARCHAR(20) NOT NULL,
+    position INT NOT NULL,
+    content JSONB NOT NULL,
+    media_id uuid, -- Only used when type = 'image' or 'video'
+    created_at timestamptz DEFAULT now(),
+    FOREIGN KEY (post_id) REFERENCES public.posts(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (media_id) REFERENCES public.media(media_id) ON DELETE SET NULL,
+    CONSTRAINT unique_post_block_position UNIQUE (post_id, position)
+);
+CREATE INDEX idx_post_blocks_post_id_position ON public.post_blocks(post_id, position);
+CREATE INDEX idx_post_blocks_type ON public.post_blocks(type);
 
 CREATE TABLE IF NOT EXISTS public.comments (
     comment_id   uuid DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -290,18 +291,14 @@ CREATE TABLE IF NOT EXISTS public.mentions (
     created_at timestamptz DEFAULT now(),
     FOREIGN KEY (mentioned_user_id) REFERENCES public.users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES public.posts(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (comment_id) REFERENCES public.comments(comment_id) ON DELETE CASCADE,
-    CONSTRAINT mention_target_check CHECK (
-        (post_id IS NOT NULL AND comment_id IS NULL) OR
-        (post_id IS NULL AND comment_id IS NOT NULL)
-    )
+    FOREIGN KEY (comment_id) REFERENCES public.comments(comment_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS public.device_tokens (
     token_id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id uuid NOT NULL,
     token TEXT NOT NULL,                -- The actual push token
-    device_type VARCHAR(20) NOT NULL CHECK (device_type IN ('ios', 'android', 'web')),
+    device_type VARCHAR(20) NOT NULL,
     app_version VARCHAR(20),                  -- track app version
     last_used timestamptz DEFAULT now(),    -- For cleaning up stale tokens
     created_at timestamptz DEFAULT now(),
@@ -312,8 +309,6 @@ CREATE TABLE IF NOT EXISTS public.device_tokens (
 CREATE INDEX idx_device_tokens_user_id ON public.device_tokens(user_id);
 -- Index for cleaning expired tokens
 CREATE INDEX idx_device_tokens_last_used ON public.device_tokens(last_used);
-
-END;
 
 -- Create a function that checks participant count before insert
 CREATE OR REPLACE FUNCTION check_direct_chat_participant_limit()
@@ -349,3 +344,5 @@ CREATE TRIGGER enforce_direct_chat_limit
     BEFORE INSERT ON public.chat_participants
     FOR EACH ROW
     EXECUTE FUNCTION check_direct_chat_participant_limit();
+
+END;

@@ -9,7 +9,76 @@
 * 🟢 You can import this file directly.
 */
 
+export const ContentType = {
+  post: 'post',
+  story: 'story',
+  scan: 'scan'
+} as const
+
+export type ContentType = (typeof ContentType)[keyof typeof ContentType]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const Visibility = {
+  public: 'public',
+  followers: 'followers',
+  private: 'private'
+} as const
+
+export type Visibility = (typeof Visibility)[keyof typeof Visibility]
+
+
+export const DeviceType = {
+  ios: 'ios',
+  android: 'android',
+  web: 'web'
+} as const
+
+export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType]
+
+
+export const NotificationType = {
+  mention: 'mention',
+  like: 'like',
+  comment: 'comment',
+  reply: 'reply',
+  system: 'system',
+  message: 'message'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const ReportStatus = {
+  pending: 'pending',
+  reviewed: 'reviewed',
+  resolved: 'resolved',
+  dismissed: 'dismissed'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const FollowRequestStatus = {
+  pending: 'pending',
+  accepted: 'accepted',
+  rejected: 'rejected'
+} as const
+
+export type FollowRequestStatus = (typeof FollowRequestStatus)[keyof typeof FollowRequestStatus]
+
+
+export const MediaType = {
+  image: 'image',
+  video: 'video'
+} as const
+
+export type MediaType = (typeof MediaType)[keyof typeof MediaType]
+
+
+export const Role = {
+  admin: 'admin',
+  moderator: 'moderator',
+  user: 'user'
+} as const
+
+export type Role = (typeof Role)[keyof typeof Role]

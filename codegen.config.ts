@@ -1,0 +1,23 @@
+import type { CodegenConfig } from '@graphql-codegen/cli';
+
+const config: CodegenConfig = {
+  schema: ['./src/graphql/schemas/schema.graphql', './src/graphql/schemas/*.graphql'],
+  generates: {
+    // TypeScript output (for backend / resolvers)
+    'src/graphql/generated/graphql.ts': {
+      plugins: [
+        'typescript',
+        'typescript-resolvers',
+      ],
+      config: {
+        scalars: {
+          DateTime: 'Date',
+          JSON: 'Record<string, any>',
+          BigInt: 'string',
+        },
+      },
+    },
+  },
+};
+
+export default config;

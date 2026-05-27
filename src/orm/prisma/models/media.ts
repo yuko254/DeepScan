@@ -27,28 +27,19 @@ export type AggregateMedia = {
 export type MediaMinAggregateOutputType = {
   media_id: string | null
   storage_path: string | null
-  media_type: string | null
-  post_id: string | null
-  story_id: string | null
-  scan_id: string | null
+  type: $Enums.MediaType | null
 }
 
 export type MediaMaxAggregateOutputType = {
   media_id: string | null
   storage_path: string | null
-  media_type: string | null
-  post_id: string | null
-  story_id: string | null
-  scan_id: string | null
+  type: $Enums.MediaType | null
 }
 
 export type MediaCountAggregateOutputType = {
   media_id: number
   storage_path: number
-  media_type: number
-  post_id: number
-  story_id: number
-  scan_id: number
+  type: number
   _all: number
 }
 
@@ -56,28 +47,19 @@ export type MediaCountAggregateOutputType = {
 export type MediaMinAggregateInputType = {
   media_id?: true
   storage_path?: true
-  media_type?: true
-  post_id?: true
-  story_id?: true
-  scan_id?: true
+  type?: true
 }
 
 export type MediaMaxAggregateInputType = {
   media_id?: true
   storage_path?: true
-  media_type?: true
-  post_id?: true
-  story_id?: true
-  scan_id?: true
+  type?: true
 }
 
 export type MediaCountAggregateInputType = {
   media_id?: true
   storage_path?: true
-  media_type?: true
-  post_id?: true
-  story_id?: true
-  scan_id?: true
+  type?: true
   _all?: true
 }
 
@@ -156,10 +138,7 @@ export type mediaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type MediaGroupByOutputType = {
   media_id: string
   storage_path: string
-  media_type: string | null
-  post_id: string | null
-  story_id: string | null
-  scan_id: string | null
+  type: $Enums.MediaType
   _count: MediaCountAggregateOutputType | null
   _min: MediaMinAggregateOutputType | null
   _max: MediaMaxAggregateOutputType | null
@@ -186,27 +165,13 @@ export type mediaWhereInput = {
   NOT?: Prisma.mediaWhereInput | Prisma.mediaWhereInput[]
   media_id?: Prisma.UuidFilter<"media"> | string
   storage_path?: Prisma.StringFilter<"media"> | string
-  media_type?: Prisma.StringNullableFilter<"media"> | string | null
-  post_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  story_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  scan_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  posts?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
-  scan_history?: Prisma.XOR<Prisma.Scan_historyNullableScalarRelationFilter, Prisma.scan_historyWhereInput> | null
-  stories?: Prisma.XOR<Prisma.StoriesNullableScalarRelationFilter, Prisma.storiesWhereInput> | null
-  post_blocks?: Prisma.Post_blocksListRelationFilter
+  type?: Prisma.EnumMediaTypeFilter<"media"> | $Enums.MediaType
 }
 
 export type mediaOrderByWithRelationInput = {
   media_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
-  media_type?: Prisma.SortOrderInput | Prisma.SortOrder
-  post_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  story_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  scan_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  posts?: Prisma.postsOrderByWithRelationInput
-  scan_history?: Prisma.scan_historyOrderByWithRelationInput
-  stories?: Prisma.storiesOrderByWithRelationInput
-  post_blocks?: Prisma.post_blocksOrderByRelationAggregateInput
+  type?: Prisma.SortOrder
 }
 
 export type mediaWhereUniqueInput = Prisma.AtLeast<{
@@ -215,23 +180,13 @@ export type mediaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.mediaWhereInput[]
   NOT?: Prisma.mediaWhereInput | Prisma.mediaWhereInput[]
   storage_path?: Prisma.StringFilter<"media"> | string
-  media_type?: Prisma.StringNullableFilter<"media"> | string | null
-  post_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  story_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  scan_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  posts?: Prisma.XOR<Prisma.PostsNullableScalarRelationFilter, Prisma.postsWhereInput> | null
-  scan_history?: Prisma.XOR<Prisma.Scan_historyNullableScalarRelationFilter, Prisma.scan_historyWhereInput> | null
-  stories?: Prisma.XOR<Prisma.StoriesNullableScalarRelationFilter, Prisma.storiesWhereInput> | null
-  post_blocks?: Prisma.Post_blocksListRelationFilter
+  type?: Prisma.EnumMediaTypeFilter<"media"> | $Enums.MediaType
 }, "media_id">
 
 export type mediaOrderByWithAggregationInput = {
   media_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
-  media_type?: Prisma.SortOrderInput | Prisma.SortOrder
-  post_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  story_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  scan_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
   _count?: Prisma.mediaCountOrderByAggregateInput
   _max?: Prisma.mediaMaxOrderByAggregateInput
   _min?: Prisma.mediaMinOrderByAggregateInput
@@ -243,670 +198,108 @@ export type mediaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.mediaScalarWhereWithAggregatesInput | Prisma.mediaScalarWhereWithAggregatesInput[]
   media_id?: Prisma.UuidWithAggregatesFilter<"media"> | string
   storage_path?: Prisma.StringWithAggregatesFilter<"media"> | string
-  media_type?: Prisma.StringNullableWithAggregatesFilter<"media"> | string | null
-  post_id?: Prisma.UuidNullableWithAggregatesFilter<"media"> | string | null
-  story_id?: Prisma.UuidNullableWithAggregatesFilter<"media"> | string | null
-  scan_id?: Prisma.UuidNullableWithAggregatesFilter<"media"> | string | null
+  type?: Prisma.EnumMediaTypeWithAggregatesFilter<"media"> | $Enums.MediaType
 }
 
 export type mediaCreateInput = {
   media_id?: string
   storage_path: string
-  media_type?: string | null
-  posts?: Prisma.postsCreateNestedOneWithoutMediaInput
-  scan_history?: Prisma.scan_historyCreateNestedOneWithoutMediaInput
-  stories?: Prisma.storiesCreateNestedOneWithoutMediaInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutMediaInput
+  type: $Enums.MediaType
 }
 
 export type mediaUncheckedCreateInput = {
   media_id?: string
   storage_path: string
-  media_type?: string | null
-  post_id?: string | null
-  story_id?: string | null
-  scan_id?: string | null
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutMediaInput
+  type: $Enums.MediaType
 }
 
 export type mediaUpdateInput = {
   media_id?: Prisma.StringFieldUpdateOperationsInput | string
   storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUpdateOneWithoutMediaNestedInput
-  scan_history?: Prisma.scan_historyUpdateOneWithoutMediaNestedInput
-  stories?: Prisma.storiesUpdateOneWithoutMediaNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutMediaNestedInput
+  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
 }
 
 export type mediaUncheckedUpdateInput = {
   media_id?: Prisma.StringFieldUpdateOperationsInput | string
   storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  story_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutMediaNestedInput
+  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
 }
 
 export type mediaCreateManyInput = {
   media_id?: string
   storage_path: string
-  media_type?: string | null
-  post_id?: string | null
-  story_id?: string | null
-  scan_id?: string | null
+  type: $Enums.MediaType
 }
 
 export type mediaUpdateManyMutationInput = {
   media_id?: Prisma.StringFieldUpdateOperationsInput | string
   storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
 }
 
 export type mediaUncheckedUpdateManyInput = {
   media_id?: Prisma.StringFieldUpdateOperationsInput | string
   storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  story_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
 }
 
 export type mediaCountOrderByAggregateInput = {
   media_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  story_id?: Prisma.SortOrder
-  scan_id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type mediaMaxOrderByAggregateInput = {
   media_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  story_id?: Prisma.SortOrder
-  scan_id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type mediaMinOrderByAggregateInput = {
   media_id?: Prisma.SortOrder
   storage_path?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  story_id?: Prisma.SortOrder
-  scan_id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
-export type MediaNullableScalarRelationFilter = {
-  is?: Prisma.mediaWhereInput | null
-  isNot?: Prisma.mediaWhereInput | null
+export type EnumMediaTypeFieldUpdateOperationsInput = {
+  set?: $Enums.MediaType
 }
 
-export type MediaListRelationFilter = {
-  every?: Prisma.mediaWhereInput
-  some?: Prisma.mediaWhereInput
-  none?: Prisma.mediaWhereInput
-}
-
-export type mediaOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type mediaCreateNestedOneWithoutPost_blocksInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPost_blocksInput
-  connect?: Prisma.mediaWhereUniqueInput
-}
-
-export type mediaUpdateOneWithoutPost_blocksNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPost_blocksInput
-  upsert?: Prisma.mediaUpsertWithoutPost_blocksInput
-  disconnect?: Prisma.mediaWhereInput | boolean
-  delete?: Prisma.mediaWhereInput | boolean
-  connect?: Prisma.mediaWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.mediaUpdateToOneWithWhereWithoutPost_blocksInput, Prisma.mediaUpdateWithoutPost_blocksInput>, Prisma.mediaUncheckedUpdateWithoutPost_blocksInput>
-}
-
-export type mediaCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPostsInput, Prisma.mediaUncheckedCreateWithoutPostsInput> | Prisma.mediaCreateWithoutPostsInput[] | Prisma.mediaUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPostsInput | Prisma.mediaCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.mediaCreateManyPostsInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUncheckedCreateNestedManyWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPostsInput, Prisma.mediaUncheckedCreateWithoutPostsInput> | Prisma.mediaCreateWithoutPostsInput[] | Prisma.mediaUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPostsInput | Prisma.mediaCreateOrConnectWithoutPostsInput[]
-  createMany?: Prisma.mediaCreateManyPostsInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPostsInput, Prisma.mediaUncheckedCreateWithoutPostsInput> | Prisma.mediaCreateWithoutPostsInput[] | Prisma.mediaUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPostsInput | Prisma.mediaCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutPostsInput | Prisma.mediaUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.mediaCreateManyPostsInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutPostsInput | Prisma.mediaUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutPostsInput | Prisma.mediaUpdateManyWithWhereWithoutPostsInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-}
-
-export type mediaUncheckedUpdateManyWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutPostsInput, Prisma.mediaUncheckedCreateWithoutPostsInput> | Prisma.mediaCreateWithoutPostsInput[] | Prisma.mediaUncheckedCreateWithoutPostsInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutPostsInput | Prisma.mediaCreateOrConnectWithoutPostsInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutPostsInput | Prisma.mediaUpsertWithWhereUniqueWithoutPostsInput[]
-  createMany?: Prisma.mediaCreateManyPostsInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutPostsInput | Prisma.mediaUpdateWithWhereUniqueWithoutPostsInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutPostsInput | Prisma.mediaUpdateManyWithWhereWithoutPostsInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-}
-
-export type mediaCreateNestedManyWithoutScan_historyInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutScan_historyInput, Prisma.mediaUncheckedCreateWithoutScan_historyInput> | Prisma.mediaCreateWithoutScan_historyInput[] | Prisma.mediaUncheckedCreateWithoutScan_historyInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutScan_historyInput | Prisma.mediaCreateOrConnectWithoutScan_historyInput[]
-  createMany?: Prisma.mediaCreateManyScan_historyInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUncheckedCreateNestedManyWithoutScan_historyInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutScan_historyInput, Prisma.mediaUncheckedCreateWithoutScan_historyInput> | Prisma.mediaCreateWithoutScan_historyInput[] | Prisma.mediaUncheckedCreateWithoutScan_historyInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutScan_historyInput | Prisma.mediaCreateOrConnectWithoutScan_historyInput[]
-  createMany?: Prisma.mediaCreateManyScan_historyInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUpdateManyWithoutScan_historyNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutScan_historyInput, Prisma.mediaUncheckedCreateWithoutScan_historyInput> | Prisma.mediaCreateWithoutScan_historyInput[] | Prisma.mediaUncheckedCreateWithoutScan_historyInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutScan_historyInput | Prisma.mediaCreateOrConnectWithoutScan_historyInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutScan_historyInput | Prisma.mediaUpsertWithWhereUniqueWithoutScan_historyInput[]
-  createMany?: Prisma.mediaCreateManyScan_historyInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutScan_historyInput | Prisma.mediaUpdateWithWhereUniqueWithoutScan_historyInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutScan_historyInput | Prisma.mediaUpdateManyWithWhereWithoutScan_historyInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-}
-
-export type mediaUncheckedUpdateManyWithoutScan_historyNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutScan_historyInput, Prisma.mediaUncheckedCreateWithoutScan_historyInput> | Prisma.mediaCreateWithoutScan_historyInput[] | Prisma.mediaUncheckedCreateWithoutScan_historyInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutScan_historyInput | Prisma.mediaCreateOrConnectWithoutScan_historyInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutScan_historyInput | Prisma.mediaUpsertWithWhereUniqueWithoutScan_historyInput[]
-  createMany?: Prisma.mediaCreateManyScan_historyInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutScan_historyInput | Prisma.mediaUpdateWithWhereUniqueWithoutScan_historyInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutScan_historyInput | Prisma.mediaUpdateManyWithWhereWithoutScan_historyInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-}
-
-export type mediaCreateNestedManyWithoutStoriesInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutStoriesInput, Prisma.mediaUncheckedCreateWithoutStoriesInput> | Prisma.mediaCreateWithoutStoriesInput[] | Prisma.mediaUncheckedCreateWithoutStoriesInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutStoriesInput | Prisma.mediaCreateOrConnectWithoutStoriesInput[]
-  createMany?: Prisma.mediaCreateManyStoriesInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUncheckedCreateNestedManyWithoutStoriesInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutStoriesInput, Prisma.mediaUncheckedCreateWithoutStoriesInput> | Prisma.mediaCreateWithoutStoriesInput[] | Prisma.mediaUncheckedCreateWithoutStoriesInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutStoriesInput | Prisma.mediaCreateOrConnectWithoutStoriesInput[]
-  createMany?: Prisma.mediaCreateManyStoriesInputEnvelope
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-}
-
-export type mediaUpdateManyWithoutStoriesNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutStoriesInput, Prisma.mediaUncheckedCreateWithoutStoriesInput> | Prisma.mediaCreateWithoutStoriesInput[] | Prisma.mediaUncheckedCreateWithoutStoriesInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutStoriesInput | Prisma.mediaCreateOrConnectWithoutStoriesInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutStoriesInput | Prisma.mediaUpsertWithWhereUniqueWithoutStoriesInput[]
-  createMany?: Prisma.mediaCreateManyStoriesInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutStoriesInput | Prisma.mediaUpdateWithWhereUniqueWithoutStoriesInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutStoriesInput | Prisma.mediaUpdateManyWithWhereWithoutStoriesInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-}
-
-export type mediaUncheckedUpdateManyWithoutStoriesNestedInput = {
-  create?: Prisma.XOR<Prisma.mediaCreateWithoutStoriesInput, Prisma.mediaUncheckedCreateWithoutStoriesInput> | Prisma.mediaCreateWithoutStoriesInput[] | Prisma.mediaUncheckedCreateWithoutStoriesInput[]
-  connectOrCreate?: Prisma.mediaCreateOrConnectWithoutStoriesInput | Prisma.mediaCreateOrConnectWithoutStoriesInput[]
-  upsert?: Prisma.mediaUpsertWithWhereUniqueWithoutStoriesInput | Prisma.mediaUpsertWithWhereUniqueWithoutStoriesInput[]
-  createMany?: Prisma.mediaCreateManyStoriesInputEnvelope
-  set?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  disconnect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  delete?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  connect?: Prisma.mediaWhereUniqueInput | Prisma.mediaWhereUniqueInput[]
-  update?: Prisma.mediaUpdateWithWhereUniqueWithoutStoriesInput | Prisma.mediaUpdateWithWhereUniqueWithoutStoriesInput[]
-  updateMany?: Prisma.mediaUpdateManyWithWhereWithoutStoriesInput | Prisma.mediaUpdateManyWithWhereWithoutStoriesInput[]
-  deleteMany?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-}
-
-export type mediaCreateWithoutPost_blocksInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  posts?: Prisma.postsCreateNestedOneWithoutMediaInput
-  scan_history?: Prisma.scan_historyCreateNestedOneWithoutMediaInput
-  stories?: Prisma.storiesCreateNestedOneWithoutMediaInput
-}
-
-export type mediaUncheckedCreateWithoutPost_blocksInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  post_id?: string | null
-  story_id?: string | null
-  scan_id?: string | null
-}
-
-export type mediaCreateOrConnectWithoutPost_blocksInput = {
-  where: Prisma.mediaWhereUniqueInput
-  create: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-}
-
-export type mediaUpsertWithoutPost_blocksInput = {
-  update: Prisma.XOR<Prisma.mediaUpdateWithoutPost_blocksInput, Prisma.mediaUncheckedUpdateWithoutPost_blocksInput>
-  create: Prisma.XOR<Prisma.mediaCreateWithoutPost_blocksInput, Prisma.mediaUncheckedCreateWithoutPost_blocksInput>
-  where?: Prisma.mediaWhereInput
-}
-
-export type mediaUpdateToOneWithWhereWithoutPost_blocksInput = {
-  where?: Prisma.mediaWhereInput
-  data: Prisma.XOR<Prisma.mediaUpdateWithoutPost_blocksInput, Prisma.mediaUncheckedUpdateWithoutPost_blocksInput>
-}
-
-export type mediaUpdateWithoutPost_blocksInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUpdateOneWithoutMediaNestedInput
-  scan_history?: Prisma.scan_historyUpdateOneWithoutMediaNestedInput
-  stories?: Prisma.storiesUpdateOneWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateWithoutPost_blocksInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  story_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type mediaCreateWithoutPostsInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  scan_history?: Prisma.scan_historyCreateNestedOneWithoutMediaInput
-  stories?: Prisma.storiesCreateNestedOneWithoutMediaInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutMediaInput
-}
-
-export type mediaUncheckedCreateWithoutPostsInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  story_id?: string | null
-  scan_id?: string | null
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutMediaInput
-}
-
-export type mediaCreateOrConnectWithoutPostsInput = {
-  where: Prisma.mediaWhereUniqueInput
-  create: Prisma.XOR<Prisma.mediaCreateWithoutPostsInput, Prisma.mediaUncheckedCreateWithoutPostsInput>
-}
-
-export type mediaCreateManyPostsInputEnvelope = {
-  data: Prisma.mediaCreateManyPostsInput | Prisma.mediaCreateManyPostsInput[]
-  skipDuplicates?: boolean
-}
-
-export type mediaUpsertWithWhereUniqueWithoutPostsInput = {
-  where: Prisma.mediaWhereUniqueInput
-  update: Prisma.XOR<Prisma.mediaUpdateWithoutPostsInput, Prisma.mediaUncheckedUpdateWithoutPostsInput>
-  create: Prisma.XOR<Prisma.mediaCreateWithoutPostsInput, Prisma.mediaUncheckedCreateWithoutPostsInput>
-}
-
-export type mediaUpdateWithWhereUniqueWithoutPostsInput = {
-  where: Prisma.mediaWhereUniqueInput
-  data: Prisma.XOR<Prisma.mediaUpdateWithoutPostsInput, Prisma.mediaUncheckedUpdateWithoutPostsInput>
-}
-
-export type mediaUpdateManyWithWhereWithoutPostsInput = {
-  where: Prisma.mediaScalarWhereInput
-  data: Prisma.XOR<Prisma.mediaUpdateManyMutationInput, Prisma.mediaUncheckedUpdateManyWithoutPostsInput>
-}
-
-export type mediaScalarWhereInput = {
-  AND?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-  OR?: Prisma.mediaScalarWhereInput[]
-  NOT?: Prisma.mediaScalarWhereInput | Prisma.mediaScalarWhereInput[]
-  media_id?: Prisma.UuidFilter<"media"> | string
-  storage_path?: Prisma.StringFilter<"media"> | string
-  media_type?: Prisma.StringNullableFilter<"media"> | string | null
-  post_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  story_id?: Prisma.UuidNullableFilter<"media"> | string | null
-  scan_id?: Prisma.UuidNullableFilter<"media"> | string | null
-}
-
-export type mediaCreateWithoutScan_historyInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  posts?: Prisma.postsCreateNestedOneWithoutMediaInput
-  stories?: Prisma.storiesCreateNestedOneWithoutMediaInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutMediaInput
-}
-
-export type mediaUncheckedCreateWithoutScan_historyInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  post_id?: string | null
-  story_id?: string | null
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutMediaInput
-}
-
-export type mediaCreateOrConnectWithoutScan_historyInput = {
-  where: Prisma.mediaWhereUniqueInput
-  create: Prisma.XOR<Prisma.mediaCreateWithoutScan_historyInput, Prisma.mediaUncheckedCreateWithoutScan_historyInput>
-}
-
-export type mediaCreateManyScan_historyInputEnvelope = {
-  data: Prisma.mediaCreateManyScan_historyInput | Prisma.mediaCreateManyScan_historyInput[]
-  skipDuplicates?: boolean
-}
-
-export type mediaUpsertWithWhereUniqueWithoutScan_historyInput = {
-  where: Prisma.mediaWhereUniqueInput
-  update: Prisma.XOR<Prisma.mediaUpdateWithoutScan_historyInput, Prisma.mediaUncheckedUpdateWithoutScan_historyInput>
-  create: Prisma.XOR<Prisma.mediaCreateWithoutScan_historyInput, Prisma.mediaUncheckedCreateWithoutScan_historyInput>
-}
-
-export type mediaUpdateWithWhereUniqueWithoutScan_historyInput = {
-  where: Prisma.mediaWhereUniqueInput
-  data: Prisma.XOR<Prisma.mediaUpdateWithoutScan_historyInput, Prisma.mediaUncheckedUpdateWithoutScan_historyInput>
-}
-
-export type mediaUpdateManyWithWhereWithoutScan_historyInput = {
-  where: Prisma.mediaScalarWhereInput
-  data: Prisma.XOR<Prisma.mediaUpdateManyMutationInput, Prisma.mediaUncheckedUpdateManyWithoutScan_historyInput>
-}
-
-export type mediaCreateWithoutStoriesInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  posts?: Prisma.postsCreateNestedOneWithoutMediaInput
-  scan_history?: Prisma.scan_historyCreateNestedOneWithoutMediaInput
-  post_blocks?: Prisma.post_blocksCreateNestedManyWithoutMediaInput
-}
-
-export type mediaUncheckedCreateWithoutStoriesInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  post_id?: string | null
-  scan_id?: string | null
-  post_blocks?: Prisma.post_blocksUncheckedCreateNestedManyWithoutMediaInput
-}
-
-export type mediaCreateOrConnectWithoutStoriesInput = {
-  where: Prisma.mediaWhereUniqueInput
-  create: Prisma.XOR<Prisma.mediaCreateWithoutStoriesInput, Prisma.mediaUncheckedCreateWithoutStoriesInput>
-}
-
-export type mediaCreateManyStoriesInputEnvelope = {
-  data: Prisma.mediaCreateManyStoriesInput | Prisma.mediaCreateManyStoriesInput[]
-  skipDuplicates?: boolean
-}
-
-export type mediaUpsertWithWhereUniqueWithoutStoriesInput = {
-  where: Prisma.mediaWhereUniqueInput
-  update: Prisma.XOR<Prisma.mediaUpdateWithoutStoriesInput, Prisma.mediaUncheckedUpdateWithoutStoriesInput>
-  create: Prisma.XOR<Prisma.mediaCreateWithoutStoriesInput, Prisma.mediaUncheckedCreateWithoutStoriesInput>
-}
-
-export type mediaUpdateWithWhereUniqueWithoutStoriesInput = {
-  where: Prisma.mediaWhereUniqueInput
-  data: Prisma.XOR<Prisma.mediaUpdateWithoutStoriesInput, Prisma.mediaUncheckedUpdateWithoutStoriesInput>
-}
-
-export type mediaUpdateManyWithWhereWithoutStoriesInput = {
-  where: Prisma.mediaScalarWhereInput
-  data: Prisma.XOR<Prisma.mediaUpdateManyMutationInput, Prisma.mediaUncheckedUpdateManyWithoutStoriesInput>
-}
-
-export type mediaCreateManyPostsInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  story_id?: string | null
-  scan_id?: string | null
-}
-
-export type mediaUpdateWithoutPostsInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_history?: Prisma.scan_historyUpdateOneWithoutMediaNestedInput
-  stories?: Prisma.storiesUpdateOneWithoutMediaNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateWithoutPostsInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  story_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateManyWithoutPostsInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  story_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type mediaCreateManyScan_historyInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  post_id?: string | null
-  story_id?: string | null
-}
-
-export type mediaUpdateWithoutScan_historyInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUpdateOneWithoutMediaNestedInput
-  stories?: Prisma.storiesUpdateOneWithoutMediaNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateWithoutScan_historyInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  story_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateManyWithoutScan_historyInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  story_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type mediaCreateManyStoriesInput = {
-  media_id?: string
-  storage_path: string
-  media_type?: string | null
-  post_id?: string | null
-  scan_id?: string | null
-}
-
-export type mediaUpdateWithoutStoriesInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  posts?: Prisma.postsUpdateOneWithoutMediaNestedInput
-  scan_history?: Prisma.scan_historyUpdateOneWithoutMediaNestedInput
-  post_blocks?: Prisma.post_blocksUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateWithoutStoriesInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_blocks?: Prisma.post_blocksUncheckedUpdateManyWithoutMediaNestedInput
-}
-
-export type mediaUncheckedUpdateManyWithoutStoriesInput = {
-  media_id?: Prisma.StringFieldUpdateOperationsInput | string
-  storage_path?: Prisma.StringFieldUpdateOperationsInput | string
-  media_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  scan_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-
-/**
- * Count Type MediaCountOutputType
- */
-
-export type MediaCountOutputType = {
-  post_blocks: number
-}
-
-export type MediaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  post_blocks?: boolean | MediaCountOutputTypeCountPost_blocksArgs
-}
-
-/**
- * MediaCountOutputType without action
- */
-export type MediaCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MediaCountOutputType
-   */
-  select?: Prisma.MediaCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * MediaCountOutputType without action
- */
-export type MediaCountOutputTypeCountPost_blocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.post_blocksWhereInput
-}
 
 
 export type mediaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   media_id?: boolean
   storage_path?: boolean
-  media_type?: boolean
-  post_id?: boolean
-  story_id?: boolean
-  scan_id?: boolean
-  posts?: boolean | Prisma.media$postsArgs<ExtArgs>
-  scan_history?: boolean | Prisma.media$scan_historyArgs<ExtArgs>
-  stories?: boolean | Prisma.media$storiesArgs<ExtArgs>
-  post_blocks?: boolean | Prisma.media$post_blocksArgs<ExtArgs>
-  _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
+  type?: boolean
 }, ExtArgs["result"]["media"]>
 
 export type mediaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   media_id?: boolean
   storage_path?: boolean
-  media_type?: boolean
-  post_id?: boolean
-  story_id?: boolean
-  scan_id?: boolean
-  posts?: boolean | Prisma.media$postsArgs<ExtArgs>
-  scan_history?: boolean | Prisma.media$scan_historyArgs<ExtArgs>
-  stories?: boolean | Prisma.media$storiesArgs<ExtArgs>
+  type?: boolean
 }, ExtArgs["result"]["media"]>
 
 export type mediaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   media_id?: boolean
   storage_path?: boolean
-  media_type?: boolean
-  post_id?: boolean
-  story_id?: boolean
-  scan_id?: boolean
-  posts?: boolean | Prisma.media$postsArgs<ExtArgs>
-  scan_history?: boolean | Prisma.media$scan_historyArgs<ExtArgs>
-  stories?: boolean | Prisma.media$storiesArgs<ExtArgs>
+  type?: boolean
 }, ExtArgs["result"]["media"]>
 
 export type mediaSelectScalar = {
   media_id?: boolean
   storage_path?: boolean
-  media_type?: boolean
-  post_id?: boolean
-  story_id?: boolean
-  scan_id?: boolean
+  type?: boolean
 }
 
-export type mediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"media_id" | "storage_path" | "media_type" | "post_id" | "story_id" | "scan_id", ExtArgs["result"]["media"]>
-export type mediaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  posts?: boolean | Prisma.media$postsArgs<ExtArgs>
-  scan_history?: boolean | Prisma.media$scan_historyArgs<ExtArgs>
-  stories?: boolean | Prisma.media$storiesArgs<ExtArgs>
-  post_blocks?: boolean | Prisma.media$post_blocksArgs<ExtArgs>
-  _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type mediaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  posts?: boolean | Prisma.media$postsArgs<ExtArgs>
-  scan_history?: boolean | Prisma.media$scan_historyArgs<ExtArgs>
-  stories?: boolean | Prisma.media$storiesArgs<ExtArgs>
-}
-export type mediaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  posts?: boolean | Prisma.media$postsArgs<ExtArgs>
-  scan_history?: boolean | Prisma.media$scan_historyArgs<ExtArgs>
-  stories?: boolean | Prisma.media$storiesArgs<ExtArgs>
-}
+export type mediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"media_id" | "storage_path" | "type", ExtArgs["result"]["media"]>
 
 export type $mediaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "media"
-  objects: {
-    posts: Prisma.$postsPayload<ExtArgs> | null
-    scan_history: Prisma.$scan_historyPayload<ExtArgs> | null
-    stories: Prisma.$storiesPayload<ExtArgs> | null
-    post_blocks: Prisma.$post_blocksPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     media_id: string
     storage_path: string
-    media_type: string | null
-    post_id: string | null
-    story_id: string | null
-    scan_id: string | null
+    type: $Enums.MediaType
   }, ExtArgs["result"]["media"]>
   composites: {}
 }
@@ -1301,10 +694,6 @@ readonly fields: mediaFieldRefs;
  */
 export interface Prisma__mediaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  posts<T extends Prisma.media$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.media$postsArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  scan_history<T extends Prisma.media$scan_historyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.media$scan_historyArgs<ExtArgs>>): Prisma.Prisma__scan_historyClient<runtime.Types.Result.GetResult<Prisma.$scan_historyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  stories<T extends Prisma.media$storiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.media$storiesArgs<ExtArgs>>): Prisma.Prisma__storiesClient<runtime.Types.Result.GetResult<Prisma.$storiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  post_blocks<T extends Prisma.media$post_blocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.media$post_blocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_blocksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1336,10 +725,7 @@ export interface Prisma__mediaClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface mediaFieldRefs {
   readonly media_id: Prisma.FieldRef<"media", 'String'>
   readonly storage_path: Prisma.FieldRef<"media", 'String'>
-  readonly media_type: Prisma.FieldRef<"media", 'String'>
-  readonly post_id: Prisma.FieldRef<"media", 'String'>
-  readonly story_id: Prisma.FieldRef<"media", 'String'>
-  readonly scan_id: Prisma.FieldRef<"media", 'String'>
+  readonly type: Prisma.FieldRef<"media", 'MediaType'>
 }
     
 
@@ -1356,10 +742,6 @@ export type mediaFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * Filter, which media to fetch.
    */
@@ -1379,10 +761,6 @@ export type mediaFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * Filter, which media to fetch.
    */
   where: Prisma.mediaWhereUniqueInput
@@ -1400,10 +778,6 @@ export type mediaFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * Filter, which media to fetch.
    */
@@ -1453,10 +827,6 @@ export type mediaFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * Filter, which media to fetch.
    */
   where?: Prisma.mediaWhereInput
@@ -1504,10 +874,6 @@ export type mediaFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * Filter, which media to fetch.
    */
@@ -1557,10 +923,6 @@ export type mediaCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * The data needed to create a media.
    */
   data: Prisma.XOR<Prisma.mediaCreateInput, Prisma.mediaUncheckedCreateInput>
@@ -1594,10 +956,6 @@ export type mediaCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.mediaCreateManyInput | Prisma.mediaCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1612,10 +970,6 @@ export type mediaUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * The data needed to update a media.
    */
@@ -1668,10 +1022,6 @@ export type mediaUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many media to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1686,10 +1036,6 @@ export type mediaUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
   /**
    * The filter to search for the media to update in case it exists.
    */
@@ -1717,10 +1063,6 @@ export type mediaDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
-  /**
    * Filter which media to delete.
    */
   where: Prisma.mediaWhereUniqueInput
@@ -1741,87 +1083,6 @@ export type mediaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * media.posts
- */
-export type media$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the posts
-   */
-  select?: Prisma.postsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the posts
-   */
-  omit?: Prisma.postsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.postsInclude<ExtArgs> | null
-  where?: Prisma.postsWhereInput
-}
-
-/**
- * media.scan_history
- */
-export type media$scan_historyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the scan_history
-   */
-  select?: Prisma.scan_historySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the scan_history
-   */
-  omit?: Prisma.scan_historyOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.scan_historyInclude<ExtArgs> | null
-  where?: Prisma.scan_historyWhereInput
-}
-
-/**
- * media.stories
- */
-export type media$storiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the stories
-   */
-  select?: Prisma.storiesSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the stories
-   */
-  omit?: Prisma.storiesOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.storiesInclude<ExtArgs> | null
-  where?: Prisma.storiesWhereInput
-}
-
-/**
- * media.post_blocks
- */
-export type media$post_blocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the post_blocks
-   */
-  select?: Prisma.post_blocksSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the post_blocks
-   */
-  omit?: Prisma.post_blocksOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.post_blocksInclude<ExtArgs> | null
-  where?: Prisma.post_blocksWhereInput
-  orderBy?: Prisma.post_blocksOrderByWithRelationInput | Prisma.post_blocksOrderByWithRelationInput[]
-  cursor?: Prisma.post_blocksWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Post_blocksScalarFieldEnum | Prisma.Post_blocksScalarFieldEnum[]
-}
-
-/**
  * media without action
  */
 export type mediaDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1833,8 +1094,4 @@ export type mediaDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the media
    */
   omit?: Prisma.mediaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mediaInclude<ExtArgs> | null
 }

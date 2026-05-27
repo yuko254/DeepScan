@@ -31,8 +31,8 @@ export * from "./enums.js"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Blocks
- * const blocks = await prisma.blocks.findMany()
+ * // Fetch zero or more Admin_audits
+ * const admin_audits = await prisma.admin_audits.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -42,137 +42,187 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
- * Model blocks
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- */
-export type blocks = Prisma.blocksModel
-/**
- * Model categories
+ * Model admin_audits
  * 
  */
-export type categories = Prisma.categoriesModel
-/**
- * Model chat_participants
- * 
- */
-export type chat_participants = Prisma.chat_participantsModel
-/**
- * Model chats
- * 
- */
-export type chats = Prisma.chatsModel
-/**
- * Model comment_likes
- * 
- */
-export type comment_likes = Prisma.comment_likesModel
-/**
- * Model comments
- * 
- */
-export type comments = Prisma.commentsModel
-/**
- * Model device_tokens
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- */
-export type device_tokens = Prisma.device_tokensModel
-/**
- * Model follows
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- */
-export type follows = Prisma.followsModel
-/**
- * Model hashtags
- * 
- */
-export type hashtags = Prisma.hashtagsModel
-/**
- * Model locations
- * 
- */
-export type locations = Prisma.locationsModel
-/**
- * Model media
- * 
- */
-export type media = Prisma.mediaModel
-/**
- * Model mentions
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- */
-export type mentions = Prisma.mentionsModel
-/**
- * Model messages
- * 
- */
-export type messages = Prisma.messagesModel
-/**
- * Model notifications
- * 
- */
-export type notifications = Prisma.notificationsModel
-/**
- * Model post_blocks
- * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
- */
-export type post_blocks = Prisma.post_blocksModel
-/**
- * Model post_hashtags
- * 
- */
-export type post_hashtags = Prisma.post_hashtagsModel
-/**
- * Model post_likes
- * 
- */
-export type post_likes = Prisma.post_likesModel
-/**
- * Model posts
- * 
- */
-export type posts = Prisma.postsModel
-/**
- * Model profiles
- * 
- */
-export type profiles = Prisma.profilesModel
-/**
- * Model reports
- * 
- */
-export type reports = Prisma.reportsModel
-/**
- * Model roles
- * 
- */
-export type roles = Prisma.rolesModel
-/**
- * Model saved_posts
- * 
- */
-export type saved_posts = Prisma.saved_postsModel
-/**
- * Model scan_history
- * 
- */
-export type scan_history = Prisma.scan_historyModel
-/**
- * Model stories
- * 
- */
-export type stories = Prisma.storiesModel
-/**
- * Model story_views
- * 
- */
-export type story_views = Prisma.story_viewsModel
+export type admin_audits = Prisma.admin_auditsModel
 /**
  * Model users
  * 
  */
 export type users = Prisma.usersModel
 /**
- * Model refresh_tokens
+ * Model roles
  * 
  */
-export type refresh_tokens = Prisma.refresh_tokensModel
+export type roles = Prisma.rolesModel
+/**
+ * Model profiles
+ * 
+ */
+export type profiles = Prisma.profilesModel
+/**
+ * Model notifications
+ * 
+ */
+export type notifications = Prisma.notificationsModel
+/**
+ * Model reports
+ * 
+ */
+export type reports = Prisma.reportsModel
+/**
+ * Model device_tokens
+ * 
+ */
+export type device_tokens = Prisma.device_tokensModel
+/**
+ * Model contents
+ * 
+ */
+export type contents = Prisma.contentsModel
+/**
+ * Model posts
+ * 
+ */
+export type posts = Prisma.postsModel
+/**
+ * Model scans
+ * 
+ */
+export type scans = Prisma.scansModel
+/**
+ * Model stories
+ * 
+ */
+export type stories = Prisma.storiesModel
+/**
+ * Model media
+ * 
+ */
+export type media = Prisma.mediaModel
+/**
+ * Model blocks
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type blocks = Prisma.blocksModel
+/**
+ * Model follows
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type follows = Prisma.followsModel
+/**
+ * Model follow_requests
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type follow_requests = Prisma.follow_requestsModel
+/**
+ * Model comments
+ * 
+ */
+export type comments = Prisma.commentsModel
+/**
+ * Model locations
+ * 
+ */
+export type locations = Prisma.locationsModel
+/**
+ * Model countries
+ * 
+ */
+export type countries = Prisma.countriesModel
+/**
+ * Model cities
+ * 
+ */
+export type cities = Prisma.citiesModel
+/**
+ * Model chats
+ * 
+ */
+export type chats = Prisma.chatsModel
+/**
+ * Model chat_participants
+ * 
+ */
+export type chat_participants = Prisma.chat_participantsModel
+/**
+ * Model messages
+ * 
+ */
+export type messages = Prisma.messagesModel
+/**
+ * Model categories
+ * 
+ */
+export type categories = Prisma.categoriesModel
+/**
+ * Model tags
+ * 
+ */
+export type tags = Prisma.tagsModel
+/**
+ * Model hashtags
+ * 
+ */
+export type hashtags = Prisma.hashtagsModel
+/**
+ * Model saved_posts
+ * 
+ */
+export type saved_posts = Prisma.saved_postsModel
+/**
+ * Model post_tags
+ * 
+ */
+export type post_tags = Prisma.post_tagsModel
+/**
+ * Model post_likes
+ * 
+ */
+export type post_likes = Prisma.post_likesModel
+/**
+ * Model comment_likes
+ * 
+ */
+export type comment_likes = Prisma.comment_likesModel
+/**
+ * Model story_views
+ * 
+ */
+export type story_views = Prisma.story_viewsModel
+/**
+ * Model content_hashtags
+ * 
+ */
+export type content_hashtags = Prisma.content_hashtagsModel
+/**
+ * Model comment_hashtags
+ * 
+ */
+export type comment_hashtags = Prisma.comment_hashtagsModel
+/**
+ * Model notification_targets
+ * 
+ */
+export type notification_targets = Prisma.notification_targetsModel
+/**
+ * Model report_targets
+ * 
+ */
+export type report_targets = Prisma.report_targetsModel
+/**
+ * Model hashtag_usage
+ * 
+ */
+export type hashtag_usage = Prisma.hashtag_usageModel
+/**
+ * Model post_like_counts
+ * 
+ */
+export type post_like_counts = Prisma.post_like_countsModel
+/**
+ * Model comment_like_counts
+ * 
+ */
+export type comment_like_counts = Prisma.comment_like_countsModel

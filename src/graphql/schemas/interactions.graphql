@@ -1,0 +1,144 @@
+# Comment
+type comments {
+  comment_id: String!
+  content: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  is_deleted: Boolean!
+  user: users!
+  post: posts!
+  comment_parent: comments
+  replies: [comments]!
+
+  isMine: Boolean!
+  isLiked: Boolean!
+  likesCount: Int!
+}
+
+input commentsCreateInput {
+  content: String!
+  post_id: String!
+  comment_parent_id: String
+}
+
+input commentsUpdateInput {
+  comment_id: String!
+  content: String
+}
+
+# Report
+type reports {
+  report_id: String!
+  report_target_id: String!
+  reason: String
+  status: ReportStatus!
+  created_at: DateTime!
+  resolved_at: DateTime
+  reporter: users
+  resolver: users
+  report_target: report_targets!
+}
+
+input reportsCreateInput {
+  report_target_id: String!
+  reason: String
+
+  type: ReportType!
+}
+
+type report_targets {
+  target_id: String!
+  post: posts
+  comment: comments
+  story: stories
+  profile: profiles
+  reports: [reports]!
+}
+
+# Follow
+type follow_requests {
+  id: BigInt!
+  status: FollowRequestStatus!
+  created_at: DateTime!
+  requester: users!
+  target: users!
+}
+
+#################################
+extend type Query {
+  # Comment queries
+  comment(id: ID!): comments
+  postComments(postId: ID!, cursor: DateTime, limit: Int = 20): CommentsResult!
+  commentReplies(commentId: ID!, cursor: DateTime, limit: Int = 20): CommentsResult!
+
+  # Report queries
+  report(id: ID!): reports
+  myReports(cursor: DateTime, limit: Int = 20): ReportsResult!
+
+  # Follow queries
+  followers(userId: ID!, cursor: DateTime, limit: Int = 20): FollowersResult!
+  following(userId: ID!, cursor: DateTime, limit: Int = 20): FollowingResult!
+  myFollowRequests(cursor: DateTime, limit: Int = 20): FollowRequestsResult!
+  followRequestStatus(userId: ID!): FollowRequestStatus!
+
+  # Block queries
+  blockedUsers(cursor: DateTime, limit: Int = 20): BlockedUsersResult!
+}
+
+type CommentsResult {
+  comments: [comments!]!
+  nextCursor: DateTime
+}
+
+type ReportsResult {
+  reports: [reports!]!
+  nextCursor: DateTime
+}
+
+type FollowersResult {
+  users: [users!]!
+  nextCursor: DateTime
+}
+
+type FollowingResult {
+  users: [users!]!
+  nextCursor: DateTime
+}
+
+type FollowRequestsResult {
+  requests: [follow_requests!]!
+  nextCursor: DateTime
+}
+
+type BlockedUsersResult {
+  users: [users!]!
+  nextCursor: DateTime
+}
+
+extend type Mutation {
+  # Comment mutations
+  createComment(data: commentsCreateInput!): comments!
+  updateComment(data: commentsUpdateInput!): comments!
+  deleteComment(commentId: ID!): Boolean!
+  toggleLikeComment(commentId: ID!): Boolean!
+
+  # Report mutations
+  createReport(data: reportsCreateInput!): reports!
+  deleteReport(reportId: ID!): Boolean!
+
+  # Follow mutations
+  followUser(userId: ID!): FollowResult!
+  unfollowUser(userId: ID!): Boolean!
+  acceptFollowRequest(requesterId: ID!): Boolean!
+  rejectFollowRequest(requesterId: ID!): Boolean!
+  cancelFollowRequest(userId: ID!): Boolean!
+
+  # Block mutations
+  blockUser(userId: ID!): Boolean!
+  unblockUser(userId: ID!): Boolean!
+}
+
+type FollowResult {
+  success: Boolean!
+  status: String! # "following", "request_sent", "already_following"
+}

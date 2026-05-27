@@ -1,0 +1,116 @@
+type users {
+  user_id: String!
+  username: String!
+  email: String!
+  is_active: Boolean!
+  is_banned: Boolean!
+  updated_at: DateTime!
+  created_at: DateTime!
+  role: roles
+  profile: profiles
+
+  isMe: Boolean!
+  isFollowing: Boolean!
+  isBlocked: Boolean!
+  followersCount: Int!
+  followingCount: Int!
+}
+
+type roles {
+  role_id: Int!
+  role_name: Role!
+}
+
+type profiles {
+  profile_id: String!
+  is_private: Boolean
+  bio: String
+  avatar: String
+  first_name: String!
+  last_name: String!
+  phone_number: String
+  birth_date: DateTime
+  created_at: DateTime!
+  birth_location: locations
+  current_location: locations
+}
+
+input profilesCreateInput {
+  is_private: Boolean
+  bio: String
+  avatar: String
+  first_name: String!
+  last_name: String!
+  phone_number: String
+  birth_date: DateTime
+  birth_location: locationsCreateInput
+  current_location: locationsCreateInput
+}
+
+input profilesUpdateInput {
+  profile_id: String!
+  is_private: Boolean
+  bio: String
+  avatar: String
+  first_name: String
+  last_name: String
+  phone_number: String
+  birth_date: DateTime
+  birth_location: locationsUpdateInput
+  current_location: locationsUpdateInput
+}
+
+type device_tokens {
+  token_id: String!
+  token: String!
+  device_type: DeviceType!
+  app_version: String
+  last_used: DateTime!
+  created_at: DateTime!
+  user: users!
+}
+
+input device_tokensCreateInput {
+  token: String!
+  device_type: DeviceType!
+  app_version: String
+}
+
+input device_tokensUpdateInput {
+  token_id: String!
+  token: String
+  device_type: DeviceType
+  app_version: String
+}
+
+extend type Query {
+  me: users!
+  user(id: ID!): users!
+  users(search: String, cursor: DateTime, limit: Int = 20): UsersResult!
+  myDeviceTokens: [device_tokens!]!
+  deviceToken(id: ID!): device_tokens
+}
+
+type ProfilePreview {
+  first_name: String!
+  last_name: String!
+  avatar: String
+}
+
+type SearchUser {
+  user_id: String!
+  username: String!
+  profile: ProfilePreview!
+}
+
+type UsersResult {
+  users: [SearchUser!]!
+  nextCursor: DateTime
+}
+
+extend type Mutation {
+  registerDeviceToken(data: device_tokensCreateInput!): device_tokens!
+  updateDeviceToken(data: device_tokensUpdateInput!): device_tokens!
+  unregisterDeviceToken(tokenId: ID!): Boolean!
+  unregisterAllDeviceTokens: Boolean!
+}

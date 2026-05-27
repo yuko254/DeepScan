@@ -1,10 +1,10 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 
 // A stricter limiter for sensitive auth endpoints
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
-  message: { error: 'Too many requests from this IP, please try again after 15 minutes' },
+  message: { error: 'Too many requests, please try again after 15 minutes' },
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   skipSuccessfulRequests: false, // Count all requests against the limit
@@ -16,6 +16,21 @@ export const loginLimiter = rateLimit({
   max: 5, // Limit each IP to 5 login attempts per windowMs
   skipSuccessfulRequests: true, // Only count failed login attempts
   message: { error: 'Too many failed login attempts, please try again after 15 minutes' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const passwordResetLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 3,
+  keyGenerator: (req) => {
+    // Use email if provided
+    if (req.body?.email) return req.body.email;
+    // Fallback to IP with safe handling of undefined
+    const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    return ipKeyGenerator(ip);
+  },
+  message: { error: 'Too many attempts, try again later' },
   standardHeaders: true,
   legacyHeaders: false,
 });
