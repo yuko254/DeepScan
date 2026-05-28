@@ -52,23 +52,6 @@ export const ContentUpdateSchema = z.strictObject({
   scan: ScanUpdateSchema.optional(),
 });
 
-// ─── ID Params ───
-export const ContentIdParamSchema = z.strictObject({
-  content_id: IdSchema.uuid('contentId'),
-});
-
-export const PostIdParamSchema = z.strictObject({
-  post_id: IdSchema.uuid('postId'),
-});
-
-export const StoryIdParamSchema = z.strictObject({
-  story_id: IdSchema.uuid('storyId'),
-});
-
-export const ScanIdParamSchema = z.strictObject({
-  scan_id: IdSchema.uuid('scanId'),
-});
-
 // ─── Types ───
 export type ContentType = z.infer<typeof ContentTypeSchema>;
 export type Visibility = z.infer<typeof VisibilitySchema>;

@@ -2,7 +2,7 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     "paths": {
-      "@prisma/client": ["./src/orm/prisma/client.js"]
+      "@prisma/client": ["./src/ORM/prisma/client.js"]
     },
     // File Layout
     // "rootDir": "./src",

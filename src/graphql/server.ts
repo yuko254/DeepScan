@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { loadSchemaSync } from '@graphql-tools/load';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs } from '@graphql-tools/merge';
+import depthLimit from 'graphql-depth-limit';
 import { Request, Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -28,11 +29,12 @@ const typeDefs = mergeTypeDefs(loadedSchemas);
 export const graphqlServer = new ApolloServer<GraphqlContext>({
   typeDefs,
   resolvers: {
+    ...resolvers,
     BigInt: BigIntResolver,
     DateTime: DateTimeResolver,
     JSON: JSONResolver,
-    ...resolvers,
   },
+  validationRules: [depthLimit(7)],
   formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
     const originalError = (error as any)?.originalError ?? error;
     const mapped = mapErrorToResponse(originalError);

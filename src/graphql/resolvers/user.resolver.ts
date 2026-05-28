@@ -3,8 +3,9 @@ import { GraphqlContext } from '../server.js';
 import { userService } from '../../services/users/account.service.js';
 import { followService } from '../../services/interactions/follow.service.js';
 import { blockService } from '../../services/interactions/block.service.js';
-import * as userSchema from '../../validations/user.schema.js'
-import { querySchema } from '../../validations/search.schema.js'
+import * as idSchema from '../../validations/id.schema.js';
+import * as userSchema from '../../validations/user.schema.js';
+import { querySchema } from '../../validations/search.schema.js';
 import * as AppError from '../../types/appErrors.types.js';
 
 export const userResolver: Resolvers = {
@@ -16,7 +17,7 @@ export const userResolver: Resolvers = {
     },
 
     user: async (_, args) => {
-      const input = userSchema.UserIdParamSchema.parse({ user_id: args.id });
+      const input = idSchema.UserIdParamSchema.parse({ user_id: args.id });
       const user = await userService.getUser(input.user_id);
       return user as any;
     },
@@ -24,7 +25,7 @@ export const userResolver: Resolvers = {
     users: async (_, args) => {
       const input = querySchema.parse(args);
       if (!input.search) return { users: [], nextCursor: null };
-      const users = await userService.searchUsers(input.search, input.cursor ?? undefined, args.limit ?? undefined);
+      const users = await userService.searchUsers(input.search, input.limit ?? undefined, input.cursor ?? undefined);
       return users as any;
     },
 

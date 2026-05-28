@@ -21,7 +21,7 @@ class AuthService {
 
   async register(input: auth.RegisterBody) {
 
-    const { stayLoggedIn, ...data } = input
+    const { stayLoggedIn, ...data } = input;
     const user = await userService.registerUser(data).catch((e) => {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');

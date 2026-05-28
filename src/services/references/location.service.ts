@@ -97,21 +97,8 @@ class LocationService {
 
   // ─── Country ──────────────────────────────────────────────────────────────────
 
-  async getCountries(query: location.CountriesQuery) {
-    const skip = (query.page - 1) * query.limit;
-    const where = query.filters.name
-      ? { name: { contains: query.filters.name, mode: 'insensitive' as const } }
-      : {};
-
-    const [countries, total] = await Promise.all([
-      countryRepo.findMany({ where, skip, take: query.limit, orderBy: { name: 'asc' } }),
-      countryRepo.count({ where }),
-    ]);
-
-    return {
-      countries,
-      pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) },
-    };
+  async getCountries(query: string) {
+    return countryRepo.search(query);
   }
 
   async getCountry(countryID: number) {
@@ -156,22 +143,8 @@ class LocationService {
 
   // ─── City ─────────────────────────────────────────────────────────────────────
 
-  async getCities(query: location.CitiesQuery) {
-    const skip = (query.page - 1) * query.limit;
-    const where = {
-      ...(query.filters.name ? { name: { contains: query.filters.name, mode: 'insensitive' as const } } : {}),
-      ...(query.filters.country_id ? { country_id: query.filters.country_id } : {}),
-    };
-
-    const [cities, total] = await Promise.all([
-      cityRepo.findMany({ where, skip, take: query.limit, orderBy: { name: 'asc' } }),
-      cityRepo.count({ where }),
-    ]);
-
-    return {
-      cities,
-      pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) },
-    };
+  async getCities(query: string) {
+    return cityRepo.search(query);
   }
 
   async getCity(cityID: number) {

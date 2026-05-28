@@ -22,6 +22,7 @@ export class HashtagRepo extends BaseRepository<typeof prisma.hashtags> {
   async search(query: string) {
     return this.model.findMany({
       where: { name: { contains: query, mode: 'insensitive' } },
+      orderBy: { name: 'asc' },
       take: 20,
     });
   }

@@ -48,6 +48,10 @@ class HashtagService {
 
   // ─── Public methods ─────────────────────────────────────────
 
+  async search(query: string, tx?: Prisma.TransactionClient) {
+    return hashtagRepo.withTx(tx).search(query);
+  }
+
   async scanAndLinkForComment(comment_id: string, content: string, tx?: Prisma.TransactionClient): Promise<void> {
     const hashtagNames = this.extractHashtags(content);
     await this.linkHashtags(hashtagNames, comment_id, async (entries) => {

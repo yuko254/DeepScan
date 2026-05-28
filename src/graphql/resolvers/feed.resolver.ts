@@ -22,7 +22,6 @@ export const feedResolver: Resolvers = {
       };
     },
 
-    // Stories only feed (no pagination)
     storyFeed: async (_, __, context: GraphqlContext) => {
       if (!context.user?.user_id) {
         throw new AppError.UnauthorizedError('Authentication required');

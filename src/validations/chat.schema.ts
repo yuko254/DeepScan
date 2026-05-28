@@ -30,15 +30,6 @@ export const ChatParticipantAddSchema = z.strictObject({
   user_id: IdSchema.uuid('userId'),
 });
 
-// ─── ID Params ───
-export const ChatIdParamSchema = z.strictObject({
-  chat_id: IdSchema.uuid('chatId'),
-});
-
-export const MessageIdParamSchema = z.strictObject({
-  message_id: IdSchema.uuid('messageId'),
-});
-
 // ─── Types ───
 export type ChatCreate = z.infer<typeof ChatCreateSchema>;
 export type ChatUpdate = z.infer<typeof ChatUpdateSchema>;

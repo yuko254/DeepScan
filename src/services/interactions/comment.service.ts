@@ -8,7 +8,7 @@ import { mentionService } from '../references/mention.service.js';
 class CommentService {
 
   async getComment(comment_id: string) {
-    const comment = await commentRepo.findByIdWithDetails(comment_id);
+    const comment = await commentRepo.findComment(comment_id);
     if (!comment) throw new AppError.NotFoundError('Comment not found');
     return comment;
   }
@@ -65,7 +65,7 @@ class CommentService {
       ]);
 
       // Fetch the full comment with all relations using the same transaction
-      const fullComment = await commentRepo.withTx(tx).findByIdWithDetails(comment.comment_id);
+      const fullComment = await commentRepo.withTx(tx).findComment(comment.comment_id);
       if (!fullComment) throw new Error('Failed to retrieve created comment');
 
       return fullComment;
@@ -101,7 +101,7 @@ class CommentService {
       ]);
 
       // Return the full comment with all relations
-      const fullComment = await commentRepo.withTx(tx).findByIdWithDetails(input.comment_id);
+      const fullComment = await commentRepo.withTx(tx).findComment(input.comment_id);
       if (!fullComment) throw new Error('Failed to retrieve updated comment');
       return fullComment;
     });

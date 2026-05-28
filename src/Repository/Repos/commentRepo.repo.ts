@@ -7,25 +7,19 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
     super(prisma.comments, 'comments', 'comment_id');
   }
 
-  async findByIdWithDetails(comment_id: string) {
-    const [comment, likeCount] = await Promise.all([
-      this.model.findUnique({
-        where: { comment_id },
-        include: {
-          user: { include: { profile: true } },
-          post: { include: { content: true } },
-          comment: true,
-          replies: {
-            orderBy: { created_at: 'asc' },
-            include: { user: { include: { profile: true } } },
-          },
+  async findComment(comment_id: string) {
+    return this.model.findUnique({
+      where: { comment_id },
+      include: {
+        user: { include: { profile: true } },
+        post: { include: { content: true } },
+        comment: true,
+        replies: {
+          orderBy: { created_at: 'asc' },
+          include: { user: { include: { profile: true } } },
         },
-      }),
-      this.getLikeCount(comment_id),
-    ]);
-
-    if (!comment) return null;
-    return { ...comment, likes: likeCount };
+      },
+    });
   }
 
   async findByPost(post_id: string, limit: number, cursor?: Date) {

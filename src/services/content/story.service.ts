@@ -115,7 +115,8 @@ class StoryService {
   }
 
   async getHasViewedBatch(storyIds: string[], userId: string) {
-    return storyViewRepo.getHasViewedBatch(storyIds, userId);
+    const viewedSet = await storyViewRepo.getHasViewedBatch(storyIds, userId);
+    return storyIds.map(id => viewedSet.has(id));
   }
 
   async viewStory(userId: string, storyId: string, tx?: Prisma.TransactionClient) {
@@ -153,7 +154,8 @@ class StoryService {
   }
 
   async getViewCountsBatch(storyIds: string[]) {
-    return storyViewRepo.getViewCountsBatch(storyIds);
+    const map = await storyViewRepo.getViewCountsBatch(storyIds);
+    return storyIds.map(id => map.get(id) || 0);
   }
 }
 

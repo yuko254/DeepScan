@@ -56,19 +56,6 @@ export const ReportsQuerySchema = z.strictObject({
   filters: { status, reporter_id: reporter, resolver_id: resolver, report_target_id: reported }
 }));
 
-// ─── ID Params ───
-export const ReportIdParamSchema = z.strictObject({
-  report_id: IdSchema.uuid('reportId'),
-});
-
-export const CommentIdParamSchema = z.strictObject({
-  comment_id: IdSchema.uuid('commentId'),
-});
-
-export const FollowRequestIdParamSchema = z.strictObject({
-  follow_request_id: IdSchema.number('followRequestId'),
-});
-
 // ─── Types ───
 export type Status = z.infer<typeof StatusSchema>;
 

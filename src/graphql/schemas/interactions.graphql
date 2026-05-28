@@ -68,21 +68,21 @@ type follow_requests {
 extend type Query {
   # Comment queries
   comment(id: ID!): comments
-  postComments(postId: ID!, cursor: DateTime, limit: Int = 20): CommentsResult!
-  commentReplies(commentId: ID!, cursor: DateTime, limit: Int = 20): CommentsResult!
+  postComments(postId: ID!, cursor: DateTime, limit: Int): CommentsResult!
+  commentReplies(commentId: ID!, cursor: DateTime, limit: Int): CommentsResult!
 
   # Report queries
   report(id: ID!): reports
-  myReports(cursor: DateTime, limit: Int = 20): ReportsResult!
+  myReports(cursor: DateTime, limit: Int): ReportsResult!
 
   # Follow queries
-  followers(userId: ID!, cursor: DateTime, limit: Int = 20): FollowersResult!
-  following(userId: ID!, cursor: DateTime, limit: Int = 20): FollowingResult!
-  myFollowRequests(cursor: DateTime, limit: Int = 20): FollowRequestsResult!
+  followers(userId: ID!, cursor: DateTime, limit: Int): FollowersResult!
+  following(userId: ID!, cursor: DateTime, limit: Int): FollowingResult!
+  myFollowRequests(cursor: DateTime, limit: Int): FollowRequestsResult!
   followRequestStatus(userId: ID!): FollowRequestStatus!
 
   # Block queries
-  blockedUsers(cursor: DateTime, limit: Int = 20): BlockedUsersResult!
+  blockedUsers(cursor: DateTime, limit: Int): BlockedUsersResult!
 }
 
 type CommentsResult {
