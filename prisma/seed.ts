@@ -7,18 +7,31 @@ const PASSWORD_HASH = await bcrypt.hash('password123', 10);
 // Media URLs
 const MEDIA_URLS = {
   images: [
-    'https://images.unsplash.com/photo-1502323773422-35d7a6c2e3c1',
-    'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef',
-    'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73',
-    'https://images.unsplash.com/photo-1508998020582-6c3b203fedf3',
-    'https://images.unsplash.com/photo-1502381289025-0ce0f9e27f37',
-    'https://images.unsplash.com/photo-1519315901367-f34ff9154487',
-    'https://images.unsplash.com/photo-1504703395950-b89145a5425f',
-    'https://images.unsplash.com/photo-1502672023488-70e25813eb80',
-    'https://images.unsplash.com/photo-1504164996022-09080787b6b3',
-    'https://images.unsplash.com/photo-1504826260979-242151ee45b5',
+    "http://localhost:9001/browser/deepscan/app_images_20%2Falexander-lunyov-lD6JSNSG-7M-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Falexander-lunyov-Qx6dv2tcceU-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Falim-dK7bd14-6JI-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fbarbare-kacharava-dMw96MwYReE-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fbarbare-kacharava-GoyNHn2wxVc-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fcedric-letsch-c0O8MtVNL2s-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Ferwan-hesry-jrKme94x_-k-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Feugene-golovesov-Ci0kaaDQs3Y-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fkevin-bonilla-GE5T26wd3QM-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-58lvr4gmx98-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-iSO0cK3WYHs-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-j6jLuRzG4xQ-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-RrfiFEDiC30-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Flogan-weaver-lgnwvr-yAztHCKcCI0-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fmark-olsen-qatHzQS5pRk-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fmarlon-medau-W77ExXvZHD4-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fmehrab-sium-BpRgAsy0JTo-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fmehrab-sium-vL6N7ekscE0-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fobjecttype-raw-CklIN-d6YxY-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fonur-kurt-FVNNbL9wGyI-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fvalentin-lacoste-2GCyEQ-dVts-unsplash.jpg",
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fvalentin-lacoste-CDgWvaYluGM-unsplash.jpg"
   ],
-  videos: ['https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4'],
+  videos: [
+  ],
 };
 
 // Helper functions
