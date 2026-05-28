@@ -82,7 +82,7 @@ export class UserRepo extends BaseRepository<typeof prisma.users> {
     });
   }
 
-  async searchUsers(search: string, cursor?: Date, limit = 20) {
+  async searchUsers(search: string, limit: number, cursor?: Date) {
     const where: Prisma.usersWhereInput = {
       AND: [
         {

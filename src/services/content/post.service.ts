@@ -96,7 +96,8 @@ class PostService {
   }
 
   async getIsLikedBatch(postIds: string[], userId: string) {
-    return postLikeRepo.getIsLikedBatch(postIds, userId);
+    const likedSet = await postLikeRepo.getIsLikedBatch(postIds, userId);
+    return postIds.map(id => likedSet.has(id));
   }
 
   async toggleLike(userId: string, postId: string, tx?: Prisma.TransactionClient) {
@@ -122,7 +123,8 @@ class PostService {
   }
 
   async getLikesCountBatch(postIds: string[]) {
-    return postLikeRepo.getLikeCountsBatch(postIds);
+    const map = await postLikeRepo.getLikeCountsBatch(postIds);
+    return postIds.map(id => map.get(id) || 0);
   }
 
   async isSaved(userId: string, postId: string) {
@@ -130,7 +132,8 @@ class PostService {
   }
 
   async getIsSavedBatch(postIds: string[], userId: string) {
-    return savedPostRepo.getIsSavedBatch(postIds, userId);
+    const savedSet = await savedPostRepo.getIsSavedBatch(postIds, userId);
+    return postIds.map(id => savedSet.has(id));
   }
 
   async toggleSave(userId: string, postId: string, tx?: Prisma.TransactionClient) {
@@ -156,7 +159,8 @@ class PostService {
   }
 
   async getSaveCountsBatch(postIds: string[]) {
-    return savedPostRepo.getSaveCountsBatch(postIds);
+    const map = await savedPostRepo.getSaveCountsBatch(postIds);
+    return postIds.map(id => map.get(id) || 0);
   }
 
   async getCommentsCount(postId: string) {
@@ -164,7 +168,8 @@ class PostService {
   }
 
   async getCommentCountsBatch(postIds: string[]) {
-    return commentRepo.getCommentCountsForPostBatch(postIds);
+    const map = await commentRepo.getCommentCountsForPostBatch(postIds);
+    return postIds.map(id => map.get(id) || 0);
   }
 
   async searchPosts(query: string, page = 1, limit = 20) {

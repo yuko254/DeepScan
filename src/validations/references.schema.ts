@@ -19,15 +19,6 @@ export const TagUpdateSchema = TagCreateSchema.partial().extend({
   tag_id: IdSchema.number('tagId'),
 });
 
-// ─── ID Params ───
-export const CategoryIdParamSchema = z.strictObject({
-  category_id: IdSchema.number('categoryId'),
-});
-
-export const TagIdParamSchema = z.strictObject({
-  tag_id: IdSchema.number('tagId'),
-});
-
 // ─── Types ───
 export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
 export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;

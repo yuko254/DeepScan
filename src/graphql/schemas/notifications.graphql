@@ -19,7 +19,7 @@ type notification_targets {
 
 #################################
 extend type Query {
-  notifications(cursor: DateTime, limit: Int = 20): NotificationsResult!
+  notifications(cursor: DateTime, limit: Int): NotificationsResult!
   notification(id: ID!): notifications
 }
 

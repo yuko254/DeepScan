@@ -1,4 +1,5 @@
 import { ZodError } from 'zod';
+import { GraphQLError } from 'graphql';
 import { AppError } from '../types/appErrors.types.js';
 import { Prisma } from '@prisma/client';
 import jwt from 'jsonwebtoken';
@@ -10,6 +11,16 @@ export function mapErrorToResponse(err: unknown): {
   details?: Array<{ field: string; message: string }>;
   statusCode: number;
 } {
+  // GraphQL validation errors
+  if (err instanceof GraphQLError) {
+    return {
+      success: false,
+      statusCode: 400,
+      message: err.message,
+      code: 'GRAPHQL_VALIDATION_ERROR',
+    };
+  }
+
   // Zod validation errors
   if (err instanceof ZodError) {
     return {
@@ -26,20 +37,11 @@ export function mapErrorToResponse(err: unknown): {
 
   // Known app errors
   if (err instanceof AppError) {
-    const codeMap: Record<number, string> = {
-      400: 'BAD_REQUEST',
-      401: 'UNAUTHORIZED',
-      403: 'FORBIDDEN',
-      404: 'NOT_FOUND',
-      409: 'CONFLICT',
-      422: 'VALIDATION_ERROR',
-    };
-
     return {
       success: false,
       statusCode: err.statusCode,
       message: err.message,
-      code: codeMap[err.statusCode] || 'APP_ERROR',
+      code: err.code,
     };
   }
 

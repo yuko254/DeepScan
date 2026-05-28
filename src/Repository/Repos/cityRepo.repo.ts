@@ -10,7 +10,7 @@ export class CityRepo extends BaseRepository<typeof prisma.cities> {
   async search(query: string) {
     return this.model.findMany({
       where: { name: { contains: query, mode: 'insensitive' } },
-      orderBy: { name: 'asc' }, // fix: was 'desc'
+      orderBy: { name: 'asc' },
       take: 20,
     });
   }

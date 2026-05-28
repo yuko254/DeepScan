@@ -1,5 +1,6 @@
 import { Prisma, NotificationType } from '@prisma/client';
 import { notificationRepo, notificationTargetRepo } from '../Repository/instances.js';
+import * as AppError from '../types/appErrors.types.js';
 
 type SendInput = {
   user_id: string;
@@ -12,8 +13,15 @@ class NotificationService {
 
   // ─── User-facing queries ───────────────────────────────────────────────────
 
-  async getUserNotificationsPage(user_id: string, cursor?: string, limit = 20) {
-    return notificationRepo.findUserNotificationsPage(user_id, limit, cursor);
+  async getNotification(user_id: string, notification_id: string) {
+    const notification = await notificationRepo.findNotification(notification_id);
+    if (!notification) throw new AppError.NotFoundError('Notification not found');
+    if (user_id !== notification.user_id) throw new AppError.ForbiddenError('you cant view this notification');
+    return notification;
+  }
+
+  async getUserNotifications(user_id: string, limit: number, cursor?: Date,) {
+    return notificationRepo.findUserNotifications(user_id, limit, cursor);
   }
 
   async markAsRead(notification_id: string) {

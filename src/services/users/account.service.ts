@@ -108,8 +108,8 @@ class UserService {
       });
   }
 
-  async searchUsers(search: string, cursor?: Date, limit = 20) {
-    return userRepo.searchUsers(search, cursor, limit);
+  async searchUsers(search: string, limit: number, cursor?: Date) {
+    return userRepo.searchUsers(search, limit, cursor);
   }
 
   // Devices

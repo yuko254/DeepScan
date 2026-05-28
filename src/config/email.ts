@@ -8,6 +8,7 @@ export const isProd = env.NODE_ENV === 'production';
 if (isProd) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 }
+export { sgMail };
 
 export const gmailTransporter = nodemailer.createTransport({
   service: 'gmail',
@@ -16,8 +17,6 @@ export const gmailTransporter = nodemailer.createTransport({
     pass: process.env.GMAIL_APP_PASSWORD,
   },
 });
-
-export { sgMail };
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GMAIL_CLIENT_ID,

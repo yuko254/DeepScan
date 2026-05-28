@@ -86,7 +86,7 @@ input device_tokensUpdateInput {
 extend type Query {
   me: users!
   user(id: ID!): users!
-  users(search: String, cursor: DateTime, limit: Int = 20): UsersResult!
+  users(search: String, cursor: DateTime, limit: Int): UsersResult!
   myDeviceTokens: [device_tokens!]!
   deviceToken(id: ID!): device_tokens
 }

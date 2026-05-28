@@ -18,12 +18,6 @@ generator openapi {
   generateJsDoc = true
 }
 
-generator mock_data {
-  // https://github.com/kritikio/prisma-generator-fake-data
-    provider = "prisma-generator-fake-data"
-    output   = "./generated/mock_data/mock_data.ts"
-}
-
 // generator docs {
 //   provider = "node node_modules/prisma-docs-generator"
 // }
@@ -57,12 +51,6 @@ generator erd3 {
 generator erd4 {
   provider = "prisma-erd-generator"
   output = "./generated/ERD/ERD.md"
-}
-
-generator zod {
-  // https://github.com/omar-dulaimi/prisma-zod-generator
-  provider = "prisma-zod-generator"
-  output = "./generated/zod"
 }
 
 // generator dart {

@@ -101,11 +101,11 @@ input storiesCreateInput {
 #################################
 extend type Query {
   post(id: ID!): posts
-  userPosts(userId: ID!, cursor: DateTime, limit: Int = 20): UserPostsResult!
-  userSavedPosts(userId: ID!, cursor: DateTime, limit: Int = 20): UserPostsResult!
+  userPosts(userId: ID!, cursor: DateTime, limit: Int): UserPostsResult!
+  mySavedPosts(cursor: DateTime, limit: Int): UserPostsResult!
   
   scan(id: ID!): scans
-  userScans(userId: ID!, cursor: DateTime, limit: Int = 20): UserScansResult!
+  myScans(cursor: DateTime, limit: Int): UserScansResult!
 
   # media(id: ID!): media
 }

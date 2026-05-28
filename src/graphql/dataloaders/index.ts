@@ -5,41 +5,34 @@ import { commentService } from '../../services/interactions/comment.service.js';
 
 export const createDataLoaders = (currentUserId?: string) => {
   const postLikesCountLoader = new DataLoader<string, number>(async (postIds) => {
-    const map = await postService.getLikesCountBatch(postIds as string[]);
-    return postIds.map(id => map.get(id) || 0);
+    return postService.getLikesCountBatch(postIds as string[]);
   });
 
   const postCommentsCountLoader = new DataLoader<string, number>(async (postIds) => {
-    const map = await postService.getCommentCountsBatch(postIds as string[]);
-    return postIds.map(id => map.get(id) || 0);
+    return postService.getCommentCountsBatch(postIds as string[]);
   });
 
   const postSavesCountLoader = new DataLoader<string, number>(async (postIds) => {
-    const map = await postService.getSaveCountsBatch(postIds as string[]);
-    return postIds.map(id => map.get(id) || 0);
+    return postService.getSaveCountsBatch(postIds as string[]);
   });
 
   const postIsLikedLoader = new DataLoader<string, boolean>(async (postIds) => {
     if (!currentUserId) return postIds.map(() => false);
-    const likedSet = await postService.getIsLikedBatch(postIds as string[], currentUserId);
-    return postIds.map(id => likedSet.has(id));
+    return postService.getIsLikedBatch(postIds as string[], currentUserId);
   });
 
   const postIsSavedLoader = new DataLoader<string, boolean>(async (postIds) => {
     if (!currentUserId) return postIds.map(() => false);
-    const savedSet = await postService.getIsSavedBatch(postIds as string[], currentUserId);
-    return postIds.map(id => savedSet.has(id));
+    return postService.getIsSavedBatch(postIds as string[], currentUserId);
   });
 
   const storyViewCountLoader = new DataLoader<string, number>(async (storyIds) => {
-    const map = await storyService.getViewCountsBatch(storyIds as string[]);
-    return storyIds.map(id => map.get(id) || 0);
+    return storyService.getViewCountsBatch(storyIds as string[]);
   });
 
   const storyHasViewedLoader = new DataLoader<string, boolean>(async (storyIds) => {
     if (!currentUserId) return storyIds.map(() => false);
-    const viewedSet = await storyService.getHasViewedBatch(storyIds as string[], currentUserId);
-    return storyIds.map(id => viewedSet.has(id));
+    return storyService.getHasViewedBatch(storyIds as string[], currentUserId);
   });
 
   const commentIsLikedLoader = new DataLoader<string, boolean>(async (commentIds) => {

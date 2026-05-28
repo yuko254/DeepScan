@@ -89,19 +89,6 @@ export const UserAccountsQuerySchema = z.strictObject({
   filters: { role_id: role, username: search, is_active: isActive, is_banned: isBanned },
 }));
 
-// ─── ID Params ───
-export const ProfileIdParamSchema = z.strictObject({
-  profile_id: IdSchema.uuid('profileId'),
-});
-
-export const UserIdParamSchema = z.strictObject({
-  user_id: IdSchema.uuid('userId'),
-});
-
-export const RoleIdParamSchema = z.strictObject({
-  role_id: IdSchema.number('roleId'),
-});
-
 // ─── Types ───
 export type ProfileCreate = z.infer<typeof ProfileCreateSchema>;
 export type ProfileUpdate = z.infer<typeof ProfileUpdateSchema>;

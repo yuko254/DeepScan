@@ -1,0 +1,82 @@
+# Location
+type locations {
+  location_id: String!
+  lat: Float
+  lng: Float
+  place_id: String
+  country: countries!
+  city: cities
+}
+
+input locationsCreateInput {
+  country_id: Int!
+  city_id: Int
+  lat: Float
+  lng: Float
+  place_id: String
+}
+
+input locationsUpdateInput {
+  location_id: String!
+  country_id: Int
+  city_id: Int
+  lat: Float
+  lng: Float
+  place_id: String
+}
+
+# Country
+type countries {
+  country_id: Int!
+  name: String!
+}
+
+input countriesCreateInput {
+  name: String!
+}
+
+input countriesUpdateInput {
+  country_id: Int!
+  name: String
+}
+
+# City
+type cities {
+  city_id: Int!
+  country_id: Int!
+  name: String!
+}
+
+input citiesCreateInput {
+  name: String!
+  country_id: Int!
+}
+
+input citiesUpdateInput {
+  city_id: Int!
+  name: String
+  country_id: Int
+}
+
+extend type Query {
+  location(id: ID!): locations
+  countries(search: String): [countries!]!
+  cities(search: String, countryId: Int): [cities!]!
+}
+
+extend type Mutation {
+  # Location mutations
+  createLocation(data: locationsCreateInput!): locations!
+  updateLocation(id: ID!, data: locationsUpdateInput!): locations!
+  deleteLocation(id: ID!): Boolean!
+
+  # Country mutations
+  createCountry(data: countriesCreateInput!): countries!
+  updateCountry(id: ID!, data: countriesUpdateInput!): countries!
+  deleteCountry(id: ID!): Boolean!
+  
+  # City mutations
+  createCity(data: citiesCreateInput!): cities!
+  updateCity(id: ID!, data: citiesUpdateInput!): cities!
+  deleteCity(id: ID!): Boolean!
+}
