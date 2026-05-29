@@ -31,6 +31,7 @@ const MEDIA_URLS = {
     "http://localhost:9001/browser/deepscan/app_images_20%2Fvalentin-lacoste-CDgWvaYluGM-unsplash.jpg"
   ],
   videos: [
+    "http://localhost:9001/browser/deepscan/app_images_20%2Fvalentin-lacoste-CDgWvaYluGM-unsplash.jpg"
   ],
 };
 
@@ -110,7 +111,7 @@ const CITIES_BY_COUNTRY: Record<string, string[]> = {
 async function cleanDatabase() {
   console.log('🧹 Cleaning database...');
   const tables = [
-    'messages', 'chat_participants', 'chats', 'saved_posts', 'comment_likes', 'comments',
+    'messages', 'message_reactions', 'chats', 'saved_posts', 'comment_likes', 'comments',
     'post_likes', 'post_tags', 'content_hashtags', 'comment_hashtags', 'hashtags', 'posts',
     'stories', 'scans', 'media', 'contents', 'follows', 'follow_requests', 'profiles',
     'users', 'blocks', 'reports', 'report_targets',

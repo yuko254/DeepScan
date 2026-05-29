@@ -59,7 +59,7 @@ export const createDataLoaders = (currentUserId?: string) => {
     comment: {
       isLiked: commentIsLikedLoader,
       likesCount: commentLikesCountLoader
-    }
+    },
   };
 };
 

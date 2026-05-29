@@ -1,6 +1,7 @@
 // AUTO-GENERATED - DO NOT EDIT
 // Run 'npm run generate:resolvers' to update
 
+import { chatResolver } from './chat.resolver.js';
 import { contentResolver } from './content.resolver.js';
 import { feedResolver } from './feed.resolver.js';
 import { interactionsResolver } from './interactions.resolver.js';
@@ -10,6 +11,7 @@ import { referencesResolver } from './references.resolver.js';
 import { userResolver } from './user.resolver.js';
 
 export const resolvers = {
+  ...chatResolver,
   ...contentResolver,
   ...feedResolver,
   ...interactionsResolver,
@@ -18,6 +20,7 @@ export const resolvers = {
   ...referencesResolver,
   ...userResolver,
   Query: {
+  ...chatResolver.Query,
   ...contentResolver.Query,
   ...feedResolver.Query,
   ...interactionsResolver.Query,
@@ -27,6 +30,7 @@ export const resolvers = {
   ...userResolver.Query,
   },
   Mutation: {
+  ...chatResolver.Mutation,
   ...contentResolver.Mutation,
   ...feedResolver.Mutation,
   ...interactionsResolver.Mutation,

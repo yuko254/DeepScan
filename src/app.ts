@@ -1,4 +1,5 @@
 import express from 'express';
+import { createServer } from 'http';
 import { expressMiddleware } from '@as-integrations/express5';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -15,15 +16,18 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import uploadsRoutes from './routes/uploads.routes.js';
-import { graphqlServer, createContext } from "./graphql/server.js";
+import { createGraphQLServer, createContext } from "./graphql/server.js";
 
 import { errorMiddleware } from './middlewares/error.middleware.js';
 import { jsonParser } from './middlewares/jsonParser.middleware.js';
 import { authenticateSoft, authenticateStrict,  requireRole } from "./middlewares/auth.middleware.js"
 
 const app = express();
+const httpServer = createServer(app);
+const graphqlServer = await createGraphQLServer(httpServer);
+
 await initBucket()
-await graphqlServer.start();
+
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.set('trust proxy', 1);
@@ -89,4 +93,4 @@ app.use('/api-docs', apiReference({
 // ─── Error handler ─────────────────────────────────────────────
 app.use(errorMiddleware);
 
-export default app
+export { app, httpServer };

@@ -3,7 +3,10 @@ import { IdSchema } from './fields/common.fields.js';
 
 // ─── Chat ───
 export const ChatIdParamSchema = z.strictObject({
-  chat_id: IdSchema.uuid('chatId'),
+  chat_id: z.string().regex(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+    'chat_id must consist of two valid UUIDs separated by underscore'
+  ),
 });
 
 export const MessageIdParamSchema = z.strictObject({
