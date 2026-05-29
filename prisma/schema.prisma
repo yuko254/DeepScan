@@ -107,9 +107,10 @@ model users {
   follow_requests_targets  follow_requests[]   @relation("follow_requests_target") 
   notification_actors      notifications[]     @relation("notification_actor")
   report_resolvers         reports[]           @relation("report_resolver")
+  chats_as_user_a          chats[]             @relation("UserA_Chats")
+  chats_as_user_b          chats[]             @relation("UserB_Chats")
 
   adminAudits              admin_audits[]
-  chat_participants        chat_participants[]
   comment_likes            comment_likes[]
   comments                 comments[]
   device_tokens            device_tokens[]
@@ -121,6 +122,8 @@ model users {
   saved_posts              saved_posts[]
   story_views              story_views[]
   contents                 contents[]
+  messageReactions         message_reactions[]
+
 
   @@index([username(ops: raw("gin_trgm_ops"))], map: "idx_users_username_trgm", type: Gin)
   @@index([role_id])
@@ -153,7 +156,7 @@ model profiles {
   birth_location            locations? @relation("profiles_birth_locationTolocations", fields: [birth_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
   current_location          locations? @relation("profiles_current_locationTolocations", fields: [current_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
 
-  reportTargets report_targets[]
+  reportTargets             report_targets[]
 }
 
 // @system
@@ -402,45 +405,61 @@ model cities {
 }
 
 model chats {
-  chat_id             String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title               String?             @db.VarChar(255)
-  is_group_chat       Boolean             @default(false)
-  created_at          DateTime            @default(now()) @db.Timestamptz(6)
+  chat_id             String    @id
+  user_a              String    @db.Uuid
+  user_b              String    @db.Uuid
+  user_a_unread_count Int       @default(0)
+  user_b_unread_count Int       @default(0)
+  created_at          DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime  @updatedAt @db.Timestamptz(6)
 
-  chat_participants   chat_participants[] // @nested
   messages            messages[]
+  
+  userA               users     @relation("UserA_Chats", fields: [user_a], references: [user_id], onDelete: Cascade)
+  userB               users     @relation("UserB_Chats", fields: [user_b], references: [user_id], onDelete: Cascade)
+  
   notificationTargets notification_targets[]
 
-  @@index([title(ops: raw("gin_trgm_ops"))], type: Gin)
-}
-
-model chat_participants {
-  id        BigInt    @id @default(autoincrement())  
-  user_id   String?   @db.Uuid // @system
-  chat_id   String    @db.Uuid
-  joined_at DateTime  @default(now()) @db.Timestamptz(6)
-
-  user      users?    @relation(fields: [user_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
-  chat      chats     @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@unique([user_id, chat_id], where: raw("user_id is NOT NULL"))
-  @@index([user_id])
-  @@index([chat_id], map: "idx_chat_participants_chat_id")
+  @@unique([user_a, user_b])
+  @@index([user_a])
+  @@index([user_b])
 }
 
 model messages {
-  message_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  chat_id      String    @db.Uuid
-  sender_id    String?   @db.Uuid // @system
-  text_content String?
-  sent_at      DateTime  @default(now()) @db.Timestamptz(6)
+  message_id       String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  chat_id          String         
+  sender_id        String         @db.Uuid
+  text_content     String?        @db.Text
+  reply_to         String?        @db.Uuid
+  sent_at          DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?      @updatedAt @db.Timestamptz(6)
+  deleted_at       DateTime?      @db.Timestamptz(6)
 
-  chat         chats     @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, onUpdate: NoAction)
-  user         users?    @relation(fields: [sender_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
+  chat             chats          @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade)
+  sender           users          @relation(fields: [sender_id], references: [user_id], onDelete: Cascade)
+  repliedMessage   messages?      @relation("MessageReply", fields: [reply_to], references: [message_id])
 
-  @@index([chat_id], map: "idx_messages_chat_id")
-  @@index([sent_at], map: "idx_messages_sent_at")
+  messages         messages[]     @relation("MessageReply")
+  messageReactions message_reactions[]
+
+
+  @@index([chat_id])
   @@index([sender_id])
+  @@index([sent_at])
+}
+
+model message_reactions {
+  reaction_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  message_id    String    @db.Uuid
+  user_id       String    @db.Uuid
+  emoji         String    @db.VarChar(10)
+  created_at    DateTime  @default(now()) @db.Timestamptz(6)
+
+  message       messages  @relation(fields: [message_id], references: [message_id], onDelete: Cascade)
+  user          users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  @@unique([message_id, user_id])
+  @@index([message_id])
 }
 
 // @reference
@@ -582,7 +601,7 @@ model notification_targets {
   target_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   post_id     String?   @db.Uuid
   comment_id  String?   @db.Uuid
-  chat_id     String?   @db.Uuid
+  chat_id     String?   
   
   post        posts?    @relation(fields: [post_id], references: [content_id], onDelete: Cascade, onUpdate: NoAction)
   comment     comments? @relation(fields: [comment_id], references: [comment_id], onDelete: Cascade, onUpdate: NoAction)

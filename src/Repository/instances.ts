@@ -5,7 +5,6 @@ export const adminAuditRepo = new Repos.AdminAuditRepo();
 
 export const blockRepo = new Repos.BlockRepo();
 export const categoryRepo = new Repos.CategoryRepo();
-export const chatParticipantRepo = new Repos.ChatParticipantRepo();
 export const chatRepo = new Repos.ChatRepo();
 export const cityRepo = new Repos.CityRepo();
 export const commentHashtagRepo = new Repos.CommentHashtagRepo();
@@ -20,6 +19,7 @@ export const followRepo = new Repos.FollowRepo();
 export const hashtagRepo = new Repos.HashtagRepo();
 export const locationRepo = new Repos.LocationRepo();
 export const mediaRepo = new Repos.MediaRepo();
+export const messageReactionRepo = new Repos.MessageReactionRepo();
 export const messageRepo = new Repos.MessageRepo();
 export const notificationTargetRepo = new Repos.NotificationTargetRepo();
 export const notificationRepo = new Repos.NotificationRepo();

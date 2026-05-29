@@ -4,46 +4,46 @@ import RedisClient from '../config/redis.js';
 
 const redis = RedisClient.getInstance();
 
-// Common Redis store configuration
-const redisStore = new RedisStore({
-  // @ts-ignore
-  client: redis,
-});
-
-// A stricter limiter for sensitive auth endpoints
+// Auth limiter - separate store
 export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  store: redisStore,
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  store: new RedisStore({
+    sendCommand: (...args: string[]) => redis.call(...args),
+    prefix: 'rl:auth:',
+  }),
   message: { error: 'Too many requests, please try again after 15 minutes' },
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  skipSuccessfulRequests: false, // Count all requests against the limit
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: false,
 });
 
-// An even stricter limiter specifically for login attempts
+// Login limiter - separate store
 export const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 login attempts per windowMs
-  store: redisStore,
-  skipSuccessfulRequests: true, // Only count failed login attempts
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  store: new RedisStore({
+    sendCommand: (...args: string[]) => redis.call(...args),
+    prefix: 'rl:login:',
+  }),
+  skipSuccessfulRequests: true,
   message: { error: 'Too many failed login attempts, please try again after 15 minutes' },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
+// Password reset limiter - separate store
 export const passwordResetLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
+  windowMs: 60 * 60 * 1000,
   max: 3,
   store: new RedisStore({
-    // @ts-ignore
-    client: redis,
+    sendCommand: (...args: string[]) => redis.call(...args),
     prefix: 'rl:reset:',
   }),
   keyGenerator: (req) => {
-    if (req.body?.email) return `reset:${req.body.email}`;
+    if (req.body?.email) return `${req.body.email}`;
     const ip = req.ip || req.socket.remoteAddress || 'unknown';
-    return `reset:ip:${ipKeyGenerator(ip)}`;
+    return `${ipKeyGenerator(ip)}`;
   },
   message: { error: 'Too many attempts, try again later' },
   standardHeaders: true,

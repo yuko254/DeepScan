@@ -61,10 +61,8 @@ enum ReportType {
 }
 
 
-type Query {
-  _empty: String
-}
+type Query
 
-type Mutation {
-  _empty: String
-}
+type Mutation 
+
+type Subscription

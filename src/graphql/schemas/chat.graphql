@@ -1,61 +1,33 @@
-# Chat
 type chats {
   chat_id: String!
-  title: String
-  is_group_chat: Boolean!
   created_at: DateTime!
-  chat_participants: [chat_participants]!
-  messages: [messages]!
+  updated_at: DateTime!
+  other_user: users!
+  last_message: messages
+
+  unread_count: Int!
 }
 
-input chatsCreateInput {
-  title: String
-  is_group_chat: Boolean!
-  chatParticipants: [chat_participantsCreateInput!]
-}
-
-input chatsUpdateInput {
-  chat_id: String!
-  title: String
-  is_group_chat: Boolean
-}
-
-# Participant
-type chat_participants {
-  id: BigInt!
-  joined_at: DateTime!
-  user: users
-  chat: chats!
-}
-
-input chat_participantsCreateInput {
-  chat_id: String!
-}
-
-# Message
 type messages {
   message_id: String!
+  chat_id: String!
+  sender_id: String!
   text_content: String
   sent_at: DateTime!
-  chat: chats!
-  user: users
+  updated_at: DateTime
+  deleted_at: DateTime
+  reply_to: messages
+  reactions: [message_reactions!]!
+  is_mine: Boolean!
 }
 
-input messagesCreateInput {
-  chat_id: String!
-  text_content: String
-}
+type message_reactions {
+  reaction_id: String!
+  emoji: String!
+  user_id: String!
+  created_at: DateTime!
 
-input messagesUpdateInput {
-  message_id: String!
-  text_content: String
-}
-
-#################################
-extend type Query {
-  myChats: [chats!]!
-  chat(id: ID!): chats
-  chatMessages(chatId: ID!, cursor: DateTime, limit: Int): MessagesResult!
+  is_mine: Boolean!
 }
 
 type MessagesResult {
@@ -63,20 +35,43 @@ type MessagesResult {
   nextCursor: DateTime
 }
 
+type SearchMessagesResult {
+  messages: [messages!]!
+  totalCount: Int!
+  nextCursor: DateTime
+}
+
+input SendMessageInput {
+  targetUserId: ID
+  text: String!
+  replyTo: ID
+}
+
+input AddReactionInput {
+  messageId: ID!
+  emoji: String!
+}
+
+extend type Query {
+  myChats: [chats!]!
+  chat(id: ID!): chats!
+  chatMessages(chatId: ID!, cursor: DateTime, limit: Int): MessagesResult!
+  searchChatMessages(chatId: ID!, search: String!, cursor: DateTime, limit: Int): SearchMessagesResult!
+}
+
 extend type Mutation {
-  # Chat mutations
-  createDirectChat(userId: ID!): chats!
-  createGroupChat(title: String, participantIds: [ID!]!): chats!
-  updateChat(data: chatsUpdateInput!): chats!
   deleteChat(chatId: ID!): Boolean!
-  
-  # Participant mutations
-  addChatParticipants(chatId: ID!, userIds: [ID!]!): chat_participants!
-  removeChatParticipant(chatId: ID!, userId: ID!): Boolean!
-  leaveChat(chatId: ID!): Boolean!
-  
-  # Message mutations
-  sendMessage(chatId: ID!, text: String!): messages!
-  updateMessage(data: messagesUpdateInput!): messages!
+
+  sendMessage(input: SendMessageInput!): messages!
+  updateMessage(messageId: ID!, text: String!): messages!
   deleteMessage(messageId: ID!): Boolean!
+
+  addReaction(input: AddReactionInput!): message_reactions!
+  removeReaction(messageId: ID!): Boolean!
+}
+
+extend type Subscription {
+  messageSent(chatId: ID!): messages!
+  messageUpdated(chatId: ID!): messages!
+  reactionAdded(chatId: ID!): message_reactions!
 }
