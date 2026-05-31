@@ -7,32 +7,32 @@ const PASSWORD_HASH = await bcrypt.hash('password123', 10);
 // Media URLs
 const MEDIA_URLS = {
   images: [
-    "http://localhost:9001/browser/deepscan/app_images_20%2Falexander-lunyov-lD6JSNSG-7M-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Falexander-lunyov-Qx6dv2tcceU-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Falim-dK7bd14-6JI-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fbarbare-kacharava-dMw96MwYReE-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fbarbare-kacharava-GoyNHn2wxVc-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fcedric-letsch-c0O8MtVNL2s-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Ferwan-hesry-jrKme94x_-k-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Feugene-golovesov-Ci0kaaDQs3Y-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fkevin-bonilla-GE5T26wd3QM-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-58lvr4gmx98-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-iSO0cK3WYHs-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-j6jLuRzG4xQ-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fliosha-shyp-RrfiFEDiC30-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Flogan-weaver-lgnwvr-yAztHCKcCI0-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fmark-olsen-qatHzQS5pRk-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fmarlon-medau-W77ExXvZHD4-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fmehrab-sium-BpRgAsy0JTo-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fmehrab-sium-vL6N7ekscE0-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fobjecttype-raw-CklIN-d6YxY-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fonur-kurt-FVNNbL9wGyI-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fvalentin-lacoste-2GCyEQ-dVts-unsplash.jpg",
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fvalentin-lacoste-CDgWvaYluGM-unsplash.jpg"
+    "http://localhost:9000/deepscan/app_images_20/alexander-lunyov-lD6JSNSG-7M-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/alexander-lunyov-Qx6dv2tcceU-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/alim-dK7bd14-6JI-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/barbare-kacharava-dMw96MwYReE-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/barbare-kacharava-GoyNHn2wxVc-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/cedric-letsch-c0O8MtVNL2s-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/erwan-hesry-jrKme94x_-k-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/eugene-golovesov-Ci0kaaDQs3Y-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/kevin-bonilla-GE5T26wd3QM-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/liosha-shyp-58lvr4gmx98-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/liosha-shyp-iSO0cK3WYHs-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/liosha-shyp-j6jLuRzG4xQ-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/liosha-shyp-RrfiFEDiC30-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/logan-weaver-lgnwvr-yAztHCKcCI0-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/mark-olsen-qatHzQS5pRk-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/marlon-medau-W77ExXvZHD4-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/mehrab-sium-BpRgAsy0JTo-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/mehrab-sium-vL6N7ekscE0-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/objecttype-raw-CklIN-d6YxY-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/onur-kurt-FVNNbL9wGyI-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/valentin-lacoste-2GCyEQ-dVts-unsplash.jpg",
+    "http://localhost:9000/deepscan/app_images_20/valentin-lacoste-CDgWvaYluGM-unsplash.jpg"
   ],
   videos: [
-    "http://localhost:9001/browser/deepscan/app_images_20%2Fvalentin-lacoste-CDgWvaYluGM-unsplash.jpg"
-  ],
+    "http://localhost:9000/deepscan/app_images_20/alexander-lunyov-lD6JSNSG-7M-unsplash.jpg",
+  ]
 };
 
 // Helper functions
