@@ -161,7 +161,7 @@ router.patch('/reports/:report_id', async (req: Request, res: Response, next: Ne
  * GET /admin/reports/stats
  * Response: { [ReportStatus]: number }
  */
-router.get('/reports/stats', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/stats/reports', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const stats = await reportService.getReportStats();
     res.json(stats);
