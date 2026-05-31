@@ -7,8 +7,46 @@ import { hashtagService } from '../references/hashtag.service.js';
 import { mentionService } from '../references/mention.service.js';
 import { tagService } from '../references/tag.service.js';
 import { locationService } from '../references/location.service.js';
+import { followService } from '../interactions/follow.service.js';
+import { userService } from '../users/account.service.js';
+import { blockService } from '../interactions/block.service.js';
 
 class PostService {
+
+  filterPrivatePosts(posts: any[], currentUserId?: string): any[] {
+    return posts.filter(post => {
+      const isOwner = currentUserId === post.content.user_id;
+      const isPrivate = post.content.is_private === true;
+
+      // If post is private and not owner, exclude it
+      if (isPrivate && !isOwner) return false;
+
+      return true;
+    });
+  }
+
+  async validatePostAccess(postOwnerId: string, currentUserId?: string) {
+    const isOwner = currentUserId === postOwnerId;
+
+    if (!isOwner) {
+      const postOwner = await userService.getUser(postOwnerId);
+      if (!postOwner) throw new AppError.NotFoundError('User not found');
+      const isAccountPrivate = postOwner?.profile?.is_private === true;
+
+      // Logged in but not owner
+      if (currentUserId) {
+        const isBlocked = await blockService.checkIfBlocked(currentUserId, postOwnerId);
+        if (isBlocked) throw new AppError.ForbiddenError('You cannot view this content');
+
+        if (isAccountPrivate) {
+          const isFollowing = await followService.checkIfFollowing(currentUserId, postOwnerId);
+          if (!isFollowing) throw new AppError.ForbiddenError('This account is private');
+        }
+      } // If no user logged in, they can only see public accounts
+      else if (isAccountPrivate)
+        throw new AppError.ForbiddenError('This account is private');
+    }
+  }
 
   async getPost(postId: string, tx?: Prisma.TransactionClient) {
     const post = await postRepo.withTx(tx).findPost(postId);
@@ -20,18 +58,23 @@ class PostService {
     return postRepo.findUserPosts(userId, limit, cursor);
   }
 
+  async getUserPostsCount(userId: string, isOwner = false) {
+    return postRepo.countByUser(userId, isOwner);
+  }
+
   async getUserSavedPosts(userId: string, limit: number, cursor?: Date) {
     return savedPostRepo.findUserSavedPosts(userId, limit, cursor);
   }
 
-  async createPost(userId: string, contentId: string, input: content.PostCreate, textContent: string | null, tx?: Prisma.TransactionClient) {
+  async createPost(userId: string, contentId: string, input: content.PostCreate, textContent?: string | null, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
       const locationId = await locationService.resolveLocation(input.location, undefined, tx);
+      const postTextContent = textContent ?? "";
 
       await postRepo.withTx(tx).createPost({
         content_id: contentId,
         category_id: input.category_id,
-        text_content: textContent,
+        text_content: postTextContent,
         location_id: locationId
       }).catch((e) => {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -41,18 +84,18 @@ class PostService {
       });
 
       await Promise.all([
-        hashtagService.scanAndLinkForPost(contentId, textContent, tx),
-        mentionService.scanAndNotifyForPost(userId, contentId, textContent, tx),
+        hashtagService.scanAndLinkForPost(contentId, postTextContent, tx),
+        mentionService.scanAndNotifyForPost(userId, contentId, postTextContent, tx),
         tagService.scanAndLinkForPost(contentId, input.tagsIds, tx)
       ]);
 
-      return this.getPost(contentId);
+      return this.getPost(contentId, tx);
     });
   }
 
-  async updatePost(userId: string, input: content.PostUpdate, textContent: string | null, tx?: Prisma.TransactionClient) {
+  async updatePost(userId: string, input: content.PostUpdate, textContent?: string | null, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
-    if (Object.keys(data).length === 0) return this.getPost(input.content_id);
+    if (Object.keys(data).length === 0) return this.getPost(input.content_id, tx);
 
     return (tx || prisma).$transaction(async (tx) => {
       const existing = await this.getPost(input.content_id, tx);
@@ -60,11 +103,12 @@ class PostService {
       if (existing.content.user_id !== userId) throw new AppError.ForbiddenError('You can only update your own posts');
 
       const { location, ...post } = data
-
       const locationId = await locationService.resolveLocation(location, existing.location_id, tx);
+      const postTextContent = textContent === undefined ? undefined : textContent === null ? "" : textContent;
 
-      await postRepo.withTx(tx).updatePost({
-        text_content: textContent,
+      const updatedPost = await postRepo.withTx(tx).updatePost({
+        content_id: existing.content_id,
+        text_content: postTextContent,
         category_id: post.category_id,
         location_id: locationId,
       }).catch((e) => {
@@ -75,19 +119,27 @@ class PostService {
         throw e;
       });
 
-      if (input.tagsIds !== undefined)
-        await tx.post_tags.deleteMany({ where: { post_id: input.content_id } });
-
-      if (textContent && textContent !== existing.text_content)
-        await tx.content_hashtags.deleteMany({ where: { content_id: input.content_id } });
+      const deleteTags = input.tagsIds !== undefined;
+      const updateTags = deleteTags && input.tagsIds !== null && input.tagsIds!.length > 0;
+      const deleteText = postTextContent !== undefined;
+      const updateText = deleteText && postTextContent !== existing.text_content;
 
       await Promise.all([
-        hashtagService.scanAndLinkForPost(input.content_id, textContent, tx),
-        mentionService.scanAndNotifyForPost(userId, input.content_id, textContent, tx),
-        tagService.scanAndLinkForPost(input.content_id, input.tagsIds, tx)
+        deleteTags ? tx.post_tags.deleteMany({ where: { post_id: input.content_id } }) : Promise.resolve(undefined),
+        deleteText ? tx.content_hashtags.deleteMany({ where: { content_id: input.content_id } }) : Promise.resolve(undefined)
       ]);
 
-      return this.getPost(input.content_id);
+      await Promise.all([
+        updateText
+          ? Promise.all([
+            hashtagService.scanAndLinkForPost(input.content_id, postTextContent!, tx),
+            mentionService.scanAndNotifyForPost(userId, input.content_id, postTextContent!, tx)
+          ])
+          : Promise.resolve(),
+        updateTags ? tagService.scanAndLinkForPost(input.content_id, input.tagsIds, tx) : Promise.resolve(),
+      ]);
+
+      return deleteTags ? this.getPost(input.content_id, tx) : updatedPost;
     });
   }
 
@@ -96,8 +148,7 @@ class PostService {
   }
 
   async getIsLikedBatch(postIds: string[], userId: string) {
-    const likedSet = await postLikeRepo.getIsLikedBatch(postIds, userId);
-    return postIds.map(id => likedSet.has(id));
+    return postLikeRepo.getIsLikedBatch(postIds, userId);
   }
 
   async toggleLike(userId: string, postId: string, tx?: Prisma.TransactionClient) {
@@ -123,8 +174,7 @@ class PostService {
   }
 
   async getLikesCountBatch(postIds: string[]) {
-    const map = await postLikeRepo.getLikeCountsBatch(postIds);
-    return postIds.map(id => map.get(id) || 0);
+    return postLikeRepo.getLikeCountsBatch(postIds);
   }
 
   async isSaved(userId: string, postId: string) {
@@ -132,8 +182,7 @@ class PostService {
   }
 
   async getIsSavedBatch(postIds: string[], userId: string) {
-    const savedSet = await savedPostRepo.getIsSavedBatch(postIds, userId);
-    return postIds.map(id => savedSet.has(id));
+    return savedPostRepo.getIsSavedBatch(postIds, userId);
   }
 
   async toggleSave(userId: string, postId: string, tx?: Prisma.TransactionClient) {
@@ -159,8 +208,7 @@ class PostService {
   }
 
   async getSaveCountsBatch(postIds: string[]) {
-    const map = await savedPostRepo.getSaveCountsBatch(postIds);
-    return postIds.map(id => map.get(id) || 0);
+    return savedPostRepo.getSaveCountsBatch(postIds);
   }
 
   async getCommentsCount(postId: string) {
@@ -168,14 +216,7 @@ class PostService {
   }
 
   async getCommentCountsBatch(postIds: string[]) {
-    const map = await commentRepo.getCommentCountsForPostBatch(postIds);
-    return postIds.map(id => map.get(id) || 0);
-  }
-
-  async searchPosts(query: string, page = 1, limit = 20) {
-    const skip = (page - 1) * limit;
-    const posts = await postRepo.search(query, limit, skip);
-    return posts;
+    return commentRepo.getCommentCountsForPostBatch(postIds);
   }
 }
 

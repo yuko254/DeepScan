@@ -47,7 +47,7 @@ class UploadService {
     userId: string,
     tx?: Prisma.TransactionClient
   ) {
-    return await Promise.all(
+    return Promise.all(
       files.map(file => this.uploadSingleFile(file, userId, tx))
     );
   }

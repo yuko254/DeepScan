@@ -1,4 +1,3 @@
-import { stories } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -21,11 +20,20 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
   async findActiveByUser(user_id: string) {
     return this.model.findMany({
       where: {
-        content: { user_id },
+        content: { user_id, is_deleted: false },
         expires_at: { gt: new Date() },
       },
       include: this.includeDetails,
       orderBy: { expires_at: 'asc' },
+    });
+  }
+
+  async findActiveByUserCount(user_id: string) {
+    return this.model.count({
+      where: {
+        content: { user_id, is_deleted: false },
+        expires_at: { gt: new Date() },
+      },
     });
   }
 
@@ -41,7 +49,6 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
       orderBy: { expires_at: 'asc' },
     });
 
-    // Generic to infer return type
     type GroupedStories = {
       [key: string]: {
         user: typeof stories[number]['content']['user'];
@@ -62,5 +69,15 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
     }, {} as GroupedStories);
 
     return Object.values(groupedStories);
+  }
+
+  async deleteExpiredByUser(user_id: string) {
+    return this.model.deleteMany({
+      where: {
+        content: { user_id },
+        type: 'story',
+        story: { expires_at: { lt: new Date() }},
+      }
+    });
   }
 }

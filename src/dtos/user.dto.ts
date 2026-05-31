@@ -11,12 +11,13 @@ export function toRoleDto(role: prisma.PrismaRole): RoleDto {
   };
 }
 
-export type UserAccountDto = Pick<Users, 'user_id' | 'username' | 'email'> & { role: RoleDto | null; };
+export type UserAccountDto = Pick<Users, 'user_id' | 'username' | 'email' | 'is_email_verified'> & { role: RoleDto | null; };
 export function toUserAccountDto(user: prisma.PrismaUserAccount): UserAccountDto {
   return {
     user_id: user.user_id,
     username: user.username,
     email: user.email,
+    is_email_verified: user.is_email_verified,
     role: user.role ? toRoleDto(user.role) : null
   };
 }
@@ -42,6 +43,7 @@ export function toAdminUserAccountDto(user: prisma.PrismaUserAccount): AdminUser
     user_id: user.user_id,
     username: user.username,
     email: user.email,
+    is_email_verified: user.is_email_verified,
     is_active: user.is_active,
     is_banned: user.is_banned,
     created_at: user.created_at,

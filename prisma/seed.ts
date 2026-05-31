@@ -375,7 +375,7 @@ async function seed() {
         data: {
           user_id: author.user_id,
           type: 'post',
-          visibility: random(['public', 'followers', 'private']),
+          is_private: random([true, false]),
           content_map: {
             text: textContent,
             ...(randomBool(0.7) && { image: random(MEDIA_URLS.images) }),
@@ -426,7 +426,7 @@ async function seed() {
 
   // Helper to get post with content
   const getPostWithContent = async (post: any) => {
-    return await prisma.posts.findUnique({
+    return prisma.posts.findUnique({
       where: { content_id: post.content_id },
       include: { content: true }
     });
@@ -581,7 +581,7 @@ async function seed() {
         data: {
           user_id: user.user_id,
           type: 'story',
-          visibility: 'public',
+          is_private: random([true, false]),
           content_map: {
             text: `Quick update! #${random(HASHTAGS)}`,
             image: random(MEDIA_URLS.images),
@@ -640,7 +640,7 @@ async function seed() {
         data: {
           user_id: user.user_id,
           type: 'scan',
-          visibility: random(['public', 'private']),
+          is_private: true,
           content_map: { text: `Scan result: Found something interesting!` },
         },
       });

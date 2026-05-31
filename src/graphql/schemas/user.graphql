@@ -2,6 +2,7 @@ type users {
   user_id: String!
   username: String!
   email: String!
+  is_email_verified: Boolean!
   is_active: Boolean!
   is_banned: Boolean!
   updated_at: DateTime!

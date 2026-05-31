@@ -37,7 +37,8 @@ export const interactionsResolver: Resolvers = {
     report: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { report_id } = idSchema.ReportIdParamSchema.parse({ report_id: args.id });
-      const report = await reportService.getReport(context.user.user_id, report_id);
+      const report = await reportService.getReport(report_id);
+      await reportService.validateReportAccess(report.reporter_id, context.user.user_id);
       return report as any;
     },
 
@@ -66,7 +67,7 @@ export const interactionsResolver: Resolvers = {
     myFollowRequests: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const input = querySchema.parse({ cursor: args.cursor, limit: args.limit });
-      const { requests, nextCursor } = await followService.getMyFollowRequests(context.user.user_id, input.limit, input.cursor);
+      const { requests, nextCursor } = await followService.getIncomingFollowRequests(context.user.user_id, input.limit, input.cursor);
       return { requests: requests as any, nextCursor };
     },
 
@@ -75,6 +76,11 @@ export const interactionsResolver: Resolvers = {
       const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
       const status = await followService.getFollowRequestStatus(context.user.user_id, user_id);
       return status as any;
+    },
+
+    followCounts: async (_, args) => {
+      const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
+      return followService.getFollowCounts(user_id);
     },
 
     // Block queries
@@ -137,7 +143,7 @@ export const interactionsResolver: Resolvers = {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
       const result = await followService.followUser(context.user.user_id, user_id);
-      return result as any;
+      return result.status;
     },
 
     unfollowUser: async (_, args, context: GraphqlContext) => {
@@ -150,15 +156,15 @@ export const interactionsResolver: Resolvers = {
     acceptFollowRequest: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.requesterId });
-      const result = await followService.acceptFollowRequest(context.user.user_id, user_id);
-      return result.success;
+      await followService.acceptFollowRequest(context.user.user_id, user_id);
+      return true;
     },
 
     rejectFollowRequest: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.requesterId });
       const result = await followService.rejectFollowRequest(context.user.user_id, user_id);
-      return result.success;
+      return result;
     },
 
     cancelFollowRequest: async (_, args, context: GraphqlContext) => {
@@ -172,15 +178,15 @@ export const interactionsResolver: Resolvers = {
     blockUser: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
-      const result = await blockService.blockUser(context.user.user_id, user_id);
-      return result.success;
+      await blockService.blockUser(context.user.user_id, user_id);
+      return true;
     },
 
     unblockUser: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
       const result = await blockService.unblockUser(context.user.user_id, user_id);
-      return result.success;
+      return result;
     }
   },
 

@@ -1,4 +1,4 @@
-import { type media, MediaType } from "@prisma/client";
+import { MediaType } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 

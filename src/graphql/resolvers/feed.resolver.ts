@@ -16,22 +16,13 @@ export const feedResolver: Resolvers = {
         input.limit ?? 50
       );
 
-      return {
-        posts: posts as any,
-        nextCursor: nextCursor ?? null,
-      };
+      return { posts: posts as any, nextCursor: nextCursor ?? null};
     },
 
     storyFeed: async (_, __, context: GraphqlContext) => {
-      if (!context.user?.user_id) {
-        throw new AppError.UnauthorizedError('Authentication required');
-      }
-
+      if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { storyGroups } = await feedService.getStoryFeed(context.user.user_id);
-
-      return {
-        groups: storyGroups as any,
-      };
+      return { groups: storyGroups as any };
     },
   },
 };

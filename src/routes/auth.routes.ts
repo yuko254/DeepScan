@@ -1,6 +1,6 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { authService } from '../services/auth.service.js';
-import { RegisterSchema, LoginSchema, RefreshTokenSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../validations/auth.schema.js';
+import { RegisterSchema, LoginSchema, RefreshTokenSchema, emailSchema, ResetPasswordSchema, VerifyEmailSchema } from '../validations/auth.schema.js';
 import type { AuthDto, TokensDto } from '../dtos/auth.dto.js';
 import { authLimiter, loginLimiter, passwordResetLimiter } from '../middlewares/rateLimit.middleware.js';
 import * as env from '../config/env.js';
@@ -30,27 +30,46 @@ const REFRESH_COOKIE_OPTIONS = {
 /**
  * POST /auth/register
  * Body: { RegisterBody }
- * Response: { AuthDto }
+ * Response: { message: string, user: UserAccountDto }
  */
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = RegisterSchema.parse(req.body);
-    const { user, tokens } = await authService.register(input);
+    const { user, message } = await authService.register(input);
 
-    if (input.stayLoggedIn)
-      REFRESH_COOKIE_OPTIONS.maxAge = 365 * 24 * 60 * 60 * 1000
-    res.cookie('access_token', tokens.access_token, ACCESS_COOKIE_OPTIONS);
-    res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
+    res.status(201).json({
+      message,
+      user: toUserAccountDto(user)
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
-    const Res = {
-      user: toUserAccountDto(user),
-      tokens: {
-        refresh_token: tokens.refresh_token,
-        access_token: tokens.access_token
-      }
-    } as AuthDto
+/**
+ * POST /auth/verify-email
+ * Body: { token: string }
+ */
+router.post('/verify-email', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { token } = VerifyEmailSchema.parse(req.body);
+    await authService.verifyEmail(token);
 
-    res.status(201).json(Res);
+    res.json({ message: 'Email verified successfully. You can now log in.' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /auth/resend-verification
+ * Body: { email: string }
+ */
+router.post('/resend-verification', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = emailSchema.parse(req.body);
+    await authService.resendVerificationEmail(email);
+    res.json({ message: 'Verification email sent' });
   } catch (err) {
     next(err);
   }
@@ -103,8 +122,8 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
     res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
 
     const Res = {
-        refresh_token: tokens.refresh_token,
-        access_token: tokens.access_token
+      refresh_token: tokens.refresh_token,
+      access_token: tokens.access_token
     } as TokensDto
 
     res.json(Res);
@@ -141,7 +160,7 @@ router.post('/logout', async (req: Request, res: Response, next: NextFunction) =
  */
 router.post('/forgot-password', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { email } = ForgotPasswordSchema.parse(req.body);
+    const { email } = emailSchema.parse(req.body);
     await authService.forgotPassword(email, req);
     // always 200 regardless of whether email exists
     res.json({ message: 'If that email exists, a reset link has been sent' });

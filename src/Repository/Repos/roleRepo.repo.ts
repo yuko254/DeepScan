@@ -1,4 +1,4 @@
-import { type roles, Role } from "@prisma/client";
+import { Role } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 

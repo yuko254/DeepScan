@@ -1,4 +1,3 @@
-import { contents, ContentType, Visibility } from "@prisma/client";
 import { Prisma, prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -11,22 +10,6 @@ export class ContentRepo extends BaseRepository<typeof prisma.contents> {
     post: true,
     story: true,
     scan: true
-  }
-
-  async findByUser(user_id: string, type?: ContentType) {
-    return this.model.findMany({
-      where: { user_id, ...(type && { type }) },
-      include: this.includeDetails,
-      orderBy: { created_at: 'desc' },
-    });
-  }
-
-  async findByType(type: ContentType, visibility?: Visibility) {
-    return this.model.findMany({
-      where: { type, ...(visibility && { visibility }) },
-      include: this.includeDetails,
-      orderBy: { created_at: 'desc' },
-    });
   }
 
   async findPost(post_id: string) {
@@ -68,7 +51,13 @@ export class ContentRepo extends BaseRepository<typeof prisma.contents> {
   async softDelete(content_id: string, deletor?: string) {
     return this.model.update({
       where: { content_id },
-      data: { is_deleted: true, content: deletor ? `deleted by ${deletor}` : undefined }
+      data: {
+        is_deleted: true,
+        content_map: {
+          deleted_by: deletor,
+          deleted_at: new Date().toISOString()
+        }
+      }
     });
   }
 }

@@ -3,7 +3,7 @@ import { chatRepo, messageRepo, messageReactionRepo } from '../Repository/instan
 import * as AppError from '../types/appErrors.types.js';
 
 class ChatService {
-  // Helper: Generate deterministic chat ID
+  
   getChatId(user_a: string, user_b: string): string {
     return chatRepo.getChatId(user_a, user_b);
   }
@@ -121,7 +121,7 @@ class ChatService {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2003') {
           await chatRepo.createChat(user_id, target_user_id);
-          return await messageRepo.send(chat_id, user_id, text_content, reply_to);
+          return messageRepo.send(chat_id, user_id, text_content, reply_to);
         }
         throw e;
       }

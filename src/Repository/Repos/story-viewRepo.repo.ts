@@ -1,4 +1,3 @@
-import { story_views } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -25,12 +24,13 @@ export class StoryViewRepo extends BaseRepository<typeof prisma.story_views> {
     return view !== null;
   }
 
-  async getHasViewedBatch(storyIds: string[], userId: string) {
+  async getHasViewedBatch(storyIds: string[], userId: string): Promise<boolean[]> {
     const views = await this.model.findMany({
       where: { story_id: { in: storyIds }, viewer_id: userId },
       select: { story_id: true }
     });
-    return new Set(views.map(v => v.story_id));
+    const viewedSet = new Set(views.map(v => v.story_id));
+    return storyIds.map(id => viewedSet.has(id));
   }
 
   async getViewers(story_id: string) {
@@ -45,12 +45,13 @@ export class StoryViewRepo extends BaseRepository<typeof prisma.story_views> {
     return this.model.count({ where: { story_id } });
   }
 
-  async getViewCountsBatch(storyIds: string[]) {
+  async getViewCountsBatch(storyIds: string[]): Promise<number[]> {
     const counts = await this.model.groupBy({
       by: ['story_id'],
       where: { story_id: { in: storyIds } },
       _count: true
     });
-    return new Map(counts.map(c => [c.story_id, c._count]));
+    const map = new Map(counts.map(c => [c.story_id, c._count]));
+    return storyIds.map(id => map.get(id) || 0);
   }
 }

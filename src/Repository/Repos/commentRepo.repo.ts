@@ -1,4 +1,3 @@
-import { type comments } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -7,18 +6,15 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
     super(prisma.comments, 'comments', 'comment_id');
   }
 
+  private includeDetails = {
+    user: { include: { profile: true } },
+    post: { include: { content: true } },
+  }
+
   async findComment(comment_id: string) {
     return this.model.findUnique({
       where: { comment_id },
-      include: {
-        user: { include: { profile: true } },
-        post: { include: { content: true } },
-        comment: true,
-        replies: {
-          orderBy: { created_at: 'asc' },
-          include: { user: { include: { profile: true } } },
-        },
-      },
+      include: this.includeDetails
     });
   }
 
@@ -30,10 +26,7 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
         is_deleted: false,
         ...(cursor && { created_at: { lt: cursor } })
       },
-      include: {
-        user: { include: { profile: true } },
-        _count: { select: { comment_likes: true, replies: true } }
-      },
+      include: this.includeDetails,
       orderBy: { created_at: 'desc' },
       take: limit
     });
@@ -45,11 +38,23 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
     return { comments, nextCursor };
   }
 
-  async findReplies(comment_parent_id: string) {
-    return this.model.findMany({
-      where: { comment_parent_id },
+  async findReplies(comment_parent_id: string, limit: number, cursor?: Date) {
+    const replies = await this.model.findMany({
+      where: {
+        comment_parent_id,
+        is_deleted: false,
+        ...(cursor && { created_at: { lt: cursor } })
+      },
+      include: this.includeDetails,
       orderBy: { created_at: 'asc' },
+      take: limit
     });
+
+    const nextCursor = replies.length === limit
+      ? replies[replies.length - 1]?.created_at
+      : null;
+
+    return { replies, nextCursor };
   }
 
   async findByUser(user_id: string) {
@@ -57,20 +62,6 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
       where: { user_id },
       orderBy: { created_at: 'desc' },
     });
-  }
-
-  async findWithLikes(comment_id: string) {
-    const [comment, likes] = await Promise.all([
-      this.model.findUnique({ where: { comment_id } }),
-      this.getLikeCount(comment_id),
-    ]);
-    if (!comment) return null;
-    return { ...comment, likes };
-  }
-
-  async getLikeCount(comment_id: string) {
-    const view = await prisma.comment_like_counts.findUnique({ where: { comment_id } });
-    return view?.likes_count ? Number(view.likes_count) : 0;
   }
 
   async getCommentCountForPost(post_id: string) {
@@ -83,7 +74,8 @@ export class CommentRepo extends BaseRepository<typeof prisma.comments> {
       where: { post_id: { in: postIds }, is_deleted: false },
       _count: true
     });
-    return new Map(counts.map(c => [c.post_id, c._count]));
+    const map = new Map(counts.map(c => [c.post_id, c._count]));
+    return postIds.map(id => map.get(id) || 0);
   }
 
   async softDelete(comment_id: string, deletor: string) {

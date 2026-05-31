@@ -8,12 +8,6 @@ enum ContentType {
   scan
 }
 
-enum Visibility {
-  public
-  followers
-  private
-}
-
 enum DeviceType {
   ios
   android

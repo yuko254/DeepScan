@@ -1,4 +1,3 @@
-import { post_likes } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -22,12 +21,13 @@ export class PostLikeRepo extends BaseRepository<typeof prisma.post_likes> {
     return like !== null;
   }
 
-  async getIsLikedBatch(postIds: string[], userId: string): Promise<Set<string>> {
+  async getIsLikedBatch(postIds: string[], userId: string): Promise<boolean[]> {
     const likes = await this.model.findMany({
       where: { post_id: { in: postIds }, user_id: userId },
       select: { post_id: true }
     });
-    return new Set(likes.map(l => l.post_id));
+    const likedSet = new Set(likes.map(l => l.post_id));
+    return postIds.map(id => likedSet.has(id));
   }
 
   async getLikeCount(post_id: string) {
@@ -40,7 +40,8 @@ export class PostLikeRepo extends BaseRepository<typeof prisma.post_likes> {
       where: { post_id: { in: postIds } },
       _count: true
     });
-    return new Map(counts.map(c => [c.post_id, c._count]));
+    const map = new Map(counts.map(c => [c.post_id, c._count]));
+    return postIds.map(id => map.get(id) || 0);
   }
 
   async getLikedPostsByUser(user_id: string) {

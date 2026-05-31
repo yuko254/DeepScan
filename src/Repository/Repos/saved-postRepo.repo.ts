@@ -1,4 +1,3 @@
-import { saved_posts } from "@prisma/client";
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -52,24 +51,26 @@ export class SavedPostRepo extends BaseRepository<typeof prisma.saved_posts> {
     return save !== null;
   }
 
-  async getIsSavedBatch(postIds: string[], userId: string) {
+  async getIsSavedBatch(post_ids: string[], user_id: string) {
     const saves = await this.model.findMany({
-      where: { post_id: { in: postIds }, user_id: userId },
+      where: { post_id: { in: post_ids }, user_id },
       select: { post_id: true }
     });
-    return new Set(saves.map(s => s.post_id));
+    const savedSet = new Set(saves.map(s => s.post_id));
+    return post_ids.map(id => savedSet.has(id));
   }
 
   async getSaveCount(post_id: string) {
     return this.model.count({ where: { post_id } });
   }
 
-  async getSaveCountsBatch(postIds: string[]) {
+  async getSaveCountsBatch(post_ids: string[]) {
     const counts = await this.model.groupBy({
       by: ['post_id'],
-      where: { post_id: { in: postIds } },
+      where: { post_id: { in: post_ids } },
       _count: true
     });
-    return new Map(counts.map(c => [c.post_id, c._count]));
+    const map = new Map(counts.map(c => [c.post_id, c._count]));
+    return post_ids.map(id => map.get(id) || 0);
   }
 }
