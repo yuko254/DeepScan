@@ -11,14 +11,8 @@ class MentionService {
 
   private async getUsers(usernames: string[]) {
     if (usernames.length === 0) return;
-<<<<<<< HEAD
-
-    // 1. Get user IDs for these usernames
-    return await userRepo.findMany({
-=======
     
     return userRepo.findMany({
->>>>>>> dev
       where: { username: { in: usernames } },
       select: { user_id: true },
     });

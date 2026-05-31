@@ -1,17 +1,9 @@
 import { z } from 'zod';
-<<<<<<< HEAD
-import { IdSchema, JsonSchema } from './fields/common.fields.js';
-=======
 import { IdSchema, JsonSchema, booleanString } from './fields/common.fields.js';
->>>>>>> dev
 import { LocationCreateSchema, LocationUpsertSchema } from './location.schema.js';
 
 // ─── Enums ───
 const ContentTypeSchema = z.enum(['post', 'story', 'scan']);
-<<<<<<< HEAD
-const VisibilitySchema = z.enum(['public', 'followers', 'private']);
-=======
->>>>>>> dev
 
 // ─── Post ───
 const PostCreateSchema = z.strictObject({
@@ -44,30 +36,11 @@ export const ScanUpdateSchema = ScanCreateSchema.partial().extend({
 // ─── Main Content ───
 export const ContentCreateSchema = z.strictObject({
   type: ContentTypeSchema,
-<<<<<<< HEAD
-  visibility: VisibilitySchema.default('public'),
-=======
   is_private: booleanString.default(false),
->>>>>>> dev
   content_map: JsonSchema,
   post: PostCreateSchema.optional(),
   story: StoryCreateSchema.optional(),
   scan: ScanCreateSchema.optional(),
-<<<<<<< HEAD
-});
-
-export const ContentUpdateSchema = z.strictObject({
-  content_id: IdSchema.uuid('contentId'),
-  visibility: VisibilitySchema.optional(),
-  content_map: JsonSchema.optional(),
-  post: PostUpdateSchema.optional(),
-  scan: ScanUpdateSchema.optional(),
-});
-
-// ─── Types ───
-export type ContentType = z.infer<typeof ContentTypeSchema>;
-export type Visibility = z.infer<typeof VisibilitySchema>;
-=======
 }).refine(
   (data) => [data.post, data.story, data.scan].filter(Boolean).length === 1,
   { message: "Exactly one of 'post', 'story', or 'scan' must be provided" }
@@ -89,7 +62,6 @@ export const ContentUpdateSchema = z.strictObject({
 
 // ─── Types ───
 export type ContentType = z.infer<typeof ContentTypeSchema>;
->>>>>>> dev
 
 export type PostCreate = z.infer<typeof PostCreateSchema>;
 export type PostUpdate = z.infer<typeof PostUpdateSchema>;

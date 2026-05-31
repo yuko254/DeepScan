@@ -73,8 +73,14 @@ export const chatResolver: Resolvers = {
         reply_to
       );
 
-      const chatId = chatService.getChatId(context.user.user_id, target_user_id);
-      context.pubsub.publish(`CHAT_${chatId}`, { messageSent: message });
+      const [senderChat, recipientChat] = await Promise.all([
+        chatService.getChat(message!.chat_id, context.user.user_id),
+        chatService.getChat(message!.chat_id, target_user_id),
+      ]);
+
+      context.pubsub.publish(`CHAT_${message!.chat_id}`, { chatEvents: { type: 'MESSAGE_SENT', message } });
+      context.pubsub.publish(`USER_CHATS_${context.user.user_id}`, { chatUpdated: senderChat });
+      context.pubsub.publish(`USER_CHATS_${target_user_id}`, { chatUpdated: recipientChat });
 
       return message as any;
     },
@@ -92,7 +98,7 @@ export const chatResolver: Resolvers = {
         input.text_content
       );
 
-      context.pubsub.publish(`CHAT_${message!.chat_id}`, { messageUpdated: message });
+      context.pubsub.publish(`CHAT_${message!.chat_id}`, { chatEvents: { type: 'MESSAGE_UPDATED', message } });
 
       return message as any;
     },
@@ -100,26 +106,28 @@ export const chatResolver: Resolvers = {
     deleteMessage: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { message_id } = idSchema.MessageIdParamSchema.parse({ message_id: args.messageId });
+
+      const message = await chatService.getMessage(message_id);
+      if (!message) throw new AppError.NotFoundError('Message not found');
+
       await chatService.deleteMessage(context.user.user_id, message_id);
+
+      context.pubsub.publish(`CHAT_${message.chat_id}`, { chatEvents: { type: 'MESSAGE_DELETED', message_id } });
+
       return true;
     },
 
     addReaction: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { message_id } = idSchema.MessageIdParamSchema.parse({ message_id: args.input.messageId });
-      const input = chatSchema.AddReactionSchema.parse({
-        message_id,
-        emoji: args.input.emoji,
-      });
+      const input = chatSchema.AddReactionSchema.parse({ message_id, emoji: args.input.emoji });
 
-      const reaction = await chatService.addReaction(
-        context.user.user_id,
-        input.message_id,
-        input.emoji
-      );
+      const [reaction, message] = await Promise.all([
+        chatService.addReaction(context.user.user_id, input.message_id, input.emoji),
+        chatService.getMessage(input.message_id),
+      ]);
 
-      const message = await chatService.getMessage(input.message_id);
-      context.pubsub.publish(`CHAT_${message!.chat_id}`, { reactionAdded: reaction });
+      context.pubsub.publish(`CHAT_${message!.chat_id}`, { chatEvents: { type: 'REACTION_ADDED', reaction } });
 
       return reaction as any;
     },
@@ -127,33 +135,44 @@ export const chatResolver: Resolvers = {
     removeReaction: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { message_id } = idSchema.MessageIdParamSchema.parse({ message_id: args.messageId });
+
+      const reaction = await chatService.getReaction(context.user.user_id, message_id);
+      if (!reaction) throw new AppError.NotFoundError('Reaction not found');
+
       await chatService.removeReaction(context.user.user_id, message_id);
+
+      context.pubsub.publish(`CHAT_${reaction.message.chat_id}`, { chatEvents: { type: 'REACTION_REMOVED', reaction_id: reaction.reaction_id } });
+
       return true;
     },
   },
 
   Subscription: {
-    messageSent: {
+    chatEvents: {
       subscribe: (_, args, context: GraphqlContext) => {
         if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
         const { chat_id } = idSchema.ChatIdParamSchema.parse({ chat_id: args.chatId });
         return context.pubsub.asyncIterableIterator(`CHAT_${chat_id}`);
       },
+      resolve: (payload: any) => payload.chatEvents,
     },
-    messageUpdated: {
-      subscribe: (_, args, context: GraphqlContext) => {
+    chatUpdated: {
+      subscribe: (_, __, context: GraphqlContext) => {
         if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
-        const { chat_id } = idSchema.ChatIdParamSchema.parse({ chat_id: args.chatId });
-        return context.pubsub.asyncIterableIterator(`CHAT_${chat_id}`);
+        return context.pubsub.asyncIterableIterator(`USER_CHATS_${context.user.user_id}`);
       },
+      resolve: (payload: any) => payload.chatUpdated,
     },
-    reactionAdded: {
-      subscribe: (_, args, context: GraphqlContext) => {
-        if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
-        const { chat_id } = idSchema.ChatIdParamSchema.parse({ chat_id: args.chatId });
-        return context.pubsub.asyncIterableIterator(`CHAT_${chat_id}`);
-      },
-    },
+  },
+
+  ChatEvent: {
+    __resolveType: (obj: any) =>
+      obj.type === 'MESSAGE_SENT' ? 'MessageSentEvent'
+        : obj.type === 'MESSAGE_UPDATED' ? 'MessageUpdatedEvent'
+          : obj.type === 'MESSAGE_DELETED' ? 'MessageDeletedEvent'
+            : obj.type === 'REACTION_ADDED' ? 'ReactionAddedEvent'
+              : obj.type === 'REACTION_REMOVED' ? 'ReactionRemovedEvent'
+                : null,
   },
 
   chats: {

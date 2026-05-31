@@ -1,9 +1,5 @@
 import { ReportStatus } from "@prisma/client";
-<<<<<<< HEAD
-import { prisma } from '../../config/prisma.js';
-=======
 import { Prisma, prisma } from '../../config/prisma.js';
->>>>>>> dev
 import { BaseRepository } from './BaseRepository.repo.js';
 import { reportFilterMapping, type ReportFiltersDto } from "../../dtos/searchFilters.dto.js";
 
@@ -15,22 +11,6 @@ export class ReportRepo extends BaseRepository<typeof prisma.reports> {
   }
 
   private includeDetails = {
-<<<<<<< HEAD
-    user: true,                     // reporter
-    resolver: true,                 // moderator
-    report_target: {
-      include: {
-        post: true,                 // full post if target is a post
-        comment: true,              // full comment
-        story: true,                // full story
-        profile: true,              // full profile
-      },
-    },
-  }
-
-  async findReport(report_id: string) {
-    return await this.model.findUnique({
-=======
     reporter: { include: { profile: true } },
     resolver: { include: { profile: true } },
     report_target: true
@@ -38,21 +18,11 @@ export class ReportRepo extends BaseRepository<typeof prisma.reports> {
 
   async findReport(report_id: string) {
     return this.model.findUnique({
->>>>>>> dev
       where: { report_id },
       include: this.includeDetails
     });
   }
 
-<<<<<<< HEAD
-  async getPage(take: number, skip: number, filters?: ReportFiltersDto) {
-    const where = this.buildWhere(filters);
-    return await this.model.findMany({
-      take,
-      skip,
-      where,
-      include: { user: true, resolver: true, report_target: true },
-=======
   async findUserReports(user_id: string, limit: number, cursor?: Date) {
     const where: Prisma.reportsWhereInput = {
       reporter_id: user_id,
@@ -80,7 +50,6 @@ export class ReportRepo extends BaseRepository<typeof prisma.reports> {
       skip,
       where,
       include: this.includeDetails,
->>>>>>> dev
       orderBy: { created_at: 'desc' },
     });
   }

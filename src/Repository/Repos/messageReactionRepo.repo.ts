@@ -37,6 +37,13 @@ export class MessageReactionRepo extends BaseRepository<typeof prisma.message_re
     });
   }
 
+  async findReaction(message_id: string, user_id: string) {
+    return this.model.findUnique({
+      where: { message_id_user_id: { message_id, user_id } },
+      include: { message: true },
+    });
+  }
+
   async findByMessage(message_id: string) {
     return this.model.findMany({
       where: { message_id },

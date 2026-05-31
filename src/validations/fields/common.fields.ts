@@ -7,9 +7,6 @@ export const IdSchema = {
     .positive(`${field} must be a positive number`)
 };
 
-<<<<<<< HEAD
-export const JsonSchema = z.record(z.any(), z.any());
-=======
 export const JsonSchema = z.union([
   z.record(z.any(), z.any()).refine(
     (obj) => Object.keys(obj).length > 0,
@@ -24,4 +21,3 @@ export const JsonSchema = z.union([
 export const booleanString = z
   .enum(['true', 'false'])
   .transform(val => val === 'true');
->>>>>>> dev

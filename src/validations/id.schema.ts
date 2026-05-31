@@ -81,12 +81,9 @@ export const UserIdParamSchema = z.strictObject({
 
 export const RoleIdParamSchema = z.strictObject({
   role_id: IdSchema.number('roleId'),
-<<<<<<< HEAD
-=======
 });
 
 // ─── Admin audit ───
 export const AuditIdParamSchema = z.strictObject({
   audit_id: IdSchema.uuid('auditId'),
->>>>>>> dev
 });

@@ -16,21 +16,19 @@ import { GraphQLError, type GraphQLFormattedError } from 'graphql';
 import { BigIntResolver, DateTimeResolver, JSONResolver } from 'graphql-scalars';
 
 import { mapErrorToResponse } from '../utils/errorMapper.util.js';
+import { verifyAccessToken } from '../utils/jwt.utils.js';
 import { createDataLoaders, DataLoaders } from './dataloaders/index.js';
 import { resolvers } from './resolvers/index.js';
 import { accessPayload } from '../validations/jwt.schema.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Load all .graphql files from the schemas folder
 const loadedSchemas = loadSchemaSync(path.join(__dirname, 'schemas/**/*.graphql'), {
   loaders: [new GraphQLFileLoader()],
 });
 
-// Merge them into a single type definitions string
 const typeDefs = mergeTypeDefs(loadedSchemas);
 
-// Create executable schema
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers: {
@@ -41,7 +39,6 @@ const schema = makeExecutableSchema({
   },
 });
 
-// Shared PubSub instance
 const pubsub = new PubSub();
 
 export interface GraphqlContext {
@@ -65,54 +62,57 @@ export const createContext = async ({ req, res }: { req: Request; res: Response 
   return { user, loaders, req, res, pubsub };
 };
 
+function extractWsUser(ctx: any): accessPayload | null {
+  try {
+    // 1. connectionParams (Altair, mobile clients)
+    const raw = ctx.connectionParams?.authorization as string | undefined;
+    if (raw?.startsWith('Bearer ')) return verifyAccessToken(raw.slice(7));
+
+    // 2. Cookie from upgrade request (browser)
+    const cookieHeader = ctx.extra?.request?.headers?.cookie;
+    if (cookieHeader) {
+      const match = cookieHeader.match(/(?:^|;\s*)access_token=([^;]+)/);
+      if (match) return verifyAccessToken(match[1]!);
+    }
+
+    // 3. HTTP upgrade headers
+    const headerAuth = ctx.extra?.request?.headers?.authorization;
+    if (headerAuth?.startsWith('Bearer ')) return verifyAccessToken(headerAuth.slice(7));
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export async function createGraphQLServer(httpServer: any) {
-  console.log('🔧 Creating WebSocket server...');
-
   const wsServer = new WebSocketServer({
-    server: httpServer,
+    port: 4001,
     path: '/graphql',
+    perMessageDeflate: false,
   });
-
-  wsServer.on('listening', () => {
-    console.log('✅ WebSocket server is listening');
-  });
-
-  wsServer.on('error', (error) => {
-    console.error('❌ WebSocket server error:', error);
-  });
-
-  wsServer.on('connection', (socket, req) => {
-    console.log('🔌 WebSocket client connected from:', req.socket.remoteAddress);
-    socket.on('error', (error) => console.error('Socket error:', error));
-  });
-
-  console.log('✅ WebSocket server created');
-
-  wsServer.on('error', (error) => {
-    console.error('WebSocket server error:', error);
-  });
-
-  wsServer.on('connection', (socket) => {
-    console.log('🔌 WebSocket client connected');
-    socket.on('error', (error) => console.error('Socket error:', error));
-  });
+ 
+  wsServer.on('listening', () => console.log('✅ WebSocket server is listening'));
+  wsServer.on('error', (error) => console.error('❌ WebSocket server error:', error));
 
   const serverCleanup = useServer(
-    {
+    {  
       schema,
       context: async (ctx) => {
-        console.log('📨 WebSocket context created');
-        return { user: null, pubsub };
+        const user = extractWsUser(ctx);
+        const loaders = createDataLoaders(user?.user_id);
+        return { user, loaders, pubsub }; 
       },
       onConnect: async (ctx) => {
-        console.log('🔗 Client attempting to connect');
+        console.log(`🔗 WS client connected`);
         return true;
       },
-      onDisconnect: () => {
-        console.log('🔌 Client disconnected');
+      onDisconnect: (ctx, code, reason) => {
+        console.log(`🔌 WS disconnected — code: ${code}, reason: ${reason}`);
       },
-      onError: (error) => {
-        console.error('WebSocket error:', error);
+      onError: (ctx, msg, errors) => {
+        console.error('❌ WS error:', errors);
+        throw errors
       },
     },
     wsServer
@@ -135,18 +135,11 @@ export async function createGraphQLServer(httpServer: any) {
     },
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      {
-        async serverWillStart() {
-          return {
-            async drainServer() {
-              await serverCleanup.dispose();
-            },
-          };
-        },
-      },
+      { async serverWillStart() { return { async drainServer() { await serverCleanup.dispose(); } } } }
     ],
   });
 
   await graphqlServer.start();
+  console.log('✅ GraphQL server started');
   return graphqlServer;
 }

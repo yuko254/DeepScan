@@ -3,11 +3,7 @@ import { chatRepo, messageRepo, messageReactionRepo } from '../Repository/instan
 import * as AppError from '../types/appErrors.types.js';
 
 class ChatService {
-<<<<<<< HEAD
-  // Helper: Generate deterministic chat ID
-=======
-  
->>>>>>> dev
+
   getChatId(user_a: string, user_b: string): string {
     return chatRepo.getChatId(user_a, user_b);
   }
@@ -106,9 +102,7 @@ class ChatService {
 
   async deleteChat(chat_id: string, user_id: string) {
     const isParticipant = await chatRepo.isParticipant(chat_id, user_id);
-    if (!isParticipant)
-      throw new AppError.ForbiddenError('You are not a participant of this chat');
-
+    if (!isParticipant) throw new AppError.ForbiddenError('You are not a participant of this chat');
     await chatRepo.deleteChat(chat_id);
     return true;
   }
@@ -125,11 +119,7 @@ class ChatService {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2003') {
           await chatRepo.createChat(user_id, target_user_id);
-<<<<<<< HEAD
-          return await messageRepo.send(chat_id, user_id, text_content, reply_to);
-=======
           return messageRepo.send(chat_id, user_id, text_content, reply_to);
->>>>>>> dev
         }
         throw e;
       }
@@ -164,6 +154,10 @@ class ChatService {
   }
 
   // ─── Reaction Mutations ────────────────────────────────────────────────
+
+  async getReaction(message_id: string, user_id: string) {
+    return messageReactionRepo.findReaction(message_id, user_id);
+  }
 
   async addReaction(user_id: string, message_id: string, emoji: string) {
     const message = await messageRepo.findMessageWithChat(message_id);

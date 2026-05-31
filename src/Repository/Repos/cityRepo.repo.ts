@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { type cities } from "@prisma/client";
-=======
->>>>>>> dev
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 

@@ -30,23 +30,11 @@ export async function sendPasswordResetEmail(email: string, token: string) {
   const html = `
     <p>You requested a password reset.</p>
     <h2 style="letter-spacing: 4px">${token}</h2>
-<<<<<<< HEAD
-    <p>This code expires in ${env.PASSWORD_RESET_TOKEN_IN_SECONDS/60} mins. Do not share it with anyone.</p>
-    <p>If you did not request this, ignore this email.</p>
-  `;
-
-  await sendEmail({
-    to: email,
-    subject: 'Password Reset Code',
-    html,
-  });
-=======
     <p>This code expires in ${env.PASSWORD_RESET_TOKEN_IN_SECONDS / 60} mins. Do not share it with anyone.</p>
     <p>If you did not request this, ignore this email.</p>
   `;
 
   await sendEmail({ to: email, subject: 'Password Reset Code', html });
->>>>>>> dev
 }
 
 // Password Reset Success
@@ -57,15 +45,7 @@ export async function sendPasswordResetSuccessEmail(email: string) {
     <p>For security reasons, all your active sessions have been logged out.</p>
   `;
 
-<<<<<<< HEAD
-  await sendEmail({
-    to: email,
-    subject: 'Password Reset Successful',
-    html,
-  });
-=======
   await sendEmail({ to: email, subject: 'Password Reset Successful', html });
->>>>>>> dev
 }
 
 // Login Detection
@@ -82,15 +62,7 @@ export async function sendLoginAlertEmail(email: string, userAgent: string, ip: 
     <p>If this wasn't you, please reset your password immediately.</p>
   `;
 
-<<<<<<< HEAD
-  await sendEmail({
-    to: email,
-    subject: 'New Login Detected',
-    html,
-  });
-=======
   await sendEmail({ to: email, subject: 'New Login Detected', html });
->>>>>>> dev
 }
 
 // Account Banned
@@ -101,15 +73,7 @@ export async function sendAccountBannedEmail(email: string, reason?: string) {
     <p>If you believe this is a mistake, please contact support.</p>
   `;
 
-<<<<<<< HEAD
-  await sendEmail({
-    to: email,
-    subject: 'Account Banned',
-    html,
-  });
-=======
   await sendEmail({ to: email, subject: 'Account Banned', html });
->>>>>>> dev
 }
 
 // Account Unbanned
@@ -119,15 +83,7 @@ export async function sendAccountUnbannedEmail(email: string) {
     <p>You can now log in again.</p>
   `;
 
-<<<<<<< HEAD
-  await sendEmail({
-    to: email,
-    subject: 'Account Restored',
-    html,
-  });
-=======
   await sendEmail({ to: email, subject: 'Account Restored', html });
->>>>>>> dev
 }
 
 // Account Deactivated
@@ -137,15 +93,7 @@ export async function sendAccountDeactivatedEmail(email: string) {
     <p>If you wish to reactivate, please contact support.</p>
   `;
 
-<<<<<<< HEAD
-  await sendEmail({
-    to: email,
-    subject: 'Account Deactivated',
-    html,
-  });
-=======
   await sendEmail({ to: email, subject: 'Account Deactivated', html });
->>>>>>> dev
 }
 
 // Account Reactivated
@@ -155,13 +103,6 @@ export async function sendAccountReactivatedEmail(email: string) {
     <p>You can now log in again.</p>
   `;
 
-<<<<<<< HEAD
-  await sendEmail({
-    to: email,
-    subject: 'Account Reactivated',
-    html,
-  });
-=======
   await sendEmail({ to: email, subject: 'Account Reactivated', html });
 }
 
@@ -185,5 +126,4 @@ export async function sendAccountDeletedEmail(email: string) {
   `;
 
   await sendEmail({ to: email, subject: 'Account Deleted', html });
->>>>>>> dev
 }

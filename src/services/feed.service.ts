@@ -1,27 +1,8 @@
-<<<<<<< HEAD
-import { followRepo, postRepo, storyRepo } from '../Repository/instances.js';
-import { blockService } from './interactions/block.service.js';
-=======
 import { blockRepo, followRepo, postRepo, storyRepo } from '../Repository/instances.js';
->>>>>>> dev
 
 class FeedService {
   async getPostFeed(user_id?: string, cursor?: Date, limit = 50) {
     let ownerIds: string[] = [];
-<<<<<<< HEAD
-
-    if (user_id) {
-      const following = await followRepo.getFollowing(user_id);
-      const followingIds = following.map((f) => f.following_id);
-      ownerIds = [...followingIds];
-    }
-
-    let { posts, nextCursor } = await postRepo.findFeedPosts(ownerIds, cursor, limit);
-
-    if (user_id) {
-      const blockedUserIds = await blockService.getBlockedUserIds(user_id);
-      posts = posts.filter(post => !blockedUserIds.includes(post.content.user_id));
-=======
     let blockedUsers: Set<string> = new Set();
     let blockedBy: Set<string> = new Set();
 
@@ -45,21 +26,14 @@ class FeedService {
         // Don't show posts from blocked users or users who blocked me
         return !blockedUsers.has(postOwnerId) && !blockedBy.has(postOwnerId);
       });
->>>>>>> dev
     }
 
     return { posts, nextCursor };
   }
 
   async getStoryFeed(user_id: string) {
-<<<<<<< HEAD
-    const following = await followRepo.getFollowing(user_id);
-    const followingIds = following.map((f) => f.following_id);
-    const ownerIds = [user_id, ...followingIds];
-=======
     const followingIds = await followRepo.findFollowingIds(user_id);
     const ownerIds = [...followingIds];
->>>>>>> dev
 
     const storyGroups = await storyRepo.findActiveFeed(ownerIds);
 

@@ -2,11 +2,7 @@
 type contents {
   content_id: String!
   type: ContentType!
-<<<<<<< HEAD
-  visibility: Visibility!
-=======
   is_private: Boolean!
->>>>>>> dev
   content_map: JSON!
   created_at: DateTime!
   updated_at: DateTime!
@@ -19,11 +15,7 @@ type contents {
 
 input contentsCreateInput {
   type: ContentType!
-<<<<<<< HEAD
-  visibility: Visibility!
-=======
   is_private: Boolean
->>>>>>> dev
   content_map: JSON!
   post: postsCreateInput
   scan: scansCreateInput
@@ -33,11 +25,7 @@ input contentsCreateInput {
 input contentsUpdateInput {
   content_id: String!
   type: ContentType
-<<<<<<< HEAD
-  visibility: Visibility
-=======
   is_private: Boolean
->>>>>>> dev
   content_map: JSON
   post: postsUpdateInput
   scan: scansUpdateInput
@@ -114,12 +102,6 @@ input storiesCreateInput {
 extend type Query {
   post(id: ID!): posts
   userPosts(userId: ID!, cursor: DateTime, limit: Int): UserPostsResult!
-<<<<<<< HEAD
-  mySavedPosts(cursor: DateTime, limit: Int): UserPostsResult!
-  
-  scan(id: ID!): scans
-  myScans(cursor: DateTime, limit: Int): UserScansResult!
-=======
   userStories(userId: ID!): [stories!]!
 
   userPostsCount(userId: ID!): Int!
@@ -131,7 +113,6 @@ extend type Query {
   myScans(cursor: DateTime, limit: Int): UserScansResult!
   
   scan(id: ID!): scans
->>>>>>> dev
 
   # media(id: ID!): media
 }

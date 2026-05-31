@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { type blocks } from "@prisma/client";
-import { prisma } from '../../config/prisma.js';
-=======
 import { Prisma, prisma } from '../../config/prisma.js';
->>>>>>> dev
 import { BaseRepository } from './BaseRepository.repo.js';
 
 export class BlockRepo extends BaseRepository<typeof prisma.blocks> {
@@ -11,24 +6,13 @@ export class BlockRepo extends BaseRepository<typeof prisma.blocks> {
     super(prisma.blocks, 'blocks', undefined);
   }
 
-<<<<<<< HEAD
-  async findById() {
-=======
   override async findById(): Promise<never> {
->>>>>>> dev
     throw new Error('BlockRepo does not support findById — use findUnique with composite key { blocker_id, blocked_id }');
   }
 
   async block(blocker_id: string, blocked_id: string) {
     return this.model.create({
-<<<<<<< HEAD
-      data: {
-        blocker: { connect: { user_id: blocker_id } },
-        blocked: { connect: { user_id: blocked_id } },
-      },
-=======
       data: { blocker_id, blocked_id },
->>>>>>> dev
     });
   }
 
@@ -36,8 +20,6 @@ export class BlockRepo extends BaseRepository<typeof prisma.blocks> {
     return this.model.delete({ where: { blocker_id_blocked_id: { blocker_id, blocked_id } } });
   }
 
-<<<<<<< HEAD
-=======
   async findBlockedUsers(blocker_id: string, limit: number, cursor?: Date) {
     const where: Prisma.blocksWhereInput = {
       blocker_id,
@@ -86,7 +68,6 @@ export class BlockRepo extends BaseRepository<typeof prisma.blocks> {
     return { blockedBy, blockedUsers };
   }
 
->>>>>>> dev
   async isBlocked(blocker_id: string, blocked_id: string) {
     const block = await this.model.findUnique({
       where: { blocker_id_blocked_id: { blocker_id, blocked_id } },
@@ -94,18 +75,6 @@ export class BlockRepo extends BaseRepository<typeof prisma.blocks> {
     return block !== null;
   }
 
-<<<<<<< HEAD
-  async getBlockedUsers(blocker_id: string) {
-    return this.model.findMany({ where: { blocker_id } });
-  }
-
-  async getBlockedByUsers(blocked_id: string) {
-    return this.model.findMany({ where: { blocked_id } });
-  }
-
-  /** Check either direction — useful for feed filtering */
-=======
->>>>>>> dev
   async isBlockedEither(user_id_a: string, user_id_b: string) {
     const count = await this.model.count({
       where: {

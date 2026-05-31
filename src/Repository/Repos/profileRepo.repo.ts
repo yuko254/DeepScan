@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { profiles } from "@prisma/client";
-=======
->>>>>>> dev
 import { Prisma, prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 

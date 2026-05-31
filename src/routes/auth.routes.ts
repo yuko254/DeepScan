@@ -1,10 +1,6 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { authService } from '../services/auth.service.js';
-<<<<<<< HEAD
-import { RegisterSchema, LoginSchema, RefreshTokenSchema, ForgotPasswordSchema, ResetPasswordSchema } from '../validations/auth.schema.js';
-=======
 import { RegisterSchema, LoginSchema, RefreshTokenSchema, emailSchema, ResetPasswordSchema, VerifyEmailSchema } from '../validations/auth.schema.js';
->>>>>>> dev
 import type { AuthDto, TokensDto } from '../dtos/auth.dto.js';
 import { authLimiter, loginLimiter, passwordResetLimiter } from '../middlewares/rateLimit.middleware.js';
 import * as env from '../config/env.js';
@@ -34,33 +30,11 @@ const REFRESH_COOKIE_OPTIONS = {
 /**
  * POST /auth/register
  * Body: { RegisterBody }
-<<<<<<< HEAD
- * Response: { AuthDto }
-=======
  * Response: { message: string, user: UserAccountDto }
->>>>>>> dev
  */
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = RegisterSchema.parse(req.body);
-<<<<<<< HEAD
-    const { user, tokens } = await authService.register(input);
-
-    if (input.stayLoggedIn)
-      REFRESH_COOKIE_OPTIONS.maxAge = 365 * 24 * 60 * 60 * 1000
-    res.cookie('access_token', tokens.access_token, ACCESS_COOKIE_OPTIONS);
-    res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
-
-    const Res = {
-      user: toUserAccountDto(user),
-      tokens: {
-        refresh_token: tokens.refresh_token,
-        access_token: tokens.access_token
-      }
-    } as AuthDto
-
-    res.status(201).json(Res);
-=======
     const { user, message } = await authService.register(input);
 
     res.status(201).json({
@@ -96,7 +70,6 @@ router.post('/resend-verification', passwordResetLimiter, async (req: Request, r
     const { email } = emailSchema.parse(req.body);
     await authService.resendVerificationEmail(email);
     res.json({ message: 'Verification email sent' });
->>>>>>> dev
   } catch (err) {
     next(err);
   }
@@ -149,13 +122,8 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
     res.cookie('refresh_token', tokens.refresh_token, REFRESH_COOKIE_OPTIONS);
 
     const Res = {
-<<<<<<< HEAD
-        refresh_token: tokens.refresh_token,
-        access_token: tokens.access_token
-=======
       refresh_token: tokens.refresh_token,
       access_token: tokens.access_token
->>>>>>> dev
     } as TokensDto
 
     res.json(Res);
@@ -192,11 +160,7 @@ router.post('/logout', async (req: Request, res: Response, next: NextFunction) =
  */
 router.post('/forgot-password', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
-<<<<<<< HEAD
-    const { email } = ForgotPasswordSchema.parse(req.body);
-=======
     const { email } = emailSchema.parse(req.body);
->>>>>>> dev
     await authService.forgotPassword(email, req);
     // always 200 regardless of whether email exists
     res.json({ message: 'If that email exists, a reset link has been sent' });

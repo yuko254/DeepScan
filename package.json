@@ -19,14 +19,14 @@
   "license": "ISC",
   "type": "module",
   "graphql": {
-    "schema": "src/graphql/schema.graphql",
+    "schema": "src/graphql/schemas/schema.graphql",
     "documents": "**/*.{graphql}"
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
     "@as-integrations/express5": "^1.1.2",
-    "@aws-sdk/client-s3": "^3.1055.0",
-    "@aws-sdk/s3-request-presigner": "^3.1055.0",
+    "@aws-sdk/client-s3": "^3.1057.0",
+    "@aws-sdk/s3-request-presigner": "^3.1057.0",
     "@graphql-tools/graphql-file-loader": "^8.1.14",
     "@graphql-tools/load": "^8.1.10",
     "@graphql-tools/merge": "^9.1.9",
@@ -50,7 +50,7 @@
     "ioredis": "^5.11.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.1.1",
-    "nodemailer": "^8.0.9",
+    "nodemailer": "^8.0.10",
     "nodox-cli": "^1.1.1",
     "pluralize": "^8.0.0",
     "rate-limit-redis": "^5.0.0",
@@ -63,7 +63,7 @@
   "devDependencies": {
     "@abcx3/prisma-generator-dart": "^3.0.6",
     "@graphql-codegen/add": "^7.0.1",
-    "@graphql-codegen/cli": "^7.1.0",
+    "@graphql-codegen/cli": "^7.1.1",
     "@graphql-codegen/typescript": "^6.0.2",
     "@graphql-codegen/typescript-resolvers": "^6.0.2",
     "@mermaid-js/mermaid-cli": "^11.15.0",
@@ -82,11 +82,19 @@
     "@types/pluralize": "^0.0.33",
     "googleapis": "^172.0.0",
     "prisma": "^7.8.0",
-    "prisma-erd-generator": "^2.4.2",
+    "prisma-erd-generator": "^2.4.3",
     "prisma-openapi": "^1.6.0",
     "tsc-alias": "^1.8.17",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.22.3",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3"
+  },
+  "allowScripts": {
+    "bcrypt@6.0.0": true,
+    "esbuild@0.28.0": true,
+    "prisma@7.8.0": true,
+    "puppeteer@24.43.1": true,
+    "@apollo/protobufjs@1.2.8": true,
+    "@prisma/engines@7.8.0": true
   }
 }

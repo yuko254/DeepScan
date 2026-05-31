@@ -16,24 +16,6 @@ export const feedResolver: Resolvers = {
         input.limit ?? 50
       );
 
-<<<<<<< HEAD
-      return {
-        posts: posts as any,
-        nextCursor: nextCursor ?? null,
-      };
-    },
-
-    storyFeed: async (_, __, context: GraphqlContext) => {
-      if (!context.user?.user_id) {
-        throw new AppError.UnauthorizedError('Authentication required');
-      }
-
-      const { storyGroups } = await feedService.getStoryFeed(context.user.user_id);
-
-      return {
-        groups: storyGroups as any,
-      };
-=======
       return { posts: posts as any, nextCursor: nextCursor ?? null};
     },
 
@@ -41,7 +23,6 @@ export const feedResolver: Resolvers = {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { storyGroups } = await feedService.getStoryFeed(context.user.user_id);
       return { groups: storyGroups as any };
->>>>>>> dev
     },
   },
 };

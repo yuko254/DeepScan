@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { type comment_hashtags } from "@prisma/client";
-=======
->>>>>>> dev
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -10,11 +6,7 @@ export class CommentHashtagRepo extends BaseRepository<typeof prisma.comment_has
     super(prisma.comment_hashtags, 'comment_hashtags', undefined);
   }
 
-<<<<<<< HEAD
-  async findById() {
-=======
   override async findById(): Promise<never> {
->>>>>>> dev
     throw new Error('CommentHashtagRepo does not support findById — use findUnique with composite key { comment_id, hashtag_id }');
   }
 

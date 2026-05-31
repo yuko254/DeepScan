@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { type post_tags } from "@prisma/client";
-=======
->>>>>>> dev
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -10,11 +6,7 @@ export class PostTagRepo extends BaseRepository<typeof prisma.post_tags> {
     super(prisma.post_tags, 'post_tags', undefined);
   }
 
-<<<<<<< HEAD
-  async findById() {
-=======
   override async findById(): Promise<never> {
->>>>>>> dev
     throw new Error('PostTagRepo does not support findById — use findUnique with composite key { post_id, tag_id }');
   }
 

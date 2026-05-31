@@ -224,6 +224,7 @@ async function seed() {
         role_id: isAdmin ? 1 : isMod ? 2 : 3,
         is_active: true,
         is_banned: false,
+        is_email_verified: true
       },
     });
     users.push(user);
@@ -375,11 +376,7 @@ async function seed() {
         data: {
           user_id: author.user_id,
           type: 'post',
-<<<<<<< HEAD
-          visibility: random(['public', 'followers', 'private']),
-=======
           is_private: random([true, false]),
->>>>>>> dev
           content_map: {
             text: textContent,
             ...(randomBool(0.7) && { image: random(MEDIA_URLS.images) }),
@@ -430,11 +427,7 @@ async function seed() {
 
   // Helper to get post with content
   const getPostWithContent = async (post: any) => {
-<<<<<<< HEAD
-    return await prisma.posts.findUnique({
-=======
     return prisma.posts.findUnique({
->>>>>>> dev
       where: { content_id: post.content_id },
       include: { content: true }
     });
@@ -589,11 +582,7 @@ async function seed() {
         data: {
           user_id: user.user_id,
           type: 'story',
-<<<<<<< HEAD
-          visibility: 'public',
-=======
           is_private: random([true, false]),
->>>>>>> dev
           content_map: {
             text: `Quick update! #${random(HASHTAGS)}`,
             image: random(MEDIA_URLS.images),
@@ -652,11 +641,7 @@ async function seed() {
         data: {
           user_id: user.user_id,
           type: 'scan',
-<<<<<<< HEAD
-          visibility: random(['public', 'private']),
-=======
           is_private: true,
->>>>>>> dev
           content_map: { text: `Scan result: Found something interesting!` },
         },
       });

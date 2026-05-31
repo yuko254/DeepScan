@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { stories } from "@prisma/client";
-=======
->>>>>>> dev
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -24,11 +20,7 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
   async findActiveByUser(user_id: string) {
     return this.model.findMany({
       where: {
-<<<<<<< HEAD
-        content: { user_id },
-=======
         content: { user_id, is_deleted: false },
->>>>>>> dev
         expires_at: { gt: new Date() },
       },
       include: this.includeDetails,
@@ -36,8 +28,6 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
     });
   }
 
-<<<<<<< HEAD
-=======
   async findActiveByUserCount(user_id: string) {
     return this.model.count({
       where: {
@@ -47,7 +37,6 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
     });
   }
 
->>>>>>> dev
   async findActiveFeed(user_ids: string[]) {
     if (!user_ids.length) return [];
 
@@ -60,10 +49,6 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
       orderBy: { expires_at: 'asc' },
     });
 
-<<<<<<< HEAD
-    // Generic to infer return type
-=======
->>>>>>> dev
     type GroupedStories = {
       [key: string]: {
         user: typeof stories[number]['content']['user'];
@@ -85,8 +70,6 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
 
     return Object.values(groupedStories);
   }
-<<<<<<< HEAD
-=======
 
   async deleteExpiredByUser(user_id: string) {
     return this.model.deleteMany({
@@ -97,5 +80,4 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
       }
     });
   }
->>>>>>> dev
 }

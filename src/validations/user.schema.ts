@@ -1,20 +1,12 @@
 import { z } from 'zod';
-<<<<<<< HEAD
-import { IdSchema } from './fields/common.fields.js';
-=======
 import { booleanString, IdSchema } from './fields/common.fields.js';
->>>>>>> dev
 import * as pagination from "./fields/pagination.fields.js";
 import * as user from "./fields/user.fields.js";
 import { LocationCreateSchema, LocationUpsertSchema } from './location.schema.js';
 
 // ─── Profile ───
 export const ProfileCreateSchema = z.strictObject({
-<<<<<<< HEAD
-  is_private: z.boolean().default(false).optional(),
-=======
   is_private: booleanString.default(false).optional(),
->>>>>>> dev
   bio: z.string().max(500, 'Bio can have at most 500 characters').nullish(),
   avatar: z.url('Invalid avatar URL').nullish(),
   first_name: z.string().max(50, 'First name must be at most 50 characters'),
@@ -60,13 +52,8 @@ export const AdminUserCreateSchema = AdminUserAccountCreateSchema.extend({
 export const AdminUserAccountUpdateSchema = UserAccountUpdateSchema.extend({
   password: user.passwordField.optional(),
   role_id: IdSchema.number('roleId').optional(),
-<<<<<<< HEAD
-  is_banned: z.boolean().optional(),
-  is_active: z.boolean().optional(),
-=======
   is_banned: booleanString.optional(),
   is_active: booleanString.optional(),
->>>>>>> dev
 });
 
 export const AdminUserUpdateSchema = AdminUserAccountUpdateSchema.extend({
@@ -95,20 +82,13 @@ export const UserAccountsQuerySchema = z.strictObject({
   limit: pagination.pageLimitQuery,
   search: z.string().optional(),
   role: IdSchema.number('roleId').optional(),
-<<<<<<< HEAD
-  isActive: z.boolean().optional(),
-  isBanned: z.boolean().optional(),
-=======
   isActive: booleanString.optional(),
   isBanned: booleanString.optional(),
->>>>>>> dev
 }).transform(({ role, search, isActive, isBanned, ...rest }) => ({
   ...rest,
   filters: { role_id: role, username: search, is_active: isActive, is_banned: isBanned },
 }));
 
-<<<<<<< HEAD
-=======
 export const AuditLogsQuerySchema = z.strictObject({
   page: pagination.pageQuery,
   limit: pagination.pageLimitQuery,
@@ -120,7 +100,6 @@ export const AuditLogsQuerySchema = z.strictObject({
   filters: { admin_username: adminUsername, action, target_table: target },
 }));
 
->>>>>>> dev
 // ─── Types ───
 export type ProfileCreate = z.infer<typeof ProfileCreateSchema>;
 export type ProfileUpdate = z.infer<typeof ProfileUpdateSchema>;
@@ -138,10 +117,6 @@ export type AdminUserUpdate = z.infer<typeof AdminUserUpdateSchema>;
 export type RoleCreate = z.infer<typeof RoleCreateSchema>;
 export type RoleUpdate = z.infer<typeof RoleUpdateSchema>;
 
-<<<<<<< HEAD
-export type PasswordChange = z.infer<typeof ChangePasswordSchema>;
-=======
 export type PasswordChange = z.infer<typeof ChangePasswordSchema>;
 
 export type AuditLogsQuery = z.infer<typeof AuditLogsQuerySchema>;
->>>>>>> dev

@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { type follow_requests, FollowRequestStatus } from "@prisma/client";
-import { prisma } from '../../config/prisma.js';
-=======
 import { FollowRequestStatus } from "@prisma/client";
 import { Prisma, prisma } from '../../config/prisma.js';
->>>>>>> dev
 import { BaseRepository } from './BaseRepository.repo.js';
 
 export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_requests> {
@@ -12,18 +7,6 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
     super(prisma.follow_requests, 'follow_requests', undefined);
   }
 
-<<<<<<< HEAD
-  async findById() {
-    throw new Error('FollowRequestRepo does not support findById — use findUnique with composite key { requester_id, target_id }');
-  }
-
-  async request(requester_id: string, target_id: string) {
-    return this.model.create({
-      data: {
-        requester: { connect: { user_id: requester_id } },
-        target: { connect: { user_id: target_id } },
-      },
-=======
   override async findById(): Promise<never> {
     throw new Error('FollowRequestRepo does not support findById — use findUnique with composite key { requester_id, target_id }');
   }
@@ -37,7 +20,6 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
   async request(requester_id: string, target_id: string) {
     return this.model.create({
       data: { requester_id, target_id },
->>>>>>> dev
     });
   }
 
@@ -61,8 +43,6 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
     });
   }
 
-<<<<<<< HEAD
-=======
   async findIncomingRequests(target_id: string, limit: number, cursor?: Date) {
     const where: Prisma.follow_requestsWhereInput = {
       target_id,
@@ -105,7 +85,6 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
     return { requests, nextCursor };
   }
 
->>>>>>> dev
   async findPendingForUser(target_id: string) {
     return this.model.findMany({
       where: { target_id, status: FollowRequestStatus.pending },
@@ -134,8 +113,6 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
     });
     return req?.status ?? null;
   }
-<<<<<<< HEAD
-=======
 
   async deleteBoth(user_id_a: string, user_id_b: string) {
     return this.model.deleteMany({
@@ -147,5 +124,4 @@ export class FollowRequestRepo extends BaseRepository<typeof prisma.follow_reque
       }
     });
   }
->>>>>>> dev
 }

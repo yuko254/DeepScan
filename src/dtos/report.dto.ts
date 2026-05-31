@@ -39,21 +39,13 @@ function getReportTarget(reportTarget: any): TargetSummary {
   }
 
   if (reportTarget.post) {
-<<<<<<< HEAD
-    return { target_id: reportTarget.report_target_id, type: 'post', entityId: reportTarget.post.post_id };
-=======
     return { target_id: reportTarget.report_target_id, type: 'post', entityId: reportTarget.post.content_id };
->>>>>>> dev
   }
   if (reportTarget.comment) {
     return { target_id: reportTarget.report_target_id, type: 'comment', entityId: reportTarget.comment.comment_id };
   }
   if (reportTarget.story) {
-<<<<<<< HEAD
-    return { target_id: reportTarget.report_target_id, type: 'story', entityId: reportTarget.story.story_id };
-=======
     return { target_id: reportTarget.report_target_id, type: 'story', entityId: reportTarget.story.content_id };
->>>>>>> dev
   }
   if (reportTarget.profile) {
     return { target_id: reportTarget.report_target_id, type: 'profile', entityId: reportTarget.profile.profile_id };
@@ -69,11 +61,7 @@ export function toReportListItemDto(report: any): ReportListItem {
     status: report.status,
     created_at: report.created_at,
     resolved_at: report.resolved_at,
-<<<<<<< HEAD
-    reporter: toUserAccountDto(report.user),
-=======
     reporter: toUserAccountDto(report.reporter),
->>>>>>> dev
     resolver: report.resolver ? toUserAccountDto(report.resolver) : null,
     target: getReportTarget(report.report_target),
   };

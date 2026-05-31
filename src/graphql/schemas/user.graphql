@@ -2,10 +2,7 @@ type users {
   user_id: String!
   username: String!
   email: String!
-<<<<<<< HEAD
-=======
   is_email_verified: Boolean!
->>>>>>> dev
   is_active: Boolean!
   is_banned: Boolean!
   updated_at: DateTime!

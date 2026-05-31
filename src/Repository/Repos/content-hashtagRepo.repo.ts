@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { type content_hashtags } from "@prisma/client";
-=======
->>>>>>> dev
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -11,11 +7,7 @@ export class ContentHashtagRepo extends BaseRepository<typeof prisma.content_has
     super(prisma.content_hashtags, 'content_hashtags', undefined);
   }
 
-<<<<<<< HEAD
-  async findById() {
-=======
   override async findById(): Promise<never> {
->>>>>>> dev
     throw new Error('ContentHashtagRepo does not support findById — use findUnique with composite key { content_id, hashtag_id }');
   }
 
