@@ -139,22 +139,21 @@ class AdminService {
     });
   }
 
-  async deleteUser(admin: accessPayload, userID: string, tx?: Prisma.TransactionClient) {
-    const oldSnapshot = await userRepo.findUser(userID);
+  async deleteUser(admin: accessPayload, userId: string, tx?: Prisma.TransactionClient) {
+    const oldSnapshot = await userRepo.findUser(userId);
     if (!oldSnapshot) throw new AppError.NotFoundError('User not found');
 
-    await userRepo.withTx(tx).deleteById(userID)
+    await userRepo.withTx(tx).deleteById(userId)
       .catch((e) => {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
         }
-        throw e;
+        console.log(e)
       });
 
     await Promise.all([
-      adminAuditRepo.log(admin.username, 'delete', 'users', userID, oldSnapshot, null),
-      notificationService.send({ user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message: 'your account has been deleted by a moderator' }, tx),
-      authService.revokeAllUserTokens(userID, "refresh"),
+      adminAuditRepo.log(admin.username, 'delete', 'users', userId, oldSnapshot, null),
+      authService.revokeAllUserTokens(userId, "refresh"),
       emailUtil.sendAccountDeletedEmail(oldSnapshot.email)
     ])
   }

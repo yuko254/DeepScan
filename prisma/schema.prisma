@@ -79,7 +79,7 @@ model admin_audits {
   new_data         Json?
   created_at       DateTime @default(now()) @db.Timestamptz(6)
 
-  admin            users?   @relation(fields: [admin_username], references: [username], onDelete: SetNull)
+  admin            users?   @relation(fields: [admin_username], references: [username], onDelete: NoAction)
 
   @@index([admin_username], type: Hash)
   @@index([admin_username(ops: raw("gin_trgm_ops"))], map: "idx_admin_audits_admin_username_gin", type: Gin)
