@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { notifications, NotificationType } from "@prisma/client";
+=======
+import { NotificationType } from "@prisma/client";
+>>>>>>> dev
 import { Prisma, prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 

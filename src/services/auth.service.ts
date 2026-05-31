@@ -19,6 +19,7 @@ class AuthService {
   private redis = RedisClient.getInstance();
   private SALT_ROUNDS = env.SALT_ROUNDS;
 
+<<<<<<< HEAD
   async register(input: auth.RegisterBody) {
 
     const { stayLoggedIn, ...data } = input;
@@ -36,6 +37,67 @@ class AuthService {
     return { user, tokens };
   }
 
+=======
+  async getEmailVerificationToken(userId: string) {
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
+
+    const key = `email_verify:${userId}:${hashedToken}`;
+    await this.redis.set(key, '1', 'EX', 24 * 60 * 60);
+
+    return verificationToken;
+  }
+
+  async register(input: auth.RegisterBody) {
+    const user = await userService.registerUser(input).catch((e) => {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');
+      }
+      throw e;
+    });
+
+    const verificationToken = await this.getEmailVerificationToken(user.user_id);
+
+    await emailUtil.sendVerificationEmail(user.email, verificationToken);
+
+    return {
+      user,
+      message: 'Verification email sent. Please verify your email before logging in.'
+    };
+  }
+
+  async verifyEmail(token: string) {
+    const keys = await this.redis.keys(`email_verify:*:${token}`);
+    if (keys.length === 0) throw new AppError.NotFoundError('Invalid or expired verification token');
+
+    const key = keys[0]!;
+    const userId = key.split(':')[1];
+
+    const exists = await this.redis.exists(key);
+    if (!exists) throw new AppError.NotFoundError('Invalid or expired token');
+
+    await userRepo.update({
+      where: { user_id: userId },
+      data: { is_email_verified: true }
+    });
+
+    await this.redis.del(key);
+  }
+
+  async resendVerificationEmail(email: string) {
+    const user = await userRepo.findAccountByEmail(email);
+    if (!user) return; // prevent enumeration
+    if (user.is_email_verified) return;
+
+    const oldKeys = await this.redis.keys(`email_verify:${user.user_id}:*`);
+    if (oldKeys.length > 0) await this.redis.del(oldKeys);
+
+    const verificationToken = await this.getEmailVerificationToken(user.user_id);
+
+    await emailUtil.sendVerificationEmail(user.email, verificationToken);
+  }
+
+>>>>>>> dev
   async login(input: auth.LoginBody, req: Request) {
     let user = null
     if (input.email)
@@ -45,6 +107,10 @@ class AuthService {
     else throw new AppError.BadRequestError('Either username or email is needed to login');
 
     if (!user) throw new AppError.UnauthorizedError('Invalid email or password');
+<<<<<<< HEAD
+=======
+    if (!user.is_email_verified) throw new AppError.ForbiddenError('Please verify your email before logging in');
+>>>>>>> dev
 
     const valid = await bcrypt.compare(input.password, user.password);
     if (!valid) throw new AppError.UnauthorizedError('Invalid email or password');
@@ -140,20 +206,29 @@ class AuthService {
     const user = await userRepo.findAccountByEmail(input.email);
     if (!user) return; // prevents user enumeration
 
+<<<<<<< HEAD
     // Compute hash of the token provided by the user
+=======
+>>>>>>> dev
     const hashedToken = crypto.createHash('sha256').update(input.token).digest('hex');
     const key = `password_reset:${user.user_id}:${hashedToken}`;
 
     const exists = await this.redis.exists(key);
     if (!exists) throw new AppError.NotFoundError('Invalid or expired token');
 
+<<<<<<< HEAD
     // Token is valid – delete it immediately (single‑use)
+=======
+>>>>>>> dev
     await this.redis.del(key);
 
     const hashedPassword = await bcrypt.hash(input.newPassword, this.SALT_ROUNDS);
     await userRepo.update({ where: { user_id: user.user_id }, data: { password: hashedPassword } });
 
+<<<<<<< HEAD
     // Revoke all existing refresh tokens to force re‑login on all devices
+=======
+>>>>>>> dev
     await this.revokeAllUserTokens(user.user_id, 'refresh');
 
     await emailUtil.sendPasswordResetSuccessEmail(user.email);

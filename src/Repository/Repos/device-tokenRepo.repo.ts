@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { type device_tokens, DeviceType } from "@prisma/client";
+=======
+import { DeviceType } from "@prisma/client";
+>>>>>>> dev
 import { prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 

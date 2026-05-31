@@ -7,6 +7,7 @@ import { locationService } from '../references/location.service.js';
 
 class ScanService {
 
+<<<<<<< HEAD
   async getScan(userId: string, scanId: string, tx?: Prisma.TransactionClient) {
     const scan = await scanRepo.withTx(tx).findScan(scanId);
     if (!scan) throw new AppError.NotFoundError('Scan not found');
@@ -14,6 +15,16 @@ class ScanService {
     if (scan.content.user_id !== userId && scan.content.visibility !== 'public')
       throw new AppError.ForbiddenError("You can't view this content");
 
+=======
+  async validateScanAccess(scanOwnerId: string, currentUserId?: string) {
+    const isOwner = currentUserId === scanOwnerId;
+    if (!isOwner) throw new AppError.ForbiddenError('You cannot view this content');
+  }
+
+  async getScan(scanId: string, tx?: Prisma.TransactionClient) {
+    const scan = await scanRepo.withTx(tx).findScan(scanId);
+    if (!scan) throw new AppError.NotFoundError('Scan not found');
+>>>>>>> dev
     return scan;
   }
 
@@ -37,18 +48,32 @@ class ScanService {
 
   async updateScan(userId: string, input: content.ScanUpdate, tx?: Prisma.TransactionClient) {
     const data = deepClean(input);
+<<<<<<< HEAD
     if (Object.keys(data).length === 0) return this.getScan(input.content_id, userId, tx);
 
     return (tx || prisma).$transaction(async (tx) => {
       const existing = await this.getScan(input.content_id, userId, tx);
+=======
+    if (Object.keys(data).length === 0) return this.getScan(input.content_id, tx);
+
+    return (tx || prisma).$transaction(async (tx) => {
+      const existing = await this.getScan(input.content_id, tx);
+>>>>>>> dev
       if (!existing) throw new AppError.NotFoundError('Scan not found');
       if (existing.content.user_id !== userId) throw new AppError.ForbiddenError('You can only update your own scans');
 
       const { location, ...scan } = data
+<<<<<<< HEAD
 
       const locationId = await locationService.resolveLocation(location, existing.location_id, tx);
 
       return await scanRepo.withTx(tx).updateScan({
+=======
+      const locationId = await locationService.resolveLocation(location, existing.location_id, tx);
+
+      return scanRepo.withTx(tx).updateScan({
+        content_id: existing.content_id,
+>>>>>>> dev
         location_id: locationId,
         metadata: scan.metadata,
       });

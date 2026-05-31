@@ -1,5 +1,9 @@
 import { Prisma, prisma } from "../config/prisma.js";
 import { userRepo, roleRepo, reportRepo, postRepo, commentRepo, storyRepo, contentRepo, adminAuditRepo } from "../Repository/instances.js";
+<<<<<<< HEAD
+=======
+import * as emailUtil from '../utils/email.util.js';
+>>>>>>> dev
 import { deepClean } from "../dtos/dto.js";
 import { accessPayload } from "../validations/jwt.schema.js";
 import * as report from "../validations/interactions.schema.js";
@@ -41,18 +45,31 @@ class AdminService {
   async createUser(admin: accessPayload, input: user.AdminUserCreate) {
     const { profile, ...account } = deepClean(input);
 
+<<<<<<< HEAD
     return await prisma.$transaction(async (tx) => {
+=======
+    return prisma.$transaction(async (tx) => {
+>>>>>>> dev
       const createdAccount = await userService.createAccount(account, tx);
       const createdProfile = await profileService.resolveProfile(createdAccount.user_id, profile, undefined, tx);
 
       const result = { ...createdAccount, profile: createdProfile };
 
       await Promise.all([
+<<<<<<< HEAD
         adminAuditRepo.withTx(tx).log(admin.username, 'create user', 'users', createdAccount.user_id, null, createdAccount),
         createdProfile
           ? adminAuditRepo.withTx(tx).log(admin.username, 'create profile', 'profiles', createdProfile.profile_id, null, createdProfile)
           : Promise.resolve(undefined),
         notificationService.send({ user_id: createdAccount.user_id, actor_id: admin.user_id, type: 'system', message: 'An administrator created your account' }, tx)
+=======
+        adminAuditRepo.withTx(tx).log(admin.username, 'create', 'users', createdAccount.user_id, null, createdAccount),
+        createdProfile
+          ? adminAuditRepo.withTx(tx).log(admin.username, 'create', 'profiles', createdProfile.profile_id, null, createdProfile)
+          : Promise.resolve(undefined),
+        notificationService.send({ user_id: createdAccount.user_id, actor_id: admin.user_id, type: 'system', message: 'An administrator created your account' }, tx),
+        emailUtil.sendVerificationEmail(createdAccount.email, await authService.getEmailVerificationToken(createdAccount.user_id))
+>>>>>>> dev
       ]);
 
       return result;
@@ -66,14 +83,22 @@ class AdminService {
 
   async updateUser(admin: accessPayload, userId: string, input: user.AdminUserUpdate) {
     const data = deepClean(input);
+<<<<<<< HEAD
     if (Object.keys(data).length === 0) return await this.getUser(userId);
+=======
+    if (Object.keys(data).length === 0) return this.getUser(userId);
+>>>>>>> dev
 
     const { profile, ...account } = data;
 
     const oldSnapshot = await userRepo.findUser(userId);
     if (!oldSnapshot) throw new AppError.NotFoundError('User not found');
 
+<<<<<<< HEAD
     return await prisma.$transaction(async (tx) => {
+=======
+    return prisma.$transaction(async (tx) => {
+>>>>>>> dev
       const [updatedAccount, updatedProfile] = await Promise.all([
         userService.updateAccount(userId, account, tx),
         profileService.resolveProfile(userId, profile, oldSnapshot.profile?.profile_id, tx)
@@ -82,6 +107,7 @@ class AdminService {
       const result = { ...updatedAccount, profile: updatedProfile };
 
       const accountChanges = Object.keys(account);
+<<<<<<< HEAD
       const importantChanges = ['is_banned', 'is_active', 'role_id'].some(field => accountChanges.includes(field));
       let message = '';
 
@@ -107,6 +133,50 @@ class AdminService {
         adminAuditRepo.withTx(tx).log(admin.username, 'update profile', 'profiles', oldSnapshot.profile?.profile_id, oldSnapshot.profile, updatedProfile),
         message.length !== 0
           ? notificationService.send({ user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message }, tx)
+=======
+      const messages: string[] = [];
+      const emailTasks: Promise<any>[] = [];
+
+      if (accountChanges.includes('is_banned')) {
+        messages.push(updatedAccount.is_banned
+          ? 'Your account has been banned by a moderator'
+          : 'Your account ban has been lifted by a moderator');
+
+        if (updatedAccount.is_banned) {
+          emailTasks.push(emailUtil.sendAccountBannedEmail(updatedAccount.email));
+        } else {
+          emailTasks.push(emailUtil.sendAccountUnbannedEmail(updatedAccount.email));
+        }
+      }
+
+      if (accountChanges.includes('is_active')) {
+        messages.push(updatedAccount.is_active
+          ? 'Your account has been reactivated by a moderator'
+          : 'Your account has been deactivated by a moderator');
+
+        if (updatedAccount.is_active) {
+          emailTasks.push(emailUtil.sendAccountReactivatedEmail(updatedAccount.email));
+        } else {
+          emailTasks.push(emailUtil.sendAccountDeactivatedEmail(updatedAccount.email));
+        }
+      }
+
+      if (accountChanges.includes('role_id')) {
+        messages.push('Your account role has been changed by a moderator');
+      }
+
+      const finalMessage = messages.join('\n');
+
+      await Promise.all([
+        ...emailTasks,
+        (updatedAccount.is_banned && !oldSnapshot.is_banned)
+          ? authService.revokeAllUserTokens(userId, "refresh")
+          : Promise.resolve(undefined),
+        adminAuditRepo.withTx(tx).log(admin.username, 'update', 'users', userId, oldSnapshot, updatedAccount),
+        adminAuditRepo.withTx(tx).log(admin.username, 'update', 'profiles', oldSnapshot.profile?.profile_id, oldSnapshot.profile, updatedProfile),
+        finalMessage.length !== 0
+          ? notificationService.send({ user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message: finalMessage }, tx)
+>>>>>>> dev
           : Promise.resolve(undefined)
       ]);
 
@@ -133,9 +203,16 @@ class AdminService {
       });
 
     await Promise.all([
+<<<<<<< HEAD
       adminAuditRepo.log(admin.username, 'delete user', 'users', userID, oldSnapshot, null),
       notificationService.send({ user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message: 'your account has been deleted by a moderator' }, tx),
       authService.revokeAllUserTokens(userID, "refresh")
+=======
+      adminAuditRepo.log(admin.username, 'delete', 'users', userID, oldSnapshot, null),
+      notificationService.send({ user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message: 'your account has been deleted by a moderator' }, tx),
+      authService.revokeAllUserTokens(userID, "refresh"),
+      emailUtil.sendAccountDeletedEmail(oldSnapshot.email)
+>>>>>>> dev
     ])
   }
 
@@ -155,7 +232,11 @@ class AdminService {
     });
   }
 
+<<<<<<< HEAD
   // ─── Admin Stats ──────────────────────────────────────────────────────────────
+=======
+  // ─── Admin dashboard ──────────────────────────────────────────────────────────────
+>>>>>>> dev
 
   async getAppStats() {
     const [usersCount, postsCount, commentsCount, storiesCount, reportsCount] = await Promise.all([
@@ -175,6 +256,7 @@ class AdminService {
     };
   }
 
+<<<<<<< HEAD
   // ─── Reports ──────────────────────────────────────────────────────────────────
 
   async getReports(query: report.ReportsQuery) {
@@ -202,6 +284,38 @@ class AdminService {
 
   async resolveReport(admin: accessPayload, reportID: string, input: report.ReportResolve) {
     return await prisma.$transaction(async (tx) => {
+=======
+  async getAuditLog(audit_id: string) {
+    const audit = await adminAuditRepo.findAudit(audit_id);
+    if (!audit) throw new AppError.NotFoundError('Audit log not found');
+    return audit;
+  }
+
+  async getAuditLogs(query: user.AuditLogsQuery) {
+    const { page, limit, filters } = query;
+    const skip = (page - 1) * limit;
+
+    const [audits, total] = await Promise.all([
+      adminAuditRepo.getPage(limit, skip, filters),
+      adminAuditRepo.countByFilters(filters),
+    ]);
+
+    return {
+      audits,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  // ─── Reports ──────────────────────────────────────────────────────────────────
+
+  async resolveReport(admin: accessPayload, reportID: string, input: report.ReportResolve) {
+    return prisma.$transaction(async (tx) => {
+>>>>>>> dev
       const existing = await reportRepo.withTx(tx).findById(reportID);
       if (!existing) throw new AppError.NotFoundError('Report not found');
       if (existing.status !== 'pending' && existing.status !== 'reviewed')
@@ -212,13 +326,18 @@ class AdminService {
       const reporterId = updated?.reporter_id;
 
       const tasks: Promise<any>[] = [
+<<<<<<< HEAD
         adminAuditRepo.withTx(tx).log(admin.username, 'resolve report', 'reports', reportID, existing, updated)
+=======
+        adminAuditRepo.withTx(tx).log(admin.username, 'update', 'reports', reportID, existing, updated)
+>>>>>>> dev
       ];
 
       if (reporterId && reporterId !== admin.user_id) {
         const rt = updated!.report_target;
         const msg = 'Your report was resolved by staff';
 
+<<<<<<< HEAD
         if (rt?.post?.content_id) {
           tasks.push(notificationService.sendForPostSafe(
             { user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg },
@@ -229,6 +348,18 @@ class AdminService {
           tasks.push(notificationService.sendForComment(
             { user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg },
             rt.comment.comment_id,
+=======
+        if (rt?.post_id) {
+          tasks.push(notificationService.sendForPostSafe(
+            { user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg },
+            rt.post_id,
+            tx
+          ));
+        } else if (rt?.comment_id) {
+          tasks.push(notificationService.sendForComment(
+            { user_id: reporterId, actor_id: admin.user_id, type: 'system', message: msg },
+            rt.comment_id,
+>>>>>>> dev
             tx
           ));
         } else {
@@ -253,14 +384,22 @@ class AdminService {
   // ─── Content Moderation ──────────────────────────────────────────────────────
 
   async deletePost(admin: accessPayload, postID: string, tx?: Prisma.TransactionClient) {
+<<<<<<< HEAD
     return await (tx || prisma).$transaction(async (tx) => {
+=======
+    return (tx || prisma).$transaction(async (tx) => {
+>>>>>>> dev
       const oldSnapshot = await contentRepo.withTx(tx).findById(postID);
       if (!oldSnapshot) throw new AppError.NotFoundError('Post not found');
 
       const updated = await contentRepo.withTx(tx).softDelete(postID, admin.username);
 
       await Promise.all([
+<<<<<<< HEAD
         adminAuditRepo.withTx(tx).log(admin.username, 'delete post', 'contents', postID, oldSnapshot, updated),
+=======
+        adminAuditRepo.withTx(tx).log(admin.username, 'delete', 'contents', postID, oldSnapshot, updated),
+>>>>>>> dev
         oldSnapshot.user_id && oldSnapshot.user_id !== admin.user_id
           ? notificationService.sendForPostSafe(
             { user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message: 'Your post was removed by a moderator' },
@@ -273,14 +412,22 @@ class AdminService {
   }
 
   async deleteComment(admin: accessPayload, commentID: string, tx?: Prisma.TransactionClient) {
+<<<<<<< HEAD
     return await (tx || prisma).$transaction(async (tx) => {
+=======
+    return (tx || prisma).$transaction(async (tx) => {
+>>>>>>> dev
       const oldSnapshot = await commentRepo.withTx(tx).findById(commentID);
       if (!oldSnapshot) throw new AppError.NotFoundError('Comment not found');
 
       const updated = await commentRepo.withTx(tx).softDelete(commentID, admin.username);
 
       await Promise.all([
+<<<<<<< HEAD
         adminAuditRepo.withTx(tx).log(admin.username, 'delete comment', 'comments', commentID, oldSnapshot, updated),
+=======
+        adminAuditRepo.withTx(tx).log(admin.username, 'delete', 'comments', commentID, oldSnapshot, updated),
+>>>>>>> dev
         oldSnapshot.user_id && oldSnapshot.user_id !== admin.user_id
           ? notificationService.sendForComment(
             { user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message: 'Your comment was removed by a moderator' },
@@ -293,14 +440,22 @@ class AdminService {
   }
 
   async deleteStory(admin: accessPayload, storyID: string, tx?: Prisma.TransactionClient) {
+<<<<<<< HEAD
     return await (tx || prisma).$transaction(async (tx) => {
+=======
+    return (tx || prisma).$transaction(async (tx) => {
+>>>>>>> dev
       const oldSnapshot = await contentRepo.withTx(tx).findById(storyID);
       if (!oldSnapshot) throw new AppError.NotFoundError('Story not found');
 
       const updated = await contentRepo.withTx(tx).softDelete(storyID, admin.username);
 
       await Promise.all([
+<<<<<<< HEAD
         adminAuditRepo.withTx(tx).log(admin.username, 'delete story', 'contents', storyID, oldSnapshot, updated),
+=======
+        adminAuditRepo.withTx(tx).log(admin.username, 'delete', 'contents', storyID, oldSnapshot, updated),
+>>>>>>> dev
         oldSnapshot.user_id && oldSnapshot.user_id !== admin.user_id
           ? notificationService.send(
             { user_id: oldSnapshot.user_id, actor_id: admin.user_id, type: 'system', message: 'Your story was removed by a moderator' },

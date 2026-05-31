@@ -70,7 +70,11 @@ generator erd4 {
 
 // @exclude
 model admin_audits {
+<<<<<<< HEAD
   audit_id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  audit_id         String   @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   admin_username   String?
   action           String
   target_table     String?
@@ -81,6 +85,7 @@ model admin_audits {
 
   admin            users?   @relation(fields: [admin_username], references: [username], onDelete: SetNull)
 
+<<<<<<< HEAD
   @@index([admin_username])
   @@index([created_at])
 }
@@ -162,6 +167,95 @@ model profiles {
 // @system
 model notifications {
   notification_id        String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  @@index([admin_username], type: Hash)
+  @@index([admin_username(ops: raw("gin_trgm_ops"))], map: "idx_admin_audits_admin_username_gin", type: Gin)
+  @@index([created_at])
+}
+
+  // @system
+  model users {
+    user_id                  String              @id @default(uuid(7)) @db.Uuid
+    role_id                  Int?                @default(3) // @system
+    username                 String              @unique @db.VarChar(50)
+    email                    String              @unique @db.VarChar(255)
+    is_email_verified        Boolean             @default(false)
+    password                 String              @db.VarChar(60) // @sensitive
+    is_active                Boolean             @default(true)   // @system
+    is_banned                Boolean             @default(false)  // @system
+    updated_at               DateTime            @updatedAt @db.Timestamptz(6)
+    created_at               DateTime            @default(now()) @db.Timestamptz(6)
+
+    role                     roles?              @relation(fields: [role_id], references: [role_id], onDelete: SetNull, onUpdate: Cascade)
+    
+    blocked_users            blocks[]            @relation("blocks_blocker_id")
+    blocked_bys              blocks[]            @relation("blocks_blocked_id")
+    following                follows[]           @relation("follows_follower_id")
+    followers                follows[]           @relation("follows_following_id")
+    follow_Requesters        follow_requests[]   @relation("follow_requests_requester")
+    follow_requests_targets  follow_requests[]   @relation("follow_requests_target") 
+    notification_actors      notifications[]     @relation("notification_actor")
+    report_resolvers         reports[]           @relation("report_resolver")
+    chats_as_user_a          chats[]             @relation("UserA_Chats")
+    chats_as_user_b          chats[]             @relation("UserB_Chats")
+
+    adminAudits              admin_audits[]
+    comment_likes            comment_likes[]
+    comments                 comments[]
+    device_tokens            device_tokens[]
+    messages                 messages[]
+    notifications            notifications[]
+    post_likes               post_likes[]
+    profile                  profiles? // @nested
+    reports                  reports[] 
+    saved_posts              saved_posts[]
+    story_views              story_views[]
+    contents                 contents[]
+    messageReactions         message_reactions[]
+
+
+    @@index([username(ops: raw("gin_trgm_ops"))], type: Gin)
+    @@index([role_id])
+    @@index([created_at])
+  }
+
+  // @system
+  model roles {
+    role_id   Int     @id @default(autoincrement())
+    role_name Role    @unique 
+
+    users     users[]
+  }
+
+  model profiles {
+    profile_id                String     @id @default(uuid(7)) @db.Uuid
+    user_id                   String     @unique @db.Uuid // @system
+    is_private                Boolean?   @default(false)
+    bio                       String?
+    avatar                    String?
+    birth_location_id         String?    @db.Uuid
+    current_location_id       String?    @db.Uuid
+    first_name                String     @db.VarChar(50)
+    last_name                 String     @db.VarChar(50)
+    phone_number              String?    @db.VarChar(20)
+    birth_date                DateTime?  @db.Date
+    created_at                DateTime   @default(now()) @db.Timestamptz(6)
+
+    user                      users      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+    birth_location            locations? @relation("profiles_birth_locationTolocations", fields: [birth_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+    current_location          locations? @relation("profiles_current_locationTolocations", fields: [current_location_id], references: [location_id], onDelete: SetNull, onUpdate: NoAction) // @nested
+
+    reportTargets             report_targets[]
+
+    @@index([first_name(ops: raw("gin_trgm_ops")), last_name(ops: raw("gin_trgm_ops"))], type: Gin)
+    @@index([birth_location_id])   // FK lookup
+    @@index([current_location_id]) // FK lookup
+  }
+
+// @system
+model notifications {
+  notification_id        String                   @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   user_id                String                   @db.Uuid 
   actor_id               String?                  @db.Uuid // who triggered the notification
   notification_target_id String?                  @db.Uuid
@@ -174,14 +268,26 @@ model notifications {
   actor                  users?                   @relation("notification_actor", fields: [actor_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)  
   notification_target    notification_targets?    @relation(fields: [notification_target_id], references: [target_id], onDelete: Cascade, onUpdate: NoAction)
 
+<<<<<<< HEAD
   @@index([user_id])
   @@index([notification_target_id])
   @@index([delivered_at])
+=======
+  @@index([user_id, delivered_at])  // For user feed: "Get my notifications, newest first"
+  @@index([user_id, read_at])       // For "Get unread notifications count"
+  @@index([actor_id])               // For "What did this user do?" queries
+  @@index([notification_target_id]) // FK lookup
+  @@index([type])                   // Filter by notification type
+>>>>>>> dev
 }
 
 // @ExcludeOnUpdate
 model reports {
+<<<<<<< HEAD
   report_id        String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  report_id        String             @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   reporter_id      String?            @db.Uuid // @system
   resolver_id      String?            @db.Uuid // @system
   report_target_id String             @db.Uuid // @include
@@ -194,6 +300,7 @@ model reports {
   resolver         users?             @relation("report_resolver", fields: [resolver_id], references: [user_id], onDelete: SetNull, onUpdate: NoAction)
   report_target    report_targets     @relation(fields: [report_target_id], references: [target_id], onDelete: Cascade, onUpdate: NoAction)
 
+<<<<<<< HEAD
   @@unique([reporter_id, report_target_id], where: raw("reporter_id is NOT NULL"))
   @@index([reporter_id])
   @@index([resolver_id])
@@ -202,6 +309,17 @@ model reports {
 
 model device_tokens {
   token_id    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  @@unique([reporter_id, report_target_id], where: raw("reporter_id IS NOT NULL"))
+  @@index([status, created_at])           // Admin dashboard: pending reports sorted by oldest
+  @@index([reporter_id, created_at])      // User's report history
+  @@index([resolver_id, resolved_at])     // Admin's resolved reports
+  @@index([report_target_id])             // FK lookup
+}
+
+model device_tokens {
+  token_id    String    @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   user_id     String    @db.Uuid // @system
   token       String    
   device_type DeviceType 
@@ -212,6 +330,7 @@ model device_tokens {
   user        users     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([user_id, token])
+<<<<<<< HEAD
   @@index([last_used], map: "idx_device_tokens_last_used")
 }
 
@@ -220,6 +339,16 @@ model contents {
   user_id             String       @db.Uuid // @system
   type                ContentType  
   visibility          Visibility   @default(public)
+=======
+  @@index([last_used])
+}
+
+model contents {
+  content_id          String       @id @default(uuid(7)) @db.Uuid
+  user_id             String       @db.Uuid // @system
+  type                ContentType  
+  is_private          Boolean      @default(false)
+>>>>>>> dev
   content_map         Json
   created_at          DateTime     @default(now()) @db.Timestamptz(6)
   updated_at          DateTime     @updatedAt @db.Timestamptz(6)
@@ -280,7 +409,11 @@ model stories {
 
 // @system
 model media {
+<<<<<<< HEAD
   media_id     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  media_id     String        @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   storage_path String
   type         MediaType        
   
@@ -298,7 +431,13 @@ model blocks {
   blocked                 users     @relation("blocks_blocked_id", fields: [blocked_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
  
   @@unique([blocker_id, blocked_id])
+<<<<<<< HEAD
   @@index([blocked_id], map: "idx_blocks_blocked_id")
+=======
+  @@index([blocker_id], type: Hash)
+  @@index([blocked_id], type: Hash)
+  @@index([created_at])
+>>>>>>> dev
   // CONSTRAINT no_self_block CHECK (blocker_id <> blocked_id)
 }
 
@@ -313,7 +452,13 @@ model follows {
   following                  users     @relation("follows_following_id", fields: [following_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([follower_id, following_id])
+<<<<<<< HEAD
   @@index([following_id], map: "idx_follows_following_id")
+=======
+  @@index([follower_id], type: Hash)
+  @@index([following_id], type: Hash)
+  @@index([created_at])
+>>>>>>> dev
   // CONSTRAINT no_self_follow CHECK (follower_id <> following_id)
 }
 
@@ -335,7 +480,11 @@ model follow_requests {
 }
 
 model comments {
+<<<<<<< HEAD
   comment_id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  comment_id             String          @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   content                String
   user_id                String?         @db.Uuid // @system
   post_id                String          @db.Uuid // @includeOnCreate
@@ -362,7 +511,11 @@ model comments {
 }
 
 model locations {
+<<<<<<< HEAD
   location_id      String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  location_id      String     @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   country_id       Int     
   city_id          Int?    
   lat              Decimal?   @db.Decimal(10, 8)
@@ -426,7 +579,11 @@ model chats {
 }
 
 model messages {
+<<<<<<< HEAD
   message_id       String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  message_id       String         @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   chat_id          String         
   sender_id        String         @db.Uuid
   text_content     String?        @db.Text
@@ -449,7 +606,11 @@ model messages {
 }
 
 model message_reactions {
+<<<<<<< HEAD
   reaction_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  reaction_id   String    @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   message_id    String    @db.Uuid
   user_id       String    @db.Uuid
   emoji         String    @db.VarChar(10)
@@ -484,7 +645,7 @@ model tags {
 
 // @system
 model hashtags {
-  hashtag_id    String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  hashtag_id    String          @id @default(uuid(7)) @db.Uuid
   name          String          @unique @db.VarChar(100)
   created_at    DateTime        @default(now()) @db.Timestamptz(6)
 
@@ -496,7 +657,7 @@ model hashtags {
 
 // @exclude
 model saved_posts {
-  saved_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  saved_id String    @id @default(uuid(7)) @db.Uuid
   user_id  String    @db.Uuid
   post_id  String?   @db.Uuid
   saved_at DateTime  @default(now()) @db.Timestamptz(6)
@@ -598,7 +759,11 @@ model comment_hashtags {
 
 // @system
 model notification_targets {
+<<<<<<< HEAD
   target_id   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  target_id   String    @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   post_id     String?   @db.Uuid
   comment_id  String?   @db.Uuid
   chat_id     String?   
@@ -622,7 +787,11 @@ model notification_targets {
 
 // @system
 model report_targets {
+<<<<<<< HEAD
   target_id   String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+=======
+  target_id   String      @id @default(uuid(7)) @db.Uuid
+>>>>>>> dev
   post_id     String?     @db.Uuid
   comment_id  String?     @db.Uuid
   story_id    String?     @db.Uuid
@@ -690,12 +859,15 @@ enum ContentType {
   scan
 }
 
+<<<<<<< HEAD
 enum Visibility {
   public
   followers
   private
 }
 
+=======
+>>>>>>> dev
 enum DeviceType {
   ios
   android

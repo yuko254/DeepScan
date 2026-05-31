@@ -5,14 +5,26 @@ import * as AppError from '../../types/appErrors.types.js';
 
 class ReportService {
 
+<<<<<<< HEAD
   async getReport(userId: string, report_id: string) {
     const report = await reportRepo.findReport(report_id);
     if (!report) throw new AppError.NotFoundError('Report not found');
     if (report.reporter_id !== userId) throw new AppError.ForbiddenError("you can only view reports you own")
+=======
+  async validateReportAccess(reportOwnerId: string | null, currentUserId?: string) {
+    const isOwner = currentUserId === reportOwnerId;
+    if (!isOwner) throw new AppError.ForbiddenError("you can only view reports you own");
+  }
+
+  async getReport(report_id: string) {
+    const report = await reportRepo.findReport(report_id);
+    if (!report) throw new AppError.NotFoundError('Report not found');
+>>>>>>> dev
     return report;
   }
 
   async getUserReports(userId: string, limit: number, cursor?: Date) {
+<<<<<<< HEAD
     const reports = await prisma.reports.findMany({
       where: {
         reporter_id: userId,
@@ -70,6 +82,32 @@ class ReportService {
   async createReport(user_id: string, type: string, input: interactions.ReportCreate, tx?: Prisma.TransactionClient) {
     const run = async (transaction: Prisma.TransactionClient) => {
       const targetRepo = reportTargetRepo.withTx(transaction);
+=======
+    return reportRepo.findUserReports(userId, limit, cursor);
+  }
+
+  async getReportsPage(query: interactions.ReportsQuery) {
+    const skip = (query.page - 1) * query.limit;
+    const [reports, total] = await Promise.all([
+      reportRepo.getPage(query.limit, skip, query.filters),
+      reportRepo.countByFilter(query.filters),
+    ]);
+
+    return {
+      reports: reports,
+      pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) },
+    };
+  }
+
+  async getReportStats() {
+    return reportRepo.countByStatus();
+  }
+
+  async createReport(user_id: string, type: string, input: interactions.ReportCreate, tx?: Prisma.TransactionClient) {
+
+    return (tx || prisma).$transaction(async (tx) => {
+      const targetRepo = reportTargetRepo.withTx(tx);
+>>>>>>> dev
       let targetId: string;
 
       if (type === 'post') {
@@ -88,13 +126,18 @@ class ReportService {
         throw new AppError.BadRequestError('Report target must specify one of: post, comment, story, or profile');
       }
 
+<<<<<<< HEAD
       const report = await reportRepo.withTx(transaction).create({
+=======
+      const report = await reportRepo.withTx(tx).create({
+>>>>>>> dev
         data: {
           reporter_id: user_id,
           report_target_id: targetId,
           reason: input.reason ?? null,
           status: 'pending',
         },
+<<<<<<< HEAD
         include: {
           user: true,
           resolver: true,
@@ -113,12 +156,23 @@ class ReportService {
 
     if (tx) return run(tx);
     return prisma.$transaction(run);
+=======
+        include: { user: true, resolver: true, report_target: true }
+      });
+
+      return report;
+    });
+>>>>>>> dev
   }
 
   async deleteReport(report_id: string) {
     const deleted = await reportRepo.deleteById(report_id);
     if (!deleted) throw new AppError.NotFoundError('Report not found');
+<<<<<<< HEAD
     return deleted;
+=======
+    return true;
+>>>>>>> dev
   }
 }
 

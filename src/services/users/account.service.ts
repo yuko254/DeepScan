@@ -29,7 +29,11 @@ class UserService {
     const { password, ...rest } = deepClean(input);
     const hashed = await bcrypt.hash(password, this.SALT_ROUNDS);
 
+<<<<<<< HEAD
     return await userRepo.withTx(tx).createAccount({ ...rest, password: hashed })
+=======
+    return userRepo.withTx(tx).createAccount({ ...rest, password: hashed })
+>>>>>>> dev
       .catch((e) => {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           if (e.code === 'P2002') throw new AppError.ConflictError('Username or email already exists');
@@ -41,7 +45,11 @@ class UserService {
   async registerUser(input: { username: string; email: string; password: string; first_name: string; last_name: string }) {
     const hashed = await bcrypt.hash(input.password, this.SALT_ROUNDS);
 
+<<<<<<< HEAD
     return await prisma.$transaction(async (tx) => {
+=======
+    return prisma.$transaction(async (tx) => {
+>>>>>>> dev
       const user = await userRepo.withTx(tx).createAccount({
         username: input.username,
         email: input.email,
@@ -59,9 +67,15 @@ class UserService {
 
   async updateAccount(userId: string, input: user.UserAccountUpdate | user.AdminUserAccountUpdate, tx?: Prisma.TransactionClient) {
     const user = deepClean(input)
+<<<<<<< HEAD
     if (Object.keys(user).length === 0) return await this.getAccount(userId, tx);
 
     return await userRepo.withTx(tx).updateAccount(userId, user)
+=======
+    if (Object.keys(user).length === 0) return this.getAccount(userId, tx);
+
+    return userRepo.withTx(tx).updateAccount(userId, user)
+>>>>>>> dev
       .catch((e) => {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           if (e.code === 'P2025') throw new AppError.NotFoundError('User not found');
@@ -72,6 +86,7 @@ class UserService {
   }
 
   async deleteAccount(input: user.UserAccount, tx?: Prisma.TransactionClient) {
+<<<<<<< HEAD
     // 1. Find the user by email
     const user = await userRepo.withTx(tx).findAccountByEmail(input.email);
     if (!user) throw new AppError.NotFoundError('User not found');
@@ -81,6 +96,14 @@ class UserService {
     if (!valid) throw new AppError.ValidationError('Wrong password');
 
     // 3. Delete the user
+=======
+    const user = await userRepo.withTx(tx).findAccountByEmail(input.email);
+    if (!user) throw new AppError.NotFoundError('User not found');
+
+    const valid = await bcrypt.compare(input.password, user.password);
+    if (!valid) throw new AppError.ValidationError('Wrong password');
+
+>>>>>>> dev
     await userRepo.withTx(tx).deleteById(user.user_id)
       .catch((e) => {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -94,7 +117,10 @@ class UserService {
     const user = await userRepo.findById(userID);
     if (!user) throw new AppError.NotFoundError('User not found');
 
+<<<<<<< HEAD
     // Check password
+=======
+>>>>>>> dev
     const valid = await bcrypt.compare(input.oldPass, user.password);
     if (!valid) throw new AppError.ValidationError('Wrong password');
 

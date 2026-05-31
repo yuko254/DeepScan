@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { type users } from "@prisma/client";
+=======
+>>>>>>> dev
 import { Prisma, prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 import { userFilterMapping, UserFiltersDto } from "../../dtos/searchFilters.dto.js";
@@ -25,7 +28,11 @@ export class UserRepo extends BaseRepository<typeof prisma.users> {
   }
 
   async findAccount(user_id: string) {
+<<<<<<< HEAD
     return await this.model.findUnique({
+=======
+    return this.model.findUnique({
+>>>>>>> dev
       where: { user_id },
       include: { role: true }
     });
@@ -46,7 +53,11 @@ export class UserRepo extends BaseRepository<typeof prisma.users> {
   }
 
   async findUser(user_id: string) {
+<<<<<<< HEAD
     return await this.model.findUnique({
+=======
+    return this.model.findUnique({
+>>>>>>> dev
       where: { user_id },
       include: this.includeDetails
     });
@@ -54,7 +65,11 @@ export class UserRepo extends BaseRepository<typeof prisma.users> {
 
   async getPage(take: number, skip: number, filters?: UserFiltersDto) {
     const where = this.buildWhere(filters);
+<<<<<<< HEAD
     return await this.model.findMany({
+=======
+    return this.model.findMany({
+>>>>>>> dev
       take,
       skip,
       where,

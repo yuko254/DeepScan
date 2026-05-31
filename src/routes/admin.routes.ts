@@ -1,6 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { adminService } from "../services/admin.service.js";
+<<<<<<< HEAD
 import { UserAccountsQuerySchema, AdminUserCreateSchema, AdminUserUpdateSchema  } from '../validations/user.schema.js';
+=======
+import { reportService } from "../services/interactions/report.service.js";
+import { UserAccountsQuerySchema, AuditLogsQuerySchema, AdminUserCreateSchema, AdminUserUpdateSchema  } from '../validations/user.schema.js';
+>>>>>>> dev
 import { ReportsQuerySchema, ReportResolveSchema } from '../validations/interactions.schema.js';
 import * as idSchema from '../validations/id.schema.js';
 import { AdminUserAccountsPageDto, toAdminUserAccountDto, toAdminUserDto } from '../dtos/user.dto.js';
@@ -107,8 +112,13 @@ router.delete('/users/:user_id', async (req: Request, res: Response, next: NextF
 router.get('/reports', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const query = ReportsQuerySchema.parse(req.query);
+<<<<<<< HEAD
     const result = await adminService.getReports(query);
 
+=======
+    const result = await reportService.getReportsPage(query);
+    
+>>>>>>> dev
     const Res: ReportsPageDto = {
       reports: result.reports.map(toReportListItemDto),
       pagination: result.pagination
@@ -127,7 +137,11 @@ router.get('/reports', async (req: Request, res: Response, next: NextFunction) =
 router.get('/reports/:report_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { report_id } = idSchema.ReportIdParamSchema.parse(req.params);
+<<<<<<< HEAD
     const report = await adminService.getReport(report_id);
+=======
+    const report = await reportService.getReport(report_id);
+>>>>>>> dev
 
     const Res: ReportDto = toReportDto(report);
 
@@ -162,7 +176,11 @@ router.patch('/reports/:report_id', async (req: Request, res: Response, next: Ne
  */
 router.get('/reports/stats', async (req: Request, res: Response, next: NextFunction) => {
   try {
+<<<<<<< HEAD
     const stats = await adminService.getReportStats();
+=======
+    const stats = await reportService.getReportStats();
+>>>>>>> dev
     res.json(stats);
   } catch (err) {
     next(err);
@@ -182,6 +200,44 @@ router.get('/stats/overview', async (req: Request, res: Response, next: NextFunc
   }
 });
 
+<<<<<<< HEAD
+=======
+/**
+ * GET /admin/audits/:audit_id
+ * Response: { AdminAudit }
+ */
+router.get('/audits/:audit_id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { audit_id } = idSchema.AuditIdParamSchema.parse(req.params);
+    const audit = await adminService.getAuditLog(audit_id);
+    res.json(audit);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * GET /admin/audits?page=1&limit=20&adminUsername=admin&action=delete&target=users
+ * Response: {
+ *   audits: AdminAudit[],
+ *   pagination: { page: number, limit: number, total: number, totalPages: number }
+ * }
+ * 
+ * Possible actions:
+ * - create
+ * - update
+ * - delete
+ */
+router.get('/audits', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const query = AuditLogsQuerySchema.parse(req.query);
+    const result = await adminService.getAuditLogs(query);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+});
+>>>>>>> dev
 
 /**
  * DELETE /admin/posts/:post_id

@@ -48,11 +48,18 @@ input reportsCreateInput {
 
 type report_targets {
   target_id: String!
+<<<<<<< HEAD
   post: posts
   comment: comments
   story: stories
   profile: profiles
   reports: [reports]!
+=======
+  post_id: String
+  comment_id: String
+  story_id: String
+  profile_id: String
+>>>>>>> dev
 }
 
 # Follow
@@ -80,6 +87,10 @@ extend type Query {
   following(userId: ID!, cursor: DateTime, limit: Int): FollowingResult!
   myFollowRequests(cursor: DateTime, limit: Int): FollowRequestsResult!
   followRequestStatus(userId: ID!): FollowRequestStatus!
+<<<<<<< HEAD
+=======
+  followCounts(userId: ID!): FollowCountsResult!
+>>>>>>> dev
 
   # Block queries
   blockedUsers(cursor: DateTime, limit: Int): BlockedUsersResult!
@@ -110,6 +121,14 @@ type FollowRequestsResult {
   nextCursor: DateTime
 }
 
+<<<<<<< HEAD
+=======
+type FollowCountsResult {
+  followersCount: Int!
+  followingCount: Int!
+}
+
+>>>>>>> dev
 type BlockedUsersResult {
   users: [users!]!
   nextCursor: DateTime
@@ -127,7 +146,11 @@ extend type Mutation {
   deleteReport(reportId: ID!): Boolean!
 
   # Follow mutations
+<<<<<<< HEAD
   followUser(userId: ID!): FollowResult!
+=======
+  followUser(userId: ID!): String! # "following", "request_sent"
+>>>>>>> dev
   unfollowUser(userId: ID!): Boolean!
   acceptFollowRequest(requesterId: ID!): Boolean!
   rejectFollowRequest(requesterId: ID!): Boolean!
@@ -137,8 +160,11 @@ extend type Mutation {
   blockUser(userId: ID!): Boolean!
   unblockUser(userId: ID!): Boolean!
 }
+<<<<<<< HEAD
 
 type FollowResult {
   success: Boolean!
   status: String! # "following", "request_sent", "already_following"
 }
+=======
+>>>>>>> dev

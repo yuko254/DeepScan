@@ -11,6 +11,7 @@ import * as AppError from '../../types/appErrors.types.js';
 
 export const contentResolver: Resolvers = {
   Query: {
+<<<<<<< HEAD
     post: async (_, args) => {
       const { post_id } = idSchema.PostIdParamSchema.parse({ post_id: args.id });
       const post = await postService.getPost(post_id);
@@ -21,6 +22,48 @@ export const contentResolver: Resolvers = {
       const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
       const input = querySchema.parse({ cursor: args.cursor, limit: args.limit });
       const { posts, nextCursor } = await postService.getUserPosts(user_id, input.limit, input.cursor);
+=======
+    post: async (_, args, context: GraphqlContext) => {
+      const { post_id } = idSchema.PostIdParamSchema.parse({ post_id: args.id });
+      const post = await postService.getPost(post_id);
+      await postService.validatePostAccess(post.content.user_id, context.user?.user_id);
+      const filtered = postService.filterPrivatePosts([post], context.user?.user_id);
+      return filtered[0] as any;
+    },
+
+    userPosts: async (_, args, context: GraphqlContext) => {
+      const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
+      const input = querySchema.parse({ cursor: args.cursor, limit: args.limit });
+      await postService.validatePostAccess(user_id, context.user?.user_id);
+      const { posts, nextCursor } = await postService.getUserPosts(user_id, input.limit, input.cursor);
+      const filtered = postService.filterPrivatePosts(posts, context.user?.user_id);
+      return { posts: filtered as any, nextCursor };
+    },
+
+    userStories: async (_, args, context: GraphqlContext) => {
+      const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
+      await storyService.deleteExpiredStories(user_id);
+      await storyService.validateStoryAccess(user_id, context.user?.user_id);
+      const { stories } = await storyService.getUserActiveStories(user_id);
+      const filtered = storyService.filterPrivateStories(stories, context.user?.user_id)
+      return filtered as any;
+    },
+
+    userPostsCount: async (_, args) => {
+      const { user_id } = idSchema.UserIdParamSchema.parse({ user_id: args.userId });
+      return postService.getUserPostsCount(user_id);
+    },
+
+    myPostsCount: async (_, args, context: GraphqlContext) => {
+      if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
+      return postService.getUserPostsCount(context.user.user_id, true);
+    },
+
+    myPosts: async (_, args, context: GraphqlContext) => {
+      if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
+      const input = querySchema.parse({ cursor: args.cursor, limit: args.limit });
+      const { posts, nextCursor } = await postService.getUserPosts(context.user.user_id, input.limit, input.cursor);
+>>>>>>> dev
       return { posts: posts as any, nextCursor };
     },
 
@@ -31,11 +74,19 @@ export const contentResolver: Resolvers = {
       return { posts: savedPosts as any, nextCursor };
     },
 
+<<<<<<< HEAD
     scan: async (_, args, context: GraphqlContext) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       const { scan_id } = idSchema.ScanIdParamSchema.parse({ scan_id: args.id });
       const scan = await scanService.getScan(context.user.user_id, scan_id);
       return scan as any;
+=======
+    myStories: async (_, __, context: GraphqlContext) => {
+      if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
+      await storyService.deleteExpiredStories(context.user.user_id);
+      const { stories } = await storyService.getUserActiveStories(context.user.user_id);
+      return stories as any;
+>>>>>>> dev
     },
 
     myScans: async (_, args, context: GraphqlContext) => {
@@ -44,6 +95,17 @@ export const contentResolver: Resolvers = {
       const { scans, nextCursor } = await scanService.getUserScans(context.user.user_id, input.limit, input.cursor);
       return { scans: scans as any, nextCursor };
     },
+<<<<<<< HEAD
+=======
+
+    scan: async (_, args, context: GraphqlContext) => {
+      if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
+      const { scan_id } = idSchema.ScanIdParamSchema.parse({ scan_id: args.id });
+      const scan = await scanService.getScan(scan_id);
+      await scanService.validateScanAccess(scan.content.user_id, context.user.user_id);
+      return scan as any;
+    },
+>>>>>>> dev
   },
 
   Mutation: {

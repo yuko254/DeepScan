@@ -34,13 +34,21 @@ class ProfileService {
   async createProfile(userId: string, input: user.ProfileCreate, tx?: Prisma.TransactionClient) {
     const { birth_location, current_location, ...profile } = deepClean(input);
 
+<<<<<<< HEAD
     return await (tx || prisma).$transaction(async (tx) => {
+=======
+    return (tx || prisma).$transaction(async (tx) => {
+>>>>>>> dev
       const [birthLocationId, currentLocationId] = await Promise.all([
         locationService.resolveLocation(birth_location, undefined, tx),
         locationService.resolveLocation(current_location, undefined, tx),
       ]);
 
+<<<<<<< HEAD
       return await profileRepo.withTx(tx).createProfile({
+=======
+      return profileRepo.withTx(tx).createProfile({
+>>>>>>> dev
         user_id: userId,
         ...profile,
         birth_location_id: birthLocationId,
@@ -59,7 +67,11 @@ class ProfileService {
     const data = deepClean(input);
     if (Object.keys(data).length === 0) return this.getProfile({ userId }, tx);
 
+<<<<<<< HEAD
     return await (tx || prisma).$transaction(async (tx) => {
+=======
+    return (tx || prisma).$transaction(async (tx) => {
+>>>>>>> dev
       const existing = await this.getProfile({ userId }, tx);
       if (!existing) throw new AppError.NotFoundError('profile not found');
 
@@ -70,7 +82,11 @@ class ProfileService {
         locationService.resolveLocation(current_location, existing.current_location_id, tx),
       ]);
 
+<<<<<<< HEAD
       return await profileRepo.withTx(tx).updateProfile(userId, {
+=======
+      return profileRepo.withTx(tx).updateProfile(userId, {
+>>>>>>> dev
         ...profile,
         profile_id: existing.profile_id,
         birth_location_id: birthLocationId,
@@ -106,10 +122,17 @@ class ProfileService {
     }
 
     if (!("profile_id" in input)) {
+<<<<<<< HEAD
       return await this.createProfile(userId, input, tx);
     }
 
     return await this.updateProfile(userId, input, tx);
+=======
+      return this.createProfile(userId, input, tx);
+    }
+
+    return this.updateProfile(userId, input, tx);
+>>>>>>> dev
   }
   
   // ─── Helpers ─────────────────────────────────────────────────────────────────────

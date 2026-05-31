@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { posts } from '@prisma/client';
+=======
+import { ContentType } from '@prisma/client';
+>>>>>>> dev
 import { Prisma, prisma } from '../../config/prisma.js';
 import { BaseRepository } from './BaseRepository.repo.js';
 
@@ -15,7 +19,11 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
   }
 
   async findByCategory(category_id: number) {
+<<<<<<< HEAD
     return await this.model.findMany({
+=======
+    return this.model.findMany({
+>>>>>>> dev
       where: { category_id },
       include: this.includeDetails,
       orderBy: { content: { created_at: 'desc' } },
@@ -23,7 +31,11 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
   }
 
   async findPost(content_id: string) {
+<<<<<<< HEAD
     return await this.model.findUnique({
+=======
+    return this.model.findUnique({
+>>>>>>> dev
       where: { content_id },
       include: this.includeDetails
     });
@@ -56,11 +68,20 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
     };
 
     if (ownerIds.length === 0) {
+<<<<<<< HEAD
       where.content.visibility = 'public';
     } else {
       where.OR = [
         { content: { user_id: { in: ownerIds } } },
         { content: { visibility: 'public' } }
+=======
+      where.content.is_private = false;
+    }
+    else {
+      where.OR = [
+        { content: { user_id: { in: ownerIds } } },
+        { content: { is_private: false } }
+>>>>>>> dev
       ];
     }
 
@@ -71,7 +92,10 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
       take: limit
     });
 
+<<<<<<< HEAD
     // Get next cursor from last item
+=======
+>>>>>>> dev
     const nextCursor = posts.length === limit
       ? posts[posts.length - 1]?.content?.created_at
       : null;
@@ -79,8 +103,22 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
     return { posts, nextCursor };
   }
 
+<<<<<<< HEAD
   async countByUser(user_id: string) {
     return this.model.count({ where: { content: { user_id } } });
+=======
+  async countByUser(user_id: string, isOwner: boolean) {
+    return this.model.count({
+      where: {
+        content: {
+          user_id,
+          type: 'post',
+          is_deleted: false,
+          ...(isOwner ? {} : { is_private: false })
+        }
+      }
+    });
+>>>>>>> dev
   }
 
   async createPost(data: Prisma.postsUncheckedCreateInput) {
@@ -91,6 +129,7 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
     return this.model.update({
       where: { content_id: data.content_id as string },
       data,
+<<<<<<< HEAD
     });
   }
 
@@ -121,4 +160,9 @@ export class PostRepo extends BaseRepository<typeof prisma.posts> {
       orderBy: { content: { created_at: 'desc' } }
     })
   }
+=======
+      include: this.includeDetails
+    });
+  }
+>>>>>>> dev
 }
