@@ -62,37 +62,6 @@ export class ChatRepo extends BaseRepository<typeof prisma.chats> {
     return !!chat;
   }
 
-  async markAsRead(chat_id: string, user_id: string) {
-    const chat = await this.model.findUnique({ where: { chat_id } });
-    if (!chat) return null;
-
-    const isUserA = chat.user_a === user_id;
-
-    return this.model.update({
-      where: { chat_id },
-      data: isUserA
-        ? { user_a_read_at: new Date() }
-        : { user_b_read_at: new Date() },
-    });
-  }
-
-  async getUnreadCount(chat_id: string, user_id: string) {
-    const chat = await this.model.findUnique({ where: { chat_id } });
-    if (!chat) return null;
-
-    const lastReadAt = chat.user_a === user_id
-      ? chat.user_a_read_at
-      : chat.user_b_read_at;
-
-    return this.model.count({
-      where: {
-        chat_id,
-        sent_at: { gt: lastReadAt },
-        sender_id: { not: user_id }, // Don't count user's own messages
-      },
-    });
-  }
-
   async createChat(user_a: string, user_b: string) {
     const chat_id = this.getChatId(user_a, user_b);
     return this.model.create({

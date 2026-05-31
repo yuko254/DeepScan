@@ -70,8 +70,34 @@ extend type Mutation {
   removeReaction(messageId: ID!): Boolean!
 }
 
+type MessageSentEvent {
+  type: String!
+  message: messages!
+}
+
+type MessageUpdatedEvent {
+  type: String!
+  message: messages!
+}
+
+type MessageDeletedEvent {
+  type: String!
+  message_id: String!
+}
+
+type ReactionAddedEvent {
+  type: String!
+  reaction: message_reactions!
+}
+
+type ReactionRemovedEvent {
+  type: String!
+  reaction_id: String!
+}
+
+union ChatEvent = MessageSentEvent | MessageUpdatedEvent | MessageDeletedEvent | ReactionAddedEvent | ReactionRemovedEvent
+
 extend type Subscription {
-  messageSent(chatId: ID!): messages!
-  messageUpdated(chatId: ID!): messages!
-  reactionAdded(chatId: ID!): message_reactions!
+  chatEvents(chatId: ID!): ChatEvent!
+  chatUpdated: chats!
 }

@@ -224,6 +224,7 @@ async function seed() {
         role_id: isAdmin ? 1 : isMod ? 2 : 3,
         is_active: true,
         is_banned: false,
+        is_email_verified: true
       },
     });
     users.push(user);
