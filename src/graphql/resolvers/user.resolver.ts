@@ -1,12 +1,13 @@
 import type { Resolvers } from '../generated/graphql.js';
 import { GraphqlContext } from '../server.js';
-import { userService } from '../../services/users/account.service.js';
-import { followService } from '../../services/interactions/follow.service.js';
-import { blockService } from '../../services/interactions/block.service.js';
 import * as idSchema from '../../validations/id.schema.js';
 import * as userSchema from '../../validations/user.schema.js';
 import { querySchema } from '../../validations/search.schema.js';
 import * as AppError from '../../types/appErrors.types.js';
+import { userService } from '../../services/users/account.service.js';
+import { profileService } from '../../services/users/profile.service.js';
+import { followService } from '../../services/interactions/follow.service.js';
+import { blockService } from '../../services/interactions/block.service.js';
 
 export const userResolver: Resolvers = {
   Query: {
@@ -25,7 +26,7 @@ export const userResolver: Resolvers = {
     users: async (_, args) => {
       const input = querySchema.parse(args);
       if (!input.search) return { users: [], nextCursor: null };
-      const users = await userService.searchUsers(input.search, input.limit ?? undefined, input.cursor ?? undefined);
+      const users = await userService.searchUsers(input.search, input.limit, input.cursor);
       return users as any;
     },
 
@@ -41,6 +42,13 @@ export const userResolver: Resolvers = {
   },
 
   Mutation: {
+    updateProfile: async (_, args, context: GraphqlContext) => {
+      if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
+      const input = userSchema.ProfileUpdateSchema.parse(args.data);
+      const profile = await profileService.updateProfile(context.user.user_id, input);
+      return profile as any;
+    },
+
     registerDeviceToken: async (_, { data }, context) => {
       if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
       return userService.registerDeviceToken(context.user.user_id, data.token, data.device_type, data.app_version) as any;

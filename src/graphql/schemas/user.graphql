@@ -110,6 +110,8 @@ type UsersResult {
 }
 
 extend type Mutation {
+  updateProfile(data: profilesUpdateInput!): profiles!
+  
   registerDeviceToken(data: device_tokensCreateInput!): device_tokens!
   updateDeviceToken(data: device_tokensUpdateInput!): device_tokens!
   unregisterDeviceToken(tokenId: ID!): Boolean!
