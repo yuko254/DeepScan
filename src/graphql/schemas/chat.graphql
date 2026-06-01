@@ -12,7 +12,7 @@ type messages {
   message_id: String!
   chat_id: String!
   sender_id: String!
-  text_content: String
+  text_content: String!
   sent_at: DateTime!
   updated_at: DateTime
   deleted_at: DateTime

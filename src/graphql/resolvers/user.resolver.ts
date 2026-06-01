@@ -23,10 +23,10 @@ export const userResolver: Resolvers = {
       return user as any;
     },
 
-    users: async (_, args) => {
+    users: async (_, args, context: GraphqlContext) => {
       const input = querySchema.parse(args);
-      if (!input.search) return { users: [], nextCursor: null };
-      const users = await userService.searchUsers(input.search, input.limit, input.cursor);
+      if (!input.search) return { users: [], nextCursor: undefined };
+      const users = await userService.searchUsers(input.search, input.limit, input.cursor, context.user?.user_id);
       return users as any;
     },
 

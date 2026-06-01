@@ -17,6 +17,7 @@ const imports = resolverFiles.map(f =>
 
 const queries = resolverFiles.map(f => `  ...${f.importName}.Query,`).join('\n');
 const mutations = resolverFiles.map(f => `  ...${f.importName}.Mutation,`).join('\n');
+const subscriptions = resolverFiles.map(f => `  ...${f.importName}.Subscription,`).join('\n');
 
 // Spread ALL properties except Query and Mutation
 const typeResolvers = resolverFiles.flatMap(f => 
@@ -35,6 +36,9 @@ ${queries}
   },
   Mutation: {
 ${mutations}
+  },
+  Subscription: {
+${subscriptions}
   }
 };
 `;

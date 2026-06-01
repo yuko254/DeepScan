@@ -8,9 +8,6 @@ import * as env from "./config/env.js";
 import RedisClient from './config/redis.js';
 import { prisma } from './config/prisma.js';
 import { initBucket } from './config/MinIo.js';
-import tyex from 'tyex';
-import nodox from 'nodox-cli';
-import { apiReference } from '@scalar/express-api-reference';
 
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
@@ -18,6 +15,7 @@ import adminRoutes from './routes/admin.routes.js';
 import uploadsRoutes from './routes/uploads.routes.js';
 import { createGraphQLServer, createContext } from "./graphql/server.js";
 
+import { missingResourceMiddleware } from './middlewares/missingResource.middleware.js';
 import { errorMiddleware } from './middlewares/error.middleware.js';
 import { jsonParser } from './middlewares/jsonParser.middleware.js';
 import { authenticateSoft, authenticateStrict, requireRole } from "./middlewares/auth.middleware.js";
@@ -25,7 +23,6 @@ import { authenticateSoft, authenticateStrict, requireRole } from "./middlewares
 const app = express();
 const httpServer = createServer(app);
 const graphqlServer = await createGraphQLServer(httpServer);
-
 await initBucket();
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
@@ -33,7 +30,6 @@ app.set('trust proxy', 1);
 app.use(cors({ origin: env.ClientOrigin, credentials: true }));
 app.use(jsonParser);
 app.use(cookieParser());
-app.use(nodox(app));
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.get('/health', async (req, res) => {
@@ -68,14 +64,8 @@ app.use('/users', userRoutes);
 app.use('/admin', authenticateStrict, requireRole("admin", "moderator"), adminRoutes);
 app.use('/upload', authenticateStrict, uploadsRoutes);
 
-app.get('/openapi.json', (req, res) => {
-  const spec = (tyex as any).oasGenerator(app, { info: { title: "Project API", version: "1.0.0" } });
-  res.json(spec);
-});
-
-app.use('/api-docs', apiReference({ spec: { url: '/openapi.json' } } as any));
-
 // ─── Error handler ────────────────────────────────────────────────────────────
+app.use(missingResourceMiddleware);
 app.use(errorMiddleware);
 
 export { app, httpServer };

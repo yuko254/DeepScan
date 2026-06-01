@@ -1,7 +1,7 @@
 import { Prisma, prisma } from "../../config/prisma.js";
 import { DeviceType } from '@prisma/client';
 import bcrypt from "bcrypt"
-import { userRepo, deviceTokenRepo } from '../../Repository/instances.js';
+import { userRepo, deviceTokenRepo, blockRepo } from '../../Repository/instances.js';
 import { deepClean } from "../../dtos/dto.js";
 import * as user from "../../validations/user.schema.js";
 import * as AppError from '../../types/appErrors.types.js';
@@ -104,8 +104,15 @@ class UserService {
       });
   }
 
-  async searchUsers(search: string, limit: number, cursor?: Date) {
-    return userRepo.searchUsers(search, limit, cursor);
+  async searchUsers(search: string, limit: number, cursor?: Date, currentUserId?: string) {
+    let blockedIds: Set<string> = new Set();
+
+    if (currentUserId) {
+      const blockRelations = await blockRepo.findBlockEitherIds(currentUserId);
+      blockedIds = new Set([...blockRelations.blockedUsers, ...blockRelations.blockedBy]);
+    }
+
+    return userRepo.search(search, limit, cursor, blockedIds);
   }
 
   // Devices

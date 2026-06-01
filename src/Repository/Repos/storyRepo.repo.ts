@@ -74,8 +74,7 @@ export class StoryRepo extends BaseRepository<typeof prisma.stories> {
   async deleteExpiredByUser(user_id: string) {
     return this.model.deleteMany({
       where: {
-        content: { user_id },
-        type: 'story',
+        content: { user_id, type: 'story'},
         story: { expires_at: { lt: new Date() }},
       }
     });

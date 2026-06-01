@@ -4,6 +4,7 @@ import * as interactions from "../../validations/interactions.schema.js";
 import * as AppError from '../../types/appErrors.types.js';
 import { hashtagService } from '../references/hashtag.service.js';
 import { mentionService } from '../references/mention.service.js';
+import { notificationService } from '../notification.service.js';
 
 class CommentService {
 
@@ -29,18 +30,41 @@ class CommentService {
           content: input.content,
           post_id: input.post_id,
           comment_parent_id: input.comment_parent_id ?? null,
+        },
+        include: {
+          post: { include: { content: true } },
+          comment_parent: { include: { user: true } }
         }
       });
+
+      // Prepare notification (using included data, no extra query)
+      let notificationPromise: Promise<any> = Promise.resolve();
+
+      if (input.comment_parent_id) {
+        if (comment.comment_parent?.user_id && comment.comment_parent.user_id !== userId) {
+          notificationPromise = notificationService.sendForComment(
+            { user_id: comment.comment_parent.user_id, actor_id: userId, type: 'reply', message: `replied to your comment` },
+            input.comment_parent_id,
+            tx
+          );
+        }
+      } else {
+        if (comment.post?.content.user_id && comment.post.content.user_id !== userId) {
+          notificationPromise = notificationService.sendForPost(
+            { user_id: comment.post.content.user_id, actor_id: userId, type: 'comment', message: `commented on your post` },
+            input.post_id,
+            tx
+          );
+        }
+      }
 
       await Promise.all([
         hashtagService.scanAndLinkForComment(comment.comment_id, input.content, tx),
         mentionService.scanAndNotifyForComment(userId, comment.comment_id, input.content, tx),
+        notificationPromise
       ]);
 
-      const fullComment = await commentRepo.withTx(tx).findComment(comment.comment_id);
-      if (!fullComment) throw new AppError.NotFoundError('Failed to retrieve created comment');
-
-      return fullComment;
+      return commentRepo.withTx(tx).findComment(comment.comment_id);
     });
   }
 
@@ -86,12 +110,27 @@ class CommentService {
   async toggleLikeComment(userId: string, commentId: string, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
       try {
-        await commentLikeRepo.withTx(tx).like(userId, commentId);
-        return { liked: true, commentId };
+        const like = await commentLikeRepo.withTx(tx).like(userId, commentId);
+
+        const comment = like.comment;
+        if (comment.user_id && comment.user_id !== userId) {
+          await notificationService.sendForComment(
+            {
+              user_id: comment.user_id,
+              actor_id: userId,
+              type: 'like',
+              message: `liked your comment`
+            },
+            commentId,
+            tx
+          );
+        }
+
+        return { liked: true };
       } catch (e: any) {
         if (e.code === 'P2002') {
           await commentLikeRepo.withTx(tx).unlike(userId, commentId);
-          return { liked: false, commentId };
+          return { liked: false };
         }
         throw e;
       }

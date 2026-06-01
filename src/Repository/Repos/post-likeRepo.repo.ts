@@ -7,7 +7,7 @@ export class PostLikeRepo extends BaseRepository<typeof prisma.post_likes> {
   }
 
   async like(user_id: string, post_id: string) {
-    return this.model.create({ data: { user_id, post_id } });
+    return this.model.create({ data: { user_id, post_id }, include: { post: { include: { content: true } } } });
   }
 
   async unlike(user_id: string, post_id: string) {

@@ -10,6 +10,7 @@ import { locationService } from '../references/location.service.js';
 import { followService } from '../interactions/follow.service.js';
 import { userService } from '../users/account.service.js';
 import { blockService } from '../interactions/block.service.js';
+import { notificationService } from '../notification.service.js';
 
 class PostService {
 
@@ -154,7 +155,22 @@ class PostService {
   async toggleLike(userId: string, postId: string, tx?: Prisma.TransactionClient) {
     return (tx || prisma).$transaction(async (tx) => {
       try {
-        await postLikeRepo.withTx(tx).like(userId, postId);
+        const like = await postLikeRepo.withTx(tx).like(userId, postId);
+
+        const post = like.post;
+        if (post && post.content.user_id !== userId) {
+          await notificationService.sendForPost(
+            {
+              user_id: post.content.user_id,
+              actor_id: userId,
+              type: 'like',
+              message: `liked your post`
+            },
+            postId,
+            tx
+          );
+        }
+
         return { liked: true };
       } catch (e: any) {
         if (e.code === 'P2002') {

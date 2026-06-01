@@ -1,6 +1,7 @@
 import { Prisma, NotificationType } from '@prisma/client';
 import { notificationRepo, notificationTargetRepo } from '../Repository/instances.js';
 import * as AppError from '../types/appErrors.types.js';
+import { pubsub } from '../graphql/server.js'
 
 type SendInput = {
   user_id: string;
@@ -35,35 +36,45 @@ class NotificationService {
   // ─── Send helpers ─────────────────────────────────────────────────────────
 
   async send(input: SendInput, tx?: Prisma.TransactionClient) {
-    return notificationRepo.withTx(tx).create({ data: input });
+    const notification = await notificationRepo.withTx(tx).create({ data: input });
+    pubsub.publish(`NOTIFICATIONS_${input.user_id}`, { notificationReceived: notification });
+    return notification;
   }
 
   async sendForPost(input: SendInput, post_id: string, tx?: Prisma.TransactionClient) {
     const target = await notificationTargetRepo.withTx(tx).findOrCreateForPost(post_id);
-    return notificationRepo.withTx(tx).create({
+    const notification = await notificationRepo.withTx(tx).create({
       data: { ...input, notification_target_id: target.target_id },
     });
+    pubsub.publish(`NOTIFICATIONS_${input.user_id}`, { notificationReceived: notification });
+    return notification;
   }
 
   async sendForPostSafe(input: SendInput, post_id: string, tx?: Prisma.TransactionClient) {
     const target = await notificationTargetRepo.withTx(tx).findOrCreateForPost(post_id).catch(() => null);
-    return notificationRepo.withTx(tx).create({
+    const notification = await notificationRepo.withTx(tx).create({
       data: { ...input, notification_target_id: target?.target_id ?? null },
     });
+    if (target) pubsub.publish(`NOTIFICATIONS_${input.user_id}`, { notificationReceived: notification });
+    return notification;
   }
 
   async sendForComment(input: SendInput, comment_id: string, tx?: Prisma.TransactionClient) {
     const target = await notificationTargetRepo.withTx(tx).findOrCreateForComment(comment_id);
-    return notificationRepo.withTx(tx).create({
+    const notification = await notificationRepo.withTx(tx).create({
       data: { ...input, notification_target_id: target.target_id },
     });
+    pubsub.publish(`NOTIFICATIONS_${input.user_id}`, { notificationReceived: notification });
+    return notification;
   }
 
   async sendForChat(input: SendInput, chat_id: string, tx?: Prisma.TransactionClient) {
     const target = await notificationTargetRepo.withTx(tx).findOrCreateForChat(chat_id);
-    return notificationRepo.withTx(tx).create({
+    const notification = await notificationRepo.withTx(tx).create({
       data: { ...input, notification_target_id: target.target_id },
     });
+    pubsub.publish(`NOTIFICATIONS_${input.user_id}`, { notificationReceived: notification });
+    return notification;
   }
 }
 
