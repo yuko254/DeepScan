@@ -442,7 +442,7 @@ model messages {
   message_id       String         @id @default(uuid(7)) @db.Uuid
   chat_id          String         
   sender_id        String         @db.Uuid
-  text_content     String?        @db.Text
+  text_content     String         @db.Text
   reply_to         String?        @db.Uuid
   sent_at          DateTime       @default(now()) @db.Timestamptz(6)
   updated_at       DateTime?      @updatedAt @db.Timestamptz(6)
@@ -716,6 +716,7 @@ enum NotificationType {
   reply
   system
   message
+  message_reaction
 }
 
 enum ReportStatus {

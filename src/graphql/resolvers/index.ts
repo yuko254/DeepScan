@@ -38,5 +38,15 @@ export const resolvers = {
   ...notificationsResolver.Mutation,
   ...referencesResolver.Mutation,
   ...userResolver.Mutation,
+  },
+  Subscription: {
+  ...chatResolver.Subscription,
+  ...contentResolver.Subscription,
+  ...feedResolver.Subscription,
+  ...interactionsResolver.Subscription,
+  ...locationResolver.Subscription,
+  ...notificationsResolver.Subscription,
+  ...referencesResolver.Subscription,
+  ...userResolver.Subscription,
   }
 };

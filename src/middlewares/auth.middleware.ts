@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
-import { verifyAccessToken } from '../utils/jwt.utils.js';
 import { accessPayload } from '../validations/jwt.schema.js';
 import { UnauthorizedError, ForbiddenError } from '../types/appErrors.types.js';
 import { userRepo } from '../Repository/instances.js';
+import { extractAndVerifyToken } from '../utils/token.util.js';
 
 declare global {
   namespace Express {
@@ -12,80 +12,37 @@ declare global {
   }
 }
 
-const authToken = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    let token = req.cookies?.access_token;
-    
-    if (!token) {
-      const authHeader = req.headers.authorization;
-      if (!authHeader?.startsWith('Bearer ')) {
-        throw new UnauthorizedError('Missing or invalid Authorization header');
-      }
-      token = authHeader.slice(7);
-    }
-
-    req.user = verifyAccessToken(token);
-    return true;
-  } catch (err) {
-    next(err);
-    return false;
-  }
-}
-
 export function authenticate(req: Request, res: Response, next: NextFunction) {
-  const authres = authToken(req, res, next);
-  if (!authres) return; // auth middleware already called next with error
+  const user = extractAndVerifyToken(req);
+  if (!user) throw new UnauthorizedError('Missing or invalid Authorization header');
+  req.user = user;
   next();
 }
 
 export async function authenticateStrict(req: Request, res: Response, next: NextFunction) {
-  // JWT check first
-  const authres = authToken(req, res, next);
-  if (!authres) return; // auth middleware already called next with error
-
-  const user = await userRepo.findById(req.user!.user_id);
-  if (!user) return next(new UnauthorizedError('User no longer exists'));
+  const user = extractAndVerifyToken(req);
+  if (!user) throw new UnauthorizedError('Missing or invalid Authorization header');
+  const dbUser = await userRepo.findById(user.user_id);
+  if (!dbUser) throw new UnauthorizedError('User no longer exists');
+  req.user = user;
   next();
 }
 
 export function authenticateSoft(req: Request, res: Response, next: NextFunction) {
-  try {
-    let token = req.cookies?.access_token;
-    
-    if (!token) {
-      const authHeader = req.headers.authorization;
-      if (authHeader?.startsWith('Bearer ')) {
-        token = authHeader.slice(7);
-      }
-    }
-
-    if (token) {
-      req.user = verifyAccessToken(token);
-    } else {
-      req.user = undefined;
-    }
-  } catch (err) {
-    // Token invalid or expired – treat as unauthenticated
-    req.user = undefined;
-  }
+  const user = extractAndVerifyToken(req);
+  req.user = user || undefined;
   next();
 }
 
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  if (!req.user) {
-    return next(new UnauthorizedError('Authentication required'));
-  }
+  if (!req.user) throw new UnauthorizedError('Authentication required');
   next();
 }
 
 export function requireRole(...allowedRoles: string[]) {
   return (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user) {
-      return next(new UnauthorizedError('Authentication required'));
-    }
-    if (!allowedRoles.includes(req.user.role ?? "user")) {
-      return next(new ForbiddenError('Insufficient permissions'));
-    }
+    if (!req.user) throw new UnauthorizedError('Authentication required');
+    if (!allowedRoles.includes(req.user.role ?? "user")) throw new ForbiddenError('Insufficient permissions');
     next();
   };
 }

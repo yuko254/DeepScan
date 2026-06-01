@@ -32,3 +32,6 @@ extend type Mutation {
   markNotificationRead(notificationId: ID!): Boolean!
 }
 
+extend type Subscription {
+  notificationReceived: notifications!
+}

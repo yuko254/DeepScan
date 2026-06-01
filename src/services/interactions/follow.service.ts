@@ -1,6 +1,7 @@
 import { Prisma, prisma } from '../../config/prisma.js';
 import { followRepo, followRequestRepo, blockRepo, userRepo } from '../../Repository/instances.js';
 import * as AppError from '../../types/appErrors.types.js';
+import { notificationService } from '../notification.service.js';
 
 class FollowService {
 
@@ -52,11 +53,22 @@ class FollowService {
         const existingRequest = await followRequestRepo.withTx(tx).findRequest(followerId, followingId);
         if (existingRequest) throw new AppError.ConflictError('Follow request already sent');
 
-        const request = await followRequestRepo.withTx(tx).request(followerId, followingId);
+        await Promise.all([
+          followRequestRepo.withTx(tx).request(followerId, followingId),
+          notificationService.send({
+            user_id: followingId,
+            actor_id: followerId,
+            type: 'system',
+            message: `wants to follow you`
+          },
+            tx
+          )
+        ])
+
         return { status: 'request_sent' };
       }
 
-      const follow = await followRepo.withTx(tx).follow(followerId, followingId);
+      await followRepo.withTx(tx).follow(followerId, followingId);
       return { status: 'following' };
     });
   }
@@ -86,9 +98,19 @@ class FollowService {
       if (!request) throw new AppError.NotFoundError('Follow request not found');
       if (request.status !== 'pending') throw new AppError.BadRequestError(`Request already ${request.status}`);
 
-      await followRequestRepo.withTx(tx).accept(requesterId, ownerId);
-
-      const follow = await followRepo.follow(requesterId, ownerId);
+      const [, follow] = await Promise.all([
+        followRequestRepo.withTx(tx).accept(requesterId, ownerId),
+        followRepo.follow(requesterId, ownerId),
+        notificationService.send(
+          {
+            user_id: requesterId,
+            actor_id: ownerId,
+            type: 'system',
+            message: `accepted your follow request`
+          },
+          tx
+        )
+      ]);
 
       return follow;
     });
@@ -97,14 +119,26 @@ class FollowService {
   async rejectFollowRequest(ownerId: string, requesterId: string, tx?: Prisma.TransactionClient) {
     if (ownerId === requesterId) throw new AppError.BadRequestError('You cannot reject a follow request from yourself');
 
-    await followRequestRepo.withTx(tx).reject(requesterId, ownerId).catch((e) => {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2025') throw new AppError.NotFoundError('Follow request not found');
-      }
-      throw e;
-    });
+    return (tx || prisma).$transaction(async (tx) => {
+      await followRequestRepo.withTx(tx).reject(requesterId, ownerId).catch((e) => {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          if (e.code === 'P2025') throw new AppError.NotFoundError('Follow request not found');
+        }
+        throw e;
+      });
 
-    return true
+      await notificationService.send(
+        {
+          user_id: requesterId,
+          actor_id: ownerId,
+          type: 'system',
+          message: `rejected your follow request`
+        },
+        tx
+      );
+
+      return true;
+    });
   }
 
   async cancelFollowRequest(requesterId: string, targetId: string, tx?: Prisma.TransactionClient) {

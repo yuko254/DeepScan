@@ -152,7 +152,19 @@ export const chatResolver: Resolvers = {
       subscribe: (_, args, context: GraphqlContext) => {
         if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
         const { chat_id } = idSchema.ChatIdParamSchema.parse({ chat_id: args.chatId });
-        return context.pubsub.asyncIterableIterator(`CHAT_${chat_id}`);
+        chatService.userJoinsChat(context.user.user_id, chat_id);
+        const asyncIterator = context.pubsub.asyncIterableIterator(`CHAT_${chat_id}`);
+        return {
+          [Symbol.asyncIterator]() {
+            return {
+              next: () => asyncIterator.next(),
+              return: () => {
+                chatService.userLeavesChat(context.user!.user_id, chat_id);
+                return asyncIterator.return?.();
+              }
+            };
+          }
+        };
       },
       resolve: (payload: any) => payload.chatEvents,
     },

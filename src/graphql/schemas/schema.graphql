@@ -21,6 +21,7 @@ enum NotificationType {
   reply
   system
   message
+  message_reaction
 }
 
 enum ReportStatus {

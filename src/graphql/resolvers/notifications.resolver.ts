@@ -31,4 +31,13 @@ export const notificationsResolver: Resolvers = {
       return true;
     },
   },
+
+  Subscription: {
+    notificationReceived: {
+      subscribe: (_, __, context: GraphqlContext) => {
+        if (!context.user?.user_id) throw new AppError.UnauthorizedError('Authentication required');
+        return context.pubsub.asyncIterableIterator(`NOTIFICATIONS_${context.user.user_id}`);
+      },
+    },
+  },
 };

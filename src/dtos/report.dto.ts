@@ -83,7 +83,7 @@ export function toReportDto(report: any): ReportDto {
     status: report.status,
     created_at: report.created_at,
     resolved_at: report.resolved_at,
-    reporter: toUserAccountDto(report.user),
+    reporter: toUserAccountDto(report.reporter),
     resolver: report.resolver ? toUserAccountDto(report.resolver) : null,
     reported,
   };

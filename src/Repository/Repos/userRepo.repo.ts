@@ -81,7 +81,7 @@ export class UserRepo extends BaseRepository<typeof prisma.users> {
     });
   }
 
-  async searchUsers(search: string, limit: number, cursor?: Date) {
+  async search(search: string, limit: number, cursor?: Date, blockedIds?: Set<string>) {
     const where: Prisma.usersWhereInput = {
       AND: [
         {
@@ -91,6 +91,9 @@ export class UserRepo extends BaseRepository<typeof prisma.users> {
             { profile: { last_name: { contains: search, mode: Prisma.QueryMode.insensitive } } }
           ]
         },
+        ...(blockedIds && blockedIds.size > 0 ? [
+          { user_id: { notIn: [...blockedIds] } }
+        ] : []),
         ...(cursor ? [{ created_at: { lt: cursor } }] : [])
       ]
     };

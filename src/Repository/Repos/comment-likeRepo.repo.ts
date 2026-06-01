@@ -7,7 +7,7 @@ export class CommentLikeRepo extends BaseRepository<typeof prisma.comment_likes>
   }
 
   async like(user_id: string, comment_id: string) {
-    return this.model.create({ data: { user_id, comment_id } });
+    return this.model.create({ data: { user_id, comment_id }, include: { comment: true } });
   }
 
   async unlike(user_id: string, comment_id: string) {

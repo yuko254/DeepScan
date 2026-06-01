@@ -1,6 +1,7 @@
 import { Prisma, prisma } from '../config/prisma.js';
 import { chatRepo, messageRepo, messageReactionRepo } from '../Repository/instances.js';
 import * as AppError from '../types/appErrors.types.js';
+import { notificationService } from './notification.service.js';
 
 class ChatService {
 
@@ -8,18 +9,31 @@ class ChatService {
     return chatRepo.getChatId(user_a, user_b);
   }
 
-  private async incrementUnreadCount(user_id: string, chat_id: string) {
+  private activeChats = new Map<string, Set<string>>(); // chat_id -> Set of user_ids
+
+  private async incrementUnreadCount(user_id: string, chat_id: string, message?: any) {
     try {
       const [user_a, user_b] = chat_id.split('_');
-
       const isUserA = user_id === user_a;
       const recipientId = isUserA ? user_b : user_a;
       const incrementField = isUserA ? 'user_b_unread_count' : 'user_a_unread_count';
 
-      await chatRepo.incrementUnreadCount(chat_id, incrementField);
+      const isRecipientInChat = this.isUserInChat(recipientId!, chat_id);
+      if (!isRecipientInChat) {
+        await chatRepo.incrementUnreadCount(chat_id, incrementField);
 
-      // Also trigger notification for recipient if needed
-      // await notificationService.send(...)
+        if (message) {
+          await notificationService.sendForChat(
+            {
+              user_id: recipientId!,
+              actor_id: user_id,
+              type: 'message',
+              message: message
+            },
+            chat_id
+          );
+        }
+      }
     } catch (error) {
       console.error('Failed to update unread count:', error);
     }
@@ -125,7 +139,7 @@ class ChatService {
       }
     });
 
-    this.incrementUnreadCount(user_id, chat_id).catch(console.error);
+    if (message) this.incrementUnreadCount(user_id, chat_id, message.text_content).catch(console.error);
 
     return message;
   }
@@ -166,7 +180,30 @@ class ChatService {
     if (message.chat.user_a !== user_id && message.chat.user_b !== user_id)
       throw new AppError.ForbiddenError('You are not a participant of this chat');
 
-    return messageReactionRepo.addReaction(message_id, user_id, emoji);
+    const reaction = await messageReactionRepo.addReaction(message_id, user_id, emoji);
+    const messageOwnerId = message.sender_id;
+    const chat_id = message.chat_id;
+    if (messageOwnerId !== user_id) {
+      const isOwnerInChat = this.isUserInChat(messageOwnerId, chat_id);
+
+      if (!isOwnerInChat) {
+        const preview = message.text_content.length > 50
+          ? message.text_content.substring(0, 47) + '...'
+          : message.text_content;
+
+        await notificationService.sendForChat(
+          {
+            user_id: messageOwnerId,
+            actor_id: user_id,
+            type: 'message_reaction',
+            message: `${emoji} to your "${preview}"`
+          },
+          chat_id
+        );
+      }
+    }
+
+    return reaction;
   }
 
   async removeReaction(user_id: string, message_id: string) {
@@ -178,6 +215,26 @@ class ChatService {
 
     await messageReactionRepo.removeReaction(message_id, user_id);
     return true;
+  }
+
+  // ─── user chats managment ────────────────────────────────────────────────
+
+  userJoinsChat(user_id: string, chat_id: string) {
+    if (!this.activeChats.has(chat_id)) {
+      this.activeChats.set(chat_id, new Set());
+    }
+    this.activeChats.get(chat_id)!.add(user_id);
+  }
+
+  userLeavesChat(user_id: string, chat_id: string) {
+    this.activeChats.get(chat_id)?.delete(user_id);
+    if (this.activeChats.get(chat_id)?.size === 0) {
+      this.activeChats.delete(chat_id);
+    }
+  }
+
+  isUserInChat(user_id: string, chat_id: string): boolean {
+    return this.activeChats.get(chat_id)?.has(user_id) ?? false;
   }
 }
 

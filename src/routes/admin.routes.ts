@@ -129,9 +129,7 @@ router.get('/reports/:report_id', async (req: Request, res: Response, next: Next
   try {
     const { report_id } = idSchema.ReportIdParamSchema.parse(req.params);
     const report = await reportService.getReport(report_id);
-
     const Res: ReportDto = toReportDto(report);
-
     res.json(Res);
   } catch (err) {
     next(err);
