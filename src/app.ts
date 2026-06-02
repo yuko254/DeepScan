@@ -1,6 +1,7 @@
 import express from 'express';
 import { createServer } from 'http';
 import { expressMiddleware } from '@as-integrations/express5';
+import nodox from 'nodox-cli'
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import * as env from "./config/env.js";
@@ -27,6 +28,7 @@ await initBucket();
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.set('trust proxy', 1);
+app.use(nodox(httpServer))
 app.use(cors({ origin: env.ClientOrigin, credentials: true }));
 app.use(jsonParser);
 app.use(cookieParser());
