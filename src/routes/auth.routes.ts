@@ -2,9 +2,9 @@ import { Router, type Request, type Response, type NextFunction } from 'express'
 import { authService } from '../services/auth.service.js';
 import { RegisterSchema, LoginSchema, RefreshTokenSchema, emailSchema, ResetPasswordSchema, VerifyEmailSchema } from '../validations/auth.schema.js';
 import type { AuthDto, TokensDto } from '../dtos/auth.dto.js';
-import { authLimiter, loginLimiter, passwordResetLimiter } from '../middlewares/rateLimit.middleware.js';
-import * as env from '../config/env.js';
 import { toUserAccountDto } from '../dtos/user.dto.js';
+import { authLimiter, loginLimiter, emailLimiter } from '../middlewares/rateLimit.middleware.js';
+import * as env from '../config/env.js';
 
 const router = Router();
 
@@ -65,7 +65,7 @@ router.post('/verify-email', async (req: Request, res: Response, next: NextFunct
  * POST /auth/resend-verification
  * Body: { email: string }
  */
-router.post('/resend-verification', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/resend-verification', emailLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email } = emailSchema.parse(req.body);
     await authService.resendVerificationEmail(email);
@@ -158,7 +158,7 @@ router.post('/logout', async (req: Request, res: Response, next: NextFunction) =
  * POST /auth/forgot-password
  * Body: { email }
  */
-router.post('/forgot-password', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/forgot-password', emailLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email } = emailSchema.parse(req.body);
     await authService.forgotPassword(email, req);
@@ -173,7 +173,7 @@ router.post('/forgot-password', passwordResetLimiter, async (req: Request, res: 
  * POST /auth/reset-password
  * Body: { email, token, new_password }
  */
-router.post('/reset-password', passwordResetLimiter, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/reset-password', emailLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = ResetPasswordSchema.parse(req.body);
     await authService.resetPassword(input);

@@ -1,25 +1,27 @@
 import { ApolloServer } from '@apollo/server';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { Request, Response } from 'express';
+import { WebSocketServer } from 'ws';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+import { BigIntResolver, DateTimeResolver, JSONResolver } from 'graphql-scalars';
+import { PubSub } from 'graphql-subscriptions';
+
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { loadSchemaSync } from '@graphql-tools/load';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { PubSub } from 'graphql-subscriptions';
-import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/use/ws';
 import depthLimit from 'graphql-depth-limit';
-import { Request, Response } from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-import { GraphQLError, type GraphQLFormattedError } from 'graphql';
-import { BigIntResolver, DateTimeResolver, JSONResolver } from 'graphql-scalars';
 
 import { mapErrorToResponse } from '../utils/errorMapper.util.js';
 import { extractAndVerifyToken } from '../utils/token.util.js';
+import { accessPayload } from '../validations/jwt.schema.js';
 import { createDataLoaders, DataLoaders } from './dataloaders/index.js';
 import { resolvers } from './resolvers/index.js';
-import { accessPayload } from '../validations/jwt.schema.js';
+import * as env from '../config/env.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -64,8 +66,8 @@ export const createContext = async ({ req, res }: { req: Request; res: Response 
 
 export async function createGraphQLServer(httpServer: any) {
   const wsServer = new WebSocketServer({
-    port: 4001,
-    path: '/graphql',
+    port: env.WS_PORT,
+    path: `/${env.WS_ENDPOINT}`,
     perMessageDeflate: false,
   });
 

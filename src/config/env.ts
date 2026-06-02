@@ -2,8 +2,10 @@
 export const ClientOrigin = process.env.Client || 'http://localhost:5173';
 export const APP_NAME = process.env.APP_NAME || 'DeepScan';
 export const APP_HOST = process.env.HOST || 'localhost';
-export const APP_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
-export const APP_URL = `http://${APP_HOST}:${APP_PORT}`;
+export const HTTP_PORT = process.env.HTTP_PORT ? parseInt(process.env.HTTP_PORT, 10) : 4000;
+export const WS_PORT = process.env.WS_PORT ? parseInt(process.env.WS_PORT, 10) : 4001;
+export const APP_URL = `http://${APP_HOST}:${HTTP_PORT}`;
+export const WS_ENDPOINT = process.env.WS_ENDPOINT || 'graphql';
 export const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Database configuration
@@ -54,3 +56,15 @@ function parseDurationToSeconds(duration: string): number | null {
 // Security
 export const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS, 10) : 12;
 export const PASSWORD_RESET_TOKEN_IN_SECONDS = process.env.PASSWORD_RESET_TOKEN_IN_SECONDS ? parseInt(process.env.PASSWORD_RESET_TOKEN_IN_SECONDS, 10) : 1800;
+
+// Email configuration
+export const EMAIL_UTIL = process.env.EMAIL_UTIL === "true";
+export const GMAIL_USER = process.env.GMAIL_USER!;
+export const GMAIL_PASS = process.env.GMAIL_APP_PASSWORD!;
+
+export const GMAIL_CLIENT_ID = process.env.GMAIL_CLIENT_ID!;
+export const GMAIL_CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET!;
+export const GMAIL_REFRESH_TOKEN = process.env.GMAIL_REFRESH_TOKEN!;
+
+export const SENDGRID_API_KEY = process.env.SEND_GRID_API_KEY!;
+export const SENDGRID_FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL!;
