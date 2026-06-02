@@ -112,10 +112,8 @@ router.post('/login', loginLimiter, async (req: Request, res: Response, next: Ne
  */
 router.post('/refresh', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let refreshToken = req.cookies?.refresh_token;
-    if (!refreshToken) {
-      refreshToken = RefreshTokenSchema.parse(req.body).refresh_token;
-    }
+    let refreshToken = RefreshTokenSchema.parse(req.body).refresh_token;
+    if (!refreshToken) refreshToken = req.cookies?.refresh_token;
     const tokens = await authService.refresh(refreshToken);
 
     res.cookie('access_token', tokens.access_token, ACCESS_COOKIE_OPTIONS);
@@ -131,7 +129,7 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
     next(err);
   }
 });
-
+ 
 /**
  * POST /auth/logout
  * cookie: { refresh_token }
@@ -139,10 +137,8 @@ router.post('/refresh', async (req: Request, res: Response, next: NextFunction) 
  */
 router.post('/logout', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let refreshToken = req.cookies?.refresh_token;
-    if (!refreshToken) {
-      refreshToken = RefreshTokenSchema.parse(req.body).refresh_token;
-    }
+    let refreshToken = RefreshTokenSchema.parse(req.body).refresh_token;
+    if (!refreshToken) refreshToken = req.cookies?.refresh_token;
     await authService.logout(refreshToken);
 
     res.clearCookie('access_token', { path: '/' });
