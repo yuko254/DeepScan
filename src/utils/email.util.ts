@@ -8,16 +8,20 @@ type EmailOptions = {
 };
 
 async function sendEmail({ to, subject, html }: EmailOptions) {
+  if (!env.EMAIL_UTIL) {
+    console.warn('Email utility is disabled. Skipping email sending.');
+    return;
+  }
   if (isProd) {
     await sgMail.send({
+      from: `${env.APP_NAME} <${env.SENDGRID_FROM_EMAIL}>`,
       to,
-      from: `${env.APP_NAME} <${process.env.SENDGRID_FROM_EMAIL}>`,
       subject,
       html,
     });
   } else {
     await gmailTransporter.sendMail({
-      from: `"${env.APP_NAME}" <${process.env.GMAIL_USER}>`,
+      from: `"${env.APP_NAME}" <${env.GMAIL_USER}>`,
       to,
       subject,
       html,

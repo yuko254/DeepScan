@@ -4,7 +4,7 @@ import RedisClient from '../config/redis.js';
 
 const redis = RedisClient.getInstance();
 
-// Auth limiter - separate store
+// Auth limiter
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -18,7 +18,7 @@ export const authLimiter = rateLimit({
   skipSuccessfulRequests: false,
 });
 
-// Login limiter - separate store
+// Login limiter
 export const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
@@ -32,8 +32,8 @@ export const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Password reset limiter - separate store
-export const passwordResetLimiter = rateLimit({
+// Email limiter
+export const emailLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 3,
   store: new RedisStore({
